@@ -1,0 +1,57 @@
+---
+title: 'Scope 1: Fisheries Context'
+author: "Ignacia Rivera"
+date: "August 16, 2018"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(here)
+library(magrittr)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(readr)
+```
+
+## Introduction
+
+The goal of this scope is to combine the data and information gathered from different sources to identify the top domestic fisheries contributing to the landings and national economy of Chile. The following script provides all the methods, information and data that is use to persue this goal. The script is separated in sections that refer to two differen obectives, the first assesing the contribution of different species to volume of landings and the second assesing value of landings. Sections are also based on the sources of data being used. 
+
+## Main sources of information
+
+We will identify the main domestic fisheries regarding volume and value using three different main data sources SERNAPESCA, Sea around us project and FAO estimates. 
+
+## Requested outputs
+
+1) A list of the top 10 domestic marine fisheries in terms of landed volume
+2) A list of the top 10 domestic marine fisheries in terms of economic value
+3) A clean database use to generate (1)
+4) A database use to generate (4)
+
+## Resolution
+
+Where possible, these data should also be broken down by gear type.
+
+## 1) Top domestic marine, capture fisheries based on landed volume
+
+### Using data from SERNAPESCA
+
+```{r importing cleaned SERNAPESCA per species, subsector, month and region}
+
+mean_landings_SERNAPESCA_month <- read_csv(here("clean_databases/mean_landings_SERNAPESCA_month.csv"))
+
+```
+
+## Top ten fisheries per sector en each month based on data from 2014-2016 excluding international waters
+
+```{r main fisheries per month per sector}
+
+
+ggplot() + 
+geom_bar(data = filter(mean_landings_SERNAPESCA_month, subsector =='fabric_vessel'), aes(x = month, y= tons, fill = species), stat = 'identity')
+
+```
+
