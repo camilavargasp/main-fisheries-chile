@@ -1,6 +1,6 @@
 ---
 title: 'Scope 1: Fisheries Context'
-author: "Ignacia Rivera"
+author: "Camila Vargas e Ignacia Rivera"
 date: "August 16, 2018"
 output: pdf_document
 ---
@@ -47,6 +47,7 @@ mean_landings_SERNAPESCA_month <- read_csv(here("clean_databases/mean_landings_S
 
 ## Top ten fisheries per sector en each month based on data from 2014-2016 excluding international waters
 
+### Example with fabric vessels
 ```{r main fisheries per month per sector}
 
 
