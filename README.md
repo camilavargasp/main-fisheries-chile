@@ -14,9 +14,12 @@ The following document explains how to navigate across the different elements co
 
 Besides the document you are now reading, the project contains the following folders:
 
-1) **raw_databases**: contains all the databases that were used to elaborate the estimates for scope 1, 2 and 3. This folder also contains a document called *metadata_raw_databases.xlsx* that provides an overview of each database contained in the raw_databases folder. The different databases are organized in folders named based on their source and topic. 
+1) information: contains all the documents containing the information used to develop the project's scopes.
 
-2) **reports**: includes all the reports that were used to generate estimates for scope 1, 2 and 3. It also contains a document called *metadata_reports.xlsx* that provides an overview for each report contained in the reports folder. The different reports are organized in folders named based on their source and topic. 
+- **raw_databases**: contains all the databases that were used to elaborate the estimates for scope 1, 2 and 3. This folder also contains a document called *metadata_raw_databases.xlsx* that provides an overview of each database contained in the raw_databases folder. The different databases are organized in folders named based on their source and topic. 
+- **reports**: includes all the reports that provided data, estimates or any other information used to develop the scopes of the project. It also contains a document called *summary_reports.xlsx* that provides an overview of the reports contained in the reports folder. The different reports are organized in folders named based on their source and topic. 
+- **interviews**: contains the information gathered via interviews with key informants. It is organized in two folders, (i) *audios*, which stores the recordings of each interview, and (ii) transcripts, which contains the transcript of each interview. It also contains a document called *metadata_interviews.xlsx* providing metadata for the interviews.
+- **reports**: includes all the scientific publications that provided data, estimates or any other information used to develop the scopes of the project. It also contains a document called *summary_papers.xlsx* that provides an overview of the papers contained in the reports folder. The different reports are organized in folders named based on their source and topic.
 
 3) **scripts**: this folder contains two folders, (i) *cleaning_data* which containes the scripts to generate each clean database starting from the raw databases, (ii) *scopes*, which containes three *.Rmd* documents, one for each empirical scope of the project. Each one of these documents explains step by step how information from clean databases and reports was combined to generate the assessment for each scope. There is also a *.pdf* document for each scope that provides a more readable version of the script and results. 
 
