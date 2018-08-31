@@ -10,7 +10,10 @@ This script uses raw data of landings from SERNAPESCA to generate two databases:
 
 2) **mean_landings_SERNAPESCA_region**: contains the mean tons per species per subsector and month aggregated at the anual level. The mean was calculated across 2014-2016.
 
-Although, SERNAPESCA counts with databases at a higher spatial resolution (ports), this databases cannot be matched with the specific contribution of each subsector.  
+Although, SERNAPESCA counts with databases at a higher spatial resolution (ports), this databases cannot be matched with the specific contribution of each subsector. 
+
+## Setup
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
@@ -19,23 +22,31 @@ library(magrittr)
 library(dplyr)
 library(tidyr)
 library(readxl)
+
+#setwd(~github/main-fisheries-chile/information) ##comment out when knitting
+
+## Alternative: set here??
+
 ```
 
-```{r importing landings data for 2014, 2015, 2016 per species, subsector, month and region}
+## Importing and formating raw artisanal landings 2014, 2015, 2016
 
-#################################################################################
-# Importing and formating raw artisanal landings 2014, 2015, 2016. 
-#################################################################################
+Datasets are from SERNAPESCA/ Informes y Datos/ Estadisticas/ Pesca Artesanal. 
 
-# Datasets are from SERNAPESCA/ Informes y Datos/ Estadisticas/ Pesca Artesanal. Accessed August 15, 2016. Data for 2017 was not available online but was requested to SERNAPESCA. They answered it will be uploaded by September. 
+**Data downloaded** August 15, 2018. 
 
-# We need still need to know: 
+**Data range** 2014 -2016
 
-## 1) if - in SERNAPESCA databases means 0 or NA. Probably 0.  
-## 2) if landings in international waters means that fisher are fishing in international waters or  ## that they are landing in international waters. 
+Note: Data for 2017 was not available online but was requested to SERNAPESCA. They answered it will be uploaded by September. 
 
-# I'm waiting for an answer from SERNAPESCA under the request 460245718
-##################################################################################
+We need still need to know: 
+
+1) if - in SERNAPESCA databases means 0 or NA. Probably 0.  
+2) if landings in international waters means that fisher are fishing in international waters or that they are landing in international waters. 
+
+Ignacia is waiting for an answer from SERNAPESCA under the request 460245718
+
+```{r importing artisanal landings data for 2014, 2015, 2016 per species, subsector, month and region}
 
 # Artisanal landings per month
 
@@ -44,82 +55,102 @@ artisanal_month_2014 <- read_excel(here("raw_databases/SERNAPESCA/landings/landi
   mutate (subsector = 'artisanal', year = 2014, region = 'national', species =  ESPECIE, international_waters = 0) %>% 
   select(subsector, year, region, month, species, tons, international_waters)
 
+artisanal_month_2014 <- read_excel("information/raw_databases/SERNAPESCA/landings/landings_artisanal_per_species_month_2014.xls", sheet = "des_art_mes", range = "A5:M147", na = "-") %>% 
+  gather(key = month, value = tons, 2:13)%>% 
+  mutate (subsector = 'artisanal', year = 2014, region = 'national', species =  ESPECIE, international_waters = 0) %>% 
+  select(subsector, year, region, month, species, tons, international_waters)
+
+
 artisanal_month_2015 <- read_excel(here("raw_databases/SERNAPESCA/landings/landings_artisanal_per_species_month_2015.xls"), sheet = "des_art_mes", range = "A5:M150", na = "-")%>% 
   gather(key = month, value = tons, 2:13)%>% 
   mutate (subsector = 'artisanal', year = 2015, region = 'national', species =  ESPECIE, international_waters = 0) %>% 
   select(subsector, year, region, month, species, tons, international_waters)
 
-artisanal_month_2016 <- read_excel(here("raw_databases/SERNAPESCA/landings/landings_artisanal_per_species_month_2016.xls"), sheet = "des_art_mes", range = "A5:M147", na = "-")%>% 
+artisanal_month_2015 <- read_excel(here("information/raw_databases/SERNAPESCA/landings/landings_artisanal_per_species_month_2015.xls"), sheet = "des_art_mes", range = "A5:M150", na = "-")%>% 
+  gather(key = month, value = tons, 2:13)%>% 
+  mutate (subsector = 'artisanal', year = 2015, region = 'national', species =  ESPECIE, international_waters = 0) %>% 
+  select(subsector, year, region, month, species, tons, international_waters)
+
+
+artisanal_month_2016 <- read_excel("raw_databases/SERNAPESCA/landings/landings_artisanal_per_species_month_2016.xls", sheet = "des_art_mes", range = "A5:M147", na = "-")%>% 
+  gather(key = month, value = tons, 2:13)%>% 
+  mutate (subsector = 'artisanal', year = 2016, region = 'national', species =  ESPECIE, international_waters = 0) %>% 
+  select(subsector, year, region, month, species, tons, international_waters)
+
+artisanal_month_2016 <- read_excel("information/raw_databases/SERNAPESCA/landings/landings_artisanal_per_species_month_2016.xls", sheet = "des_art_mes", range = "A5:M147", na = "-")%>% 
   gather(key = month, value = tons, 2:13)%>% 
   mutate (subsector = 'artisanal', year = 2016, region = 'national', species =  ESPECIE, international_waters = 0) %>% 
   select(subsector, year, region, month, species, tons, international_waters)
 
 # Artisanal landings per region
 
-artisanal_region_2014 <- read_excel(here("raw_databases/SERNAPESCA/landings/landings_artisanal_per_species_region_2014.xls"), sheet = "des_art_region", range = "A5:O153", na = "-") %>% 
+artisanal_region_2014 <- read_excel(here("information/raw_databases/SERNAPESCA/landings/landings_artisanal_per_species_region_2014.xls"), sheet = "des_art_region", range = "A5:O153", na = "-") %>% 
   gather(key = region, value = tons, 2:15) %>% 
   mutate (subsector = 'artisanal', year = 2014, month = 'anual', species =  ESPECIE, international_waters = 0)%>% 
   select(subsector, year, region, month, species, tons, international_waters)
 
-artisanal_region_2015 <- read_excel(here("raw_databases/SERNAPESCA/landings/landings_artisanal_per_species_region_2015.xls"), sheet = "des_art_region", range = "A5:O150", na = "-")%>% 
+artisanal_region_2015 <- read_excel(here("information/raw_databases/SERNAPESCA/landings/landings_artisanal_per_species_region_2015.xls"), sheet = "des_art_region", range = "A5:O150", na = "-")%>% 
   gather(key = region, value = tons, 2:15)%>% 
   mutate (subsector = 'artisanal', year = 2015, month = 'anual', species =  ESPECIE, international_waters = 0)%>% 
   select(subsector, year, region, month, species, tons, international_waters)
 
-artisanal_region_2016 <- read_excel(here("raw_databases/SERNAPESCA/landings/landings_artisanal_per_species_region_2016.xls"), sheet = "des_art_region", range = "A5:O147", na = "-")%>% 
+artisanal_region_2016 <- read_excel(here("information/raw_databases/SERNAPESCA/landings/landings_artisanal_per_species_region_2016.xls"), sheet = "des_art_region", range = "A5:O147", na = "-")%>% 
   gather(key = region, value = tons, 2:15)%>% 
   mutate (subsector = 'artisanal', year = 2016, month = 'anual', species =  ESPECIE, international_waters = 0)%>% 
   select(subsector, year, region, month, species, tons, international_waters)
 
 # Artisanal landings international waters per month
 
-artisanal_iw_month_2014 <- read_excel(here("raw_databases/SERNAPESCA/landings/landings_artisanal_international_waters_per_species_region_month_2014.xls"), sheet = "des_art_ai_mes", range = "A5:M11", na = "-") %>% 
+artisanal_iw_month_2014 <- read_excel(here("information/raw_databases/SERNAPESCA/landings/landings_artisanal_international_waters_per_species_region_month_2014.xls"), sheet = "des_art_ai_mes", range = "A5:M11", na = "-") %>% 
   gather(key = month, value = tons,2:13) %>% 
   mutate (subsector = 'artisanal', year = 2014, region = 'national', species =  ESPECIE, international_waters = 1)%>% 
   select(subsector, year, region, month, species, tons, international_waters)
 
-artisanal_iw_month_2015 <- read_excel(here("raw_databases/SERNAPESCA/landings/landings_artisanal_international_waters_per_species_region_month_2015.xls"), sheet = "des_art_ai_mes", range = "A5:M9", na = "-") %>% 
+artisanal_iw_month_2015 <-read_excel(here("information/raw_databases/SERNAPESCA/landings/landings_artisanal_international_waters_per_species_region_month_2015.xls"), sheet = "des_art_ai_mes", range = "A5:M9", na = "-") %>% 
   gather(key = month, value = tons,2:13) %>% 
   mutate (subsector = 'artisanal', year = 2015, region = 'national', species =  ESPECIE, international_waters = 1)%>% 
   select(subsector, year, region, month, species, tons, international_waters)
 
-artisanal_iw_month_2016 <- read_excel(here("raw_databases/SERNAPESCA/landings/landings_artisanal_international_waters_per_species_region_month_2016.xls"), sheet = "des_art_ai_mes", range = "A5:M8", na = "-") %>% 
+artisanal_iw_month_2016 <-read_excel(here("information/raw_databases/SERNAPESCA/landings/landings_artisanal_international_waters_per_species_region_month_2016.xls"), sheet = "des_art_ai_mes", range = "A5:M8", na = "-") %>% 
   gather(key = month, value = tons,2:13) %>% 
   mutate (subsector = 'artisanal', year = 2016, region = 'national', species =  ESPECIE, international_waters = 1)%>% 
   select(subsector, year, region, month, species, tons, international_waters)
 
 # Artisanal landings international waters per region
 
-artisanal_iw_region_2014 <- read_excel(here("raw_databases/SERNAPESCA/landings/landings_artisanal_international_waters_per_species_region_month_2014.xls"), sheet = "des_art_ai_reg", range = "A5:O11", na = "-")%>% 
+artisanal_iw_region_2014 <- read_excel(here("information/raw_databases/SERNAPESCA/landings/landings_artisanal_international_waters_per_species_region_month_2014.xls"), sheet = "des_art_ai_reg", range = "A5:O11", na = "-")%>% 
   gather(key = region, value = tons,2:15) %>% 
   mutate (subsector = 'artisanal', year = 2014, month = 'anual', species =  ESPECIE, international_waters = 1)%>% 
   select(subsector, year, region, month, species, tons, international_waters)
 
-artisanal_iw_region_2015 <- read_excel(here("raw_databases/SERNAPESCA/landings/landings_artisanal_international_waters_per_species_region_month_2015.xls"), sheet = "des_art_ai_region", range = "A5:P9", na = "-")%>% 
+artisanal_iw_region_2015 <-read_excel(here("information/raw_databases/SERNAPESCA/landings/landings_artisanal_international_waters_per_species_region_month_2015.xls"), sheet = "des_art_ai_region", range = "A5:P9", na = "-")%>% 
   gather(key = region, value = tons,2:16) %>% 
   mutate (subsector = 'artisanal', year = 2015, month = 'anual', species =  ESPECIE, international_waters = 1)%>% 
   select(subsector, year, region, month, species, tons, international_waters)
 
-artisanal_iw_region_2016 <- read_excel(here("raw_databases/SERNAPESCA/landings/landings_artisanal_international_waters_per_species_region_month_2016.xls"), sheet = "des_art_ai_region", range = "A5:P8", na = "-")%>% 
+artisanal_iw_region_2016 <-read_excel(here("raw_databases/SERNAPESCA/landings/landings_artisanal_international_waters_per_species_region_month_2016.xls"), sheet = "des_art_ai_region", range = "A5:P8", na = "-")%>% 
   gather(key = region, value = tons,2:16) %>% 
   mutate (subsector = 'artisanal', year = 2016, month = 'anual', species =  ESPECIE, international_waters = 1)%>% 
   select(subsector, year, region, month, species, tons, international_waters)
+```
 
-##################################################################################
-# Importing and formating raw industrial landings 2014, 2015, 2016. 
-##################################################################################
 
-# Datasets are from SERNAPESCA/ Informes y Datos/ Estadisticas/ Pesca Industrial. Accessed August 15, 2016. Data for 2014 and 2017 was not available online but was requested to SERNAPESCA. They answered that 2017 should be uploaded by September.
 
-# We need still need to know, 
+## Importing and formating raw industrial landings 2014, 2015, 2016. 
 
-## 1) if - in SERNAPESCA databases means 0 or NA. Probably 0.  
-## 2) if landings from industrials include fabric vessels. Probably not. 
-## 3) if landings in international waters means that fisher are fishing in international waters or  ## that they are landing in international waters. 
 
-# I'm waiting for an answer from SERNAPESCA under the request 460245718
-################################################################################
+Datasets are from SERNAPESCA/ Informes y Datos/ Estadisticas/ Pesca Industrial. Accessed August 15, 2016. Data for 2014 and 2017 was not available online but was requested to SERNAPESCA. They answered that 2017 should be uploaded by September.
 
+**We need still need to know**
+
+1) if - in SERNAPESCA databases means 0 or NA. Probably 0.  
+2) if landings from industrials include fabric vessels. Probably not. 
+3) if landings in international waters means that fisher are fishing in international waters or that they are landing in international waters. 
+
+Ignacia is waiting for an answer from SERNAPESCA under the request 460245718
+
+
+```{r importing industrial landings data for 2014, 2015, 2016 per species, subsector, month and region} 
 # Industrial landings per month
 
 industrial_month_2014 <- read_excel(here("raw_databases/SERNAPESCA/landings/landings_industrial_per_species_month_2014.xls"), sheet = "des_ind_mes", range = "A5:M52", na = "-") %>% 
@@ -182,22 +213,25 @@ industrial_iw_region_2016 <- read_excel(here("raw_databases/SERNAPESCA/landings/
   gather(key = region, value = tons,2:15) %>% 
   mutate (subsector = 'industrial', year = 2016, month = 'anual', species =  ESPECIE, international_waters = 1)%>% 
   select(subsector, year, region, month, species, tons, international_waters)
+```
 
-################################################################################
-# Importing and formating raw landings from fabric vessels 2014, 2015, 2016. 
-#################################################################################
 
-# Datasets are from SERNAPESCA/ Informes y Datos/ Estadisticas/ Pesca Industrial. Accessed August 15, 2016. Data for 2017 was not available online but was requested to SERNAPESCA. Supossed to be uploaded by September.
 
-# We need still need to know, 
+## Importing and formating raw landings from fabric vessels 2014, 2015, 2016. 
 
-## 1) if - in SERNAPESCA databases means 0 or NA. Probably 0.  
-## 2) if landings from industrials include fabric vessels. Probably not. 
-## 3) if landings in international waters means that fisher are fishing in international waters or  ## that they are landing in international waters. 
 
-# I'm waiting for an answer from SERNAPESCA under the request 460245718
-################################################################################
+Datasets are from SERNAPESCA/ Informes y Datos/ Estadisticas/ Pesca Industrial. Accessed August 15, 2016. Data for 2017 was not available online but was requested to SERNAPESCA. Supossed to be uploaded by September.
 
+**We need still need to know**
+
+1) if - in SERNAPESCA databases means 0 or NA. Probably 0.  
+2) if landings from industrials include fabric vessels. Probably not. 
+3) if landings in international waters means that fisher are fishing in international waters or  that they are landing in international waters. 
+
+Ignacia is waiting for an answer from SERNAPESCA under the request 460245718
+
+
+```{r importing and formating raw landings from fabric vessels 2014, 2015, 2016}
 # Landings from fabric vessels (fv) per month
 
 fv_month_2014 <- read_excel(here("raw_databases/SERNAPESCA/landings/landings_fabric_vessels_per_species_region_month_2014.xls"), sheet = "des_bf_nac_mes", range = "A5:M19", na = "-") %>% 
@@ -267,23 +301,26 @@ fv_iw_region_2016 <- read_excel(here("raw_databases/SERNAPESCA/landings/landings
   mutate (subsector = 'fabric_vessel', year = 2016, month = 'anual', species =  ESPECIE, international_waters = 1)%>% 
   select(subsector, year, region, month, species, tons, international_waters)
 
-#######################################################################
-# Combining all landings data for 2014, 2015, 2016. 
-#######################################################################
+```
 
+
+## Combining all landings data for 2014, 2015, 2016. 
+
+
+```{r}
 
 landings_SERNAPESCA <- rbind(artisanal_month_2014, artisanal_month_2015, artisanal_month_2016, artisanal_region_2014, artisanal_region_2015, artisanal_region_2015, artisanal_region_2016, artisanal_iw_month_2014, artisanal_iw_month_2015, artisanal_iw_month_2016, artisanal_iw_region_2014,artisanal_iw_region_2015, artisanal_iw_region_2016, industrial_month_2014, industrial_month_2015, industrial_month_2016, industrial_region_2015, industrial_region_2015, industrial_region_2016, industrial_iw_month_2014, industrial_iw_month_2015, industrial_iw_month_2016, industrial_iw_region_2014, industrial_iw_region_2015, industrial_iw_region_2016, fv_month_2014, fv_month_2015, fv_month_2016, fv_region_2014, fv_region_2015, fv_region_2016, fv_iw_month_2014, fv_iw_month_2015, fv_iw_month_2016, fv_iw_region_2014, fv_iw_region_2015, fv_iw_region_2016) %>% 
   filter(!(species =='NA'))
 
 ```
 
+## Wrangling and saving clean csv
+
+Generating landings_SERNAPESCA_month.csv
+
 ```{r creating landings_SERNAPESCA_month}
 
-#######################################################################
-#  Generating landings_SERNAPESCA_month.csv
-#######################################################################
-
-# calculates mean landing per species, subsector, waters and month
+##calculates mean landing per species, subsector, waters and month
 
 mean_landings_SERNAPESCA_month <- landings_SERNAPESCA %>% 
   filter(region == 'national') %>%  # removing anual estimates per region
@@ -296,11 +333,9 @@ write.csv(mean_landings_SERNAPESCA_month,  here("clean_databases/mean_landings_S
 
 ```
 
-```{r creating landings_SERNAPESCA_region}
+Generating landings_SERNAPESCA_region.csv
 
-#######################################################################
-#  Generating landings_SERNAPESCA_region.csv
-#######################################################################
+```{r creating landings_SERNAPESCA_region}
 
 # calculates mean landing per species, subsector, waters and region
 
