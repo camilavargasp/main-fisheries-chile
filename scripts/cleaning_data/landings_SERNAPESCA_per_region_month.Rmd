@@ -373,9 +373,10 @@ landings_SERNAPESCA <- rbind(artisanal_month_2014, artisanal_month_2015, artisan
 
 Generating landings_SERNAPESCA_month.csv
 
+
 ```{r creating landings_SERNAPESCA_month}
 
-##calculates mean landing per species, subsector, waters and month (national level)
+##calculates mean across years of landing per species, subsector, waters and month (national level)
 
 mean_landings_SERNAPESCA_month <- landings_SERNAPESCA %>% 
   filter(region == 'national') %>%  # removing anual estimates per region
@@ -386,13 +387,14 @@ mean_landings_SERNAPESCA_month <- landings_SERNAPESCA %>%
 
 write.csv(mean_landings_SERNAPESCA_month,  here("clean_databases/mean_landings_SERNAPESCA_month.csv"), row.names=T)
 
+
 ```
 
 Generating landings_SERNAPESCA_region.csv
 
 ```{r creating landings_SERNAPESCA_region}
 
-## calculates mean landing per species, subsector, waters and region
+## calculates mean landing across years per species, subsector, waters and region
 
 mean_landings_SERNAPESCA_region <- landings_SERNAPESCA %>% 
   filter(month == 'anual') %>%  # removing national estimates per month
