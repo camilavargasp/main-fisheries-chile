@@ -39,13 +39,56 @@ Where possible, these data should also be broken down by gear type.
 
 ### Using data from SERNAPESCA
 
-```{r importing cleaned SERNAPESCA per species, subsector, month and region}
+```{r importing clean landings SERNAPESCA per species, subsector, month and region}
 
-mean_landings_SERNAPESCA_month <- read_csv(here("clean_databases/mean_landings_SERNAPESCA_month.csv"))
+landings<- read_csv(here("clean_databases/landings_SERNAPESCA.csv")) %>% 
+  filter(region != "national") %>% 
+  mutate( tons = as.numeric(tons))
 
 ```
 
-## Top ten fisheries per sector en each month based on data from 2014-2016 excluding international waters
+Ten most important fisheries per region based on landings per region and year from 2014 to 2017
+
+```{r}
+
+##Artisanal
+
+top10_landing_reg_artisanal <- landings %>%
+  filter(subsector == "artisanal") %>% 
+  arrange(year, region, desc(tons))
+
+##Industrial
+
+top10_landing_reg_industrial <- landings %>%
+  filter(subsector == "industrial") %>% 
+  arrange(year, region, desc(tons))
+  
+## frabric_vessels (ADD THEM TO INDUSTRIAL???)
+
+top10_landing_reg_fv <- landings %>%
+  filter(subsector == "fabric_vessel") %>% 
+  arrange(year, region, desc(tons))
+
+##WHAT TO DO DO WITH INTERNATIONAL WATERS?
+
+
+```
+
+
+Adding landings across all reagions to determine the main fisheries nationwise
+
+
+```{r}
+
+
+
+```
+
+
+
+
+
+## Top ten fisheries per sector en each month based on data from 2014-2017 excluding international waters
 
 ### Example with fabric vessels
 ```{r main fisheries per month per sector}

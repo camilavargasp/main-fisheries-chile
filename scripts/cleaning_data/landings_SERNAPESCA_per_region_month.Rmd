@@ -359,13 +359,19 @@ fv_iw_region_2017 <- read_excel(here("information/raw_databases/SERNAPESCA/landi
 ```
 
 
-## Combining all landings data for 2014, 2015, 2016. 
+## Combining all landings data for 2014, 2015, 2016, 2017. 
 
 
 ```{r}
 
 landings_SERNAPESCA <- rbind(artisanal_month_2014, artisanal_month_2015, artisanal_month_2016, artisanal_month_2017, artisanal_region_2014, artisanal_region_2015, artisanal_region_2015, artisanal_region_2016, artisanal_region_2017, artisanal_iw_month_2014, artisanal_iw_month_2015, artisanal_iw_month_2016, artisanal_iw_month_2017, artisanal_iw_region_2014,artisanal_iw_region_2015, artisanal_iw_region_2016, artisanal_iw_region_2017, industrial_month_2014, industrial_month_2015, industrial_month_2016, industrial_month_2017, industrial_region_2015, industrial_region_2016, industrial_region_2017, industrial_iw_month_2014, industrial_iw_month_2015, industrial_iw_month_2016, industrial_iw_month_2017, industrial_iw_region_2014, industrial_iw_region_2015, industrial_iw_region_2016, industrial_iw_region_2017, fv_month_2014, fv_month_2015, fv_month_2016, fv_month_2017, fv_region_2014, fv_region_2015, fv_region_2016, fv_region_2017, fv_iw_month_2014, fv_iw_month_2015, fv_iw_month_2016, fv_iw_month_2017, fv_iw_region_2014, fv_iw_region_2015, fv_iw_region_2016, fv_iw_region_2017) %>% 
   filter(!(species =='NA'))
+
+
+# Writes clean and complete database to clean_databases
+
+write.csv(landings_SERNAPESCA,  here("clean_databases/landings_SERNAPESCA.csv"), row.names=F)
+
 
 ```
 
