@@ -120,13 +120,45 @@ total_landings_nat_subsector <-  total_landings_national %>%
 
 ```
 
-Ploting the main fisheries according to landings from 2014 to 2017 and the contribution of each subsector
+
+10 main fisheries per year
+
+```{r}
+
+##Filtering the 10 main fishereis according to total landings per year
+top10_landings_per_year <- total_landings_nat_subsector %>% 
+  group_by(year) %>% 
+  top_n(10, tons_total) %>% 
+  data.frame()
+  
+write.csv(top10_landings_per_year,  here("clean_databases/scope1/top10_landings_per_year.csv"), row.names=F)
+
+```
+
+
+Ploting the main fisheries according to landings from 2014 to 2017 and the contribution of each subsector. 
+For plotting purpose only the 3 main fisheries according to landings are selected
 
 ```{r}
 
 ##Wrangling for plotting
+top3_landings_per_year <- total_landings_nat_subsector %>% 
+  group_by(year) %>% 
+  top_n(3, tons_total) %>% 
+  data.frame()
 
+top3_landings <- top3_landings_per_year %>% 
+  select(-tons_total) %>% 
+  gather(subsector, count, tons_total_art:tons_total_ind)
 
+  ##not doing exactoly what I want
+  ggplot(., aes(x=species, y=count, fill=forcats::fct_rev(subsector))) +
+   geom_bar(stat="identity")
+  
+##see the following link for plotting options
+  #https://stackoverflow.com/questions/30023610/how-to-plot-2-categorical-variables-on-x-axis-and-two-continuous-variables-as-f
+
+##ejemplo
 df %>% 
    select(-total) %>% 
    gather(type, count, burglaries:robberies) %>% 
