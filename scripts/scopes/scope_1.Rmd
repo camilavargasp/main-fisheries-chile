@@ -41,31 +41,36 @@ Where possible, these data should also be broken down by gear type.
 
 ```{r importing clean landings SERNAPESCA per species, subsector, month and region}
 
-landings<- read_csv(here("clean_databases/landings_SERNAPESCA.csv")) %>% 
+landings_reg<- read_csv(here("clean_databases/landings_SERNAPESCA.csv")) %>% 
   filter(region != "national") %>% 
   mutate( tons = as.numeric(tons))
 
 ```
 
-Ten most important fisheries per region based on landings per region and year from 2014 to 2017
+Arranging data fram to visulize most immportant fsheries per landing per region based on landings per region and year from 2014 to 2017
 
 ```{r}
 
+##General
+landing_reg_general <- landings_reg %>%
+  arrange(year, region, desc(tons))
+
+
 ##Artisanal
 
-top10_landing_reg_artisanal <- landings %>%
+landing_reg_artisanal <- landings_reg %>%
   filter(subsector == "artisanal") %>% 
   arrange(year, region, desc(tons))
 
 ##Industrial
 
-top10_landing_reg_industrial <- landings %>%
+landing_reg_industrial <- landings_reg %>%
   filter(subsector == "industrial") %>% 
   arrange(year, region, desc(tons))
   
 ## frabric_vessels (ADD THEM TO INDUSTRIAL???)
 
-top10_landing_reg_fv <- landings %>%
+landing_reg_fv <- landings_reg %>%
   filter(subsector == "fabric_vessel") %>% 
   arrange(year, region, desc(tons))
 
@@ -79,6 +84,55 @@ Adding landings across all reagions to determine the main fisheries nationwise
 
 
 ```{r}
+##Add landings per specie per year across all reagions
+
+total_landings_national <- landings_reg %>% 
+  group_by(year, species) %>% 
+  summarise(tons_total = sum(tons, na.rm = T)) %>% 
+  arrange(year, desc(tons_total)) %>% 
+  data.frame()
+
+total_landings_subsector <- landings_reg %>% 
+  group_by(subsector, year, species) %>% 
+  summarise(tons_total = sum(tons, na.rm = T)) %>% 
+  arrange(year, desc(tons_total)) %>% 
+  data.frame()
+
+total_landings_artisanal <- landings_reg %>% 
+  filter(subsector== "artisanal") %>% 
+  group_by(year, species) %>% 
+  summarise(tons_total_art = sum(tons, na.rm = T)) %>% 
+  arrange(year, desc(tons_total_art)) %>% 
+  data.frame()
+
+total_landings_industrial <-  landings_reg %>% 
+  filter(subsector %in% c("industrial", "fabric_vessel")) %>% 
+  group_by(year, species) %>% 
+  summarise(tons_total_ind = sum(tons, na.rm = T)) %>% 
+  arrange(year, desc(tons_total_ind)) %>% 
+  data.frame()
+
+
+total_landings_nat_subsector <-  total_landings_national %>% 
+  left_join(total_landings_artisanal, by= c("year", "species")) %>% 
+  left_join(total_landings_industrial, by= c("year", "species"))
+
+
+```
+
+Ploting the main fisheries according to landings from 2014 to 2017 and the contribution of each subsector
+
+```{r}
+
+##Wrangling for plotting
+
+
+df %>% 
+   select(-total) %>% 
+   gather(type, count, burglaries:robberies) %>% 
+   ggplot(., aes(x=year, y=count, fill=forcats::fct_rev(type))) +
+   geom_bar(stat="identity")
+
 
 
 
@@ -88,14 +142,4 @@ Adding landings across all reagions to determine the main fisheries nationwise
 
 
 
-## Top ten fisheries per sector en each month based on data from 2014-2017 excluding international waters
-
-### Example with fabric vessels
-```{r main fisheries per month per sector}
-
-
-ggplot() + 
-geom_bar(data = filter(mean_landings_SERNAPESCA_month, subsector =='fabric_vessel'), aes(x = month, y= tons, fill = species), stat = 'identity')
-
-```
 
