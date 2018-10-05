@@ -4,13 +4,27 @@ author: "Ignacia Rivera"
 date: "August 17, 2018"
 output: pdf_document
 ---
-This script uses raw data of landings from SERNAPESCA to generate two databases:
+## Description
 
-1) **mean_landings_SERNAPESCA_month**: contains the mean tons per species per subsector and month aggregated at the national level. The mean was calculated across 2014-2016.
+This script uses raw data of landings from different sectors from SERNAPESCA to generate:
 
-2) **mean_landings_SERNAPESCA_region**: contains the mean tons per species per subsector and month aggregated at the anual level. The mean was calculated across 2014-2016.
+1) **landings_SERNAPESCA**: contains tons per species per subsector per month or region between 2014-2017.
 
 Although, SERNAPESCA counts with databases at a higher spatial resolution (ports), this databases cannot be matched with the specific contribution of each subsector. 
+
+## Q & A with SERNAPESCA regarding these databases
+
+Q: Algunas de las celdas en los datos de desembarque presentan el simbolo -. Quiero aclarar si esto significa un valor de cero toneladas o que no se pudieron tomar datos para esa especie.
+
+A: El símbolo – significa que las toneladas desembarcadas fueron 0 o menor que 0.5, por lo tanto en los Anuarios no se consideran
+
+Q: Las estadísticas de desembarque para el sector industrial disponible en la sección Infomes y Datos/ Estadísticas/ Pesca Industrial incluye los datos, ubicados en a misma sección, para barcos fabrica o son estos número independientes?
+
+A: La operación de barcos fábrica y de barcos industriales se encuentran en la misma sección porque ambos se consideran naves industriales. Son independientes
+
+Q: Tanto para barcos fabrica, artesanales e industriales en general, existen bases de datos para desembarques en aguas internacionales. Esto quiere decir, que son desembarques de capturas en aguas nacionales en puertos internacionales ó, desembarques de capturas en aguas internacionales en puertos nacionales?
+
+A: Corresponden a capturas realizadas en aguas internacionales y desembarcadas en puertos chilenos
 
 ## Setup
 
@@ -36,11 +50,8 @@ Datasets are from SERNAPESCA/ Informes y Datos/ Estadisticas/ Pesca Artesanal.
 
 We need still need to know: 
 
-1) if - in SERNAPESCA databases means 0 or NA. Probably 0.  
-2) if landings in international waters means that fisher are fishing in international waters or that they are landing in international waters.
-3) if langings from AMERBs are included in the artisanal landings databases or if they are additive.
+1) if langings from AMERBs are included in the artisanal landings databases or if they are additive.
 
-Ignacia is waiting for an answer from SERNAPESCA under the request 460245718
 
 ```{r importing artisanal landings data for 2014, 2015, 2016 per species, subsector, month and region}
 
@@ -146,15 +157,6 @@ artisanal_iw_region_2017 <-read_excel(here("information/raw_databases/SERNAPESCA
 Datasets are from SERNAPESCA/ Informes y Datos/ Estadisticas/ Pesca Industrial. Accessed August 15, 2018. Data for 2014 and 2017 was not available online but was requested to SERNAPESCA. 
 Data for 2017 was downloaded September 24, 2018
 
-**We need still need to know**
-
-1) if - in SERNAPESCA databases means 0 or NA. Probably 0.  
-2) if landings from industrials include fabric vessels. Probably not. 
-3) if landings in international waters means that fisher are fishing in international waters or that they are landing in international waters. 
-
-Ignacia is waiting for an answer from SERNAPESCA under the request 460245718
-
-
 ```{r importing industrial landings data for 2014, 2015, 2016 per species, subsector, month and region} 
 # Industrial landings per month
 
@@ -245,22 +247,9 @@ industrial_iw_region_2017 <- read_excel(here("information/raw_databases/SERNAPES
 
 ```
 
-
-
 ## Importing and formating raw landings from fabric vessels 2014, 2015, 2016, 2017. 
 
-
 Datasets are from SERNAPESCA/ Informes y Datos/ Estadisticas/ Pesca Industrial. Accessed August 15, 2018 (for data from 2014-16) and on September 24, 2018 for 2017 data.
-
-**We need still need to know**
-
-1) if - in SERNAPESCA databases means 0 or NA. Probably 0.  
-2) if landings from industrials include fabric vessels. Probably not. 
-3) if landings in international waters means that fisher are fishing in international waters or  that they are landing in international waters. 
-4) what does AI mean in landings from fabric vessels in international waters for years 2016 and 2017.
-
-Ignacia is waiting for an answer from SERNAPESCA under the request 460245718
-
 
 ```{r importing and formating raw landings from fabric vessels 2014, 2015, 2016}
 ## Landings from fabric vessels (fv) per month
