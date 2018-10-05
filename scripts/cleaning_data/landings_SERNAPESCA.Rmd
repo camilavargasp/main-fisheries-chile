@@ -16,15 +16,20 @@ Although, SERNAPESCA counts with databases at a higher spatial resolution (ports
 
 Q: Algunas de las celdas en los datos de desembarque presentan el simbolo -. Quiero aclarar si esto significa un valor de cero toneladas o que no se pudieron tomar datos para esa especie.
 
-A: El símbolo – significa que las toneladas desembarcadas fueron 0 o menor que 0.5, por lo tanto en los Anuarios no se consideran
+A: El simbolo – significa que las toneladas desembarcadas fueron 0 o menor que 0.5, por lo tanto en los Anuarios no se consideran
 
-Q: Las estadísticas de desembarque para el sector industrial disponible en la sección Infomes y Datos/ Estadísticas/ Pesca Industrial incluye los datos, ubicados en a misma sección, para barcos fabrica o son estos número independientes?
+Q: Las estadisticas de desembarque para el sector industrial disponible en la seccion Infomes y Datos/ Estadísticas/ Pesca Industrial incluye los datos, ubicados en a misma sección, para barcos fabrica o son estos número independientes?
 
 A: La operación de barcos fábrica y de barcos industriales se encuentran en la misma sección porque ambos se consideran naves industriales. Son independientes
 
 Q: Tanto para barcos fabrica, artesanales e industriales en general, existen bases de datos para desembarques en aguas internacionales. Esto quiere decir, que son desembarques de capturas en aguas nacionales en puertos internacionales ó, desembarques de capturas en aguas internacionales en puertos nacionales?
 
-A: Corresponden a capturas realizadas en aguas internacionales y desembarcadas en puertos chilenos
+A: Corresponden a capturas realizadas en aguas internacionales y desembarcadas en puertos chilenos.
+
+Q: Las estadisticas de desembarque para de areas de manejo, estan inlcuidas en los desembarques del sector artesanal o son independientes?
+
+Q:  A que corresponde la columna AI en las bases de datos de desembarque de barcos fabrica en aguas internacionales por mes en 2016 y 2017? Por que no esta en anos anteriores?
+
 
 ## Setup
 
@@ -47,11 +52,6 @@ Datasets are from SERNAPESCA/ Informes y Datos/ Estadisticas/ Pesca Artesanal.
 **Data downloaded** August 15, 2018 (data years 2014-2016), September 24, 2018 (data 2017)
 
 **Data range** 2014 -2017
-
-We need still need to know: 
-
-1) if langings from AMERBs are included in the artisanal landings databases or if they are additive.
-
 
 ```{r importing artisanal landings data for 2014, 2015, 2016 per species, subsector, month and region}
 
