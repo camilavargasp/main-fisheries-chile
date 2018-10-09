@@ -28,8 +28,8 @@ We will identify the main domestic fisheries regarding volume and value using th
 
 1) A list of the top 10 domestic marine fisheries in terms of landed volume
 2) A list of the top 10 domestic marine fisheries in terms of economic value
-3) A clean database use to generate (1)
-4) A database use to generate (4)
+3) A clean database used to generate (1)
+4) A database used to generate (4)
 
 ## Resolution
 
@@ -47,131 +47,65 @@ landings_reg<- read_csv(here("clean_databases/landings_SERNAPESCA.csv")) %>%
 
 ```
 
-Arranging data fram to visulize most immportant fsheries per landing per region based on landings per region and year from 2014 to 2017
+Adding landings across all regions to determine the top 5 fisheries based on volume per sector nationwide.
 
 ```{r}
 
-##General
+## General
 landing_reg_general <- landings_reg %>%
-  arrange(year, region, desc(tons))
-
-
-##Artisanal
-
-landing_reg_artisanal <- landings_reg %>%
-  filter(subsector == "artisanal") %>% 
-  arrange(year, region, desc(tons))
-
-##Industrial
-
-landing_reg_industrial <- landings_reg %>%
-  filter(subsector == "industrial") %>% 
-  arrange(year, region, desc(tons))
-  
-## frabric_vessels (ADD THEM TO INDUSTRIAL???)
-
-landing_reg_fv <- landings_reg %>%
-  filter(subsector == "fabric_vessel") %>% 
-  arrange(year, region, desc(tons))
-
-##WHAT TO DO DO WITH INTERNATIONAL WATERS?
-
-
-```
-
-
-Adding landings across all reagions to determine the main fisheries nationwise
-
-
-```{r}
-##Add landings per specie per year across all reagions
-
-total_landings_national <- landings_reg %>% 
-  group_by(year, species) %>% 
-  summarise(tons_total = sum(tons, na.rm = T)) %>% 
-  arrange(year, desc(tons_total)) %>% 
+  group_by(year, species, subsector) %>% 
+  summarise(tons = sum(tons, na.rm = T)) %>% 
   data.frame()
 
-total_landings_subsector <- landings_reg %>% 
-  group_by(subsector, year, species) %>% 
-  summarise(tons_total = sum(tons, na.rm = T)) %>% 
-  arrange(year, desc(tons_total)) %>% 
-  data.frame()
+## Artisanal
 
-total_landings_artisanal <- landings_reg %>% 
-  filter(subsector== "artisanal") %>% 
-  group_by(year, species) %>% 
-  summarise(tons_total_art = sum(tons, na.rm = T)) %>% 
-  arrange(year, desc(tons_total_art)) %>% 
-  data.frame()
-
-total_landings_industrial <-  landings_reg %>% 
-  filter(subsector %in% c("industrial", "fabric_vessel")) %>% 
-  group_by(year, species) %>% 
-  summarise(tons_total_ind = sum(tons, na.rm = T)) %>% 
-  arrange(year, desc(tons_total_ind)) %>% 
-  data.frame()
-
-
-total_landings_nat_subsector <-  total_landings_national %>% 
-  left_join(total_landings_artisanal, by= c("year", "species")) %>% 
-  left_join(total_landings_industrial, by= c("year", "species"))
-
-
-```
-
-
-10 main fisheries per year
-
-```{r}
-
-##Filtering the 10 main fishereis according to total landings per year
-top10_landings_per_year <- total_landings_nat_subsector %>% 
+top5_catch_art_per_year <- landing_reg_general  %>%
+  filter(subsector== 'artisanal') %>% 
+  arrange(year, desc(tons)) %>% 
   group_by(year) %>% 
-  top_n(10, tons_total) %>% 
+  top_n(5, tons) %>% 
   data.frame()
-  
-write.csv(top10_landings_per_year,  here("clean_databases/scope1/top10_landings_per_year.csv"), row.names=F)
 
-```
+## Industrial -- Including fabric vessels. 
 
-
-Ploting the main fisheries according to landings from 2014 to 2017 and the contribution of each subsector. 
-For plotting purpose only the 3 main fisheries according to landings are selected
-
-```{r}
-
-##Wrangling for plotting
-top3_landings_per_year <- total_landings_nat_subsector %>% 
+top5_catch_ind_per_year <- landing_reg_general  %>%
+  filter(subsector %in% c('industrial', 'fabric_vessel')) %>% 
+  group_by(species, year) %>% 
+  summarise(tons = sum(tons)) %>% 
+  arrange(year, desc(tons)) %>% 
   group_by(year) %>% 
-  top_n(3, tons_total) %>% 
+  top_n(5, tons) %>% 
   data.frame()
-
-top3_landings <- top3_landings_per_year %>% 
-  select(-tons_total) %>% 
-  gather(subsector, count, tons_total_art:tons_total_ind)
-
-  ##not doing exactoly what I want
-  ggplot(., aes(x=species, y=count, fill=forcats::fct_rev(subsector))) +
-   geom_bar(stat="identity")
-  
-##see the following link for plotting options
-  #https://stackoverflow.com/questions/30023610/how-to-plot-2-categorical-variables-on-x-axis-and-two-continuous-variables-as-f
-
-##ejemplo
-df %>% 
-   select(-total) %>% 
-   gather(type, count, burglaries:robberies) %>% 
-   ggplot(., aes(x=year, y=count, fill=forcats::fct_rev(type))) +
-   geom_bar(stat="identity")
-
-
-
 
 ```
 
 
+```{r plotting top fisheries per sector per year }
 
+## Plot 
 
+main_catch_art <- 
+  ggplot(data = top5_catch_art_per_year, aes(x = year, y = tons, fill = species)) + 
+    geom_bar(stat= "identity")+
+    scale_y_continuous(expand = c(0, 0)) +
+    labs(y="Landings (Tons)", x="Year")+
+    theme_bw()+
+    theme(axis.line = element_line(colour = "black"),
+        axis.text=element_text(size=11),
+        axis.title=element_text(size=12,face="bold"))
+
+# I am not including 2014 for now because we are missing one database for industrial landings for 2014 (landings per species and region in national waters)
+
+main_catch_ind <- 
+  ggplot(data = filter(top5_catch_ind_per_year, year != 2014), aes(x = year, y = tons, fill = species)) + 
+    geom_bar(stat= "identity")+
+    scale_y_continuous(expand = c(0, 0)) +
+    labs(y="Landings (Tons)", x="Year")+
+    theme_bw()+
+    theme(axis.line = element_line(colour = "black"),
+        axis.text=element_text(size=11),
+        axis.title=element_text(size=12,face="bold"))
+
+```
 
 
