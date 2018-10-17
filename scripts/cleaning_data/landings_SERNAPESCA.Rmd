@@ -182,6 +182,12 @@ industrial_month_2017 <- read_excel(here("information/raw_databases/SERNAPESCA/l
 
 ## Industrial landings per region (missing for 2014)
 
+industrial_region_2014 <- read_excel(here("information/raw_databases/SERNAPESCA/landings/landings_industrial_per_species_region_2014.xls"), sheet = "des_ind_reg", range = "A5:O52", na = "-")%>% 
+  gather(key = region, value = tons, 2:15)%>% 
+  mutate (subsector = 'industrial', year = 2014, month = 'anual', species =  ESPECIE, international_waters = 0)%>% 
+  select(subsector, year, region, month, species, tons, international_waters)
+
+
 industrial_region_2015 <- read_excel(here("information/raw_databases/SERNAPESCA/landings/landings_industrial_per_species_region_2015.xls"), sheet = "Des_ind_region", range = "A5:O52", na = "-")%>% 
   gather(key = region, value = tons, 2:15)%>% 
   mutate (subsector = 'industrial', year = 2015, month = 'anual', species =  ESPECIE, international_waters = 0)%>% 
@@ -355,7 +361,7 @@ fv_iw_region_2017 <- read_excel(here("information/raw_databases/SERNAPESCA/landi
 
 ```{r}
 
-landings_SERNAPESCA <- rbind(artisanal_month_2014, artisanal_month_2015, artisanal_month_2016, artisanal_month_2017, artisanal_region_2014, artisanal_region_2015, artisanal_region_2015, artisanal_region_2016, artisanal_region_2017, artisanal_iw_month_2014, artisanal_iw_month_2015, artisanal_iw_month_2016, artisanal_iw_month_2017, artisanal_iw_region_2014,artisanal_iw_region_2015, artisanal_iw_region_2016, artisanal_iw_region_2017, industrial_month_2014, industrial_month_2015, industrial_month_2016, industrial_month_2017, industrial_region_2015, industrial_region_2016, industrial_region_2017, industrial_iw_month_2014, industrial_iw_month_2015, industrial_iw_month_2016, industrial_iw_month_2017, industrial_iw_region_2014, industrial_iw_region_2015, industrial_iw_region_2016, industrial_iw_region_2017, fv_month_2014, fv_month_2015, fv_month_2016, fv_month_2017, fv_region_2014, fv_region_2015, fv_region_2016, fv_region_2017, fv_iw_month_2014, fv_iw_month_2015, fv_iw_month_2016, fv_iw_month_2017, fv_iw_region_2014, fv_iw_region_2015, fv_iw_region_2016, fv_iw_region_2017) %>% 
+landings_SERNAPESCA <- rbind(artisanal_month_2014, artisanal_month_2015, artisanal_month_2016, artisanal_month_2017, artisanal_region_2014, artisanal_region_2015, artisanal_region_2015, artisanal_region_2016, artisanal_region_2017, artisanal_iw_month_2014, artisanal_iw_month_2015, artisanal_iw_month_2016, artisanal_iw_month_2017, artisanal_iw_region_2014,artisanal_iw_region_2015, artisanal_iw_region_2016, artisanal_iw_region_2017, industrial_month_2014, industrial_month_2015, industrial_month_2016, industrial_month_2017, industrial_region_2014,industrial_region_2015, industrial_region_2016, industrial_region_2017, industrial_iw_month_2014, industrial_iw_month_2015, industrial_iw_month_2016, industrial_iw_month_2017, industrial_iw_region_2014, industrial_iw_region_2015, industrial_iw_region_2016, industrial_iw_region_2017, fv_month_2014, fv_month_2015, fv_month_2016, fv_month_2017, fv_region_2014, fv_region_2015, fv_region_2016, fv_region_2017, fv_iw_month_2014, fv_iw_month_2015, fv_iw_month_2016, fv_iw_month_2017, fv_iw_region_2014, fv_iw_region_2015, fv_iw_region_2016, fv_iw_region_2017) %>% 
   filter(!(species =='NA'))
 
 

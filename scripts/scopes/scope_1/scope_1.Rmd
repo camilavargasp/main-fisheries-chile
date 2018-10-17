@@ -24,11 +24,11 @@ The goal of this scope is to identify the top domestic fisheries contributing to
 
 ### Industrial sector 
 
-Based on SERNAPESCA's website, the main pelagic resources extracted by the industrial sector are the anchoveta, Sardina común y jurel, which are mostly used to produce fish meal. Other species that contribute importantly to industrial catch are merluza comun, merluza del sur, merluza de tres aletas, cod, merluza de cola, and langostinos amarillo and colorado.
+Based on SUBPESCA's website, the main pelagic resources extracted by the industrial sector are the anchoveta, Sardina común y jurel, which are mostly used to produce fish meal. Other species that contribute importantly to industrial catch are merluza comun, merluza del sur, merluza de tres aletas, cod, merluza de cola, and langostinos amarillo and colorado.
 
-We used landing records from SERNAPESCA to compute the fisheries that contribute the most to the industrial catch. The figure below shows the landings for the top five fisheries in terms of volume over the last three years. 
+We used landing records from SERNAPESCA to compute the fisheries that contribute the most to the industrial catch. **Figure 1 and 2** shows the landings for the top five fisheries in terms of volume over the last four years for the industrial and artisanal sectors, respectively. 
 
-```{r importing clean landings SERNAPESCA per species, subsector, month and region, echo = FALSE, warning= FALSE, message= FALSE}
+```{r importing clean landings SERNAPESCA, echo = FALSE, warning= FALSE, message= FALSE}
 
 landings_reg<- read_csv(here("clean_databases/landings_SERNAPESCA.csv")) %>% 
   filter(region != "national") %>% 
@@ -67,12 +67,12 @@ top5_catch_ind_per_year <- landing_reg_general  %>%
 ```
 
 
-```{r plotting top fisheries per sector per year for industrial sector, echo = FALSE}
+```{r plotting top fisheries per sector per year for industrial sector, echo = FALSE, fig.cap= "Top five fisheries in terms of landing volume over the last four years for the industrial sector based on SERNAPESCA's landing data."}
 
 # I am not including 2014 for now because we are missing one database for industrial landings for 2014 (landings per species and region in national waters)
 
 main_catch_ind <- 
-  ggplot(data = filter(top5_catch_ind_per_year, year != 2014), aes(x = year, y = tons, fill = species)) + 
+  ggplot(data = top5_catch_ind_per_year, aes(x = year, y = tons, fill = species)) + 
     geom_bar(stat= "identity")+
     scale_y_continuous(expand = c(0, 0)) +
     labs(y="Landings (Tons)", x="Year")+
@@ -86,7 +86,7 @@ main_catch_ind
 
 ### Artisanal sector 
 
-```{r plotting top fisheries per sector per year for artisanal sector, echo= FALSE}
+```{r plotting top fisheries per sector per year for artisanal sector, echo= FALSE, fig.cap= "Top five fisheries in terms of landing volume over the last four years for the industrial sector based on SERNAPESCA's landing data."}
 
 main_catch_art <- 
   ggplot(data = top5_catch_art_per_year, aes(x = year, y = tons, fill = species)) + 
