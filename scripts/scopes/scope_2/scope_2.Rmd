@@ -22,7 +22,7 @@ library(readxl)
 
 # Overview
 
-In this section we characterize the top domestic, marine capture fisheries in Chile based on their impact on livelihoods. We use official records from SERNAPESCA and information from reports to evaluate the impact of specific fisheries on employment and income of those harvesting, processing and selling marine resources in Chile. We first address the direct and indirect impact on liveihoods via employment and then, via income for both the artisanal and the industrial sector in Chile. Associated to the information provided in this section are databases on the number of jobs in each sector for each productive stage, generated based on official records of SERNAPESCA.
+In this section we characterize the top domestic, marine capture fisheries in Chile based on their impact on livelihoods. We use official records from SERNAPESCA and information from reports to evaluate the impact of specific fisheries on employment and income of those harvesting, processing and selling marine resources in Chile. We first address the direct and indirect impact on liveihoods via employment and then, via income for both the artisanal and the industrial sector in Chile. Associated to the information provided in this section are databases on the number of jobs in each sector for each productive stage, generated based on official records of SERNAPESCA *under contruction*.
 
 
 ## Top domestic marine, capture fisheries based on employment
@@ -31,9 +31,10 @@ In this section we characterize the top domestic, marine capture fisheries in Ch
 
 By 2017, there were 80,056 artisanal fishers officially registered along with 11,819 vessels (@maturana_mujeres_2017). The number of women participating in the artisanal sector has been increasing and currently 23% of the registered fishers are women. Artisanal fishers are requiered to register in the official record known as RPA (by its acronym in spanish). The RPA holds information regarding the gender, date of birth, location and type of activities performed by each fisher (e.i. diver, fisher, boat owner, shore gatherer). Although detailed, the RPA does not provide information on the specific species targeted by each fisher. Thus, we cannot determine the contribution of particular species to artisanal fishers livelihoods. Nontheless, we can combine information from the RPA with other data to get estimates. 
 
-**Figure 1** shows the number of fishers in each region that perform a particular activity based on the 2018 RPA for women (upper panel) and men. Different activities are associated to different groups of species; fishers usually target pelagic and demersal species, divers target mostly benthic species, while gatherers tend to collect and harvest algae. This give us an idea of the groups of species that are more important in terms of employment in each region and for each gender. We see that in general, women mostly participate in the extraction of algae while men tend to rely on multiple group of species as sources of employment. 
+**Figure 1** shows the number of fishers in each region that perform a particular activity based on the 2018 RPA for women (upper panel) and men. Different activities are associated to different groups of species; fishers usually target pelagic and demersal species, divers target mostly benthic species, while gatherers tend to collect and harvest algae. This give us an idea of the groups of species that are more important in terms of employment in each region and for each gender. We see that in general, women mostly participate in the extraction of algae while men tend to rely on multiple group of species as sources of employment. *We can do trends for this and split it by gender, but we first need to double check with SERNAPESCA some of these numbers that are too large to be realistic.*
 
-<!-- We can include trends of this too -->
+*We have asked for data on species-specific permits or quotas for each fisher or vessel. If available, we could get a more precise estimate of the contirbution of particular fisheries to employment in the extractive artisanal sector.*
+
 
 ```{r number of fishers in each activity, echo= FALSE, fig.cap= 'Number of fishers participating in different activities in each Chilean region based RPA 2018, provided by SERNAPESCA. The upper panel refers to women while the panel below to men. A single fisher can be register under multiple activities.'}
 
@@ -65,21 +66,49 @@ Figure1 <- grid.arrange(women_activities, men_activities, nrow=2)
 
 ```
 
-The artisanal sector generates employment beyond the extraction stage. After extraction, most resources are directly selled by the fishers in commercial facilities near their landing points, some are selled to local restaurants <!-- Here I want to include a figure with the value chain of the artisanal catch and hopefully find a way to estimate the contirbution of different group of species to employment in different stages of the value process --> 
+The artisanal sector generates employment beyond the extraction stage. After extraction, most resources are directly selled by the fishers in commercial facilities near their landing points, some are selled to local restaurants *Here we want to include a figure with the value chain of the artisanal catch and hopefully find a way to estimate the contirbution of different group of species to employment in different stages of the value process* 
 
 ### Industrial sector
 
-For the industrial sector, SERNAPESCA holds records only on the number of boats and its owners. There are currently,  However, the institution estimates that the overall operation of industrial vessels provide around 3,500 jobs in Chile (@subpesca_pesca_2018). 
+```{r importing Registro Pescadores Industriales, echo=FALSE}
 
-```{r}
+# Importing national records of industrial vessels
+rpi <- read_excel(here("information/raw_databases/SERNAPESCA/employment/RPA_RPI_mano_obra.xlsx"), sheet = "RPI", skip = 2, n_max = 472)
 
-# Importing national records of artisanal fisheres
-rpa <- read_excel(here("information/raw_databases/SERNAPESCA/employment/RPA_RPI_mano_obra.xlsx"), sheet = "RPI", skip = 2, n_max = 138294)
+# Number of industrial vessels registered by 2018
+number_ind_vessels <- length(unique(rpi$`RPI Nave`))
+
+# Number of industrial vessel owners
+number_ind_owners <- length(unique(rpi$`Nombre Armador`))
+```
+
+For the industrial sector, SERNAPESCA holds records only on the number of boats and its owners. There are currently `r number_ind_vessels` industrial vessels owned by `r number_ind_owners` different companies based on official registers. Estimates from SUBPESCA indicate that the overall operation of industrial vessels provide around 3,500 jobs nationwide (@subpesca_pesca_2018). 
+
+*We have asked for data on species-specific landings or quotas for each industrial vessel. Using this data we will be able to assess how much each vessel has depended on particular species during the past years. We will use the size of the vessel as a proxy for how many people operate in it. Combining this two pieces of information we expect to have an estimate of how relevant are specific fisheries in providing job positions in the extractive industrial sector.*
+
+Most of the catch from the industrial sector ends up going to processing facilities where it is transformed in products for domestic consumption, exportation or as supplies for the aquaculture industry. 
+
+```{r Importing data on jobs in production facilities, echo = FALSE}
+
+# Importing national records of job positions in processing facilities
+mano_obra_plantas <- read_excel(here("information/raw_databases/SERNAPESCA/employment/RPA_RPI_mano_obra.xlsx"), sheet = "MANO DE OBRA", skip = 2, n_max = 48140)
+colnames(mano_obra_plantas) <- c('year', 'month', 'region', 'port', 'code', 'name', 'mo_perm_m', 'mo_perm_f', 'mo_temp_m', 'mo_temp_f', 'system')
+
+
+# Average number of permanent and temporal job positions 
+number_job_planta <- mano_obra_plantas %>% 
+  group_by(year) %>% 
+  summarise(mo_perm_m = max(mo_perm_m), mo_perm_f = max(mo_perm_f), mo_temp_m = max(mo_temp_m), mo_temp_f = max(mo_temp_f))
 
 
 ```
 
-## Top domestic marine, capture fisheries based on employment
+SERNAPESCA holds records on the self-reported number of permanent and temporal jobs in each facility. There were 7,751 permanent job positions and another 1,233 temporal positions in processing facilities in 2017. *We can do trends for this and split it by gender, but we first need to double check with SERNAPESCA some of these numbers that are too large to be realistic.* 
+
+*To assess the contirbution of specific fisheries to employment in processing facilities we will use data we already have on (i) the production lines of each facility (e.g. fish meal, canned products, smoked products), (ii) tons of each species use to produce different products (e.g. fish meal, canned products, smoked products) in each region, (iii) the region in which each facility is located, (iv) the number of people working in each facility.*
+
+
+## Top domestic marine, capture fisheries based on income 
 
 ### Artisanal sector
 
