@@ -107,4 +107,8 @@ main_catch_art
 
 ### Industrial sector
 
+There are not official statistics of value for the industrial sector as this is confidencial information. 
+
 ### Artisanal sector
+
+<!-- Incluir resultados de valores segun precio playa -->

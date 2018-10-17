@@ -1,0 +1,88 @@
+---
+title: 'Scope 2: Fisheries employment and income'
+author: "Camila Vargas e Ignacia Rivera"
+date: "August 17, 2018"
+output: pdf_document
+bibliography: Oceana.bib
+csl: cell.csl
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(here)
+library(magrittr)
+library(tidyr)
+library(reshape2)
+library(dplyr)
+library(ggplot2)
+library(gridExtra)
+library(readxl)
+```
+
+# Overview
+
+In this section we characterize the top domestic, marine capture fisheries in Chile based on their impact on livelihoods. We use official records from SERNAPESCA and information from reports to evaluate the impact of specific fisheries on employment and income of those harvesting, processing and selling marine resources in Chile. We first address the direct and indirect impact on liveihoods via employment and then, via income for both the artisanal and the industrial sector in Chile. Associated to the information provided in this section are databases on the number of jobs in each sector for each productive stage, generated based on official records of SERNAPESCA.
+
+
+## Top domestic marine, capture fisheries based on employment
+
+### *Artisanal sector*
+
+By 2017, there were 80,056 artisanal fishers officially registered along with 11,819 vessels (@maturana_mujeres_2017). The number of women participating in the artisanal sector has been increasing and currently 23% of the registered fishers are women. Artisanal fishers are requiered to register in the official record known as RPA (by its acronym in spanish). The RPA holds information regarding the gender, date of birth, location and type of activities performed by each fisher (e.i. diver, fisher, boat owner, shore gatherer). Although detailed, the RPA does not provide information on the specific species targeted by each fisher. Thus, we cannot determine the contribution of particular species to artisanal fishers livelihoods. Nontheless, we can combine information from the RPA with other data to get estimates. 
+
+**Figure 1** shows the number of fishers in each region that perform a particular activity based on the 2018 RPA for women (upper panel) and men. Different activities are associated to different groups of species; fishers usually target pelagic and demersal species, divers target mostly benthic species, while gatherers tend to collect and harvest algae. This give us an idea of the groups of species that are more important in terms of employment in each region and for each gender. We see that in general, women mostly participate in the extraction of algae while men tend to rely on multiple group of species as sources of employment. 
+
+<!-- We can include trends of this too -->
+
+```{r number of fishers in each activity, echo= FALSE, fig.cap= 'Number of fishers participating in different activities in each Chilean region based RPA 2018, provided by SERNAPESCA. The upper panel refers to women while the panel below to men. A single fisher can be register under multiple activities.'}
+
+# Importing national records of artisanal fisheres
+rpa <- read_excel(here("information/raw_databases/SERNAPESCA/employment/RPA_RPI_mano_obra.xlsx"), sheet = "RPA PESCADORES", skip = 2, n_max = 138294)
+
+# Number of boat owners, divers, fishers and gatherers in each region.
+
+rpa_activity <- rpa %>% 
+  select(region= 'Región', gender= Genero, year= 'Año Inscripción', ARMADOR, BUZO, RECOLECTOR, PESCADOR) %>% 
+  gather(activity, practice, ARMADOR:PESCADOR) %>% 
+  filter(practice == 'X') %>% 
+  group_by(region, activity, gender) %>% 
+  summarize(count = n())
+
+# Ploting by gender, activity and region 
+
+men_activities <- ggplot(filter(rpa_activity, gender == 'M'), aes(as.factor(region), count)) +   
+  geom_bar(aes(fill = activity), position = "dodge", stat="identity")+
+  ylab('Number of fishers')+
+  xlab('Region')
+
+women_activities <- ggplot(filter(rpa_activity, gender == 'F'), aes(as.factor(region), count)) +   
+  geom_bar(aes(fill = activity), position = "dodge", stat="identity")+
+  ylab('Number of fishers')+
+  xlab('Region')
+
+Figure1 <- grid.arrange(women_activities, men_activities, nrow=2)
+
+```
+
+The artisanal sector generates employment beyond the extraction stage. After extraction, most resources are directly selled by the fishers in commercial facilities near their landing points, some are selled to local restaurants <!-- Here I want to include a figure with the value chain of the artisanal catch and hopefully find a way to estimate the contirbution of different group of species to employment in different stages of the value process --> 
+
+### Industrial sector
+
+For the industrial sector, SERNAPESCA holds records only on the number of boats and its owners. There are currently,  However, the institution estimates that the overall operation of industrial vessels provide around 3,500 jobs in Chile (@subpesca_pesca_2018). 
+
+```{r}
+
+# Importing national records of artisanal fisheres
+rpa <- read_excel(here("information/raw_databases/SERNAPESCA/employment/RPA_RPI_mano_obra.xlsx"), sheet = "RPI", skip = 2, n_max = 138294)
+
+
+```
+
+## Top domestic marine, capture fisheries based on employment
+
+### Artisanal sector
+
+### Industrial sector 
+
+# Cited literature
