@@ -1,0 +1,114 @@
+---
+title: 'Scope 1: Fisheries Context'
+author: "Camila Vargas e Ignacia Rivera"
+date: "August 16, 2018"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(here)
+library(magrittr)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(readr)
+```
+
+## Overview
+
+The goal of this scope is to identify the top domestic fisheries contributing to the landings and national economy of Chile. In addition to the information displayed in this section, we produced (i) a list of the top 10 domestic marine fisheries in terms of landed volume over the last ten years, (ii) a list of the top 10 domestic marine fisheries in terms of economic value over the last ten years, and (iii) a clean database with species-specific landings and value per region and year.
+
+## Top domestic marine, capture fisheries based on landed volume
+
+### Industrial sector 
+
+Based on SERNAPESCA's website, the main pelagic resources extracted by the industrial sector are the anchoveta, Sardina común y jurel, which are mostly used to produce fish meal. Other species that contribute importantly to industrial catch are merluza comun, merluza del sur, merluza de tres aletas, cod, merluza de cola, and langostinos amarillo and colorado.
+
+We used landing records from SERNAPESCA to compute the fisheries that contribute the most to the industrial catch. The figure below shows the landings for the top five fisheries in terms of volume over the last three years. 
+
+```{r importing clean landings SERNAPESCA per species, subsector, month and region, echo = FALSE, warning= FALSE, message= FALSE}
+
+landings_reg<- read_csv(here("clean_databases/landings_SERNAPESCA.csv")) %>% 
+  filter(region != "national") %>% 
+  mutate( tons = as.numeric(tons))
+
+```
+
+```{r top 5 fisheries in terms of volume, echo= FALSE, warning=FALSE}
+
+## General
+landing_reg_general <- landings_reg %>%
+  group_by(year, species, subsector) %>% 
+  summarise(tons = sum(tons, na.rm = T)) %>% 
+  data.frame()
+
+## Artisanal
+
+top5_catch_art_per_year <- landing_reg_general  %>%
+  filter(subsector== 'artisanal') %>% 
+  arrange(year, desc(tons)) %>% 
+  group_by(year) %>% 
+  top_n(5, tons) %>% 
+  data.frame()
+
+## Industrial -- Including fabric vessels. 
+
+top5_catch_ind_per_year <- landing_reg_general  %>%
+  filter(subsector %in% c('industrial', 'fabric_vessel')) %>% 
+  group_by(species, year) %>% 
+  summarise(tons = sum(tons)) %>% 
+  arrange(year, desc(tons)) %>% 
+  group_by(year) %>% 
+  top_n(5, tons) %>% 
+  data.frame()
+
+```
+
+
+```{r plotting top fisheries per sector per year for industrial sector, echo = FALSE}
+
+# I am not including 2014 for now because we are missing one database for industrial landings for 2014 (landings per species and region in national waters)
+
+main_catch_ind <- 
+  ggplot(data = filter(top5_catch_ind_per_year, year != 2014), aes(x = year, y = tons, fill = species)) + 
+    geom_bar(stat= "identity")+
+    scale_y_continuous(expand = c(0, 0)) +
+    labs(y="Landings (Tons)", x="Year")+
+    theme_bw()+
+    theme(axis.line = element_line(colour = "black"),
+        axis.text=element_text(size=11),
+        axis.title=element_text(size=12,face="bold"))
+
+main_catch_ind 
+```
+
+### Artisanal sector 
+
+```{r plotting top fisheries per sector per year for artisanal sector, echo= FALSE}
+
+main_catch_art <- 
+  ggplot(data = top5_catch_art_per_year, aes(x = year, y = tons, fill = species)) + 
+    geom_bar(stat= "identity")+
+    scale_y_continuous(expand = c(0, 0)) +
+    labs(y="Landings (Tons)", x="Year")+
+    theme_bw()+
+    theme(axis.line = element_line(colour = "black"),
+        axis.text=element_text(size=11),
+        axis.title=element_text(size=12,face="bold"))
+
+main_catch_art
+
+```
+
+
+## Top domestic marine, capture fisheries based on landed value
+
+### Industrial sector
+
+There are not official statistics of value for the industrial sector as this is confidencial information. 
+
+### Artisanal sector
+
+<!-- Incluir resultados de valores segun precio playa -->
