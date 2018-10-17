@@ -16,30 +16,19 @@ library(ggplot2)
 library(readr)
 ```
 
-## Introduction
+## Overview
 
-The goal of this scope is to combine the data and information gathered from different sources to identify the top domestic fisheries contributing to the landings and national economy of Chile. The following script provides all the methods, information and data that is use to persue this goal. The script is separated in sections that refer to two differen obectives, the first assesing the contribution of different species to volume of landings and the second assesing value of landings. Sections are also based on the sources of data being used. 
+The goal of this scope is to identify the top domestic fisheries contributing to the landings and national economy of Chile. In addition to the information displayed in this section, we produced (i) a list of the top 10 domestic marine fisheries in terms of landed volume over the last ten years, (ii) a list of the top 10 domestic marine fisheries in terms of economic value over the last ten years, and (iii) a clean database with species-specific landings and value per region and year.
 
-## Main sources of information
+## Top domestic marine, capture fisheries based on landed volume
 
-We will identify the main domestic fisheries regarding volume and value using three different main data sources SERNAPESCA, Sea around us project and FAO estimates. 
+### Industrial sector 
 
-## Requested outputs
+Based on SERNAPESCA's website, the main pelagic resources extracted by the industrial sector are the anchoveta, Sardina común y jurel, which are mostly used to produce fish meal. Other species that contribute importantly to industrial catch are merluza comun, merluza del sur, merluza de tres aletas, cod, merluza de cola, and langostinos amarillo and colorado.
 
-1) A list of the top 10 domestic marine fisheries in terms of landed volume
-2) A list of the top 10 domestic marine fisheries in terms of economic value
-3) A clean database used to generate (1)
-4) A database used to generate (4)
+We used landing records from SERNAPESCA to compute the fisheries that contribute the most to the industrial catch. The figure below shows the landings for the top five fisheries in terms of volume over the last three years. 
 
-## Resolution
-
-Where possible, these data should also be broken down by gear type.
-
-## 1) Top domestic marine, capture fisheries based on landed volume
-
-### Using data from SERNAPESCA
-
-```{r importing clean landings SERNAPESCA per species, subsector, month and region}
+```{r importing clean landings SERNAPESCA per species, subsector, month and region, echo = FALSE, warning= FALSE, message= FALSE}
 
 landings_reg<- read_csv(here("clean_databases/landings_SERNAPESCA.csv")) %>% 
   filter(region != "national") %>% 
@@ -47,9 +36,7 @@ landings_reg<- read_csv(here("clean_databases/landings_SERNAPESCA.csv")) %>%
 
 ```
 
-Adding landings across all regions to determine the top 5 fisheries based on volume per sector nationwide.
-
-```{r}
+```{r top 5 fisheries in terms of volume, echo= FALSE, warning=FALSE}
 
 ## General
 landing_reg_general <- landings_reg %>%
@@ -80,19 +67,7 @@ top5_catch_ind_per_year <- landing_reg_general  %>%
 ```
 
 
-```{r plotting top fisheries per sector per year }
-
-## Plot 
-
-main_catch_art <- 
-  ggplot(data = top5_catch_art_per_year, aes(x = year, y = tons, fill = species)) + 
-    geom_bar(stat= "identity")+
-    scale_y_continuous(expand = c(0, 0)) +
-    labs(y="Landings (Tons)", x="Year")+
-    theme_bw()+
-    theme(axis.line = element_line(colour = "black"),
-        axis.text=element_text(size=11),
-        axis.title=element_text(size=12,face="bold"))
+```{r plotting top fisheries per sector per year for industrial sector, echo = FALSE}
 
 # I am not including 2014 for now because we are missing one database for industrial landings for 2014 (landings per species and region in national waters)
 
@@ -106,6 +81,30 @@ main_catch_ind <-
         axis.text=element_text(size=11),
         axis.title=element_text(size=12,face="bold"))
 
+main_catch_ind 
+```
+
+### Artisanal sector 
+
+```{r plotting top fisheries per sector per year for artisanal sector, echo= FALSE}
+
+main_catch_art <- 
+  ggplot(data = top5_catch_art_per_year, aes(x = year, y = tons, fill = species)) + 
+    geom_bar(stat= "identity")+
+    scale_y_continuous(expand = c(0, 0)) +
+    labs(y="Landings (Tons)", x="Year")+
+    theme_bw()+
+    theme(axis.line = element_line(colour = "black"),
+        axis.text=element_text(size=11),
+        axis.title=element_text(size=12,face="bold"))
+
+main_catch_art
+
 ```
 
 
+## Top domestic marine, capture fisheries based on landed value
+
+### Industrial sector
+
+### Artisanal sector
