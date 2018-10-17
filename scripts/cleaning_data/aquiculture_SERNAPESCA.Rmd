@@ -1,0 +1,154 @@
+---
+title: "Cleaning aquaculture data"
+author: "Camila Vargas"
+date: "17 de octubre de 2018"
+output: pdf_document
+---
+
+## Description
+This script cleans raw aquaculture data provided by SERNAPESCA. 
+
+The following files are created through this scripts:
+
+1) **aquaculture_SERNAPESCA** - contains...
+
+
+## Setup
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(here) #install.packages('here')
+library(magrittr) #install.packages('magrittr')
+library(dplyr) #install.packages('dplyr')
+library(tidyr) #install.packages('tidyr')
+library(readxl) #install.packages('readxl')
+
+```
+
+
+## Importing and formating raw acuiculture harvest
+
+Datasets are from [SERNAPESCA/ Informes y Datos/ Estadisticas/ Acuicultura](http://www.sernapesca.cl/informes/estadisticas) 
+
+**Data downloaded** September 24, 2018
+
+**Data range** 2012 -2017
+
+### Aquaculture harvest per month
+
+```{r importing data, Aquaculture per month}
+
+## importing aquaculture per month raw data
+
+aqua_month_2012 <- read_excel(here("information/raw_databases/SERNAPESCA/harvest_aquaculture/harvest_aquaculture_per_species_month_2012.xls"), sheet = "cosechas_mes", range = "A5:M25", na = "-") %>% 
+  gather(key = month, value = tons, 2:13, na.rm = TRUE)%>% 
+  mutate (subsector = 'aquiculture', year = 2012, region = 'national', species =  ESPECIE) %>% 
+  select(subsector, year, region, month, species, tons)
+
+
+aqua_month_2013 <- read_excel(here("information/raw_databases/SERNAPESCA/harvest_aquaculture/harvest_aquaculture_per_species_month_2013.xls"), sheet = "cosechas_mes", range = "A5:M27", na = "-") %>% 
+  gather(key = month, value = tons, 2:13)%>% 
+  mutate (subsector = 'aquiculture', year = 2013, region = 'national', species =  ESPECIE) %>%
+  filter(species != is.na(species)) %>% 
+  select(subsector, year, region, month, species, tons)
+
+
+aqua_month_2014 <- read_excel(here("information/raw_databases/SERNAPESCA/harvest_aquaculture/harvest_aquaculture_per_species_month_2014.xls"), sheet = "cc_mes", range = "A5:M23", na = "-") %>% 
+  gather(key = month, value = tons, 2:13)%>% 
+  mutate (subsector = 'aquiculture', year = 2014, region = 'national', species =  ESPECIE) %>%
+  filter(species != is.na(species)) %>% 
+  select(subsector, year, region, month, species, tons)
+
+
+aqua_month_2015 <- read_excel(here("information/raw_databases/SERNAPESCA/harvest_aquaculture/harvest_aquaculture_per_species_month_2015.xls"), sheet = "Cosechas_cc_mes", range = "A5:M21", na = "-") %>% 
+  gather(key = month, value = tons, 2:13)%>% 
+  mutate (subsector = 'aquiculture', year = 2015, region = 'national', species =  ESPECIE) %>%
+  filter(species != is.na(species)) %>% 
+  select(subsector, year, region, month, species, tons)
+
+
+aqua_month_2016 <- read_excel(here("information/raw_databases/SERNAPESCA/harvest_aquaculture/harvest_aquaculture_per_species_month_2016.xls"), sheet = "Cosechas_cc_mes", range = "A5:M21", na = "-") %>% 
+  gather(key = month, value = tons, 2:13)%>% 
+  mutate (subsector = 'aquiculture', year = 2016, region = 'national', species =  ESPECIE) %>%
+  filter(species != is.na(species)) %>% 
+  select(subsector, year, region, month, species, tons)
+
+
+aqua_month_2017 <- read_excel(here("information/raw_databases/SERNAPESCA/harvest_aquaculture/harvest_aquaculture_per_species_month_2017.xlsx"), sheet = "Cosechas_cc_mes", range = "A5:M25", na = "-") %>% 
+  gather(key = month, value = tons, 2:13)%>% 
+  mutate (subsector = 'aquiculture', year = 2017, region = 'national', species =  ESPECIE) %>%
+  filter(species != is.na(species)) %>% 
+  select(subsector, year, region, month, species, tons)
+
+```
+
+
+### Aquaculture harvest per region
+
+```{r}
+##import aquaculture per region raw data
+
+aqua_region_2012 <- read_excel(here("information/raw_databases/SERNAPESCA/harvest_aquaculture/harvest_aquaculture_per_species_region_2012.xls"), sheet = "cosechas_region", range = "A5:O25", na = "-") %>% 
+  gather(key = region, value = tons, 2:15)%>% 
+  mutate (subsector = 'aquiculture', year = 2012, month = 'anual', species =  ESPECIE) %>% 
+  filter(species != is.na(species)) %>% 
+  select(subsector, year, region, month, species, tons)
+
+
+aqua_region_2013 <- read_excel(here("information/raw_databases/SERNAPESCA/harvest_aquaculture/harvest_aquaculture_per_species_region_2013.xls"), sheet =  "cosechas_region", range = "A5:P27", na = "-") %>% 
+  gather(key = region, value = tons, 2:15)%>% 
+  mutate (subsector = 'aquiculture', year = 2013, month = 'anual', species =  ESPECIE) %>% 
+  filter(species != is.na(species)) %>% 
+  select(subsector, year, region, month, species, tons)
+
+
+aqua_region_2014 <- read_excel(here("information/raw_databases/SERNAPESCA/harvest_aquaculture/harvest_aquaculture_per_species_region_2014.xls"), sheet =  "cc_reg", range = "A5:O23", na = "-") %>% 
+  gather(key = region, value = tons, 2:15)%>% 
+  mutate (subsector = 'aquiculture', year = 2014, month = 'anual', species =  ESPECIE) %>% 
+  filter(species != is.na(species)) %>% 
+  select(subsector, year, region, month, species, tons)
+
+
+aqua_region_2015 <- read_excel(here("information/raw_databases/SERNAPESCA/harvest_aquaculture/harvest_aquaculture_per_species_region_2015.xls"), sheet =  "cosechas_cc_region", range = "A5:P21", na = "-") %>% 
+  gather(key = region, value = tons, 2:15)%>% 
+  mutate (subsector = 'aquiculture', year = 2015, month = 'anual', species =  ESPECIE) %>% 
+  filter(species != is.na(species)) %>% 
+  select(subsector, year, region, month, species, tons)
+
+
+aqua_region_2016 <- read_excel(here("information/raw_databases/SERNAPESCA/harvest_aquaculture/harvest_aquaculture_per_species_region_2016.xls"), sheet =  "cosechas_cc_region", range = "A5:P21", na = "-") %>% 
+  gather(key = region, value = tons, 2:15)%>% 
+  mutate (subsector = 'aquiculture', year = 2016, month = 'anual', species =  ESPECIE) %>% 
+  filter(species != is.na(species)) %>% 
+  select(subsector, year, region, month, species, tons)
+
+
+aqua_region_2017 <- read_excel(here("information/raw_databases/SERNAPESCA/harvest_aquaculture/harvest_aquaculture_per_species_region_2017.xlsx"), sheet =  "cosechas_cc_region", range = "A5:P24", na = "-") %>% 
+  gather(key = region, value = tons, 2:15)%>% 
+  mutate (subsector = 'aquiculture', year = 2017, month = 'anual', species =  ESPECIE) %>% 
+  filter(species != is.na(species)) %>% 
+  select(subsector, year, region, month, species, tons)
+
+
+```
+
+
+### Aquaculture dataframe 
+
+Combining all aquaculture harvest data into one dataframe
+
+```{r}
+aquaculture_SERNAPESCA <- rbind(aqua_month_2012, aqua_month_2013, aqua_month_2014, aqua_month_2015, aqua_month_2016, aqua_month_2017, aqua_region_2012, aqua_region_2013, aqua_region_2014, aqua_region_2015, aqua_region_2016, aqua_region_2017)
+```
+
+
+### Saving the data
+
+```{r}
+write.csv(aquaculture_SERNAPESCA, here("clean_databases/aquaculture_SERNAPESCA.csv"), row.names = F)
+```
+
+
+
+
