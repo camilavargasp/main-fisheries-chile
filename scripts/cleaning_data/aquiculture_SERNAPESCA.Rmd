@@ -10,7 +10,7 @@ This script cleans raw aquaculture data provided by SERNAPESCA.
 
 The following files are created through this scripts:
 
-1) **aquaculture_SERNAPESCA** - contains...
+1) **aquaculture_SERNAPESCA** - contains the tons of each specie hrvestes from 2012 to 2017 in Chile, per region and per month.
 
 
 ## Setup
@@ -27,9 +27,9 @@ library(readxl) #install.packages('readxl')
 ```
 
 
-## Importing and formating raw acuiculture harvest
+## Importing and wrangling raw acuiculture harvest
 
-Datasets are from [SERNAPESCA/ Informes y Datos/ Estadisticas/ Acuicultura](http://www.sernapesca.cl/informes/estadisticas) 
+Datasets were downloaded from [SERNAPESCA/ Informes y Datos/ Estadisticas/ Acuicultura](http://www.sernapesca.cl/informes/estadisticas) 
 
 **Data downloaded** September 24, 2018
 

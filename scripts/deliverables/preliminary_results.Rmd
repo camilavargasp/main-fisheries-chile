@@ -1,0 +1,290 @@
+---
+title: "Preliminary Results"
+author: "Camila Vargas e Ignacia Rivera"
+date: "19 de octubre de 2018"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(knitr)
+library(here)
+library(magrittr)
+library(tidyr)
+library(reshape2)
+library(dplyr)
+library(ggplot2)
+library(gridExtra)
+library(readxl)
+library(cowplot)
+library(kableExtra)
+library(readr)
+library(stringr)
+```
+
+
+## Overview
+
+Up to date we have collected most of the raw data available needed for the analysis of this project. We have been working on cleaning these databases. We are in the process of cleaning the imports and export data, therefore the information presented in this report on imports and exports it is based on a third party report rather than the raw data it self. This report present preliminary results we have found so far.
+
+<br>
+<br>
+
+## Total amount of fish landed, produced in aquaculture, Imported, Exported, for the last 5 years. 
+
+Landing and harvest data was obtained through the National Service of Fisheries of Chile. Export data presented in table 1 comes from IFOP (Instituto Fomento Pesquero).
+
+*We we have not find total reports on imports, but we are working on cleaning the data base of imports and exports in order to analyze this component of the project*
+
+In general, wild caught fish has almost double the tons of the amount harvested in the last five years. According to this preliminary numbers, export correspond to one third of the amount produces and caught yearly (*Table 1*).
+
+
+```{r importing and wrangling data to create table1, echo=FALSE, include=FALSE}
+##Total landig data
+
+## Import landing data
+landings_reg<- read_csv(here("clean_databases/landings_SERNAPESCA.csv")) %>% 
+  filter(region != "national") %>% 
+  mutate( tons = as.numeric(tons))
+
+
+## add all landings per year
+
+landings_total_yr <- landings_reg %>% 
+  group_by(year) %>% 
+  summarise(total_landing = sum(tons, na.rm = T)) %>% 
+  data.frame()
+
+##Total aquaculture data
+
+## Import harvest data
+
+harvest_reg<- read_csv(here("clean_databases/aquaculture_SERNAPESCA.csv")) %>% 
+  filter(region != "national") %>% 
+  mutate( tons = as.numeric(tons))
+
+
+## Add all tons of aquicultore produces per year
+
+harvest_total_yr <- harvest_reg %>% 
+  group_by(year) %>% 
+  summarise(total_harvest = sum(tons, na.rm = T)) %>% 
+  filter(year != 2012)
+  data.frame()
+
+##Total Exports
+
+## IFOP (Instituto Fomento Pesquero) reports yearly total Chile'e exportation of wild harvest and aquaculture. 
+
+##Build th data frame bases on total numbers reportes by IFOP
+
+year <- c(2013, 2014, 2015, 2016, 2017)
+exports <-  c(1248720, 1340771, 1237585, 1179721, 1219665)
+
+exports_total_yr_IFOP <- data.frame(year, exports)
+
+
+```
+
+
+```{r table 1, echo=FALSE}
+## Landing, harvest and exports data in one dataframe
+
+
+##Totals landings, harvest and exports (tons) per year (2013-2017)
+
+table_totals <- landings_total_yr %>% 
+  left_join(harvest_total_yr, by = "year") %>% 
+  left_join(exports_total_yr_IFOP, by = "year") %>% 
+  rename(total_exports = exports)
+
+
+kable(table_totals, "latex", caption = "Total amount of landings, aquaculture harvest and exports (tons) in Chile in the last 5 years", booktabs = T) %>%
+kable_styling(latex_options = c("hold_position"))
+
+
+```
+
+<br>
+<br>
+
+## Ten most important fisheries in terms of landing and harvest
+
+We obtain the official landing data from  the Chilean National Service of Fisheries (SERNAPESCA) website. According to the this information in the last five years the most important fisheries in terms of landings have been Anchovy (*Engraulis ringens*), Chilean jack mackerel (*Trachurus murphy*i) and Araucanian herring (*Strangomera bentincki*) (*Figure 1*), all three of them mainly catch by the industrial fleet. This pelagic fishes are mainly used to produce fish meal. 
+
+Other species that contribute importantly to industrial catch are merluza comun, merluza del sur, merluza de tres aletas, cod, merluza de cola, and langostinos amarillo and colorado.
+
+
+```{r top 10 fisheries in terms of volume, echo= FALSE, warning=FALSE}
+## Landings
+
+## Totals
+landing_reg_sp_total <- landings_reg %>%
+  group_by(year, species) %>% 
+  summarise(tons = sum(tons, na.rm = T)) %>% 
+  data.frame()
+
+## Top 10 landings total
+
+top10_catch_per_yr <- landing_reg_sp_total  %>%
+  arrange(year, desc(tons)) %>% 
+  group_by(year) %>% 
+  top_n(10, tons) %>% 
+  data.frame()
+
+##Harvest
+
+## Totals
+harvest_reg_sp_total <- harvest_reg %>%
+  group_by(year, species) %>% 
+  summarise(tons = sum(tons, na.rm = T)) %>% 
+  data.frame()
+
+## Top 10 harvest total
+
+top10_harvest_per_yr <- harvest_reg_sp_total  %>%
+  arrange(year, desc(tons)) %>% 
+  group_by(year) %>% 
+  top_n(10, tons) %>% 
+  data.frame()
+
+
+## Figure
+
+##Creating a figure reportinf the top 10 species on landings and harvest
+
+
+top10_catch <- 
+  ggplot(data = top10_catch_per_yr, aes(x = year, y = tons, fill = species)) + 
+    geom_bar(stat= "identity")+
+    scale_y_continuous(expand = c(0, 0)) +
+    labs(y="Landings (Tons)", x="Year")+
+  theme_cowplot()+
+    theme(axis.line = element_line(colour = "black"),
+        axis.text=element_text(size=11),
+        axis.title=element_text(size=12,face="bold"))
+  
+top10_harvest <-
+  ggplot(data = top10_harvest_per_yr, aes(x = year, y = tons, fill = species)) + 
+    geom_bar(stat= "identity")+
+    scale_y_continuous(expand = c(0, 0)) +
+    labs(y="Harvest (Tons)", x="Year")+
+  theme_cowplot()+
+    theme(axis.line = element_line(colour = "black"),
+        axis.text=element_text(size=11),
+        axis.title=element_text(size=12,face="bold"))
+
+```
+
+
+
+```{r,  echo= FALSE, fig.cap= 'Main fisheries in Chile in the last five years accordint to wild catch landings', fig.height=3}
+
+top10_catch
+
+```
+
+
+
+In terms of aquaculture production the main species harvested in the last 5 years have been: Atlantic salmon (*Salmo salar*), mussels (*Mytilus chilensis*) and coho salmon (*Oncorhynchus kisutch*) in descending order (Figure 2). 
+
+
+
+```{r,  echo= FALSE, fig.cap= 'Main fisheries in Chile in the last five years according to aquaculture harvests', fig.height=3}
+
+top10_harvest
+
+```
+
+<br>
+<br>
+
+
+## Top domestic marine, capture fisheries based on employment
+
+### *Artisanal sector*
+
+By 2017, there were 80,056 artisanal fishers officially registered along with 11,819 vessels. The RPA holds information regarding the gender, date of birth, location and type of activities performed by each fisher (e.i. diver, fisher, boat owner, shore gatherer). Although detailed, the RPA does not provide information on the specific species targeted by each fisher. Thus, we cannot determine the contribution of particular species to artisanal fishers livelihoods. Nonetheless, we can combine information from the RPA with other data to get estimates. 
+
+**Figure 3** shows the number of fishers in each region that perform a particular activity based on the 2018 RPA for women (upper panel) and men. Different activities are associated to different groups of species; fishers usually target pelagic and demersal species, divers target mostly benthic species, while gatherers tend to collect and harvest algae. This give us an idea of the groups of species that are more important in terms of employment in each region and for each gender. We see that in general, women mostly participate in the extraction of algae while men tend to rely on multiple group of species as sources of employment. *We can do trends for this and split it by gender, but we first need to double check with SERNAPESCA some of these numbers that are too large to be realistic.*
+
+*We have asked for data on species-specific permits or quotas for each fisher or vessel. If available, we could get a more precise estimate of the contirbution of particular fisheries to employment in the extractive artisanal sector.*
+
+&nbsp;
+
+```{r number of fishers in each activity, echo= FALSE, fig.cap= 'Number of fishers participating in different activities in each Chilean region based RPA 2018, provided by SERNAPESCA. The upper panel refers to women while the panel below to men. A single fisher can be register under multiple activities.'}
+
+# Importing national records of artisanal fisheres
+rpa <- read_excel(here("information/raw_databases/SERNAPESCA/employment/RPA_RPI_mano_obra.xlsx"), sheet = "RPA PESCADORES", skip = 2, n_max = 138294) %>% 
+  rename(region = "Regi\u00f3n", year = "A\u00f1o Inscripci\u00f3n")
+
+# Number of boat owners, divers, fishers and gatherers in each region.
+
+rpa_activity <- rpa %>% 
+  select(region, gender= Genero, year, ARMADOR, BUZO, RECOLECTOR, PESCADOR) %>% 
+  gather(activity, practice, ARMADOR:PESCADOR) %>% 
+  filter(practice == 'X') %>% 
+  group_by(region, activity, gender) %>% 
+  summarize(count = n())
+
+# Ploting by gender, activity and region 
+
+men_activities <- ggplot(filter(rpa_activity, gender == 'M'), aes(as.factor(region), count)) +   
+  geom_bar(aes(fill = activity), position = "dodge", stat="identity")+
+  ylab('Number of fishers')+
+  xlab('Region')
+
+women_activities <- ggplot(filter(rpa_activity, gender == 'F'), aes(as.factor(region), count)) +   
+  geom_bar(aes(fill = activity), position = "dodge", stat="identity")+
+  ylab('Number of fishers')+
+  xlab('Region')
+
+Figure2 <- grid.arrange(women_activities, men_activities, nrow=2)
+
+```
+
+The artisanal sector generates employment beyond the extraction stage. After extraction, most resources are directly sold by the fishers in commercial facilities near their landing points, some are sold to local restaurants *Here we want to include a figure with the value chain of the artisanal catch and hopefully find a way to estimate the contirbution of different group of species to employment in different stages of the value process* 
+
+### Industrial sector
+
+```{r importing Registro Pescadores Industriales, echo=FALSE}
+
+# Importing national records of industrial vessels
+rpi <- read_excel(here("information/raw_databases/SERNAPESCA/employment/RPA_RPI_mano_obra.xlsx"), sheet = "RPI", skip = 2, n_max = 472)
+
+# Number of industrial vessels registered by 2018
+number_ind_vessels <- length(unique(rpi$`RPI Nave`))
+
+# Number of industrial vessel owners
+number_ind_owners <- length(unique(rpi$`Nombre Armador`))
+```
+
+For the industrial sector, SERNAPESCA holds records only on the number of boats and its owners. There are currently `r number_ind_vessels` industrial vessels owned by `r number_ind_owners` different companies based on official registers. Estimates from SUBPESCA indicate that the overall operation of industrial vessels provide around 3,500 jobs nationwide. 
+
+*We have asked for data on species-specific landings or quotas for each industrial vessel. Using this data we will be able to assess how much each vessel has depended on particular species during the past years. We will use the size of the vessel as a proxy for how many people operate in it. Combining this two pieces of information we expect to have an estimate of how relevant are specific fisheries in providing job positions in the extractive industrial sector.*
+
+Most of the catch from the industrial sector ends up going to processing facilities where it is transformed in products for domestic consumption, exportation or as supplies for the aquaculture industry. 
+
+```{r Importing data on jobs in production facilities, echo = FALSE}
+
+# Importing national records of job positions in processing facilities
+mano_obra_plantas <- read_excel(here("information/raw_databases/SERNAPESCA/employment/RPA_RPI_mano_obra.xlsx"), sheet = "MANO DE OBRA", skip = 2, n_max = 48140)
+colnames(mano_obra_plantas) <- c('year', 'month', 'region', 'port', 'code', 'name', 'mo_perm_m', 'mo_perm_f', 'mo_temp_m', 'mo_temp_f', 'system')
+
+
+# Average number of permanent and temporal job positions 
+number_job_planta <- mano_obra_plantas %>% 
+  group_by(year) %>% 
+  summarise(mo_perm_m = max(mo_perm_m), mo_perm_f = max(mo_perm_f), mo_temp_m = max(mo_temp_m), mo_temp_f = max(mo_temp_f))
+
+
+```
+
+SERNAPESCA holds records on the self-reported number of permanent and temporal jobs in each facility. There were 7,751 permanent job positions and another 1,233 temporal positions in processing facilities in 2017. *We can do trends for this and split it by gender, but we first need to double check with SERNAPESCA some of these numbers that are too large to be realistic.* 
+
+*To assess the contirbution of specific fisheries to employment in processing facilities we will use data we already have on (i) the production lines of each facility (e.g. fish meal, canned products, smoked products), (ii) tons of each species use to produce different products (e.g. fish meal, canned products, smoked products) in each region, (iii) the region in which each facility is located, (iv) the number of people working in each facility.*
+
+
+
+
+

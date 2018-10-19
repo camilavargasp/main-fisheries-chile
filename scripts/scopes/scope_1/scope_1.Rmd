@@ -112,3 +112,46 @@ There are not official statistics of value for the industrial sector as this is 
 ### Artisanal sector
 
 <!-- Incluir resultados de valores segun precio playa -->
+
+
+### Aquiculture
+
+Main finsheries according to the harvest produced by aquacultere each year.
+
+#### Importing data 
+
+```{r importing clean aquaculture SERNAPESCA, echo = FALSE, warning= FALSE, message= FALSE}
+
+harvest_reg<- read_csv(here("clean_databases/aquaculture_SERNAPESCA.csv")) %>% 
+  filter(region != "national") %>% 
+  mutate( tons = as.numeric(tons))
+
+```
+
+####  Main harvest species per year
+
+```{r}
+## adding amount of harvest per year at a national level
+
+harvest_reg_total <- harvest_reg %>%
+  group_by(year, species, subsector) %>% 
+  summarise(tons = sum(tons, na.rm = T)) %>%
+  data.frame()
+
+## top 5
+
+top5_havets_per_year <- harvest_reg_total %>%
+  arrange(year, desc(tons)) %>% 
+  group_by(year) %>% 
+  top_n(5, tons) %>% 
+  data.frame()
+
+
+```
+
+
+
+
+
+
+
