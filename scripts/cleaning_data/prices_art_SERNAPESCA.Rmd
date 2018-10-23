@@ -9,7 +9,15 @@ output: pdf_document
 ## Description
 This script cleans raw data on mean beach prices for artisanal landings provided by SERNAPESCA. 
 
-The following files are created through this scripts:
+**Note about this database**
+- Prices are in chilean pesos per ton
+- Origin of information: B = boat, L = Lancha, O = other, BN = natural bank, AM = TURF
+- Destination of the product: CHD = human consumption, PP = processsing plant
+- Empty spaces means that the information was not available
+
+
+
+The following file is created through this scripts:
 
 
 1) **prices_art_SERNAPESCA** - This document contains...
@@ -31,24 +39,16 @@ library(readxl) #install.packages('readxl')
 
 ## Importing and wrangling raw acuiculture harvest
 
-Datasets were downloaded from [SERNAPESCA/ Informes y Datos/ Estadisticas/ ...](ADD LINK) VER SI HAY UPDATES CON INFO 2017 
+Datasets were requested to SERNAPESCA (request #460312718) and recived via email on October 22, 2018.
 
-**Data downloaded** September 24, 2018
+**Data downloaded** October 22, 2018
 
-**Data range** 2006 -2016
+**Data range** 2007 -2017 
 
 
 ### Beach prices per year and specie
 
 ```{r importing data, beach prices artisanal}
-
-###NOTE: need to come back to this scrip onece we recieve the data we need from SERNAPESCA. Nª 460312718
-
-
-beach_price_art <- read_excel(here("information/raw_databases/SERNAPESCA/prices/mean_anual_beach_prices_per_specie_2006_2016.xls"), sheet = "cosechas_mes", range = "A5:M25", na = "-") %>% 
-  gather(key = month, value = tons, 2:13, na.rm = TRUE)%>% 
-  mutate (subsector = 'aquiculture', year = 2012, region = 'national', species =  ESPECIE) %>% 
-  select(subsector, year, region, month, species, tons)
 
 
 
