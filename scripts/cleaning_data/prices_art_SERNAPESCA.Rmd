@@ -32,7 +32,10 @@ library(here) #install.packages('here')
 library(magrittr) #install.packages('magrittr')
 library(dplyr) #install.packages('dplyr')
 library(tidyr) #install.packages('tidyr')
-library(readxl) #install.packages('readxl')
+library(readr) #install.packages('readr')
+library(purrr)#install.packages('purr')
+library(stringr)
+library(regex)
 
 ```
 
@@ -50,8 +53,58 @@ Datasets were requested to SERNAPESCA (request #460312718) and recived via email
 
 ```{r importing data, beach prices artisanal}
 
+##Creat a list with all beach prices files
+
+beach_price_list <- list.files(here('information/raw_databases/SERNAPESCA/prices'), pattern= 'beach_price_art_.*.csv', full.names = TRUE) %>% 
+  
+## Read, wrangle and combine beach prices files into one dataframe
+
+  beach_price_all <- beach_price_list %>% 
+  map(read.csv, header = FALSE, skip = 6, stringsAsFactors = FALSE) %>% 
+  lapply(function(x) x[1:13]) %>% ## selects 13 columns of interest
+  reduce(rbind) %>% 
+  rename(year =V1, 
+         month= V2, 
+         region = V3, 
+         cove_code =V4, 
+         cove_name= V5, 
+         sp_code=V6, 
+         specie =V7, 
+         peso_ton =V8,
+         humidity=V9, 
+         tons= V10, 
+         origin_vessel=V11, 
+         origin_place=V12, 
+         use=V13)
+
+``` 
+  
+
+## Save complete raw data
+
+```{r}
+
+write.csv(beach_price_all, here('clean_databases/intermediate/beach_price_art_comlete_SERNAPESCA.csv'), row.names = F)
+
+```
+
+  
+## Mean prices per year
+
+```{r}
+beach_price_per_yr <- read.csv(here('clean_databases/intermediate/beach_price_art_comlete_SERNAPESCA.csv'), stringsAsFactors = FALSE) %>%
+  mutate(peso_ton = gsub(",", " ", peso_ton)) %>% 
+  mutate(peso_ton= str_replace_all(peso_ton, fixed(" "), "")) %>% 
+  mutate(peso_ton = as.numeric(peso_ton)) %>% 
+  select(year, specie, peso_ton) %>% 
+  group_by(year, specie) %>% 
+  summarise(mean_price = mean(peso_ton)) %>% 
+  data.frame()
+
+## Somthing wired is happening with year 2007!! BEach_price_per_yr shows 2007.0000 in some cases.
+## and there is a year lable 8.989 not sure form which data base is comming. 
 
 
+```
 
-
-
+ 
