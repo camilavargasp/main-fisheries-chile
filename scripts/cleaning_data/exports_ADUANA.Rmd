@@ -22,6 +22,7 @@ library(tidyverse)
 library(here)
 library(readxl)
 library(stringr)
+library(purrr) ##install.packages("purrr")
 ```
 
 
@@ -29,8 +30,21 @@ library(stringr)
 ## Import aduana export data
 
 ```{r}
-## read in data for 2010 as an exmple
 
+## Create a list of files to be read
+
+export_list <- list.files(here('information/raw_databases/ADUANAS_CHILE/exports'), pattern= 'exports_20.*.csv', full.names = TRUE)
+
+## Read, wrangle and bind all y datasets
+ exports_all <- export_list %>% 
+  map(read_delim,";", escape_double = FALSE, trim_ws = TRUE) %>% 
+  reduce(rbind) %>% 
+  select(year= PERIODO, month = MES, region = COD_REGION_ORIGEN, destination = COD_PAIS_DESTINO, item_sa =ITEM_SA, fob = FOB_US_DUSLEG, fub = FUB_US_IVV, kg = PESO_BRUTO_KG, quantity = CANTIDAD_MERCANCIA, unit = COD_UNIDAD_MEDIDA)
+
+ 
+ ##HAY QUE REVISAR QUE TODOS LOS ARCHIVOD DE EXPORTS TENGAN EN MISMO FORMATO!!!!
+
+## read in data for 2010 as an exmple
 exports_2010 <- read_delim(here("information/raw_databases/ADUANAS_CHILE/exports/exports_2010.csv"), ";", escape_double = FALSE, trim_ws = TRUE) %>% 
   select(year= PERIODO, month = MES, region = COD_REGION_ORIGEN, destination = COD_PAIS_DESTINO, item_sa =ITEM_SA, fob = FOB_US_DUSLEG, fub = FUB_US_IVV, kg = PESO_BRUTO_KG, quantity = CANTIDAD_MERCANCIA, unit = COD_UNIDAD_MEDIDA)
 
