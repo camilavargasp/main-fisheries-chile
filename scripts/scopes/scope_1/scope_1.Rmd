@@ -16,15 +16,25 @@ library(ggplot2)
 library(readr)
 ```
 
-## Overview
+## Fisheries Context
 
-The goal of this scope is to identify the top domestic fisheries contributing to the landings and national economy of Chile. In addition to the information displayed in this section, we produced (i) a list of the top 10 domestic marine fisheries in terms of landed volume over the last ten years, (ii) a list of the top 10 domestic marine fisheries in terms of economic value over the last ten years, and (iii) a clean database with species-specific landings and value per region and year.
+There are two marine extractive sectors in Chile, the artisanal and the industrial. 
+
+The artisanal sector correspond to fishing activities performed by vessels smaller than 18 meters in length and 50 tones and by individuals harvesting resources in the intertidal zone (i.e. harvesting drift alage or extracting benthic resources). Artisanal fishers and their vessels must be registed in the National Records of Artisanal Fishers (RPA, acronym in spanish) kept by SERNAPESCA. The RPA list which kind of species an individual is allowed to extract and in which area. It also categorize fishers as boat owners, fishers, divers or shore harvesters as well as gender and age of the registered fishers. Most artisanal fishers are organized at the local level in unions, economic associations or cooperatives and in federations at the national level. 
+
+Landings are self-reported to SERNAPESCA [completar bien esto, explicar como se obtienen las bases de landings y precios en SERNAPESCA].
+
+The artisanal sector has exclussive access to the first five miles and the first mile is reserved for vessels below 12 meters in length. Benthic fisheries in Chile, operate in a system of territorial users' rights for fishing, in which fishers associations are granted with exclussive access to benthic resources in a specific fishing ground and co-manage the stock under SERNAPESCA's supervision. The rest of the fishing grounds are open access but are subjected to species restrictions. Artisanal fishers usually target multiple species and use a combination of gears. 
+
+Most artisanal fishers in Chile are comercial fishers. They usually sell their catches near to landing points in setlements known as *caletas* for direct human consumption. The rest of the catch is sold through middle-men to production facilities and other sellers for both direct and indirect human consumption (**Figure 1**).
+
+![Simplified diagram of the supply chain of artisanal catch. From Gonzales et al., 2013](here(scripts/scopes/scope_1/Fig1.jpg))
+
+The industrial sector correspond to activities performed in large [escribir despricion similar basada en SUBPESCA/Actividades reguladas]
 
 ## Top domestic marine, capture fisheries based on landed volume
 
 ### Industrial sector 
-
-Based on SUBPESCA's website, the main pelagic resources extracted by the industrial sector are the anchoveta, Sardina común y jurel, which are mostly used to produce fish meal. Other species that contribute importantly to industrial catch are merluza comun, merluza del sur, merluza de tres aletas, cod, merluza de cola, and langostinos amarillo and colorado.
 
 We used landing records from SERNAPESCA to compute the fisheries that contribute the most to the industrial catch. **Figure 1 and 2** shows the landings for the top five fisheries in terms of volume over the last four years for the industrial and artisanal sectors, respectively. 
 
