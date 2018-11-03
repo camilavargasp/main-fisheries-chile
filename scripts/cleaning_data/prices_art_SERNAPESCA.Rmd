@@ -55,7 +55,7 @@ Datasets were requested to SERNAPESCA (request #460312718) and recived via email
 
 ##Creat a list with all beach prices files
 
-beach_price_list <- list.files(here('information/raw_databases/SERNAPESCA/prices'), pattern= 'beach_price_art_.*.csv', full.names = TRUE) %>% 
+beach_price_list <- list.files(here('information/raw_databases/SERNAPESCA/prices'), pattern= 'beach_price_art_.*.csv', full.names = TRUE)
   
 ## Read, wrangle and combine beach prices files into one dataframe
 
