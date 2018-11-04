@@ -35,23 +35,17 @@ library(purrr) ##install.packages("purrr")
 
 export_list <- list.files(here('information/raw_databases/ADUANAS_CHILE/exports'), pattern= 'exports_20.*.csv', full.names = TRUE)
 
+export_list <- export_list[4:9]
+
 ## Read, wrangle and bind all y datasets
- exports_all <- export_list %>% 
-  map(read_delim,";", escape_double = FALSE, trim_ws = TRUE) %>% 
+exports_all <- export_list %>% 
+  map(read_delim,";", escape_double = FALSE, trim_ws = TRUE, col_names = FALSE, skip =1) %>% 
   reduce(rbind) %>% 
-  select(year= PERIODO, month = MES, region = COD_REGION_ORIGEN, destination = COD_PAIS_DESTINO, item_sa =ITEM_SA, fob = FOB_US_DUSLEG, fub = FUB_US_IVV, kg = PESO_BRUTO_KG, quantity = CANTIDAD_MERCANCIA, unit = COD_UNIDAD_MEDIDA)
-
- 
- ##HAY QUE REVISAR QUE TODOS LOS ARCHIVOD DE EXPORTS TENGAN EN MISMO FORMATO!!!!
-
-## read in data for 2010 as an exmple
-exports_2010 <- read_delim(here("information/raw_databases/ADUANAS_CHILE/exports/exports_2010.csv"), ";", escape_double = FALSE, trim_ws = TRUE) %>% 
-  select(year= PERIODO, month = MES, region = COD_REGION_ORIGEN, destination = COD_PAIS_DESTINO, item_sa =ITEM_SA, fob = FOB_US_DUSLEG, fub = FUB_US_IVV, kg = PESO_BRUTO_KG, quantity = CANTIDAD_MERCANCIA, unit = COD_UNIDAD_MEDIDA)
-
-
-##Loop to import all data sets from 2010 to 2018
-
+  select(X1, X2, X5, X9, X12, X13, X14, X15, X16, X17) %>% 
+  rename(year= X1, month = X2, region = X5, destination = X9, item_sa =X12, fob = X13, fub = X14, kg = X15, quantity = X16, unit = X17)
+  
 ## Save the initial "clean raw data"
+# write.csv(landings_SERNAPESCA,  here("clean_databases/intermediate/exports_all_ADUANA.csv"), row.names=F)
 
 ```
 
@@ -60,9 +54,9 @@ exports_2010 <- read_delim(here("information/raw_databases/ADUANAS_CHILE/exports
 ```{r}
 
 ##sumarise data to get values per year
-exports_yr <- exports_2010 %>% 
+exports_yr <- exports_all %>% 
   select(- month, -region, - destination, - quantity, -unit, - fub) %>% 
-  mutate(value_fob= as.numeric(fob)) %>% 
+  mutate(fob= as.integer(as.numeric(fob))) %>% 
   mutate(kg= as.numeric(sub(",", ".", kg, fixed = TRUE)))%>% 
   group_by(year, item_sa) %>% 
   summarise(value_fob = mean(fob, na.rm = T),
