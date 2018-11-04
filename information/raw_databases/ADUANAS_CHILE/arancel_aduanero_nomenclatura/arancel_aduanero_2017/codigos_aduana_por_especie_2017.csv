@@ -1,0 +1,724 @@
+﻿especie_SERNAPESCA,nombre_cientifico_SERNAPESCA,nombre_cientifico_aduana,codigo_aduana,combined_with_other_species,product_more_20_percent,alive
+CHASCA                                  ,Gelidium rex,Gelidium ,1212.2110,0,0,0
+CHASCA                                  ,Gelidium rex,Gelidium ,1212.2910,0,0,0
+CHASCON O HUIRO NEGRO                ,Lessonia nigrescens,Lessonia spp.,1212.2130,0,0,0
+CHASCON O HUIRO NEGRO                ,Lessonia nigrescens,Lessonia spp.,1212.2930,0,0,0
+CHICOREA DE MAR                     ,Chondracanthus chamissoi ,Gigartina spp.,1212.2150,0,0,0
+CHICOREA DE MAR                     ,Chondracanthus chamissoi ,Gigartina spp.,1212.2950,0,0,0
+COCHAYUYO                                ,Durvillaea antarctica ,Durvillaea Antarctica,1212.2170,0,0,0
+COCHAYUYO                                ,Durvillaea antarctica ,Durvillaea Antarctica,1212.2970,0,0,0
+HUIRO                                    ,Macrocystis spp.,Macrocystis spp.,1212.2160,0,0,0
+HUIRO                                    ,Macrocystis spp.,Macrocystis spp.,1212.2960,0,0,0
+HUIRO PALO                               ,Lessonia trabeculata,NA,NA,NA,NA,NA
+LECHUGUILLA                              ,Ulva lactuca,NA,NA,NA,NA,NA
+LIQUEN GOMOSO                            ,Gymnogongrus furcellatus ,NA,NA,NA,NA,NA 
+LUCHE                                    ,Porphyra columbina ,NA,NA,NA,NA,NA 
+LUGA CUCHARA O CORTA                     ,Mazzaella laminarioides,NA,NA,NA,NA,NA
+LUGA NEGRA O CRESPA                      ,Sarcothalia crispata,NA,NA,NA,NA,NA 
+LUGA-ROJA                                ,Gigartina skottsbergii,NA,NA,NA,NA,NA
+PELILLO                                  ,Gracilaria spp.,Gracilaria spp.,1212.2120,0,0,0
+PELILLO                                  ,Gracilaria spp.,Gracilaria spp.,1212.2920,0,0,0
+AGUJILLA                       ,Scomberesox saurus scombroides,NA,NA,NA,NA,NA
+ALBACORA O PEZ ESPADA / IVI HEHEU        ,Xiphias gladius,Xiphias gladius,0302.4710,0,0,0
+ALBACORA O PEZ ESPADA / IVI HEHEU        ,Xiphias gladius,Xiphias gladius,0302.4720,0,0,0
+ALBACORA O PEZ ESPADA / IVI HEHEU        ,Xiphias gladius,Xiphias gladius,0302.4730,0,0,0
+ALBACORA O PEZ ESPADA / IVI HEHEU        ,Xiphias gladius,Xiphias gladius,0304.5400,0,0,0
+ALBACORA O PEZ ESPADA / IVI HEHEU        ,Xiphias gladius,Xiphias gladius,0304.8400,0,0,0
+ALBACORA O PEZ ESPADA / IVI HEHEU        ,Xiphias gladius,Xiphias gladius,0304.9100,0,0,0
+ALBACORA O PEZ ESPADA / IVI HEHEU        ,Xiphias gladius,Xiphias gladius,0305.5400,1,0,0
+ALBACORA O PEZ ESPADA / IVI HEHEU        ,Xiphias gladius,Xiphias gladius,0303.5710,0,0,0
+ALBACORA O PEZ ESPADA / IVI HEHEU        ,Xiphias gladius,Xiphias gladius,0303.5720,0,0,0
+ALBACORA O PEZ ESPADA / IVI HEHEU        ,Xiphias gladius,Xiphias gladius,0303.5790,0,0,0
+ALBACORA O PEZ ESPADA / IVI HEHEU        ,Xiphias gladius,Xiphias gladius,0304.4500,0,0,0
+ALBACORA O PEZ ESPADA / IVI HEHEU        ,Xiphias gladius,Xiphias gladius,0302.4790,0,0,0
+ANCHOVETA                                ,Engraulis ringens,Engraulis ringens,0305.3940,0,0,0
+ANGUILA,Ophichthus spp.,Anguilla spp.,0301.9200,0,0,1
+ANGUILA,Ophichthus spp.,Anguilla spp.,0302.7400,0,0,0
+ANGUILA,Ophichthus spp.,Anguilla spp.,0304.5100,1,0,0
+ANGUILA,Ophichthus spp.,Anguilla spp.,0305.6400,1,0,0
+ANGUILA,Ophichthus spp.,Anguilla spp.,0304.3900,1,0,0
+ANGUILA,Ophichthus spp.,Anguilla spp.,0305.5200,1,0,0
+ANGUILA,Ophichthus spp.,Anguilla spp.,0304.6900,1,0,0
+ANGUILA,Ophichthus spp.,Anguilla spp.,0305.4400,1,0,0
+ANGUILA,Ophichthus spp.,Anguilla spp.,0305.3100,1,0,0
+ANGUILA,Ophichthus spp.,Anguilla spp.,0304.9300,1,0,0
+ANGUILA,Ophichthus spp.,Anguilla spp.,0303.2600,0,0,0
+ANGUILA                                  ,Ophichthus spp.,Anguilas,1604.1700,0,1,0
+ANGUILA,Ophichthus spp.,Anguilla spp.,0302.5990,1,0,0
+ANGUILA BABOSA                           ,Eptatretus polytrema,NA,NA,NA,NA,NA
+APAÑADO                                  ,Hemilutjanus macrophthalmos,NA,NA,NA,NA,NA
+ATUN ALETA AMARILLA / KAHI AVE AVE       ,Thunnus albacares,Thunnus albacares,0302.3200,0,0,0
+ATUN ALETA AMARILLA / KAHI AVE AVE       ,Thunnus albacares,Thunnus albacares,0303.4200,0,0,0
+ATUN ALETA LARGA                         ,Thunnus albacares,Thunnus alalunga,0302.3110,0,0,0
+ATUN ALETA LARGA                         ,Thunnus albacares,Thunnus alalunga,0302.3120,0,0,0
+ATUN ALETA LARGA                         ,Thunnus albacares,Thunnus alalunga,0303.4190,0,0,0
+ATUN ALETA LARGA                         ,Thunnus albacares,Thunnus alalunga,0303.4120,0,0,0
+ATUN ALETA LARGA                         ,Thunnus albacares,Thunnus alalunga,0303.4110,0,0,0
+ATUN ALETA LARGA                         ,Thunnus albacares,Thunnus alalunga,0302.3190,0,0,0
+ATUN CHAUCHERA                           ,Gatrochisma melampus,NA,NA,NA,NA,NA
+AZULEJO                                  ,Prionace glauca,Prionace glauca,302.9212,0,0,0
+AZULEJO                                  ,Prionace glauca,Prionace glauca,0302.8112,0,0,0
+AZULEJO                                  ,Prionace glauca,Prionace glauca,0303.8112,0,0,0
+AZULEJO                                  ,Prionace glauca,Prionace glauca,0303.9212,0,0,0
+AZULEJO                                  ,Prionace glauca,Prionace glauca,0304.4712,0,0,0
+AZULEJO                                  ,Prionace glauca,Prionace glauca,0304.5612,0,0,0
+AZULEJO                                  ,Prionace glauca,Prionace glauca,0304.8812,0,0,0
+AZULEJO                                  ,Prionace glauca,Prionace glauca,0304.9612,0,0,0
+AZULEJO                                  ,Prionace glauca,Prionace glauca,0305.7112,0,0,0
+BACALADILLO O MOTE                       ,Normanichthys crockeri,NA,NA,NA,NA,NA
+BACALAO DE PROFUNDIDAD                   ,Dissostichus eleginoides,Dissostichus eleginoides,302.8312,0,0,0
+BACALAO DE PROFUNDIDAD                   ,Dissostichus eleginoides,Dissostichus eleginoides,302.8311,0,0,0
+BACALAO DE PROFUNDIDAD                   ,Dissostichus eleginoides,Dissostichus eleginoides,302.8313,0,0,0
+BACALAO DE PROFUNDIDAD                   ,Dissostichus eleginoides,Dissostichus eleginoides,302.8319,0,0,0
+BACALAO DE PROFUNDIDAD                   ,Dissostichus eleginoides,Dissostichus eleginoides,0303.8312 ,0,0,0
+BACALAO DE PROFUNDIDAD                   ,Dissostichus eleginoides,Dissostichus eleginoides,0303.8311 ,0,0,0
+BACALAO DE PROFUNDIDAD                   ,Dissostichus eleginoides,Dissostichus eleginoides,0303.8313,0,0,0
+BACALAO DE PROFUNDIDAD                   ,Dissostichus eleginoides,Dissostichus eleginoides,0303.8319,0,0,0
+BACALAO DE PROFUNDIDAD                   ,Dissostichus eleginoides,Dissostichus eleginoides,0304.4610 ,0,0,0
+BACALAO DE PROFUNDIDAD                   ,Dissostichus eleginoides,Dissostichus eleginoides,304.8510,0,0,0
+BACALAO DE PROFUNDIDAD                   ,Dissostichus eleginoides,Dissostichus eleginoides,304.9211,0,0,0
+BACALAO DE PROFUNDIDAD                   ,Dissostichus eleginoides,Dissostichus eleginoides,304.9212,0,0,0
+BACALAO DE PROFUNDIDAD                   ,Dissostichus eleginoides,Dissostichus eleginoides,304.9219,0,0,0
+BACALAO DE PROFUNDIDAD                   ,Dissostichus eleginoides,Dissostichus eleginoides,0305.3950,0,0,0
+"BACALAO I.PASCUA,ATUN ESCOFINA/KONSO     ",Ruvettus pretiosus,NA,NA,NA,NA,NA
+BESUGO                                   ,Epigonus crassicaudus,Epigonus crassicaudus ,0303.8994,0,0,0
+BESUGO                                   ,Epigonus crassicaudus,Epigonus crassicaudus ,0304.8950 ,0,0,0
+BESUGO                                   ,Epigonus crassicaudus,Epigonus crassicaudus ,0303.8994 ,0,0,0
+BLANQUILLO                               ,Prolatilus jugularis,NA,NA,NA,NA,NA
+BONITO                                   ,Sarda chiliensis,Sarda spp.,0305.5400,1,0,0
+BONITO                                   ,Sarda chiliensis,Sarda spp.,0302.4900,1,0,0
+BONITO                                   ,Sarda chiliensis,Sarda spp.,0303.5900,1,0,0
+BONITO                                   ,Sarda chiliensis,Sarda spp.,0305.5400,1,0,0
+BONITO                                   ,Sarda chiliensis,Sarda spp.,0302.4900,1,0,0
+BONITO                                   ,Sarda chiliensis,Sarda spp.,0303.5900,1,0,0
+BONITO                                   ,Sarda chiliensis,Sarda spp.,0305.5400,1,0,0
+BONITO                                   ,Sarda chiliensis,Sarda spp.,0302.4900,1,0,0
+BONITO                                   ,Sarda chiliensis,Sarda spp.,0303.5900,1,0,0
+BONITO                                   ,Sarda chiliensis,Sarda spp.,0305.5400,1,0,0
+BONITO                                   ,Sarda chiliensis,Sarda spp.,0302.4900,1,0,0
+BONITO                                   ,Sarda chiliensis,Sarda spp.,0303.5900,1,0,0
+BONITO                                   ,Sarda chiliensis,Bonito,1604.1430,0,1,0
+BONITO                                   ,Sarda chiliensis,Bonito,1604.2020,0,1,0
+BRECA O BILAGAY                          ,Cheilodactylus variegatus,NA,NA,NA,NA,NA
+CABALLA                                  ,Scomber japonicus,Scomber japonicus,0302.4400,1,0,0
+CABALLA                                  ,Scomber japonicus,Scomber japonicus,0303.5411,0,0,0
+CABALLA                                  ,Scomber japonicus,Scomber japonicus,0303.5419,0,0,0
+CABALLA                                  ,Scomber japonicus,Scomber japonicus,0304.4992,0,0,0
+CABALLA                                  ,Scomber japonicus,Scomber japonicus,0304.8974,0,0,0
+CABALLA                                  ,Scomber japonicus,Scomber japonicus,0304.9969,1,0,0
+CABALLA                                  ,Scomber japonicus,Scomber japonicus,0305.5400,1,0,0
+CABALLA                                  ,Scomber japonicus,Scomber japonicus,0302.4400,1,0,0
+CABALLA                                  ,Scomber japonicus,Caballas,1604.1500,0,1,0
+CABALLA                                  ,Scomber japonicus,Caballas,1604.2050,0,1,0
+CABINZA                                  ,Isacia conceptionis,NA,NA,NA,NA,NA
+CABRILLA COMUN                           ,Paralabrax humeralis,NA,NA,NA,NA,NA
+CABRILLA ESPAÑOLA                        ,Sebastes capensis,NA,NA,NA,NA,NA
+CANQUE                                   ,Stellifer minor,NA,NA,NA,NA,NA
+CHANCHARRO                               ,Helicolenus lengerichi,NA,NA,NA,NA,NA
+CHASQUE O CHALACO                        ,Auchenionchus spp.,NA,NA,NA,NA,NA 
+COJINOBA DEL NORTE / PIAFRI              ,Seriolella violacea,Seriolella violacea,0302.8946,1,0,0
+COJINOBA DEL NORTE / PIAFRI              ,Seriolella violacea,Seriolella violacea,0302.8947,1,0,0
+COJINOBA DEL NORTE / PIAFRI              ,Seriolella violacea,Seriolella violacea,0303.8951,1,0,0
+COJINOBA DEL NORTE / PIAFRI              ,Seriolella violacea,Seriolella violacea,0303.8952,1,0,0
+COJINOBA DEL NORTE / PIAFRI              ,Seriolella violacea,Seriolella violacea,0303.8953,1,0,0
+COJINOBA DEL NORTE / PIAFRI              ,Seriolella violacea,Seriolella violacea,0303.8959,1,0,0
+COJINOBA DEL SUR O AZUL                  ,Seriolella caerulea,Seriolella caerulea,0303.8951,1,0,0
+COJINOBA DEL SUR O AZUL                  ,Seriolella caerulea,Seriolella caerulea,0303.8952,1,0,0
+COJINOBA DEL SUR O AZUL                  ,Seriolella caerulea,Seriolella caerulea,0303.8953,1,0,0
+COJINOBA DEL SUR O AZUL                  ,Seriolella caerulea,Seriolella caerulea,0303.8959,1,0,0
+COJINOBA DEL SUR O AZUL                  ,Seriolella caerulea,Seriolella caerulea,0302.8946,1,0,0
+COJINOBA DEL SUR O AZUL                  ,Seriolella caerulea,Seriolella caerulea,0302.8947,1,0,0
+CONGRIO COLORADO                         ,Genypterus chilensis,Congrio,1604.1920,1,1,0
+CONGRIO COLORADO                         ,Genypterus chilensis,Genypterus chilensis,0302.8943,1,0,0
+CONGRIO COLORADO                         ,Genypterus chilensis,Genypterus chilensis,0302.8944,1,0,0
+CONGRIO COLORADO                         ,Genypterus chilensis,Genypterus chilensis,0303.8943,1,0,0
+CONGRIO COLORADO                         ,Genypterus chilensis,Genypterus chilensis,0303.8944,1,0,0
+CONGRIO COLORADO                         ,Genypterus chilensis,Genypterus chilensis,0304.8930,1,0,0
+CONGRIO COLORADO                         ,Genypterus chilensis,Genypterus chilensis,0304.9971,1,0,0
+CONGRIO COLORADO                         ,Genypterus chilensis,Genypterus chilensis,0304.9979,1,0,0
+CONGRIO DORADO                           ,Genypterus blacodes,Congrio,1604.1920,1,1,0
+CONGRIO DORADO                           ,Genypterus blacodes,Genypterus blacodes,0302.8941,0,0,0
+CONGRIO DORADO                           ,Genypterus blacodes,Genypterus blacodes,0302.8942,0,0,0
+CONGRIO DORADO                           ,Genypterus blacodes,Genypterus blacodes,0302.8945,0,0,0
+CONGRIO DORADO                           ,Genypterus blacodes,Genypterus blacodes,0303.8941,0,0,0
+CONGRIO DORADO                           ,Genypterus blacodes,Genypterus blacodes,0303.8942,0,0,0
+CONGRIO DORADO                           ,Genypterus blacodes,Genypterus blacodes,0303.8945,0,0,0
+CONGRIO DORADO                           ,Genypterus blacodes,Genypterus blacodes,0304.9971,1,0,0
+CONGRIO DORADO                           ,Genypterus blacodes,Genypterus blacodes,0304.9979,1,0,0
+CONGRIO NEGRO                            ,Genypterus maculatus,Genypterus maculatus,0302.8943,1,0,0
+CONGRIO NEGRO                            ,Genypterus maculatus,Congrio,1604.1920,1,1,0
+CONGRIO NEGRO                            ,Genypterus maculatus,Genypterus maculatus,0302.8944,1,0,0
+CONGRIO NEGRO                            ,Genypterus maculatus,Genypterus maculatus,0303.8943,1,0,0
+CONGRIO NEGRO                            ,Genypterus maculatus,Genypterus maculatus,0303.8944,1,0,0
+CONGRIO NEGRO                            ,Genypterus maculatus,Genypterus maculatus,0304.8930,1,0,0
+CONGRIO NEGRO                            ,Genypterus maculatus,Genypterus maculatus,0304.9971,1,0,0
+CONGRIO NEGRO                            ,Genypterus maculatus,Genypterus maculatus,0304.9979,1,0,0
+CORVINA                                  ,Cilus gilberti,Cilus gilberti,0303.8910,0,0,0
+CORVINA                                  ,Cilus gilberti,Cilus gilberti,0302.8910,0,0,0
+DORADO DE ALTURA / MAHI MAHI             ,Coryphaena hippurus,Coryphaena hippurus,0303.8996,0,0,0
+DORADO DE ALTURA / MAHI MAHI             ,Coryphaena hippurus,Coryphaena hippurus,0304.8960,0,0,0
+EMPERADOR                                ,Luvarus imperialis,NA,NA,NA,NA,NA
+JERGUILLA                                ,Aplodactylus punctatus,NA,NA,NA,NA,NA
+JUREL                                    ,Trachurus murphyi,Trachurus murphyi,0303.5511,0,0,0
+JUREL                                    ,Trachurus murphyi,Trachurus murphyi,0303.5512,0,0,0
+JUREL                                    ,Trachurus murphyi,Trachurus murphyi,0303.5513,0,0,0
+JUREL                                    ,Trachurus murphyi,Trachurus murphyi,0303.5519,0,0,0
+JUREL                                    ,Trachurus murphyi,Trachurus murphyi,0304.9963,0,0,0
+JUREL                                    ,Trachurus murphyi,Trachurus murphyi,0304.9964,0,0,0
+JUREL                                    ,Trachurus murphyi,Trachurus murphyi,0304.8973,0,0,0
+JUREL                                    ,Trachurus murphyi,Trachurus murphyi,0304.4991,0,0,0
+JUREL                                    ,Trachurus murphyi,Trachurus murphyi,0302.4511,0,0,0
+JUREL                                    ,Trachurus murphyi,Trachurus murphyi,0302.4512,0,0,0
+JUREL                                    ,Trachurus murphyi,Trachurus murphyi,0302.4519,0,0,0
+JUREL                                    ,Trachurus murphyi,Jurel,1604.1911,0,1,0
+JUREL                                    ,Trachurus murphyi,Jurel,1604.1912,0,1,0
+JUREL                                    ,Trachurus murphyi,Jurel,1604.1913,0,1,0
+JUREL                                    ,Trachurus murphyi,Jurel,1604.1919,0,1,0
+JUREL                                    ,Trachurus murphyi,Jurel,1604.2040,1,1,0
+JUREL                                    ,Trachurus murphyi,Trachurus murphyi,0305.3930,0,0,0
+JUREL DE JUAN FERNANDEZ                  ,Caranx georgianus,Caranx spp.,0305.5400,1,0,0
+JUREL DE JUAN FERNANDEZ                  ,Caranx georgianus,Caranx spp.,0302.4900,1,0,0
+JUREL DE JUAN FERNANDEZ                  ,Caranx georgianus,Caranx spp.,0303.5900,1,0,0
+LENGUADO                                 ,Paralichthys spp.,Solea spp.,0302.2300,0,0,0
+LENGUADO                                 ,Paralichthys spp.,Solea spp.,0303.3300,0,0,0
+LENGUADO DE OJOS CHICOS                  ,Paralichthys microps,NA,NA,NA,NA,NA
+LISA                                     ,Mugil cephalus,NA,NA,NA,NA,NA
+MACHUELO O TRITRE                        ,Ethmidium maculatum,NA,NA,NA,NA,NA
+MARLIN                                   ,"Tetrapturus spp., Makaira spp",Istiophoridae,0303.5900,1,0,0
+MARLIN                                   ,"Tetrapturus spp., Makaira spp",Istiophoridae,0305.5400,1,0,0
+MARLIN                                   ,"Tetrapturus spp., Makaira spp",Istiophoridae,0302.4900,1,0,0
+MARLIN RAYADO                            ,Tetrapturus auda,Istiophoridae,0303.5900,1,0,0
+MARLIN RAYADO                            ,Tetrapturus auda,Istiophoridae,0305.5400,1,0,0
+MARLIN RAYADO                            ,Tetrapturus auda,Istiophoridae,0302.4900,1,0,0
+MERLUZA COMUN                            ,Merluccius gayi gayi,Merluccius gayi gayi,0302.5411,0,0,0
+MERLUZA COMUN                            ,Merluccius gayi gayi,Merluccius gayi gayi,0302.5412,0,0,0
+MERLUZA COMUN                            ,Merluccius gayi gayi,Merluccius gayi gayi,0302.5415,0,0,0
+MERLUZA COMUN                            ,Merluccius gayi gayi,Merluccius gayi gayi,0303.6611,0,0,0
+MERLUZA COMUN                            ,Merluccius gayi gayi,Merluccius gayi gayi,0303.6612,0,0,0
+MERLUZA COMUN                            ,Merluccius gayi gayi,Merluccius gayi gayi,0303.6615,0,0,0
+MERLUZA COMUN                            ,Merluccius gayi gayi,Merluccius gayi gayi,0304.4410,0,0,0
+MERLUZA COMUN                            ,Merluccius gayi gayi,Merluccius gayi gayi,0304.7411,0,0,0
+MERLUZA COMUN                            ,Merluccius gayi gayi,Merluccius gayi gayi,0304.9511,0,0,0
+MERLUZA COMUN                            ,Merluccius gayi gayi,Merluccius gayi gayi,0304.9512,1,0,0
+MERLUZA COMUN                            ,Merluccius gayi gayi,Merluccius gayi gayi,0304.9513,1,0,0
+MERLUZA COMUN                            ,Merluccius gayi gayi,Merluccius gayi gayi,304.9514,0,0,0
+MERLUZA COMUN                            ,Merluccius gayi gayi,Merluza,1604.1940,1,1,0
+MERLUZA COMUN                            ,Merluccius gayi gayi,Merluza,1604.2070,1,1,0
+MERLUZA DE COLA                          ,Macruronus magellanicus,Macruronus magellanicus,0302.5911,0,0,0
+MERLUZA DE COLA                          ,Macruronus magellanicus,Macruronus magellanicus,0302.5912,0,0,0
+MERLUZA DE COLA                          ,Macruronus magellanicus,Macruronus magellanicus,0302.5919,0,0,0
+MERLUZA DE COLA                          ,Macruronus magellanicus,Macruronus magellanicus,0303.6910,0,0,0
+MERLUZA DE COLA                          ,Macruronus magellanicus,Macruronus magellanicus,0304.4430,0,0,0
+MERLUZA DE COLA                          ,Macruronus magellanicus,Macruronus magellanicus,0304.7910,0,0,0
+MERLUZA DE COLA                          ,Macruronus magellanicus,Merluza,1604.1940,1,0,0
+MERLUZA DE COLA                          ,Macruronus magellanicus,Merluza,1604.2070,1,0,0
+MERLUZA DEL SUR O AUSTRAL                ,Merluccius australis,Merluccius australis,0304.4420,0,0,0
+MERLUZA DEL SUR O AUSTRAL                ,Merluccius australis,Merluccius australis,0304.7412,0,0,0
+MERLUZA DEL SUR O AUSTRAL                ,Merluccius australis,Merluccius australis,0302.5413,0,0,0
+MERLUZA DEL SUR O AUSTRAL                ,Merluccius australis,Merluccius australis,0302.5414,0,0,0
+MERLUZA DEL SUR O AUSTRAL                ,Merluccius australis,Merluccius australis,0302.5416,0,0,0
+MERLUZA DEL SUR O AUSTRAL                ,Merluccius australis,Merluccius australis,0303.6613,0,0,0
+MERLUZA DEL SUR O AUSTRAL                ,Merluccius australis,Merluccius australis,0303.6614,0,0,0
+MERLUZA DEL SUR O AUSTRAL                ,Merluccius australis,Merluccius australis,0303.6616,0,0,0
+MERLUZA DEL SUR O AUSTRAL                ,Merluccius australis,Merluza,1604.1940,1,1,0
+MERLUZA DEL SUR O AUSTRAL                ,Merluccius australis,Merluza,1604.2070,1,1,0
+MORENA DE ALETA BAJA / KOREHA HA OKO     ,Gymnothorax porphyreus,NA,NA,NA,NA,NA
+PAMPANITO                                ,Stromateus stellatus,NA,NA,NA,NA,NA
+PAMPANITO DE JUAN FERNANDEZ              ,Scorpis chilensis,NA,NA,NA,NA,NA
+PEJE GATO HOCICON                        ,Apristurus nasutus,NA,NA,NA,NA,NA
+PEJEGALLO                                ,Callorhinchus callorhynchus,NA,NA,NA,NA,NA
+PEJEPERRO                                ,Semicossyphus maculatus,NA,NA,NA,nNA,NA
+PEJERREY DE MAR                          ,Odontesthes regia,Odontesthes regia,0302.8949,1,0,0
+PEJERREY DE MAR                          ,Odontesthes regia,Odontesthes regia,0303.8998,0,0,0
+PEJESAPO                                 ,Sicyases sanguin,NA,NA,NA,NA,NA
+PESCADO NO CLASIFICADO                   ,NA,NA,NA,NA,NA,NA
+PEZ SOL                                  ,Lampris guttatus,NA,NA,NA,NA,NA
+PICHIBUENO                               ,Menticirrhus ophicephalus,NA,NA,NA,NA,NA
+PUYE                                     ,Galaxias maculatus,NA,NA,NA,NA,NA
+RAYA VOLANTIN                            ,Zearaja chilensis,Zearaja chilensis,0303.8210,0,0,0
+RAYA VOLANTIN                            ,Zearaja chilensis,Zearaja chilensis,0304.4810,0,0,0
+RAYA VOLANTIN                            ,Zearaja chilensis,Zearaja chilensis,0304.5710,0,0,0
+RAYA VOLANTIN                            ,Zearaja chilensis,Zearaja chilensis,0304.8851,0,0,0
+RAYA VOLANTIN                            ,Zearaja chilensis,Zearaja chilensis,0304.9710,0,0,0
+RAYA VOLANTIN                            ,Zearaja chilensis,Zearaja chilensis,0302.8210,0,0,0
+REINETA                                  ,Brama australis,Brama australis,0303.8921,0,0,0
+REINETA                                  ,Brama australis,Brama australis,0303.8922,0,0,0
+REINETA                                  ,Brama australis,Brama australis,0303.8929,0,0,0
+REINETA                                  ,Brama australis,Brama australis,0302.8921,0,0,0
+REINETA                                  ,Brama australis,Brama australis,0302.8922,0,0,0
+REINETA                                  ,Brama australis,Brama australis,0302.8929,0,0,0
+ROBALO                                   ,Eleginops maclovinus,Dicentrarchus spp.,0303.8400,0,0,0
+ROBALO                                   ,Eleginops maclovinus,Dicentrarchus spp.,0302.8400,0,0,0
+ROCOCO                                   ,Paralonchurus peruanus,NA,NA,NA,NA,NA
+ROLLIZO                                  ,Pinguipes chilensis,NA,NA,NA,NA,NA
+RONCACHO                                 ,Sciaena deliciosa,NA,NA,NA,NA,NA
+SALMON REY                               ,Oncorhynchus tshawytscha,Salmones del Pacifico,0304.9941,1,0,0
+SALMON REY                               ,Oncorhynchus tshawytscha,Salmones del Pacifico,0304.9942,1,0,0
+SALMON REY                               ,Oncorhynchus tshawytscha,Salmones del Pacifico,0305.2010,1,0,0
+SALMON REY                               ,Oncorhynchus tshawytscha,Salmones del Pacifico,0305.3910,1,0,0
+SALMON REY                               ,Oncorhynchus tshawytscha,Salmones del Pacifico,0305.4110,1,0,0
+SALMON REY                               ,Oncorhynchus tshawytscha,Salmones del Pacifico,0305.4120,1,0,0
+SALMON REY                               ,Oncorhynchus tshawytscha,Salmones del Pacifico,0305.4130,1,0,0
+SALMON REY                               ,Oncorhynchus tshawytscha,Salmones del Pacifico,0305.4170,1,0,0
+SALMON REY                               ,Oncorhynchus tshawytscha,Salmones del Pacifico,0302.1310,1,0,0
+SALMON REY                               ,Oncorhynchus tshawytscha,Salmones del Pacifico,0302.1320,1,0,0
+SALMON REY                               ,Oncorhynchus tshawytscha,Salmones del Pacifico,0302.1330,1,0,0
+SALMON REY                               ,Oncorhynchus tshawytscha,Salmones del Pacifico,0302.1340,1,0,0
+SALMON REY                               ,Oncorhynchus tshawytscha,Salmones del Pacifico,0302.1390,1,0,0
+SALMON REY                               ,Oncorhynchus tshawytscha,Salmones del Pacifico,0303.1210,1,0,0
+SALMON REY                               ,Oncorhynchus tshawytscha,Salmones del Pacifico,0303.1220,1,0,0
+SALMON REY                               ,Oncorhynchus tshawytscha,Salmones del Pacifico,0303.1230,1,0,0
+SALMON REY                               ,Oncorhynchus tshawytscha,Salmones del Pacifico,0303.1240,1,0,0
+SALMON REY                               ,Oncorhynchus tshawytscha,Salmones del Pacifico,0303.1290,1,0,0
+SALMON REY                               ,Oncorhynchus tshawytscha,Salmones del Pacifico,0304.4110,1,0,0
+SALMON REY                               ,Oncorhynchus tshawytscha,Salmones del Pacifico,0304.8110,1,0,0
+SALMON REY                               ,Oncorhynchus tshawytscha,Salmones del Pacifico,0305.5920,1,0,0
+SALMON REY                               ,Oncorhynchus tshawytscha,Salmones del Pacifico,0305.6911,1,0,0
+SALMON REY                               ,Oncorhynchus tshawytscha,Salmones del Pacifico,0305.6912,1,0,0
+SALMON REY                               ,Oncorhynchus tshawytscha,Salmones del Pacifico,0305.6913,1,0,0
+SALMON REY                               ,Oncorhynchus tshawytscha,Salmones del Pacifico,0305.6914,1,0,0
+SALMON REY                               ,Oncorhynchus tshawytscha,Salmones del Pacifico,0305.6915,1,0,0
+SALMON REY                               ,Oncorhynchus tshawytscha,Salmones del Pacifico,0305.6916,1,0,0
+SALMON REY                               ,Oncorhynchus tshawytscha,Salmones del Pacifico,0305.6919,1,0,0
+SALMON REY                               ,Oncorhynchus tshawytscha,Salmones del Pacifico,0511.9111,1,0,1
+SARDINA AUSTRAL                          ,Sprattus fuegensis,Sardinas,1604.1311,1,1,0
+SARDINA AUSTRAL                          ,Sprattus fuegensis,Sardinas,1604.1312,1,1,0
+SARDINA AUSTRAL                          ,Sprattus fuegensis,Sardinas,1604.1319,1,1,0
+SARDINA COMUN                            ,Strangomera bentincki,Sardinas,1604.1311,1,1,0
+SARDINA COMUN                            ,Strangomera bentincki,Sardinas,1604.1312,1,1,0
+SARDINA COMUN                            ,Strangomera bentincki,Sardinas,1604.1319,1,1,0
+SARDINA COMUN                            ,Strangomera bentincki,NA,NA,NA,NA,NA
+SARDINA ESPAÑOLA                       ,Sardinops sagax ,Sardinops sagax ,0302.4311,0,0,0
+SARDINA ESPAÑOLA                       ,Sardinops sagax ,Sardinops sagax ,0302.4312,0,0,0
+SARDINA ESPAÑOLA                       ,Sardinops sagax ,Sardinops sagax ,0302.4319,0,0,0
+SARDINA ESPAÑOLA                       ,Sardinops sagax ,Sardinops sagax ,0303.5311,0,0,0
+SARDINA ESPAÑOLA                       ,Sardinops sagax ,Sardinops sagax ,0303.5312,0,0,0
+SARDINA ESPAÑOLA                       ,Sardinops sagax ,Sardinops sagax ,0303.5319,0,0,0
+SARDINA ESPAÑOLA                       ,Sardinops sagax ,Sardinops sagax ,0304.4970,0,0,0
+SARDINA ESPAÑOLA                       ,Sardinops sagax ,Sardinops sagax ,0304.8971,0,0,0
+SARDINA ESPAÑOLA                       ,Sardinops sagax ,Sardinops sagax ,0304.9961,0,0,0
+SARGO                        ,Anisotremus scapularis,Sparidae,0302.8500,0,0,0
+SIERRA                                   ,Thyrsites atun,NA,NA,NA,NA,NA
+"TIBURON FUME, GRIS O GATA DE MAR         ",Hexanchus griseus,Hexanchus griseus,0302.8121,0,0,0
+"TIBURON FUME, GRIS O GATA DE MAR         ",Hexanchus griseus,Hexanchus griseus,0302.9221,0,0,0
+"TIBURON FUME, GRIS O GATA DE MAR         ",Hexanchus griseus,Hexanchus griseus,0303.8121,0,0,0
+"TIBURON FUME, GRIS O GATA DE MAR         ",Hexanchus griseus,Hexanchus griseus,0303.9221,0,0,0
+"TIBURON FUME, GRIS O GATA DE MAR         ",Hexanchus griseus,Hexanchus griseus,0304.4721,0,0,0
+"TIBURON FUME, GRIS O GATA DE MAR         ",Hexanchus griseus,Hexanchus griseus,0304.5621,0,0,0
+"TIBURON FUME, GRIS O GATA DE MAR         ",Hexanchus griseus,Hexanchus griseus,0304.8821,0,0,0
+"TIBURON FUME, GRIS O GATA DE MAR         ",Hexanchus griseus,Hexanchus griseus,0304.9621,0,0,0
+"TIBURON FUME, GRIS O GATA DE MAR         ",Hexanchus griseus,Hexanchus griseus,0305.7121,0,0,0
+TIBURON NARIGON GRIS                     ,Deania calcea,Deania calcea,0302.8122,0,0,0
+TIBURON NARIGON GRIS                     ,Deania calcea,Deania calcea,0302.9222,0,0,0
+TIBURON NARIGON GRIS                     ,Deania calcea,Deania calcea,0303.8122,0,0,0
+TIBURON NARIGON GRIS                     ,Deania calcea,Deania calcea,0303.9222,0,0,0
+TIBURON NARIGON GRIS                     ,Deania calcea,Deania calcea,0304.4722,0,0,0
+TIBURON NARIGON GRIS                     ,Deania calcea,Deania calcea,0304.5622,0,0,0
+TIBURON NARIGON GRIS                     ,Deania calcea,Deania calcea,0304.8822,0,0,0
+TIBURON NARIGON GRIS                     ,Deania calcea,Deania calcea,0304.9622,0,0,0
+TIBURON NARIGON GRIS                     ,Deania calcea,Deania calcea,0305.7122,0,0,0
+TIBURON O MARRAJO DENTUDO                ,Isurus oxyrinchus,Isurus oxyrinchus,0302.8143,0,0,0
+TIBURON O MARRAJO DENTUDO                ,Isurus oxyrinchus,Isurus oxyrinchus,0302.9243,0,0,0
+TIBURON O MARRAJO DENTUDO                ,Isurus oxyrinchus,Isurus oxyrinchus,0303.8143,0,0,0
+TIBURON O MARRAJO DENTUDO                ,Isurus oxyrinchus,Isurus oxyrinchus,0303.9243,0,0,0
+TIBURON O MARRAJO DENTUDO                ,Isurus oxyrinchus,Isurus oxyrinchus,0304.4743,0,0,0
+TIBURON O MARRAJO DENTUDO                ,Isurus oxyrinchus,Isurus oxyrinchus,0304.5643,0,0,0
+TIBURON O MARRAJO DENTUDO                ,Isurus oxyrinchus,Isurus oxyrinchus,0304.8843,0,0,0
+TIBURON O MARRAJO DENTUDO                ,Isurus oxyrinchus,Isurus oxyrinchus,0304.9643,0,0,0
+TIBURON O MARRAJO DENTUDO                ,Isurus oxyrinchus,Isurus oxyrinchus,0305.7143,0,0,0
+TIBURON SARDINERO                        ,Lamna nasus,Lamna nasus,0302.8144,0,0,0
+TIBURON SARDINERO                        ,Lamna nasus,Lamna nasus,0302.9244,0,0,0
+TIBURON SARDINERO                        ,Lamna nasus,Lamna nasus,0303.8144,0,0,0
+TIBURON SARDINERO                        ,Lamna nasus,Lamna nasus,0303.9244,0,0,0
+TIBURON SARDINERO                        ,Lamna nasus,Lamna nasus,0304.4744,0,0,0
+TIBURON SARDINERO                        ,Lamna nasus,Lamna nasus,0304.5644,0,0,0
+TIBURON SARDINERO                        ,Lamna nasus,Lamna nasus,0304.8844,0,0,0
+TIBURON SARDINERO                        ,Lamna nasus,Lamna nasus,0304.9644,0,0,0
+TIBURON SARDINERO                        ,Lamna nasus,Lamna nasus,0305.7144,0,0,0
+TOLLO                                    ,Mustelus mento,Mustelus mento,0302.8114,0,0,0
+TOLLO                                    ,Mustelus mento,Mustelus mento,0302.9217,0,0,0
+TOLLO                                    ,Mustelus mento,Mustelus mento,0303.8117,0,0,0
+TOLLO                                    ,Mustelus mento,Mustelus mento,0303.9217,0,0,0
+TOLLO                                    ,Mustelus mento,Mustelus mento,0304.4717,0,0,0
+TOLLO                                    ,Mustelus mento,Mustelus mento,0304.5617,0,0,0
+TOLLO                                    ,Mustelus mento,Mustelus mento,0304.8817,0,0,0
+TOLLO                                    ,Mustelus mento,Mustelus mento,0304.9617,0,0,0
+TOLLO                                    ,Mustelus mento,Mustelus mento,0305.7117,0,0,0
+TOLLO DE CACHOS                          ,Squalus acanthias,Squalus acanthia,0302.8123,0,0,0
+TOLLO DE CACHOS                          ,Squalus acanthias,Squalus acanthia,0302.9223,0,0,0
+TOLLO DE CACHOS                          ,Squalus acanthias,Squalus acanthia,0303.8123,0,0,0
+TOLLO DE CACHOS                          ,Squalus acanthias,Squalus acanthia,0303.9223,0,0,0
+TOLLO DE CACHOS                          ,Squalus acanthias,Squalus acanthia,0304.4723,0,0,0
+TOLLO DE CACHOS                          ,Squalus acanthias,Squalus acanthia,0304.5623,0,0,0
+TOLLO DE CACHOS                          ,Squalus acanthias,Squalus acanthia,0304.8823,0,0,0
+TOLLO DE CACHOS                          ,Squalus acanthias,Squalus acanthia,0304.9623,0,0,0
+TOLLO DE CACHOS                          ,Squalus acanthias,Squalus acanthia,0305.7123,0,0,0
+TRUCHA ARCOIRIS,Oncorhynchus mykiss,Oncorhynchus mykiss,0301.9100,1,0,0
+TRUCHA ARCOIRIS,Oncorhynchus mykiss,Oncorhynchus mykiss,0302.11,1,0,0
+TRUCHA ARCOIRIS,Oncorhynchus mykiss,Oncorhynchus mykiss,0303.14,1,0,0
+TRUCHA ARCOIRIS,Oncorhynchus mykiss,Oncorhynchus mykiss,0303.1410,1,0,0
+TRUCHA ARCOIRIS,Oncorhynchus mykiss,Oncorhynchus mykiss,0303.1420,1,0,0
+TRUCHA ARCOIRIS,Oncorhynchus mykiss,Oncorhynchus mykiss,0303.1430,1,0,0
+TRUCHA ARCOIRIS,Oncorhynchus mykiss,Oncorhynchus mykiss,0303.1440,1,0,0
+TRUCHA ARCOIRIS,Oncorhynchus mykiss,Oncorhynchus mykiss,0303.1490,1,0,0
+TRUCHA ARCOIRIS,Oncorhynchus mykiss,Oncorhynchus mykiss,0304.4200,1,0,0
+TRUCHA ARCOIRIS,Oncorhynchus mykiss,Oncorhynchus mykiss,0304.8200,1,0,0
+TRUCHA ARCOIRIS,Oncorhynchus mykiss,Oncorhynchus mykiss,0304.9951,1,0,0
+TRUCHA ARCOIRIS,Oncorhynchus mykiss,Oncorhynchus mykiss,0304.9959,1,0,0
+TRUCHA ARCOIRIS,Oncorhynchus mykiss,Oncorhynchus mykiss,0305.2020,1,0,0
+TRUCHA ARCOIRIS,Oncorhynchus mykiss,Oncorhynchus mykiss,0305.3920,1,0,0
+TRUCHA ARCOIRIS,Oncorhynchus mykiss,Oncorhynchus mykiss,0305.43,1,0,0
+TRUCHA ARCOIRIS,Oncorhynchus mykiss,Oncorhynchus mykiss,0305.4310,1,0,0
+TRUCHA ARCOIRIS,Oncorhynchus mykiss,Oncorhynchus mykiss,0305.4320,1,0,0
+TRUCHA ARCOIRIS,Oncorhynchus mykiss,Oncorhynchus mykiss,0305.4330,1,0,0
+TRUCHA ARCOIRIS,Oncorhynchus mykiss,Oncorhynchus mykiss,0305.4390,1,0,0
+TURBOT,Scophtalmus maximus,Psetta maxima,0302.2400,0,0,0
+TURBOT,Scophtalmus maximus,Psetta maxima,0303.3400,0,0,0
+"VIDRIOLA, PALOMETA, DORADO O TOREMO      ",Seriola lalandi,NA,NA,NA,NA,NA
+VIEJA O MULATA                           ,Graus nigra,NA,NA,NA,NA,NA
+VINCIGUERRIA,Vinciguerria lucetia pacifici ,NA,NA,NA,NA,NA
+ABALON JAPONES,Haliotis discus hannai,Haliotis discus hannai,0307.8110,0,0,0
+ABALON JAPONES,Haliotis discus hannai,Haliotis discus hannai,0307.8320,0,0,0
+ABALON JAPONES,Haliotis discus hannai,Haliotis discus hannai,1605.5710,0,1,0
+ABALON ROJO,Haliotis rufescens ,Haliotis rufescens ,0307.8310,0,0,0
+ALMEJA                                   ,Venus antiqua,Ameghinomya antiqua,0307.7110,1,0,1
+ALMEJA                                   ,Venus antiqua,Ameghinomya antiqua,0307.7211,1,0,0
+ALMEJA                                   ,Venus antiqua,Ameghinomya antiqua,1605.5611,1,1,0
+ALMEJA O TACA,Protothaca taca,Protothaca taca,0307.7110,1,0,1
+ALMEJA O TACA,Protothaca taca,Protothaca taca,0307.7211,1,0,0
+ALMEJA O TACA,Protothaca taca,Protothaca taca,1605.5611,1,1,0
+CALAMAR                                  ,Loligo gahi ,Loligo spp,0307.4220,1,0,1
+CARACOL LOCATE                           ,Thais chocolata ,Thais chocolata ,0307.9224,0,0,0
+CARACOL LOCATE                           ,Thais chocolata ,Thais chocolata ,1605.5934,0,1,0
+CARACOL PALO PALO                        ,Argobuccinum spp. ,Argobuccinum spp. ,0307.9223,0,0,0
+CARACOL PALO PALO                        ,Argobuccinum spp. ,Argobuccinum spp. ,1605.5933,0,1,0
+CARACOL PICUYO                           ,Odontocymbiola magellanica ,NA,NA,NA,NA,NA
+CARACOL REAL O GIGANTE O VOLUTA ANGULOSA,Zidona dufresnei,Zidona dufresnei,0307.9221,0,0,0
+CARACOL REAL O GIGANTE O VOLUTA ANGULOSA,Zidona dufresnei,Zidona dufresnei,1605.5931,0,1,0
+CARACOL RUBIO                            ,Xantochorus cassidiformis ,NA,NA,NA,NA,NA
+CARACOL TEGULA                           ,Tegula atra,NA,NA,NA,NA,NA
+CARACOL TRUMULCO                         ,Chorus giganteus,NA,NA,NA,NA,NA
+CARACOL TROPHON                      ,Trophon geversianus,Trophon gervesianus,0307.9222,0,0,0
+CARACOL TROPHON                      ,Trophon geversianus,Trophon gervesianus,1605.5932,0,1,0
+CHOCHA                                   ,Trochita trochiformes,NA,NA,NA,NA,NA
+CHOLGA                                   , Aulacomya ater,NA,1605.5300,1,1,0
+CHORITO                                  ,Mytilus chilensis ,Mytilus spp.,0307.3100,1,0,1
+CHORITO                                  ,Mytilus chilensis ,Mytilus spp.,0307.3200,1,0,0
+CHORITO                                  ,Mytilus chilensis ,Mytilus spp.,0307.3900,1,0,0
+CHORO                                    ,Choromytilus chorus,NA,1605.5300,1,1,0
+CULENGUE                                 ,Gari solida,Gari solida,1605.5970,0,0,0
+HUEPO O NAVAJA DE MAR                    ,Ensis macha,Ensis macha,0307.7120,0,0,0
+HUEPO O NAVAJA DE MAR                    ,Ensis macha,Ensis macha,0307.7215,0,0,0
+HUEPO O NAVAJA DE MAR                    ,Ensis macha,Ensis macha,1605.5960,0,1,0
+JIBIA O CALAMAR ROJO                     ,Dosidicus gigas,Dosidicus gigas,0307.4320,0,0,0
+JIBIA O CALAMAR ROJO                     ,Dosidicus gigas,Dosidicus gigas,0307.4330,0,0,0
+JIBIA O CALAMAR ROJO                     ,Dosidicus gigas,Dosidicus gigas,0307.4340,0,0,0
+JULIANA O TAWERA                         ,Tawera gayi,Tawera gayi,0307.7212,0,0,0
+JULIANA O TAWERA                         ,Tawera gayi,Tawera gayi,1605.5612,0,1,0
+LAPA                                     ,Fissurella spp.,Fissurella spp.,0307.9230,0,0,0
+LAPA NEGRA                               ,Fissurella latimarginata,NA,NA,NA,NA,NA
+LAPA PICTA                               , Fissurella picta,NA,NA,NA,NA,NA
+LAPA REINA                               ,Fissurella maxima,NA,NA,NA,NA,NA
+LAPA ROSADA                              ,Fissurella cumingi ,NA,NA,NA,NA,NA
+LOCO                                     ,Concholepas concholepas,Concholepas concholepas,0307.9130,0,0,0
+LOCO                                     ,Concholepas concholepas,Concholepas concholepas,0307.9210,0,0,0
+LOCO                                     ,Concholepas concholepas,Concholepas concholepas,1605.5920,0,1,0
+MACHA                                    ,Mesodesma donacium,Mesodesma donacium,0307.7213,0,0,0
+MACHA                                    ,Mesodesma donacium,Mesodesma donacium,1605.5910,0,0,0
+NAVAJUELA                                ,Tagelus dombeii,Tagelus dombeii,0307.7216,0,0,0
+NAVAJUELA                                ,Tagelus dombeii,Tagelus dombeii,1605.5950,0,1,0
+OSTION DEL NORTE,Argopecten purpuratus ,Argopecten purpuratus ,0307.2110,0,0,0
+OSTION DEL NORTE,Argopecten purpuratus ,Argopecten purpuratus ,0307.2210,0,0,0
+OSTION DEL NORTE,Argopecten purpuratus ,Argopecten purpuratus ,0307.2910,0,0,0
+OSTION DEL NORTE,Argopecten purpuratus ,Argopecten purpuratus ,1605.5210,1,1,0
+OSTION DEL SUR                           ,Chlamys vitrea,NA,NA,NA,NA,NA
+OSTION PATAGONICO,Chlamys patagonica,Chlamys patagonica,0307.2120,0,0,0
+OSTION PATAGONICO,Chlamys patagonica,Chlamys patagonica,0307.2220,0,0,0
+OSTION PATAGONICO,Chlamys patagonica,Chlamys patagonica,0307.2920,0,0,0
+OSTION PATAGONICO,Chlamys patagonica,Chlamys patagonica,1605.5210,1,1,0
+OSTRA CHILENA                            ,Ostrea chilensis,Ostrea chilensis,0307.1110,0,0,1
+OSTRA CHILENA                            ,Ostrea chilensis,Ostrea chilensis,0307.1210,0,0,0
+OSTRA DEL PACIFICO,Crassostrea gigas,Crassostrea gigas,0307.1120,0,0,1
+OSTRA DEL PACIFICO,Crassostrea gigas,Crassostrea gigas,0307.1220,0,0,0
+OSTRA DEL PACIFICO,Crassostrea gigas,Crassostrea gigas,1605.5100,1,1,0
+PULPO DEL NORTE                          ,Octopus (vulgaris) mimus,Octopus mimus,0307.5110,0,0,1
+PULPO DEL NORTE                          ,Octopus (vulgaris) mimus,Octopus mimus,0307.5210,0,0,0
+PULPO DEL SUR                            ,Enteroctopus megalocyathus, Enteroctopus megalocyathus,0307.5120,0,0,1
+PULPO DEL SUR                            ,Enteroctopus megalocyathus, Enteroctopus megalocyathus,0307.5220,0,0,0
+TAQUILLA                                 ,Mulinia edulis,NA,NA,NA,NA,NA
+TUMBAO                                   ,Semele solida,Semele solida,0307.7214,0,0,0
+CAMARON NAILON                           ,Heterocarpus reedi,Heterocarpus reedi,0306.1711,0,0,0
+CAMARON NAILON                           ,Heterocarpus reedi,Heterocarpus reedi,0306.3611,0,0,0
+CAMARON NAILON                           ,Heterocarpus reedi,Heterocarpus reedi,1605.2111,0,1,0
+CAMARON NAILON                           ,Heterocarpus reedi,Heterocarpus reedi,1605.2121,0,1,0
+CAMARON NAILON                           ,Heterocarpus reedi,Heterocarpus reedi,1605.2911,0,1,0
+CAMARON DE RIO DEL NORTE,Cryphiops caementarius,Cryphiops caementarius,0306.1713,0,0,0
+CAMARON DE RIO DEL NORTE,Cryphiops caementarius,Cryphiops caementarius,0306.3613,0,0,0
+CAMARON DE RIO DEL NORTE,Cryphiops caementarius,Cryphiops caementarius,1605.2113,0,1,0
+CAMARON DE RIO DEL NORTE,Cryphiops caementarius,Cryphiops caementarius,1605.2123,0,1,0
+CAMARON DE RIO DEL NORTE,Cryphiops caementarius,Cryphiops caementarius,1605.2913,0,1,0
+CAMARON ECUATORIANO O PENAEUE,Penaeus vannamei,Penaeus vannamei,0306.1712,0,0,0
+CAMARON ECUATORIANO O PENAEUE,Penaeus vannamei,Penaeus vannamei,0306.3612,0,0,0
+CAMARON ECUATORIANO O PENAEUE,Penaeus vannamei,Penaeus vannamei,1605.2112,0,1,0
+CAMARON ECUATORIANO O PENAEUE,Penaeus vannamei,Penaeus vannamei,1605.2122,0,1,0
+CAMARON ECUATORIANO O PENAEUE,Penaeus vannamei,Penaeus vannamei,1605.2912,0,1,0
+CANGREJO DORADO DE J. FERNANDEZ          ,Chaceon chilensis,NA,NA,NA,NA,NA
+CENTOLLA                                 ,Lithodes santolla,Lithodes santolla,0306.1421,0,0,0
+CENTOLLA                                 ,Lithodes santolla,Lithodes santolla,0306.3321,0,0,0
+CENTOLLA                                 ,Lithodes santolla,Lithodes santolla,1605.1022,0,1,0
+CENTOLLA                                 ,Lithodes santolla,Lithodes santolla,1605.1026,0,1,0
+CENTOLLON                                ,Paralomis granulosa,Paralomis granulosa,0306.1423,0,0,0
+CENTOLLON DEL NORTE                      ,NA,Paralomis spp,0306.1424,0,0,0
+CENTOLLON                                ,Paralomis granulosa,Paralomis granulosa,0306.3323,0,0,0
+CENTOLLON DEL NORTE                      ,NA,Paralomis spp,0306.3324,0,0,0
+CENTOLLON                                ,Paralomis granulosa,Paralomis granulosa,1605.1023,0,1,0
+CENTOLLON DEL NORTE                      ,NA,Paralomis spp,1605.1024,0,1,0
+CENTOLLON                                ,Paralomis granulosa,Paralomis granulosa,1605.1028,0,1,0
+CENTOLLON DEL NORTE                      ,NA,Paralomis spp,1605.1029,0,1,0
+GAMBA                                    ,Haliporoides diomedeae,Haliporoides diomedeae,0306.1791,0,0,0
+GAMBA                                    ,Haliporoides diomedeae,Haliporoides diomedeae,0306.3691,0,0,1
+GAMBA                                    ,Haliporoides diomedeae,Haliporoides diomedeae,1605.2151,0,1,0
+GAMBA                                    ,Haliporoides diomedeae,Haliporoides diomedeae,1605.2161,0,1,0
+GAMBA                                    ,Haliporoides diomedeae,Haliporoides diomedeae,1605.2931,0,1,0
+JAIBA,Cancer spp.,Cancer spp.,0306.1410,1,0,0
+JAIBA,Cancer spp.,Cancer spp.,0306.3310,1,0,1
+JAIBA,Cancer spp.,Cancer spp.,1605.1011,1,1,0
+JAIBA,Cancer spp.,Cancer spp.,1605.1012,1,1,0
+JAIBA,Cancer spp.,Cancer spp.,1605.1019,1,1,0
+JAIBA LIMON                              ,Cancer porteri,Cancer porteri,0306.1410,1,0,0
+JAIBA LIMON                              ,Cancer porteri,Cancer porteri,0306.3310,1,0,1
+JAIBA LIMON                              ,Cancer porteri,Cancer porteri,1605.1011,1,1,0
+JAIBA LIMON                              ,Cancer porteri,Cancer porteri,1605.1012,1,1,0
+JAIBA LIMON                              ,Cancer porteri,Cancer porteri,1605.1019,1,1,0
+JAIBA MARMOLA                            ,Cancer edwardsi,Cancer edwardsi,0306.1410,1,0,0
+JAIBA MARMOLA                            ,Cancer edwardsi,Cancer edwardsi,0306.3310,1,0,1
+JAIBA MARMOLA                            ,Cancer edwardsi,Cancer edwardsi,1605.1011,1,1,0
+JAIBA MARMOLA                            ,Cancer edwardsi,Cancer edwardsi,1605.1012,1,1,0
+JAIBA MARMOLA                            ,Cancer edwardsi,Cancer edwardsi,1605.1019,1,1,0
+JAIBA MORA                               ,Homalaspis plana,Homalaspis plana,0306.1410,1,0,0
+JAIBA MORA                               ,Homalaspis plana,Homalaspis plana,0306.3310,1,0,1
+JAIBA MORA                               ,Homalaspis plana,Homalaspis plana,1605.1011,1,1,0
+JAIBA MORA                               ,Homalaspis plana,Homalaspis plana,1605.1012,1,1,0
+JAIBA MORA                               ,Homalaspis plana,Homalaspis plana,1605.1019,1,1,0
+JAIBA PACO                               ,Mursia gaudichaudi,NA,NA,NA,NA,NA
+JAIBA PANCHOTE O CANGREJO                ,Taliepus dentatus,Taliepus dentatus,0306.1410,1,0,0
+JAIBA PANCHOTE O CANGREJO                ,Taliepus dentatus,Taliepus dentatus,0306.3310,1,0,1
+JAIBA PANCHOTE O CANGREJO                ,Taliepus dentatus,Taliepus dentatus,1605.1011,1,1,0
+JAIBA PANCHOTE O CANGREJO                ,Taliepus dentatus,Taliepus dentatus,1605.1012,1,1,0
+JAIBA PANCHOTE O CANGREJO                ,Taliepus dentatus,Taliepus dentatus,1605.1019,1,1,0
+JAIBA PANCORA                            ,Hemigrapsus crenulatus,NA,NA,NA,NA,NA
+JAIBA PATUDA                             ,Taliepus marginatus,NA,NA,NA,NA,NA
+JAIBA PELUDA O PACHONA                   ,Cancer setosus,Cancer setosus,0306.1410,1,0,0
+JAIBA PELUDA O PACHONA                   ,Cancer setosus,Cancer setosus,0306.3310,1,0,1
+JAIBA PELUDA O PACHONA                   ,Cancer setosus,Cancer setosus,1605.1011,1,1,0
+JAIBA PELUDA O PACHONA                   ,Cancer setosus,Cancer setosus,1605.1012,1,1,0
+JAIBA PELUDA O PACHONA                   ,Cancer setosus,Cancer setosus,1605.1019,1,1,0
+JAIBA REINA                              ,Cancer coronatus,Cancer coronatus,0306.1410,1,0,0
+JAIBA REINA                              ,Cancer coronatus,Cancer coronatus,0306.3310,1,0,1
+JAIBA REINA                              ,Cancer coronatus,Cancer coronatus,1605.1011,1,1,0
+JAIBA REINA                              ,Cancer coronatus,Cancer coronatus,1605.1012,1,1,0
+JAIBA REINA                              ,Cancer coronatus,Cancer coronatus,1605.1019,1,1,0
+JAIBA REMADORA                           ,Ovalipes trimaculatus ,Ovalipes trimaculatus ,0306.1410,1,0,0
+JAIBA REMADORA                           ,Ovalipes trimaculatus ,Ovalipes trimaculatus ,0306.3310,1,0,1
+JAIBA REMADORA                           ,Ovalipes trimaculatus ,Ovalipes trimaculatus ,1605.1011,1,1,0
+JAIBA REMADORA                           ,Ovalipes trimaculatus ,Ovalipes trimaculatus ,1605.1012,1,1,0
+JAIBA REMADORA                           ,Ovalipes trimaculatus ,Ovalipes trimaculatus ,1605.1019,1,1,0
+LANGOSTA DE ISLA DE PASCUA O URA,Panulirus pascuensis,Panulirus pascuensis,0306.1110,0,0,0
+LANGOSTA DE ISLA DE PASCUA O URA,Panulirus pascuensis,Panulirus pascuensis,0306.3110,0,0,1
+LANGOSTA DE J.FERNANDEZ                  ,Jasus frontalis,Jasus frontalis,0306.3120,0,0,1
+LANGOSTA DE J.FERNANDEZ                  ,Jasus frontalis,Jasus frontalis,0306.1120,0,0,0
+LANGOSTINO AMARILLO                      ,Cervimunida johni,Cervimunida johni,0306.1721,0,0,0
+LANGOSTINO AMARILLO                      ,Cervimunida johni,Cervimunida johni,0306.3621,0,0,1
+LANGOSTINO AMARILLO                      ,Cervimunida johni,Cervimunida johni,1605.2131,0,1,0
+LANGOSTINO AMARILLO                      ,Cervimunida johni,Cervimunida johni,1605.2141,0,1,0
+LANGOSTINO COLORADO                      ,Pleuroncodes monodon,Pleuroncodes monodon,0306.1722,0,0,0
+LANGOSTINO COLORADO                      ,Pleuroncodes monodon,Pleuroncodes monodon,0306.3622,0,0,1
+LANGOSTINO COLORADO                      ,Pleuroncodes monodon,Pleuroncodes monodon,1605.2132,0,1,0
+LANGOSTINO COLORADO                      ,Pleuroncodes monodon,Pleuroncodes monodon,1605.2142,0,1,0
+LANGOSTINO DE LOS CANALES                ,Munida subrugosa,NA,NA,NA,NA,NA
+LANGOSTINO ENANO                         ,Pleuroncodes sp,NA,NA,NA,NA,NA
+ACHA O HACHA                             ,Medialuna ancietae,NA,NA,NA,NA,NA
+ATUN OJOS GRANDES / KAHI MATA TATA       ,Thunnus obesus,Thunnus obesus,0302.3400,0,0,0
+ATUN OJOS GRANDES / KAHI MATA TATA       ,Thunnus obesus,Thunnus obesus,0303.4400,0,0,0
+BACALAO DE J.FERNANDEZ / KOPUKU HAHA ROA ,Polyprion oxygeneios,Polyprion oxygeneios,0304.4920,0,0,0
+BACALAO DE J.FERNANDEZ / KOPUKU HAHA ROA ,Polyprion oxygeneios,Polyprion oxygeneios,0304.8920,0,0,0
+BACALAO DE J.FERNANDEZ / KOPUKU HAHA ROA ,Polyprion oxygeneios,Polyprion oxygeneios,0305.3960,0,0,0
+BARRACUDA O PETO / KANA KANA             ,NA,NA,NA,NA,NA,NA
+BROTULA                                  ,Salilota australis,Salilota australis,0303.8961,0,0,0
+BROTULA                                  ,Salilota australis,Salilota australis,0303.8962,0,0,0
+BROTULA                                  ,Salilota australis,Salilota australis,0303.8969,0,0,0
+COJINOBA MOTEADA                         ,Seriolella punctata,Seriolella punctata,0302.8946,1,0,0
+COJINOBA MOTEADA                         ,Seriolella punctata,Seriolella punctata,0302.8947,1,0,0
+COJINOBA MOTEADA                         ,Seriolella punctata,Seriolella punctata,0303.8951,1,0,0
+COJINOBA MOTEADA                         ,Seriolella punctata,Seriolella punctata,0303.8952,1,0,0
+COJINOBA MOTEADA                         ,Seriolella punctata,Seriolella punctata,0303.8953,1,0,0
+COJINOBA MOTEADA                         ,Seriolella punctata,Seriolella punctata,0303.8959,1,0,0
+PEJERRATA O GRANADERO                    ,Coelorhynchus spp,NA,NA,NA,NA,NA
+PEJEZORRO                                ,Alopias vulpinus,Alopias vulpinus,0302.8141,0,0,0
+PEJEZORRO                                ,Alopias vulpinus,Alopias vulpinus,0302.9241,0,0,0
+PEJEZORRO                                ,Alopias vulpinus,Alopias vulpinus,0303.8141,0,0,0
+PEJEZORRO                                ,Alopias vulpinus,Alopias vulpinus,0303.9241,0,0,0
+PEJEZORRO                                ,Alopias vulpinus,Alopias vulpinus,0304.4741,0,0,0
+PEJEZORRO                                ,Alopias vulpinus,Alopias vulpinus,0304.5641,0,0,0
+PEJEZORRO                                ,Alopias vulpinus,Alopias vulpinus,0304.8841,0,0,0
+PEJEZORRO                                ,Alopias vulpinus,Alopias vulpinus,0304.9641,0,0,0
+PEJEZORRO                                ,Alopias vulpinus,Alopias vulpinus,0305.7141,0,0,0
+REMOREMO                                 ,Elagatis bipinnulata,NA,NA,NA,NA,NA
+LAPA BONETE                              ,Fissurella costata,Fissurella spp.,0307.9230,1,0,0
+PULPO DE JUAN FERNANDEZ                  ,Octopus Crusoe,Octopus spp,0307.5190,1,0,1
+PULPO DE JUAN FERNANDEZ                  ,Octopus Crusoe,Octopus spp,0307.5290,1,0,0
+CAMARON DE ROCA                          ,Rhynchocinetes typus,NA,NA,NA,NA,NA
+LANGOSTA ENANA                           ,Projasus bahamondei,Projasus bahamondei,0306.1130,0,0,0
+LANGOSTA ENANA                           ,Projasus bahamondei,Projasus bahamondei,0306.3130,0,0,1
+PICOROCO                                 ,Austromegabalanus psittacus,NA,NA,NA,NA,NA
+PULGA SALTARINA O GAMBITA                ,Gammarus sp,NA,NA,NA,NA,NA
+ERIZO                                    ,Loxechinus albus,Erizos de mar,1605.6200,1,1,0
+ERIZO                                    ,Loxechinus albus,Loxechinus albus,0308.2110,0,0,0
+ERIZO                                    ,Loxechinus albus,Loxechinus albus,0308.2210,0,0,0
+ERIZO                                    ,Loxechinus albus,Erizos de mar,0308.2900,1,0,0
+MEDUSA                                   ,Chrysaora Plocamia,Medusas,1605.6300,1,1,0
+MEDUSA                                   ,Chrysaora Plocamia,Rhopilema spp.,0308.3000,,,
+PEPINO DE MAR                            ,Athyonidium chilensis,Pepinos de Mar,1605.6100,1,1,0
+PEPINO DE MAR                            ,Athyonidium chilensis,"Stichopus japonicus, Holothuroidea",0308.1100,1,0,0
+PEPINO DE MAR                            ,Athyonidium chilensis,"Stichopus japonicus, Holothuroidea",0308.1200,1,0,0
+PEPINO DE MAR                            ,Athyonidium chilensis,"Stichopus japonicus, Holothuroidea",0308.1900,1,0,0
+PIURE                                    ,Pyura chilensis,NA,NA,NA,NA,NA
+"ATUN LISTADO,BARRILETE,CACHURRETA/AUHOPU ",Katsuwonus pelamis,Listados o Bonitos de Vientre rayado (Euthynnus (Katsuwonus) pelamis),0302.3300,0,0,0
+"ATUN LISTADO,BARRILETE,CACHURRETA/AUHOPU ",Katsuwonus pelamis,Listados o Bonitos de Vientre rayado (Euthynnus (Katsuwonus) pelamis),0303.4300,0,0,0
+"ATUN LISTADO,BARRILETE,CACHURRETA/AUHOPU ",Katsuwonus pelamis,Listados o Bonitos de Vientre rayado (Euthynnus (Katsuwonus) pelamis),0304.8700,1,0,0
+BAGRE                                    ,Ameiurus melas,"Bagres o peces gatos (Pangasius spp., Silurus spp., Clarias spp.,
+Ictalurus spp.)",0302.7200,1,0,0
+BAGRE                                    ,Ameiurus melas,"Bagres o peces gatos (Pangasius spp., Silurus spp., Clarias spp.,
+Ictalurus spp.)",0303.2400,1,0,0
+BAGRE                                    ,Ameiurus melas,"Bagres o peces gatos (Pangasius spp., Silurus spp., Clarias spp.,
+Ictalurus spp.)",0304.3200,1,0,0
+BAGRE                                    ,Ameiurus melas,"Bagres o peces gatos (Pangasius spp., Silurus spp., Clarias spp.,
+Ictalurus spp.)",0304.5100,1,0,0
+BAGRE                                    ,Ameiurus melas,"Bagres o peces gatos (Pangasius spp., Silurus spp., Clarias spp.,
+Ictalurus spp.)",0304.6200,1,0,0
+BAGRE                                    ,Ameiurus melas,"Bagres o peces gatos (Pangasius spp., Silurus spp., Clarias spp.,
+Ictalurus spp.)",0304.9300,1,0,0
+BAGRE                                    ,Ameiurus melas,"Bagres o peces gatos (Pangasius spp., Silurus spp., Clarias spp.,
+Ictalurus spp.)",0305.3100,1,0,0
+BAGRE                                    ,Ameiurus melas,"Bagres o peces gatos (Pangasius spp., Silurus spp., Clarias spp.,
+Ictalurus spp.)",0305.4400,1,0,0
+BAGRE                                    ,Ameiurus melas,"Bagres o peces gatos (Pangasius spp., Silurus spp., Clarias spp.,
+Ictalurus spp.)",0305.5200,1,0,0
+BAGRE                                    ,Ameiurus melas,"Bagres o peces gatos (Pangasius spp., Silurus spp., Clarias spp.,
+Ictalurus spp.)",0305.6400,1,0,0
+BRECA DE JUAN FERNANDEZ                  ,Nemadactylus gayi,NA,NA,NA,NA,NA
+COCHINILLA                               ,Navodon Paschalis,NA,NA,NA,NA,NA
+HUAIQUIL O CORVINILLA                    ,Micropogonias manni,NA,NA,NA,NA,NA
+RAYA ESPINOSA                            ,Dipturus trachyderma,Rajidae,0302.8290,1,0,0
+CAMARON NAVAJA                           ,Campylonotus semistriatus,Los demas camarones,1605.2119,1,1,0
+CAMARON NAVAJA                           ,Campylonotus semistriatus,Los demas camarones,1605.2129,1,1,0
+CAMARON NAVAJA                           ,Campylonotus semistriatus,Los demas camarones,1605.2919,1,1,0
+CAMARON NAVAJA                           ,Campylonotus semistriatus,Los demas camarones,0306.1719,1,0,0
+CAMARON NAVAJA                           ,Campylonotus semistriatus,Los demas camarones,0306.3619,1,0,0
+CAMARON NAVAJA                           ,Campylonotus semistriatus,"Camarones, langostinos y demas decapodos Natantia",0306.9500,1,0,0
+ALGAS MIXTAS                             ,,Preparaciones de algas para consumo animal,2309.9040,0,0,0
+ALGAS MIXTAS                             ,,Las demas algas aptas para el consumo humano,1212.2190,0,0,0
+ALGAS MIXTAS                             ,,Las demas algas no aptas para el consumo humano,1212.2990,0,0,0
+CAROLA                                   ,Callophyllis variegata,Preparaciones de algas para consumo animal,2309.9040,1,0,0
+CAROLA                                   ,Callophyllis variegata,Las demas algas aptas para el consumo humano,1212.2190,1,0,0
+CAROLA                                   ,Callophyllis variegata,Las demas algas no aptas para el consumo humano,1212.2990,1,0,0
+HUIRO NEGRO O CHASCON                    ,Lessonia nigrescens ,Chascon (Lessonia spp),1212.2130 ,0,0,0
+HUIRO NEGRO O CHASCON                    ,Lessonia nigrescens ,Chascon (Lessonia spp),1212.2930,0,0,0
+JUREL FINO                               ,Decapterus macrosoma,Decapterus spp.,0305.5400,1,0,0
+JUREL FINO                               ,Decapterus macrosoma,Decapterus spp.,0303.5900,1,0,0
+JUREL FINO                               ,Decapterus macrosoma,Decapterus spp.,0302.4900,1,0,0
+"MATAHUIRA, KARA KARA O KRA KRA           ",Heteropriacanthus cruentatus,NA,NA,NA,NA,NA
+"NANUE, NANUE PARA, PISI O PUA            ",Kiphosus sandwicensis / Kiphosus bigibbus,NA,NA,NA,NA,NA
+QUIMERA NEGRA                            ,NA,NA,NA,NA,NA,NA
+MERLUZA DE TRES ALETAS                   ,Micromesistius australis,"Micromesistius
+australis",0302.5611,0,0,0
+MERLUZA DE TRES ALETAS                   ,Micromesistius australis,"Micromesistius
+australis",0302.5612,0,0,0
+MERLUZA DE TRES ALETAS                   ,Micromesistius australis,"Micromesistius
+australis",0302.5613,0,0,0
+MERLUZA DE TRES ALETAS                   ,Micromesistius australis,"Micromesistius
+australis",0302.5619,0,0,0
+MERLUZA DE TRES ALETAS                   ,Micromesistius australis,"Micromesistius
+australis",0303.6811,0,0,0
+MERLUZA DE TRES ALETAS                   ,Micromesistius australis,"Micromesistius
+australis",0303.6812,0,0,0
+MERLUZA DE TRES ALETAS                   ,Micromesistius australis,"Micromesistius
+australis",0303.6813,0,0,0
+MERLUZA DE TRES ALETAS                   ,Micromesistius australis,"Micromesistius
+australis",0303.6819,0,0,0
+MERLUZA DE TRES ALETAS                   ,Micromesistius australis,"Micromesistius
+australis",0304.4440,0,0,0
+MERLUZA DE TRES ALETAS                   ,Micromesistius australis,"Micromesistius
+australis",0304.7920,0,0,0
+MERLUZA DE TRES ALETAS                   ,Micromesistius australis,"Micromesistius
+australis",0304.9992,0,0,0
+LENGUADO DE OJOS GRANDES                 ,Hippoglossina macrops,NA,NA,NA,NA,NA
+CENTOLLA DEL NORTE                       ,Lithodes spp.,Centollas del norte (Lithodes spp.),1605.1021,0,1,0
+CENTOLLA DEL NORTE                       ,Lithodes spp.,Centollas del norte (Lithodes spp.),1605.1025,0,1,0
+CENTOLLA DEL NORTE                       ,Lithodes spp.,Centollas del norte (Lithodes spp.),0306.1422,0,0,0
+CENTOLLA DEL NORTE                       ,Lithodes spp.,Centollas del norte (Lithodes spp.),0306.3322,0,0,0
+GRANADERO GRANDE                         ,Macrourus holotrachys,Familia Macrouridae,0305.5300,1,0,0
+GRANADERO GRANDE                         ,Macrourus holotrachys,Familia Macrouridae,0305.3200,1,0,0
+GRANADERO GRANDE                         ,Macrourus holotrachys,Familia Macrouridae,0304.9599,1,0,0
+GRANADERO GRANDE                         ,Macrourus holotrachys,Familia Macrouridae,0304.7990,1,0,0
+GRANADERO GRANDE                         ,Macrourus holotrachys,Familia Macrouridae,0304.5300,1,0,0
+GRANADERO GRANDE                         ,Macrourus holotrachys,Familia Macrouridae,0304.4490,1,0,0
+GRANADERO GRANDE                         ,Macrourus holotrachys,Familia Macrouridae,0303.6990,1,0,0
+GRANADERO GRANDE                         ,Macrourus holotrachys,Familia Macrouridae,0302.5990,1,0,0
+PEJERRATA                                ,Coelorhynchus chilensis,Familia Macrouridae,0305.5300,1,0,0
+PEJERRATA                                ,Coelorhynchus chilensis,Familia Macrouridae,0305.3200,1,0,0
+PEJERRATA                                ,Coelorhynchus chilensis,Familia Macrouridae,0304.9599,1,0,0
+PEJERRATA                                ,Coelorhynchus chilensis,Familia Macrouridae,0304.7990,1,0,0
+PEJERRATA                                ,Coelorhynchus chilensis,Familia Macrouridae,0304.5300,1,0,0
+PEJERRATA                                ,Coelorhynchus chilensis,Familia Macrouridae,0304.4490,1,0,0
+PEJERRATA                                ,Coelorhynchus chilensis,Familia Macrouridae,0303.6990,1,0,0
+PEJERRATA                                ,Coelorhynchus chilensis,Familia Macrouridae,0302.5990,1,0,0
+PEJERRATA O GRANADERO ESCAMOSO           ,Macrourus carinatus.,Familia Macrouridae,0305.5300,1,0,0
+PEJERRATA O GRANADERO ESCAMOSO           ,Macrourus carinatus.,Familia Macrouridae,0305.3200,1,0,0
+PEJERRATA O GRANADERO ESCAMOSO           ,Macrourus carinatus.,Familia Macrouridae,0304.9599,1,0,0
+PEJERRATA O GRANADERO ESCAMOSO           ,Macrourus carinatus.,Familia Macrouridae,0304.7990,1,0,0
+PEJERRATA O GRANADERO ESCAMOSO           ,Macrourus carinatus.,Familia Macrouridae,0304.5300,1,0,0
+PEJERRATA O GRANADERO ESCAMOSO           ,Macrourus carinatus.,Familia Macrouridae,0304.4490,1,0,0
+PEJERRATA O GRANADERO ESCAMOSO           ,Macrourus carinatus.,Familia Macrouridae,0303.6990,1,0,0
+PEJERRATA O GRANADERO ESCAMOSO           ,Macrourus carinatus.,Familia Macrouridae,0302.5990,1,0,0
+DRACO RAYADO                             ,Champsocephalus gunnari,Champsocephalus gunnari,0303.8995,0,0,0
+KRILL                                    ,Euphasia superba,NA,NA,NA,NA,NA
+RAYA AGUILA                              ,Myliobatis peruvianus,La demas rayas (Rajidae),0302.8290,1,0,0
+RAYA AGUILA                              ,Myliobatis peruvianus,La demas rayas (Rajidae),0302.9910,1,0,0
+RAYA AGUILA                              ,Myliobatis peruvianus,La demas rayas (Rajidae),0303.8290,1,0,0
+RAYA AGUILA                              ,Myliobatis peruvianus,La demas rayas (Rajidae),0303.9910,1,0,0
+RAYA AGUILA                              ,Myliobatis peruvianus,La demas rayas (Rajidae),0304.4890,1,0,0
+RAYA AGUILA                              ,Myliobatis peruvianus,La demas rayas (Rajidae),0304.5790,1,0,0
+RAYA AGUILA                              ,Myliobatis peruvianus,La demas rayas (Rajidae),0304.8859,1,0,0
+RAYA AGUILA                              ,Myliobatis peruvianus,La demas rayas (Rajidae),0304.9790,1,0,0
+RAYA AGUILA                              ,Myliobatis peruvianus,La demas rayas (Rajidae),0305.7910,1,0,0
+BACALAO ANTARTICO                        ,Dissostichus mawsoni,Los demas Dissostichus spp.,0302.8390,1,0,0
+BACALAO ANTARTICO                        ,Dissostichus mawsoni,Los demas Dissostichus spp.,0303.8390,1,0,0
+BACALAO ANTARTICO                        ,Dissostichus mawsoni,Los demas Dissostichus spp.,0304.4690,1,0,0
+BACALAO ANTARTICO                        ,Dissostichus mawsoni,Los demas Dissostichus spp.,0304.5500,1,0,0
+BACALAO ANTARTICO                        ,Dissostichus mawsoni,Los demas Dissostichus spp.,0304.8590,1,0,0
+BACALAO ANTARTICO                        ,Dissostichus mawsoni,Los demas Dissostichus spp.,0304.9290,1,0,0
+MERLUZA DEL ATLANTICO                    ,Merluccius hubbsi,Merluza,1604.1940,1,1,0
+MERLUZA DEL ATLANTICO                    ,Merluccius hubbsi,Merluza,1604.2070,1,1,0
+MERLUZA DEL ATLANTICO                    ,Merluccius hubbsi,Las demas Merluccius spp.,0302.5419,1,0,0
+MERLUZA DEL ATLANTICO                    ,Merluccius hubbsi,Las demas Merluccius spp.,0303.6619,1,0,0
+MERLUZA DEL ATLANTICO                    ,Merluccius hubbsi,Merluccius spp.,0303.9130,1,0,0
+MERLUZA DEL ATLANTICO                    ,Merluccius hubbsi,Las demas Merluccius spp.,0304.7419,1,0,0
+MERLUZA DEL ATLANTICO                    ,Merluccius hubbsi,Las demas Merluccius spp.,0304.9519,1,0,0
+NOTOTENIA O MARUJITO                     ,Patagonotothen ramsayi,NA,NA,NA,NA,NA
+RAYA MOTEADA O NEGRA                     ,Sympterygia brevicaudata,La demas rayas (Rajidae),0302.8290,1,0,0
+RAYA MOTEADA O NEGRA                     ,Sympterygia brevicaudata,La demas rayas (Rajidae),0302.9910,1,0,0
+RAYA MOTEADA O NEGRA                     ,Sympterygia brevicaudata,La demas rayas (Rajidae),0303.8290,1,0,0
+RAYA MOTEADA O NEGRA                     ,Sympterygia brevicaudata,La demas rayas (Rajidae),0303.9910,1,0,0
+RAYA MOTEADA O NEGRA                     ,Sympterygia brevicaudata,La demas rayas (Rajidae),0304.4890,1,0,0
+RAYA MOTEADA O NEGRA                     ,Sympterygia brevicaudata,La demas rayas (Rajidae),0304.5790,1,0,0
+RAYA MOTEADA O NEGRA                     ,Sympterygia brevicaudata,La demas rayas (Rajidae),0304.8859,1,0,0
+RAYA MOTEADA O NEGRA                     ,Sympterygia brevicaudata,La demas rayas (Rajidae),0304.9790,1,0,0
+RAYA MOTEADA O NEGRA                     ,Sympterygia brevicaudata,La demas rayas (Rajidae),0305.7910,1,0,0
+CALAMAR ILLEX O POTA DEL ATLANTICO       ,Illex argentinus,"Los demas jibias, calamres, globitos y pota",1605.5490,1,1,0
+CALAMAR ILLEX O POTA DEL ATLANTICO       ,Illex argentinus,Ommastrephes spp.,0307.4220,1,0,0
+CALAMAR ILLEX O POTA DEL ATLANTICO       ,Illex argentinus,Ommastrephes spp.,0307.4310,1,0,0
+POTA DEL PACIFICO                        ,Todarodes Pacificus,"Los demas jibias, calamres, globitos y pota",1605.5490,1,1,0
+POTA DEL PACIFICO                        ,Todarodes Pacificus,Ommastrephes spp.,0307.4220,1,0,0
+POTA DEL PACIFICO                        ,Todarodes Pacificus,Ommastrephes spp.,0307.4310,1,0,0
+CUBICEPS                                 ,Cubiceps,NA,NA,NA,NA,NA
