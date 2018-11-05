@@ -57,7 +57,7 @@ Datasets are from SERNAPESCA/ Informes y Datos/ Estadisticas/ Pesca Artesanal.
 
 ## Artisanal landings per month
 
-artisanal_month_2013 <- read_excel(here("information/raw_databases/SERNAPESCA/landings/landings_artisanal_per_species_month_2013.xls"), sheet = "des_art_mes", range = "A5:M150", na = "-") %>% 
+artisanal_month_2013 <- read_excel(here("information/raw_databases/SERNAPESCA/landings/landings_artisanal_per_species_month_2013.xls"), sheet = "des_art_mes", range = "A5:M144", na = "-") %>% 
   gather(key = month, value = tons, 2:13)%>% 
   mutate (subsector = 'artisanal', year = 2013, region = 'national', species =  ESPECIE, international_waters = 0) %>% 
   select(subsector, year, region, month, species, tons, international_waters)
