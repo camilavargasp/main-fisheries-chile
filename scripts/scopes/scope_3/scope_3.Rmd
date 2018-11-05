@@ -9,22 +9,80 @@ output: pdf_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
+In order to calculate the somestic food consimtion we buit a model that considers landings, aquaculture harvest, and exports. 
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+In order to imput the data to the model we first need to combine all our clean datasets into one datafram according to the dummy dataframe. This datafram has the following columns:
+Species	
+Country	
+Region	
+Year	
+Variable	
+Catch	
+Aquaculture	
+Imports	
+Exports	
+DHC_Prop
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+## Importing datasets
 
-```{r cars}
-summary(cars)
+```{r}
+##landings
+landings<- read_csv(here("clean_databases/landings_SERNAPESCA.csv")) %>% 
+  filter(!region %in% c("national","AI", "R.M.")) %>% ##VER SI INCORPORAMOS AI O NO
+  mutate( tons = as.numeric(tons)) %>% 
+  select(-month, -international_waters, -subsector) %>% 
+  group_by(year, region, species) %>% 
+  summarise(tons = sum(tons, na.rm = T)) %>% 
+  mutate(variable = "tonnes") %>% 
+  rename(catch = tons)
+
+##aquaculture harvest
+
+aquaculture <- read_csv(here("clean_databases/aquaculture_SERNAPESCA.csv")) %>% 
+  filter(region != "national",
+         year!=2012) %>% 
+  mutate( tons = as.numeric(tons)) %>% 
+  select(-subsector, -month) %>% 
+  mutate(variable = "tonnes") %>% 
+  rename(aquaculture = tons)
+
+## Exports
+
+exports <- read_csv(here("clean_databases/exports_ADUANA.csv")) %>% 
+  select(year, region, exports= tons, species= especie_SERNAPESCA) %>% ##eventually add values
+  filter(year!= 2018,
+         region != 20) %>% 
+  mutate(region = ifelse(region==0, NA, region)) %>%
+  mutate(region = ifelse(region==1, "I", region)) %>% 
+  mutate(region = ifelse(region==2, "II", region)) %>% 
+  mutate(region = ifelse(region==3, "III", region)) %>% 
+  mutate(region = ifelse(region==4, "IV", region)) %>% 
+  mutate(region = ifelse(region==5, "V", region)) %>% 
+  mutate(region = ifelse(region==6, "VI", region)) %>% 
+  mutate(region = ifelse(region==7, "VII", region)) %>% 
+  mutate(region = ifelse(region==8, "VIII", region)) %>% 
+  mutate(region = ifelse(region==9, "IX", region)) %>% 
+  mutate(region = ifelse(region==10, "X", region)) %>% 
+  mutate(region = ifelse(region==11, "XI", region)) %>% 
+  mutate(region = ifelse(region==12, "XII", region)) %>% 
+  mutate(region = ifelse(region==14, "XIV", region)) %>% 
+  mutate(region = ifelse(region==15, "XV", region)) %>% 
+  mutate(region = ifelse(region==13, "R.M", region))%>% 
+  mutate(variable = "tonnes")
+
 ```
 
-## Including Plots
 
-You can also embed plots, for example:
+## Combining all datasets!
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r}
+model_df <- landings %>% 
+  full_join(aquaculture, by= c("year", "region", "species", "variable")) %>%
+  full_join(exports, by= c("year", "region", "species", "variable"))
+
+### OJO VER PORQUE ESTAN DUPLICADAS LAS ESPECIES EN BASE DE DATOS EXPORTS
+
+
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
