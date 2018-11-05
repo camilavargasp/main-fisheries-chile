@@ -72,12 +72,13 @@ imports_yr <- imports_all %>%
 
 ## importing codes from arancel aduanero (built by hand)
 
-codes_species_imports <- read_csv(here("information/raw_databases/ADUANAS_CHILE/imports/codes_species_imports.csv"), col_names = c("item_sa", "species"))
+cod_aduana_imports <- read_csv(here("information/raw_databases/ADUANAS_CHILE/imports/codes_species_imports.csv")) %>% 
+  mutate(item_sa= as.character(item_sa))
 
 ## maching segun codigo aduanero
 
 match_imports <- imports_yr %>% 
-  left_join(codes_species_imports, by = "item_sa") 
+  left_join(cod_aduana_imports, by = "item_sa") 
 
 ```
 
