@@ -1,0 +1,89 @@
+---
+title: "imports_ADUANA"
+author: "Camila Vargas e Ignacia Rivera"
+date: "November 4, 2018"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This document cleans the Aduana dataset maatching species with the aduana code from XXXX
+
+
+Data was downloaded from XXX on October 8 2018.
+
+Here the [link](http://www.aduana.cl/aduana/site/artic/20080218/pags/20080218165942.html#vtxt_cuerpo_T47) witht the details of the codes use in the esports datasets
+
+## Setup
+
+```{r}
+library(tidyverse)
+library(here)
+library(readxl)
+library(stringr)
+library(purrr) ##install.packages("purrr")
+```
+
+
+## Import aduana import data
+
+```{r}
+
+## Create a list of files to be read
+
+import_list <- list.files(here('information/raw_databases/ADUANAS_CHILE/imports'), pattern= 'imports_20.*.csv', full.names = TRUE)
+
+import_list <- import_list[4:9] # Since 2013
+
+## Read, wrangle and bind all y datasets
+imports_all <- import_list %>% 
+  map(read_delim,";", escape_double = FALSE, trim_ws = TRUE, col_names = FALSE, skip =1) %>% 
+  reduce(rbind) %>% 
+  select(X1, X5, X11, X12, X13, X14, X15) %>% 
+  rename(year= X1, country_orig = X5, item_sa =X11, cif_us = X12, adem_valores_us = X13, quantity = X14, unit = X15)
+  
+## Save the initial "clean raw data"
+# write.csv(landings_SERNAPESCA,  here("clean_databases/intermediate/exports_all_ADUANA.csv"), row.names=F)
+
+```
+
+## Data of our interest
+
+```{r}
+
+## filter observations for marine products  - only considering " Capítulo 03: Pescados y crustáceos, moluscos y demás invertebrados acuáticos" --NO HAY-- and "Capítulo 1603: Preparaciones pescado o de crustáceos, moluscos o demás invertebrados acuáticos" and summarizing data to get values per year
+
+imports_yr <- imports_all %>%
+  separate(item_sa, c("chap", "rest_code"),4, remove = FALSE) %>% 
+  filter(chap >= 1603 & chap <= 1700) %>% # preparaciones de productos marinos
+  mutate(cif_us= as.numeric(sub(",", ".", cif_us, fixed = TRUE))) %>% 
+  mutate(adem_valores_us= as.numeric(sub(",", ".", adem_valores_us, fixed = TRUE))) %>%
+  mutate(quantity= as.numeric(sub(",", ".", quantity, fixed = TRUE))) %>%
+  mutate(value_us = cif_us + adem_valores_us, tons= quantity/1000) %>% 
+  select(year, country_orig, item_sa, value_us, tons) %>% 
+  group_by(year, item_sa) %>% 
+  summarise(value_us = sum(value_us), tons = sum(tons)) 
+
+```
+
+```{r}
+
+## importing codes from arancel aduanero (built by hand)
+
+codes_species_imports <- read_csv(here("information/raw_databases/ADUANAS_CHILE/imports/codes_species_imports.csv"), col_names = c("item_sa", "species"))
+
+## maching segun codigo aduanero
+
+match_imports <- imports_yr %>% 
+  left_join(codes_species_imports, by = "item_sa") %>% 
+  filter(!is.na(especie_SERNAPESCA))
+
+```
+
+
+
+
+
+
