@@ -82,6 +82,12 @@ match_imports <- imports_yr %>%
 
 ```
 
+```{r}
+
+## saving imports clean data 
+
+write.csv(match_import,here("clean_databases/imports_ADUANA.csv"), row.names=F)
+```
 
 
 
