@@ -41,6 +41,7 @@ library(magrittr) #install.packages('magrittr')
 library(dplyr) #install.packages('dplyr')
 library(tidyr) #install.packages('tidyr')
 library(readxl) #install.packages('readxl')
+library(stringr)
 
 
 ```
@@ -419,6 +420,32 @@ fv_iw_region_2017 <- read_excel(here("information/raw_databases/SERNAPESCA/landi
 landings_SERNAPESCA <- rbind(artisanal_month_2013, artisanal_month_2014, artisanal_month_2015, artisanal_month_2016, artisanal_month_2017, artisanal_region_2013, artisanal_region_2014, artisanal_region_2015, artisanal_region_2015, artisanal_region_2016, artisanal_region_2017, artisanal_iw_month_2014, artisanal_iw_month_2015, artisanal_iw_month_2016, artisanal_iw_month_2017, artisanal_iw_region_2013, artisanal_iw_region_2014,artisanal_iw_region_2015, artisanal_iw_region_2016, artisanal_iw_region_2017, industrial_month_2014, industrial_month_2015, industrial_month_2016, industrial_month_2017, industrial_region_2013, industrial_region_2014,industrial_region_2015, industrial_region_2016, industrial_region_2017, industrial_iw_month_2014, industrial_iw_month_2015, industrial_iw_month_2016, industrial_iw_month_2017, industrial_iw_region_2013, industrial_iw_region_2014, industrial_iw_region_2015, industrial_iw_region_2016, industrial_iw_region_2017, fv_month_2014, fv_month_2015, fv_month_2016, fv_month_2017, fv_region_2013, fv_region_2014, fv_region_2015, fv_region_2016, fv_region_2017, fv_iw_month_2014, fv_iw_month_2015, fv_iw_month_2016, fv_iw_month_2017, fv_iw_region_2013, fv_iw_region_2014, fv_iw_region_2015, fv_iw_region_2016, fv_iw_region_2017) %>% 
   filter(!(species =='NA'))
 
+## Correct names 
+
+landings_SERNAPESCA <- landings_SERNAPESCA %>% 
+dplyr::mutate(species = ifelse(stringr::str_detect(species,"APA.*ADO"), "APANADO", species)) %>% 
+  dplyr::mutate(species = ifelse(stringr::str_detect(species,"SARDINA ESPA.*OLA"), "SARDINA ESPANOLA", species)) %>% 
+  dplyr::mutate(species = ifelse(stringr::str_detect(species,"CABRILLA ESPA.*OLA"), "CABRILLA ESPANOLA", species))
+
+
+##APRENSER A COMO CAMBINE UN REGEXP
+
+##intentos fallidos
+##landings_SERNAPESCA$species <-  gsub("^<U+00D1>", "N", landings_SERNAPESCA$species)
+##landings_SERNAPESCA$species <- iconv(landings_SERNAPESCA$species, from = "UTF-8", to="LATIN1") esto coambia el string de <U+00D1> a <d1>
+
+##landings_SERNAPESCA_N<- landings_SERNAPESCA %>% 
+  gsub(".*<d1>.*", "N", species)
+
+##landings_SERNAPESCA <- landings_SERNAPESCA %>% 
+  str_replace(species, "<U+00D1>", "N")
+
+
+
+## long way
+##dplyr::mutate(country = ifelse(stringr::str_detect(country,"Puerto Rico"), "Puerto Rico and Virgin Islands of the United States", country))
+
+##dplyr::mutate(country = ifelse(stringr::str_detect(country,"Cura\\Sao"), "Curacao", country)
 
 # Writes clean and complete database to clean_databases
 

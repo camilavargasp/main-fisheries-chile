@@ -9,8 +9,7 @@ output: pdf_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-This document cleans the Aduana dataset maatching species with the aduana code from XXXX
-
+This document cleans the Aduana exports datasets and maatches the item_sa with the databease we built with aduna codes for each of the species on the SERNAPESCA datasets. 
 
 Data was downloaded from XXX on October 8 2018.
 
@@ -45,7 +44,7 @@ exports_all <- export_list %>%
   rename(year= X1, month = X2, region = X5, destination = X9, item_sa =X12, fob = X13, fub = X14, kg = X15, quantity = X16, unit = X17)
   
 ## Save the initial "clean raw data"
-# write.csv(landings_SERNAPESCA,  here("clean_databases/intermediate/exports_all_ADUANA.csv"), row.names=F)
+# write.csv(exports_all,  here("clean_databases/intermediate/exports_all_ADUANA.csv"), row.names=F)
 
 ```
 
@@ -55,20 +54,14 @@ exports_all <- export_list %>%
 
 ##sumarise data to get values per year
 exports_yr <- exports_all %>% 
-  select(- month, -region, - destination, - quantity, -unit, - fub) %>% 
+  select(- month, - destination, - quantity, -unit, - fub) %>% 
   mutate(fob= as.integer(as.numeric(fob))) %>% 
   mutate(kg= as.numeric(sub(",", ".", kg, fixed = TRUE)))%>% 
-  group_by(year, item_sa) %>% 
-  summarise(value_fob = mean(fob, na.rm = T),
-            tons = mean(kg, na.rm = T)/1000)
+  group_by(year, region, item_sa) %>% 
+  summarise(value_fob = sum(fob, na.rm = T),
+            tons = sum(kg, na.rm = T)/1000) %>% 
+  ungroup()
 
-
-###OJO VER PORQUE VALUE FOB TIENE TANTOS NAs!!!
-#Warning messages:
-#1: In evalq(as.integer(as.numeric(fob)), <environment>) :
- # NAs introducidos por coerci'on
-#2: In evalq(as.integer(as.numeric(fob)), <environment>) :
- # NAs introduced by coercion to integer range
 
 ```
 
@@ -93,6 +86,9 @@ match_exports <- exports_yr %>%
   left_join(cod_aduana_sp, by = "item_sa") %>% 
   filter(!is.na(especie_SERNAPESCA))
 
+##Guardar base de datos final
+
+write.csv(match_exports,here("clean_databases/exports_ADUANA.csv"), row.names=F)
 
 ```
 

@@ -59,22 +59,22 @@ beach_price_list <- list.files(here('information/raw_databases/SERNAPESCA/prices
   
 ## Read, wrangle and combine beach prices files into one dataframe
 
-  beach_price_all <- beach_price_list %>% 
-  map(read.csv, header = FALSE, skip = 6, stringsAsFactors = FALSE) %>% 
+beach_price_all <- beach_price_list %>%
+  map(read.csv, header = FALSE, skip = 6, stringsAsFactors = FALSE) %>%
   lapply(function(x) x[1:13]) %>% ## selects 13 columns of interest
-  reduce(rbind) %>% 
-  rename(year =V1, 
-         month= V2, 
-         region = V3, 
-         cove_code =V4, 
-         cove_name= V5, 
-         sp_code=V6, 
-         specie =V7, 
+  reduce(rbind) %>%
+  rename(year =V1,
+         month= V2,
+         region = V3,
+         cove_code =V4,
+         cove_name= V5,
+         sp_code=V6,
+         specie =V7,
          peso_ton =V8,
-         humidity=V9, 
-         tons= V10, 
-         origin_vessel=V11, 
-         origin_place=V12, 
+         humidity=V9,
+         tons= V10,
+         origin_vessel=V11,
+         origin_place=V12,
          use=V13)
 
 ``` 
@@ -101,7 +101,7 @@ beach_price_per_yr <- read.csv(here('clean_databases/intermediate/beach_price_ar
   summarise(mean_price = mean(peso_ton)) %>% 
   data.frame()
 
-## Somthing wired is happening with year 2007!! BEach_price_per_yr shows 2007.0000 in some cases.
+## Something wired is happening with year 2007!! BEach_price_per_yr shows 2007.0000 in some cases.
 ## and there is a year lable 8.989 not sure form which data base is comming. 
 
 
