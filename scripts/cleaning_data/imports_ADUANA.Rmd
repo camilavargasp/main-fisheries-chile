@@ -77,8 +77,7 @@ codes_species_imports <- read_csv(here("information/raw_databases/ADUANAS_CHILE/
 ## maching segun codigo aduanero
 
 match_imports <- imports_yr %>% 
-  left_join(codes_species_imports, by = "item_sa") %>% 
-  filter(!is.na(especie_SERNAPESCA))
+  left_join(codes_species_imports, by = "item_sa") 
 
 ```
 
@@ -86,7 +85,7 @@ match_imports <- imports_yr %>%
 
 ## saving imports clean data 
 
-write.csv(match_import,here("clean_databases/imports_ADUANA.csv"), row.names=F)
+write.csv(match_imports,here("clean_databases/imports_ADUANA.csv"), row.names=F)
 ```
 
 
