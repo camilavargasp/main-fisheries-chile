@@ -70,6 +70,10 @@ exports <- read_csv(here("clean_databases/exports_ADUANA.csv")) %>%
   mutate(region = ifelse(region==13, "R.M", region))%>% 
   mutate(variable = "tonnes")
 
+##Imports
+
+imports <- read_csv(here("clean_databases/imports_ADUANA.csv"))
+
 ```
 
 
@@ -80,7 +84,7 @@ model_df <- landings %>%
   full_join(aquaculture, by= c("year", "region", "species", "variable")) %>%
   full_join(exports, by= c("year", "region", "species", "variable"))
 
-### OJO VER PORQUE ESTAN DUPLICADAS LAS ESPECIES EN BASE DE DATOS EXPORTS
+
 
 
 ```
