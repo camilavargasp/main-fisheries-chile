@@ -1,0 +1,93 @@
+---
+title: "species_group_SERNAPESCA"
+author: "Camila Vargas e Ignacia Rivera"
+date: "6 de noviembre de 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This script wrangles the nesesary information for creating a dataframe that groups the species of SERNAPESCA in a broder level so they can be match with the import data.
+
+The following file is created through this script:
+
+- XXXXXXXXX
+
+## Setup
+
+```{r}
+library(tidyverse)
+library(here)
+
+```
+
+
+## Method
+
+In order to group species but keeping as much detail as possible at a species level, we first identified all the species on the import data base. To this list we added a group name to each specie or group of specie. This database also has scientific names when they where identified in the Chapter 16 of the Aduana codes (Chapeter 16 address iport products)
+
+The next step is to match this information by scientific name with the list we have of specie listes by sernapesca (information/raw_databases/ADUANAS_CHILE/arancel_aduanero_nomenclatura/2016_nomina_de_especies_SERNAPESCA.pdf). The list with all SERNAPESCA species is retrieved from the exports_ADUANA.csv.
+
+Once the match is done, we need to identify which species still do not have a group name and assign one.
+
+## Step 1: import imports to get the initial list of sepcies
+This list will determine the level of detail we will get in terms of species for the final data base that includes imports. 
+
+
+```{r}
+## import the imports data set to identify the broad groups where the species should be clasify
+species_import <- read.csv(here("clean_databases/imports_ADUANA.csv")) %>% 
+  select(name_sp, sc_name) %>% 
+  arrange(name_sp)
+
+## save into an intermediate file to use as a reference of all the species that we can find in this database.
+##write.csv(species_import, here("clean_databases/intermediate/species_import.csv"), row.names = F)
+
+```
+
+We created a file with the specie name, specie scientific name (when possible) and group name that we assing in order to calssify each of the species of our interest.
+
+
+## Step 2: Import the dataset that have the species group
+This will be use to match with the specie scentific names with the SERNAPESCA list from the export file.
+
+```{r}
+##Import data with species group
+species_group <- read_excel(here("clean_databases/intermediate/species_import_group.xlsx"), na="NA")
+
+
+##Import export list and select columnes of interest
+species_list <- read_excel(here("information/raw_databases/ADUANAS_CHILE/arancel_aduanero_nomenclatura/arancel_aduanero_2017/codigos_aduana_por_especie_2017.xlsx"), na="NA")%>%
+  select(especie_SERNAPESCA, sc_name=nombre_cientifico_SERNAPESCA) %>% 
+  unique()
+
+
+
+##match both lists according to scientific names 
+specie_list_complete <- species_list %>% 
+  left_join(species_group, by= "sc_name")
+
+  
+
+
+
+#this is the modified file
+species_group <- read.csv(here("clean_databases/intermediate/species_import.csv"))
+
+##Similar to wha was done above. I will clasify all the list on species_list into the groups determined in species groups. This groups are the following:
+
+groups <- sort(unique(species_group$group)) %>% 
+  data.frame()
+
+colnames(groups) <- "group"
+
+##write.csv(species_list, here("clean_databases/intermediate/species_list.csv"), row.names = F)
+
+
+```
+
+
+
+
