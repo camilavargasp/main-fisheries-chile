@@ -435,10 +435,10 @@ dplyr::mutate(species = ifelse(stringr::str_detect(species,"APA.*ADO"), "APANADO
 ##landings_SERNAPESCA$species <- iconv(landings_SERNAPESCA$species, from = "UTF-8", to="LATIN1") esto coambia el string de <U+00D1> a <d1>
 
 ##landings_SERNAPESCA_N<- landings_SERNAPESCA %>% 
-  gsub(".*<d1>.*", "N", species)
+  #gsub(".*<d1>.*", "N", species)
 
 ##landings_SERNAPESCA <- landings_SERNAPESCA %>% 
-  str_replace(species, "<U+00D1>", "N")
+  #str_replace(species, "<U+00D1>", "N")
 
 
 
