@@ -1,0 +1,37 @@
+name_sp,sc_name,group
+erizos de mar,NA,erizo
+anchoas,NA,anchoas
+arenques,NA,arenques
+atunes,NA,atunes
+bonitos,NA,bonito
+caballas,NA,caballa
+caracoles excepto los de mar,NA,camaron_no_mar
+caviar,NA,caviar
+congrio,NA,congrio
+"extracto de pescado, crustaceos moluscos",NA,pescado_ex
+jurel,NA,jurel
+las demas almejas,NA,almeja_otras
+"las demas jibias",NA,jibia_otras
+listados,NA,listado
+los demas abalones y orejas de mar,NA,abalon_otras
+los demas camarones,NA,camaron_otro
+los demas cangrejos,NA,cangrejos_otros
+los demas caracoles,NA,caracoles_otros
+los demas centollas y centollon,NA,centolla_otros
+los demas crustaceos,NA,crustaceos_otros
+los demas de los demas moluscos,NA,moluscos_otros
+los demas decapodos Natantia,NA,decapodos_otros
+los demas invertebrados acuaticos,NA,invertebrados_otros
+los demas langostinos,NA,langostinos_otros
+los demas pescados,NA,pescado_otros
+meduzas,NA,meduza
+mejillones,NA,mejillon
+merluza,NA,merluza
+ostras,NA,ostra
+pulpos,NA,pulpo
+salmon,NA,salmon
+sardina y jurel,NA,sardina_jurel
+sardinas,NA,sardina
+sardinelas y espadines,NA,sardinal_espadin
+sucedaneos de caviar,NA,caviar
+trucha,NA,trucha

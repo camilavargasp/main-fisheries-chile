@@ -56,7 +56,12 @@ This will be use to match with the specie scentific names with the SERNAPESCA li
 ```{r}
 ##Import data with species group
 species_group <- read_excel(here("clean_databases/intermediate/species_import_group.xlsx"), na="NA")
+  
+w_sc_name <- species_group %>% 
+  filter(!is.na(sc_name))
 
+w_out_sc_name <- species_group %>% 
+  filter(is.na(sc_name))
 
 ##Import export list and select columnes of interest
 species_list <- read_excel(here("information/raw_databases/ADUANAS_CHILE/arancel_aduanero_nomenclatura/arancel_aduanero_2017/codigos_aduana_por_especie_2017.xlsx"), na="NA")%>%
@@ -64,30 +69,34 @@ species_list <- read_excel(here("information/raw_databases/ADUANAS_CHILE/arancel
   unique()
 
 
-
-##match both lists according to scientific names 
+##match list with scientific names with the SERNAPESCA lits according to scientific names 
 specie_list_complete <- species_list %>% 
-  left_join(species_group, by= "sc_name")
+  full_join(w_sc_name, by= "sc_name")
 
   
+## Save this intermediate file. DO NO REWRITE!! This file will be modifues in excel.
+##write.csv(specie_list_complete, here("clean_databases/intermediate/species_group_complete.csv"), row.names = F)
 
 
+##Save a list of species with out scientific name to have as a reference for assigning group name to all species in the SERNAPESCA list. 
 
-#this is the modified file
-species_group <- read.csv(here("clean_databases/intermediate/species_import.csv"))
-
-##Similar to wha was done above. I will clasify all the list on species_list into the groups determined in species groups. This groups are the following:
-
-groups <- sort(unique(species_group$group)) %>% 
-  data.frame()
-
-colnames(groups) <- "group"
-
-##write.csv(species_list, here("clean_databases/intermediate/species_list.csv"), row.names = F)
-
-
+##write.csv(w_out_sc_name, here("clean_databases/intermediate/specie_group_w_out_sc_name.csv"), row.names = F)
 ```
 
 
+## Step 3: Assing a group name to all the species with out scientific name
+Each specie of species_group_complete.csv has to have a group name according to the groups in specie_group_w_out_sc_name.csv
+There are some species that did not sit in any import category, so we determine a new group name when ever necesary (eg: algas, tiburones)
 
+The complete list will be fill in in excel and then read in the next chunk. 
+
+## Step 4: Read in the complete list
+Read the csv with all the group names and do the matchin with the import database
+
+```{r}
+
+sp_groups_all <- read.csv(here("clean_databases/intermediate/species_group_complete.csv"))
+
+
+```
 
