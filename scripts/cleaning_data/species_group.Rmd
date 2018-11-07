@@ -20,7 +20,6 @@ The following file is created through this script:
 ```{r}
 library(tidyverse)
 library(here)
-
 ```
 
 
@@ -50,15 +49,16 @@ species_import <- read.csv(here("clean_databases/imports_ADUANA.csv")) %>%
 We created a file with the specie name, specie scientific name (when possible) and group name that we assing in order to calssify each of the species of our interest.
 
 
-## Step 2: Import the dataset that have the species group
-This will be use to match with the specie scentific names with the SERNAPESCA list from the export file.
+## Step 2: Import the dataset that has the species group
+
+This will be use to match the specie scentific names with the SERNAPESCA list from the export file.
 
 ```{r}
 ##Import data with species group
 species_group <- read_excel(here("clean_databases/intermediate/species_import_group.xlsx"), na="NA")
   
 w_sc_name <- species_group %>% 
-  filter(!is.na(sc_name))
+  filter(!is.na(sc_name)) 
 
 w_out_sc_name <- species_group %>% 
   filter(is.na(sc_name))
@@ -85,17 +85,20 @@ specie_list_complete <- species_list %>%
 
 
 ## Step 3: Assing a group name to all the species with out scientific name
+
 Each specie of species_group_complete.csv has to have a group name according to the groups in specie_group_w_out_sc_name.csv
 There are some species that did not sit in any import category, so we determine a new group name when ever necesary (eg: algas, tiburones)
 
 The complete list will be fill in in excel and then read in the next chunk. 
 
 ## Step 4: Read in the complete list
-Read the csv with all the group names and do the matchin with the import database
+Read the csv with all the group names and do the matching with the import database
 
 ```{r}
 
 sp_groups_all <- read.csv(here("clean_databases/intermediate/species_group_complete.csv"))
+
+write.csv(sp_groups_all, here("clean_databases/species_match.csv"), row.names = F)
 
 
 ```
