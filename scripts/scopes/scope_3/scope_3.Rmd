@@ -9,9 +9,9 @@ output: pdf_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-In order to calculate the somestic food consimtion we buit a model that considers landings, aquaculture harvest, and exports. 
+In order to calculate the somestic food compsumtion we buit a model that considers landings, aquaculture harvest, exports and imports. 
 
-In order to imput the data to the model we first need to combine all our clean datasets into one datafram according to the dummy dataframe. This datafram has the following columns:
+In order to imput the data to the model we first need to combine all our clean datasets into one datafram according to the dummy dataframe. This dataframe has the following columns:
 Species	
 Country	
 Region	
@@ -23,9 +23,24 @@ Imports
 Exports	
 DHC_Prop
 
+According to the data provided by ADUANA CHILE, exports are in a much detailed levels than imports. For this reseon we decided to create to main dataframe:
+1. With landings, aquaculture harvest and exports detailed by species and at a region level
+2. With landings, aquaculture harvest, exports and imports by groups of species (specifies in celan_databases/species_match.csv) at a national level.
+
+# Creating the first dataframe: Including landings, aquaculture harves and exports at a species and regional level
+
 ## Importing datasets
 
+Landings and aquacaltue are then combine with species_match in order to have scientific names
+
+OJO: HAY QU VER COMO AFREGAR EL NOMBRE SCIENTIFICO!! Probablemnte modificar bases de datos desde el principio en otros scripts.
+
 ```{r}
+## species_match
+species_match <- read.csv(here("clean_databases/species_match.csv")) %>% 
+  rename(species= especie_SERNAPESCA)
+
+
 ##landings
 landings<- read_csv(here("clean_databases/landings_SERNAPESCA.csv")) %>% 
   filter(!region %in% c("national","AI", "R.M.")) %>% ##VER SI INCORPORAMOS AI O NO
@@ -35,7 +50,7 @@ landings<- read_csv(here("clean_databases/landings_SERNAPESCA.csv")) %>%
   summarise(tons = sum(tons, na.rm = T)) %>% 
   mutate(variable = "tonnes") %>% 
   rename(catch = tons)
-
+  
 ##aquaculture harvest
 
 aquaculture <- read_csv(here("clean_databases/aquaculture_SERNAPESCA.csv")) %>% 
@@ -49,7 +64,7 @@ aquaculture <- read_csv(here("clean_databases/aquaculture_SERNAPESCA.csv")) %>%
 ## Exports
 
 exports <- read_csv(here("clean_databases/exports_ADUANA.csv")) %>% 
-  select(year, region, exports= tons, species= especie_SERNAPESCA) %>% ##eventually add values
+  select(year, region, exports= tons, species= especie_SERNAPESCA, sc_name=nombre_cientifico_SERNAPESCA) %>% ##eventually add values
   filter(year!= 2018,
          region != 20) %>% 
   mutate(region = ifelse(region==0, NA, region)) %>%
@@ -70,23 +85,89 @@ exports <- read_csv(here("clean_databases/exports_ADUANA.csv")) %>%
   mutate(region = ifelse(region==13, "R.M", region))%>% 
   mutate(variable = "tonnes")
 
-##Imports
-
-imports <- read_csv(here("clean_databases/imports_ADUANA.csv"))
-
 ```
 
 
 ## Combining all datasets!
 
 ```{r}
-model_df <- landings %>% 
+model_region_sp_export <- landings %>% 
   full_join(aquaculture, by= c("year", "region", "species", "variable")) %>%
-  full_join(exports, by= c("year", "region", "species", "variable"))
+  full_join(exports, by= c("year", "region", "species", "variable")) %>% 
+  
+```
+
+# Creating the second dataframe: Including landings, aquaculture harvest, exports and imports at a species group lavel and at a national scale
 
 
+## Wrangle importa data
+
+And assing group name to match with database created above
+
+```{r}
+##Imports
+imports <- read_csv(here("clean_databases/imports_ADUANA.csv")) %>% 
+  select(year, tons, name_sp) %>% 
+  rename(imports=tons) %>% 
+   mutate(variable = "tonnes")
+
+## Import database that matches name_sp with group name
+group_match_imports <- read_excel(here("clean_databases/intermediate/species_import_group.xlsx"))
+
+##match imports with group name
+imports_group <- imports %>% 
+  left_join(group_match_imports, by= "name_sp") %>% 
+  select(year, group, variable, imports)
+
+``` 
+
+
+Database 1 has to be reduce to a nationl level (instead of regional) in order to combine with importa infomation
+
+```{r}
+database1_national <- model_region_sp_export %>% 
+  group_by(year, species) %>% 
+  summarise(catch=sum(catch, na.rm = T),
+            aquaculture = sum(aquaculture, na.rm = T),
+            exports = sum(exports, na.rm = T))
+```
+
+match species with species group
+
+```{r}
+database2 <- database1_national %>% 
+  left_join(species_match, by= "species")
+
+###MINETRAS TANTO NO ARREGLAMOS LOS NOMBRES DESDE EL PRINCIPIO VOY A AGREGAR COMBRE DE GRUPO A TODAS LAS ESPECIES QUE NO TIENEN A MANO PERO IDELAMENTE HAY QUE COMPLETAR LA BASE DE DATOS EN EL SRCIPT species_group.Rmd
+test <- database2 %>% 
+  filter(is.na(group)) %>% 
+  select(species) %>% 
+  unique()
+  
+##Save to add group name by hand
+##write.csv(test,here("clean_databases/intermediate/missing_species_group.csv"), row.names = F)
+
+
+##Read file with group names
+test_complete <- read.csv(here("clean_databases/intermediate/missing_species_group.csv")) %>% 
+  select(species, group)
+
+group_name_complete <- species_match %>% 
+  select(species, group) %>% 
+  rbind(test_complete)
+
+database2_complete_names <- database1_national %>% 
+  left_join(group_name_complete, by= "species") %>% 
+  mutate(variable= "tonnes")
+  
+
+database2_complete <- database2_complete_names %>% 
+  left_join(imports_group, by= c("group", "year", "variable")) %>% 
+  select(year, species, group, variable, catch, aquaculture, exports, imports)
 
 
 ```
+
+
 
 

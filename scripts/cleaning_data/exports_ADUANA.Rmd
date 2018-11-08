@@ -9,7 +9,7 @@ output: pdf_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-This document cleans the Aduana exports datasets and maatches the item_sa with the databease we built with aduna codes for each of the species on the SERNAPESCA datasets. 
+This document cleans the Aduana exports datasets and matches the item_sa with the databease we built with aduna codes for each of the species on the SERNAPESCA datasets. 
 
 Data was downloaded from XXX on October 8 2018.
 
@@ -94,7 +94,7 @@ setdiff(test2$item_sa_17, test2$item_sa_12)
 ## importa data set
 
 cod_aduana_sp <- read_excel(here("information/raw_databases/ADUANAS_CHILE/arancel_aduanero_nomenclatura/arancel_aduanero_2017/codigos_aduana_por_especie_2017.xlsx"), sheet = "Hoja1", range = "A1:G701") %>%
-mutate(item_sa = gsub("[.]","",codigo_aduana))
+mutate(item_sa_17 = gsub("[.]","",codigo_aduana))
 
 
 ##eliminar espacio previo a la especie
@@ -106,10 +106,11 @@ mutate(item_sa = gsub("[.]","",codigo_aduana))
 ## maching segun codigo aduanero
 
 match_exports <- exports_yr %>% 
-  left_join(cod_aduana_sp, by = "item_sa") %>% 
+  left_join(cod_aduana_sp, by = "item_sa_17") %>% 
   filter(!is.na(especie_SERNAPESCA)) %>% 
-  group_by(year, region, especie_SERNAPESCA) %>% 
+  group_by(year, region, especie_SERNAPESCA, nombre_cientifico_SERNAPESCA) %>% 
   summarise(tons = sum(tons, na.rm = T)) %>% 
+  ungroup() %>% 
   dplyr::mutate(especie_SERNAPESCA = ifelse(stringr::str_detect(especie_SERNAPESCA,"SARDINA ESPA.*OLA"), "SARDINA ESPANOLA", especie_SERNAPESCA)) ##correct name
 
 

@@ -20,6 +20,8 @@ The following file is created through this script:
 ```{r}
 library(tidyverse)
 library(here)
+library(pdftools) #install.packages("pdftools")
+library(tabulizer) #install.packages("tabulizer")
 ```
 
 
@@ -56,6 +58,7 @@ This will be use to match the specie scentific names with the SERNAPESCA list fr
 ```{r}
 ##Import data with species group
 species_group <- read_excel(here("clean_databases/intermediate/species_import_group.xlsx"), na="NA")
+
   
 w_sc_name <- species_group %>% 
   filter(!is.na(sc_name)) 
@@ -98,8 +101,19 @@ Read the csv with all the group names and do the matching with the import databa
 
 sp_groups_all <- read.csv(here("clean_databases/intermediate/species_group_complete.csv"))
 
+##add or modify species with different SERNAPESCA Name
+
 write.csv(sp_groups_all, here("clean_databases/species_match.csv"), row.names = F)
 
-
 ```
+
+## Second approach:
+KEEP TRYING UNTILL IT WORK
+Read the Nomina Sernapeca in pdf to get all the species we want in our analisis.
+
+```{r}
+nomina <- pdf_text(here("information/raw_databases/ADUANAS_CHILE/arancel_aduanero_nomenclatura/2016_nomina_de_especies_SERNAPESCA.pdf")) %>% 
+  strsplit("\n")
+```
+
 
