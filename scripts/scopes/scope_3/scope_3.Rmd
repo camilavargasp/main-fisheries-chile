@@ -91,9 +91,9 @@ exports <- read_csv(here("clean_databases/exports_ADUANA.csv")) %>%
 ## Combining all datasets!
 
 ```{r}
-model_region_sp_export <- landings %>% 
+database1_complete <- landings %>% 
   full_join(aquaculture, by= c("year", "region", "species", "variable")) %>%
-  full_join(exports, by= c("year", "region", "species", "variable")) %>% 
+  full_join(exports, by= c("year", "region", "species", "variable")) 
   
 ```
 
@@ -125,7 +125,7 @@ imports_group <- imports %>%
 Database 1 has to be reduce to a nationl level (instead of regional) in order to combine with importa infomation
 
 ```{r}
-database1_national <- model_region_sp_export %>% 
+database1_national <- database1_complete %>% 
   group_by(year, species) %>% 
   summarise(catch=sum(catch, na.rm = T),
             aquaculture = sum(aquaculture, na.rm = T),
@@ -160,14 +160,67 @@ database2_complete_names <- database1_national %>%
   left_join(group_name_complete, by= "species") %>% 
   mutate(variable= "tonnes")
   
+## add to database the products that are not human consumption
+no_hc <- read.csv(here("clean_databases/landings_no_HC.csv")) %>% 
+  group_by(year, species) %>% 
+  summarise(no_hc= sum(tons)) %>%
+  ungroup() %>% 
+  mutate(species= as.character(species)) %>% 
+  mutate(species = ifelse(stringr::str_detect(species,"SARDINA ESPA.*OLA"), "SARDINA ESPANOLA", species))
+
+no_hc_groups <- no_hc %>% 
+  left_join(group_name_complete, by= "species")
+  
+
+
 
 database2_complete <- database2_complete_names %>% 
   left_join(imports_group, by= c("group", "year", "variable")) %>% 
-  select(year, species, group, variable, catch, aquaculture, exports, imports)
+  left_join(no_hc_groups, by= c("group", "year", "species")) %>% 
+  select(year, species, group, variable, catch, no_hc, aquaculture, exports, imports) %>% 
+  mutate(imports= if_else(is.na(imports), 0, imports)) %>% 
+  mutate(no_hc= as.numeric(no_hc)) %>% 
+  mutate(no_hc= if_else(is.na(no_hc), 0, no_hc)) %>% 
+  group_by(group, year) %>% 
+  summarise(catch = sum(catch),
+            no_hc = sum(no_hc),
+            aquaculture = sum(aquaculture),
+            exports= sum(exports),
+            imports = sum(imports)) %>% 
+  mutate(total = (catch+aquaculture+imports)- no_hc - exports) %>% 
+  ungroup()
 
+##Save complete database
+write.csv(database2_complete, here("clean_databases/model_df_by_group.csv"))
+
+top_10_hc <- database2_complete %>% 
+  arrange(year, desc(total)) %>% 
+  group_by(year) %>% 
+  top_n(10, total)
+
+top_5_hc <- database2_complete %>% 
+  arrange(year, desc(total)) %>% 
+  group_by(year) %>% 
+  top_n(5, total)
 
 ```
 
+## Preliminary figures
+
+```{r}
+main_hc <- 
+  ggplot(data = top_5_hc, aes(x = year, y = total, fill = group)) + 
+    geom_bar(stat= "identity")+
+    scale_y_continuous(expand = c(0, 0)) +
+    labs(y="Human Consumption (Tons)", x="Year")+
+    theme_bw()+
+    theme(axis.line = element_line(colour = "black"),
+        axis.text=element_text(size=11),
+        axis.title=element_text(size=12,face="bold"))
+
+plot(main_hc)
+
+```
 
 
 
