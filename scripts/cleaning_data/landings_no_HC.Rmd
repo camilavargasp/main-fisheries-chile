@@ -200,7 +200,7 @@ alginato_2015 <- read_excel(here("information/raw_databases/SERNAPESCA/products/
 
 ## combining all
 
-landings_no_HC <- rbind(aceite_2013, aceite_2014, aceite_2016, agar_2012, agar_2013, agar_2014, agar_2015, agar_2016, alginato_2015, carragenina_2012, carragenina_2013, carragenina_2015, carragenina_2016, colagar_2012, colagar_2013, colagar_2014, colagar_2015, colagar_2016, harina_2012, harina_2013, harina_2014, harina_2015, harina_2016) %>% 
+landings_no_HC <- rbind(aceite_2013, aceite_2014, aceite_2016, agar_2012, agar_2013, agar_2014, agar_2015, agar_2016, alginato_2015, carragenina_2012, carragenina_2013, carragenina_2015, carragenina_2016, colagar_2012, colagar_2013, colagar_2014, colagar_2015, colagar_2016, harina_2012, harina_2013, harina_2014, harina_2015, harina_2016, harina_2017) %>% 
   filter(!(species == 'NA'))%>% 
   select(-ESPECIE)
 

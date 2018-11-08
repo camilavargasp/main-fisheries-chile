@@ -1,11 +1,19 @@
 ---
-title: "first_draft"
+output: 
+  pdf_document: 
+    fig_caption: yes
+    includes:  
+title: "Contributions of marine capture fisheries to the domestic livelihoods and seafood consumption of Chile"
+subtitle: "Draft Chile"
 author: "Camila Vargas e Ignacia Rivera"
-date: "7 de noviembre de 2018"
-output: pdf_document
+header-includes:
+    - \usepackage{setspace}\singlespacing
+# bibliography: Social_Norms_CPR.bib
+# csl: cell.csl
 ---
 
 ```{r setup, include=FALSE}
+
 knitr::opts_chunk$set(echo = TRUE)
 library(knitr)
 library(here)
@@ -20,6 +28,61 @@ library(cowplot)
 library(kableExtra)
 library(readr)
 library(stringr)
+```
+
+## Scope 1: Fisheries Context
+
+We used landing records from SERNAPESCA to identify the main species in terms of landed volume over the last five years (**Table 1**). Current data availability could also allow us to identify this species at the regional level and for each subsector artisanal and industrial. 
+
+Most important species are 
+
+```{r landings table, echo = FALSE, message= FALSE, warning= FALSE}
+
+# importing cleaned landings dataset and aggregating at the national level
+
+landings <- read_csv(here("clean_databases/landings_SERNAPESCA.csv"))
+
+# replacing NAs to zero
+landings[is.na(landings)] <- as.numeric(0)
+landings <- landings %>% 
+  filter(region != "national" & international_waters == 0) %>% 
+  select(-month) %>% 
+  #ifelse(species == '')
+  
+#  aggregating species over the years to get the 10 most common 
+most_landed<- landings %>% 
+  group_by(species) %>% 
+  summarise(tons = sum(tons)) %>% 
+  arrange(desc(tons)) %>% 
+  top_n(10, tons) %>% 
+  select(species)
+
+# calculating SD in tons for each species
+landings_SD <- landings %>% 
+  group_by(species) %>% 
+  summarise(SD= round(sd(tons, na.rm= TRUE), 2), Total = sum(tons))
+
+# making table
+landings_year_main <- landings %>%
+  group_by(year, species) %>% 
+  summarise(tons = sum(tons)) %>% 
+  right_join(most_landed) %>% 
+  spread(key= year, value= tons) %>% 
+  left_join(landings_SD)
+landings_year_main[is.na(landings_year_main)]<- 0
+
+# including scientific name. Ojo Lessonia Nigrensis aparece como dos especies distintas. 
+species_match <- read_csv(here("clean_databases/species_match.csv")) %>% 
+  mutate(species = especie_SERNAPESCA) 
+
+landings_year_main <- landings_year_main %>% 
+  left_join(species_match) %>% 
+  select(sc_name, '2013', '2014', '2015', '2016', '2017', 'Total', 'SD') %>% 
+  arrange(desc(Total))
+
+knitr::kable(landings_year_main, col.names = c('Species', '2013', '2014', '2015', '2016', '2017', 'Total', 'SD'), format.args = list(decimal.mark = '.', big.mark = ","))
+
+
 ```
 
 
