@@ -35,7 +35,6 @@ library(tidyr) #install.packages('tidyr')
 library(readr) #install.packages('readr')
 library(purrr)#install.packages('purr')
 library(stringr)
-library(regex)
 
 ```
 
@@ -54,6 +53,7 @@ Datasets were requested to SERNAPESCA (request #460312718) and recived via email
 ```{r importing data, beach prices artisanal}
 
 ##Creat a list with all beach prices files
+### Tenemos que arreglar caracteres especiales!!!!
 
 beach_price_list <- list.files(here('information/raw_databases/SERNAPESCA/prices'), pattern= 'beach_price_art_.*.csv', full.names = TRUE)
   
@@ -69,13 +69,19 @@ beach_price_all <- beach_price_list %>%
          cove_code =V4,
          cove_name= V5,
          sp_code=V6,
-         specie =V7,
-         peso_ton =V8,
+         species =V7,
+         pesos_per_ton= V8,
          humidity=V9,
          tons= V10,
          origin_vessel=V11,
          origin_place=V12,
-         use=V13)
+         use=V13) %>% 
+  mutate(pesos_per_ton = sub(",", "", pesos_per_ton, fixed = TRUE)) %>% 
+  mutate(pesos_per_ton = as.numeric(sub(",", "", pesos_per_ton, fixed = TRUE))) %>% 
+  mutate(dolar_per_ton = pesos_per_ton/677.30, tons= as.numeric(tons)) %>% ## Conversion dolar Nov, 2018
+  filter(year > 2012) %>% 
+  group_by(year, species, region) %>% 
+    summarize(price = mean(dolar_per_ton), tons = sum(tons))
 
 ``` 
   
@@ -84,7 +90,7 @@ beach_price_all <- beach_price_list %>%
 
 ```{r}
 
-write.csv(beach_price_all, here('clean_databases/intermediate/beach_price_art_comlete_SERNAPESCA.csv'), row.names = F)
+write.csv(beach_price_all, here('clean_databases/prices_art_SERNAPESCA.csv'), row.names = F)
 
 ```
 
@@ -107,4 +113,5 @@ beach_price_per_yr <- read.csv(here('clean_databases/intermediate/beach_price_ar
 
 ```
 
- 
+
+
