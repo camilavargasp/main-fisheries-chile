@@ -86,15 +86,224 @@ knitr::kable(landings_year_main, col.names = c('Species', '2013', '2014', '2015'
 ```
 
 
-## Scope 1: Fisheries Context
+## Scope 3: Domestic Food Consumption
+
+Chile is considered one of the main countries in fishery production worldwide (@fao_estado_2016), however sereral reports and studies suggest the Chilean population does not consume as many marine products . In average, people consume 10-13 kg a year, compared to the 20 kg a year recommended by Food and Agriculture organization (2016). Looking into what type of seafood the Chilean population consumes, a study done in 2012 (Diagnóstico del Consumo Interno de Productos Pesqueros en Chile) shows that 60% of the seafood consume are pelargic fishes, 12% are mollusk and 2% are crustaceans.
+
+
+
+### Methods
+We combined data from Chilean Customs (ADUANAS Chile) and the National Service of Fisheries and Aquaculture (SERNAPESCA) to generate two main databases on the number of tons that are catched, harvested, exported and imported for all marine species in Chile. All the databases we use were available at the agencies' websites at the followoing links [National Service of Fisheries](http://www.sernapesca.cl/informes/estadisticas) and [Chilean Customs](http://www.aduana.cl/registros-de-comercio-exterior-datos-agregados/aduana/2017-07-21/113048.html), respectively and were accessed between August and September of 2018.
+
+The specific datasets we used are:
+
+- Catches: annual tonnes per marine species landed in each region (SERNAPESCA, 2013-2017).
+- Species contribution to different types of products: annual tons per marine species used in each region to elaborate each type of product (i.e. fish meal, oil, canned products, freeze products, dried products, smoked products, agar, colagar, carragenina) (SERNAPESCA, 2012-2016).
+- Aquaculture: annual tonnes per species harvest from aquaculture centers in each region (SERNAPESCA, 2012-2017).
+- Exports: quantities of all the products exported from each chilean region to other countries. (ADUANAS, 2013-2018).
+- Imports: quantities of all marine products imported into the country. (ADUANAS, 2013-2018)
+
+ 
+Each product in the original exports and imports datasets is identified through an id number that matches the name of the product in a code known as the _Arancel Aduanero_. This document was only available to us in .pdf format. Thus, to identified the id of products containing domestically fished and harvest marine species we searched for the names of the fished and harvested species listed by SERNAPESCA in the document with the _Arancel Aduanero_. We searched for all the ids that reffer to the species scientific name, common name or genus name as listed by SERNAPESCA and aggregated them under the species name.
+
+We included a column that indicates the number of tonnes of each species that were used in products that are not directly ingested by humans. For this, we assumed that the following categories of products are not for direct human consumption: fish meal, colagar, agar, carragenina, oil and alginato. Finally, to aggregate all the data at comparable levels we generated broad categories of species based on the imports-dataset, which is the one that has less detail at the species level.
+
+Because imports-data is not available at the regional level we generate two databases, (i) one describing tons landed, harvested, exported and imported at the national level per groups of species and (ii) one containing tons landed, harvested and exported at the regional level per species.
+
+We used the R software to clean and format all the available information in long-form databases. All the scripts for replicating our work are available in "scrpits/cleaning_data".
+
+We detemine the domiestic human consumption of marine products through this general model: (Catch - Products not directly for human consumption) + Aquaculture + Imports - Exports. We assumed that all the products that are no exported or are not used in other elaboration process are consumed by the local population. For this report we explore database i mention above, because it has import quantities. 
+
+### Results
+
+Our preliminar results for this scope allows us to identify main groups of seafood consumed by the chilean population aswell as identify mayor data gaps and areas where we can still imporve our methodology. 
+
+We first analyzed the five main species that contribute to the four main components of the model: Landings subtracting tonnes that are used for products that are not directly related with human consumption, aquaculture, exports and imports. 
+
+We looked into the landings volumes subtracting all quantities that are know to be used in products other than human consumption such as fish oil and fish meal (*Figure XX A*). This data shows  that the main groups of species that go to human consumtiption (either domestic or abroad) are jack mackerel (*Trachurus murphy*), hake (*Merluccius spp*) , jumbo squid (*Trachurus murphyi*), crabs (*Cancer spp*) and algaes. Through out the years the pattern is more or less constant, exept for 2015. One possible explanation for this difference is that there is no data for how much fish (eg:herrings) are use to produce oil for this year. In all other years, oil production is one of the main products that we account as no direct human consumption. Given this data gap, we asked SERNAPESCA to confirm that there is no data for fish oil production for 2015 and if that is the case we will gapfill that information by doing a linear regression with the available data (years 2013, 2014, 2016, 2017).
+
+
+```{r, echo=FALSE, include=FALSE}
+## Import database
+complete_database1 <- read.csv(here("clean_databases/model_df_by_group.csv"))
+
+## Identifie top 5 for catch discuting the tonnes that are for no humna consumption 
+top5_catch_for_hc <- complete_database1%>%
+  mutate(catch_no_hc = catch - no_hc) %>% 
+  arrange(year, desc(catch_no_hc)) %>% 
+  group_by(year) %>% 
+  top_n(5, catch_no_hc) %>% 
+  data.frame()
+
+top5_catch_for_hc_fig <- 
+  ggplot(data = top5_catch_per_yr, aes(x = year, y = catch_no_hc, fill = group)) + 
+    geom_bar(stat= "identity")+
+    scale_y_continuous(expand = c(0, 0)) +
+    labs(y="Landings for human consumption (Tonnes)", x="Year")+
+    theme_bw()+
+    theme(axis.line = element_line(colour = "black"),
+        axis.text=element_text(size=11),
+        axis.title=element_text(size=12,face="bold"))
+
+top5_catch_for_hc_fig
+
+## Identify top 5 fieheries in aquaculture
+
+top5_aqua_per_yr <- complete_database1%>%
+  arrange(year, desc(aquaculture)) %>% 
+  group_by(year) %>% 
+  top_n(5, aquaculture)
+
+
+top5_aqua <- 
+  ggplot(data = top5_aqua_per_yr, aes(x = year, y = aquaculture, fill = group)) + 
+    geom_bar(stat= "identity")+
+    scale_y_continuous(expand = c(0, 0)) +
+    labs(y="Aquaculture harvest (Tonnes)", x="Year")+
+    theme_bw()+
+    theme(axis.line = element_line(colour = "black"),
+        axis.text=element_text(size=11),
+        axis.title=element_text(size=12,face="bold"))
+
+top5_aqua
+
+##Identify top 5 exported products
+top5_export_per_yr <- complete_database1%>%
+  arrange(year, desc(exports)) %>% 
+  group_by(year) %>% 
+  top_n(5, exports)
+
+
+top5_export <- 
+  ggplot(data = top5_export_per_yr, aes(x = year, y = exports, fill = group)) + 
+    geom_bar(stat= "identity")+
+    scale_y_continuous(expand = c(0, 0)) +
+    labs(y="Exports (Tonnes)", x="Year")+
+    theme_bw()+
+    theme(axis.line = element_line(colour = "black"),
+        axis.text=element_text(size=11),
+        axis.title=element_text(size=12,face="bold"))
+
+top5_export
+
+##Identify top 5 imported products
+top5_import_per_yr <- complete_database1%>%
+  arrange(year, desc(imports)) %>% 
+  group_by(year) %>% 
+  top_n(5, imports)
+
+
+top5_import <- 
+  ggplot(data = top5_import_per_yr, aes(x = year, y = imports, fill = group)) + 
+    geom_bar(stat= "identity")+
+    scale_y_continuous(expand = c(0, 0)) +
+    labs(y="Imports (Tonnes)", x="Year")+
+    theme_bw()+
+    theme(axis.line = element_line(colour = "black"),
+        axis.text=element_text(size=11),
+        axis.title=element_text(size=12,face="bold"))
+
+top5_import
+
+
+```
+
+
+```{r,  echo= FALSE, fig.cap= Relative contribution of four main componenst of the model to calulate domestic seafood consumption in Chile'A) Main fisheries groups according to aquaculture, imports, exports and landings discounting tonnes that are not use for human consumption, . B) Main fisheries groups according to aquaculture harvest. C) Main mairine products exported by Chile. D) Main mairine products imported by Chile', fig.height=4}
+
+##OJO: It is very confusing that the species change color along the frout plots. Maybe try ploting everything with wrap.
+
+Figure_model_component <- grid.arrange(top5_catch_for_hc_fig, top5_aqua,top5_export, top5_import, nrow=2, ncol=2)
+
+##alternative
+#Figure_model_component2 <- plot_grid(top5_catch_for_hc_fig, top5_aqua,top5_export, top5_import, labels = "AUTO", hjust = 0, vjust = 1, scale = c(1., 1., 0.9, 0.9))
+
+#scale = c(1., 1., 0.9, 0.9)
+
+```
+
+Tha aquacultrue activity in Chile is dominated by the production of salmon (**Figure XX B*). Other groups of species harvested in Chile are mussels, trout and algaes and scallops. However the production of these four other groups is relatively small. Quantities and main groups of species harvested in Chile are relatively constant in the last 5 years. CThe current data shows that chilean exports are dominated by pelargic fishes (Salmon and jack mackerel, *Figure XX C*), but we know that salmon should have a larger contribution respect to jack mackerel, therefore we need to revise our methods. Most of the seafood that Chile imports are also pelargic fishes mainly tuna (Figure XX D).
+
+
+According to our model, salmon would be the main fish consumed by the Chilean population (*Figure XX*). However, that does not align to our internal conversations with sifhers and local consumers which percive that salmon in maily exported and the main pelargic fish consumed by the polulation could be the hake.
+Furtheremore, acording to @techreport, 66% of chilean exports of sea products are salmon. Eventhough, our data shows salmon as one of the five main species exported by the country, we do not see a major diference with jack mackerel (*Trachurus murphy*) as we expected. This mean that our data is underestimating exports of salmon. 
+One possible explanation for this issue is that through the process of matiching exports code with the name of product we missed salmon products therefore this products are currently not considered within the exports values. We are currently revisiong our methods and in order to incorporate all marine products that are not currently being accounted. 
+We also requested information about the destination of harvest products to SERNAPESCA to have a second source of information to compare the Chilean customs data. 
+
+
+```{r, echo=FALSE, include=FALSE}
+##MODEL:Landings + aqua - no_hc - export + import
+top5_total <- complete_database1%>%
+  arrange(year, desc(total)) %>% 
+  group_by(year) %>% 
+  top_n(5, total) %>% 
+  data.frame()
+
+top5_total_fig <- 
+  ggplot(data = top5_total, aes(x = year, y = total, fill = group)) + 
+    geom_bar(stat= "identity")+
+    scale_y_continuous(expand = c(0, 0)) +
+    labs(y="Total domestic consumption (Tonnes)", x="Year")+
+    theme_bw()+
+    theme(axis.line = element_line(colour = "black"),
+        axis.text=element_text(size=11),
+        axis.title=element_text(size=12,face="bold"))
+
+top5_total_fig
+
+```
+
+```{r,  echo= FALSE, fig.cap= '', fig.height=4}
+
+top5_total_fig
+```
+
+
+We run the model not considering salmon (*Figure XX*) to have a better representation of domestic seafood consumption in Chile. As mention above, there is a data gap on 2015 no human consumption products, this explains the changes compared to all other years. But also allows us to visualize that most of the demarsal fisheries (other fishes and herrings) catches are mainly used to produce products not for direct human comsumption (eg: fishmeal, fis oil).
+
+```{r}
+
+##MODEL NO SALMON:Landings + aqua - no_hc - export + import
+top5_total_no_sal <- complete_database1%>%
+  filter(group != "salmon") %>% 
+  arrange(year, desc(total)) %>% 
+  group_by(year) %>% 
+  top_n(5, total) %>% 
+  data.frame()
+
+top5_total_no_sal_fig <- 
+  ggplot(data = top5_total_no_sal, aes(x = year, y = total, fill = group)) + 
+    geom_bar(stat= "identity")+
+    scale_y_continuous(expand = c(0, 0)) +
+    labs(y="Total domestic consumption (Tonnes)", x="Year")+
+    theme_bw()+
+    theme(axis.line = element_line(colour = "black"),
+        axis.text=element_text(size=11),
+        axis.title=element_text(size=12,face="bold"))
+
+top5_total_no_sal_fig
+
+```
+
+These results (*Figure XX*) show that domestic comsumption is mainly dominated by algaes, mussels, tuna and hake. There are two main things to remark on these results: (i) the high values on algaes is probably due to our methodologies given that within our methods we did not include dry algae as a product not for human consuption. The rationale behind this decision was that subtracting dry algae from total landings would underestimate what ever is directly consumed by the population given that algaes consumed by humans are mainly dry. However, we will re run our analisis discounting dry algaes becuase most of the algae goes to the indutry and only ~3% goes to human consumption @@techreport.
+The second point we want to emphasis, is the tunas are within the main group of seafood cunsumed in Chile. However, tunas are one of the main imported species in the country *(Figure XX, D*) ratheer than species caught locally.
 
 
 
 
 
+## Critical Analysis
+
+-  The most important fisheries in Chile in terms of landings have been Anchovy (*Engraulis ringens*), Chilean jack mackerel (*Trachurus murphy*i) and Araucanian herring (*Strangomera bentincki*) (*Figure 1*), all three of them mainly catch by the industrial fleet. This pelagic fishes are mainly used to produce fish meal therefore not for human comsuption. 
+
+-  Most importat species for local consumptions are tunas, mussels and hake. However tunas are mainly imported therefore mussels and hake are the most important local resources seafood in Chile. In general this preferences have not change over time. But, comparing data from 2013 to data from 2017 the amount consumed of each of this fisheries has changed. In 2013 31% of the consumption was hake and 32% mussel and 18% tuna. In 2017, 38% of seafood consumption is mussels, 30% of fish consumed is tuna, and only 13% is hake. Interestingly, hake consumption has been decreasing over time while tuna and mussels have been increasing. We need to further explore price variation and people's preferences in order to provide an insightful explanation to this results. Note: this percentage do not inclde algaes. 
 
 
 
+### Discuss our methodologies - proponer alternative approach
+- At this point of the analysis our main focus has been in gathering and cleaning all the data. Up to now we now which information is avaiable and we have been able to deliver preliminray results. However the next steps for this project is to improve our methodology in areas that we have identified pitfalls such as revising aduana code to include all salmon products in the exports, not include dry algaes as product for human consumtion and incorporate to our analysis the proportion of the each product that is consumed by humans.
+
+-Eventhough we recognize that Chile has wide range and detailed information available, one of the main challenges have been able to match all sources of information at a species level. Several of the documnts provided by the Chilean Customs are in pfd format which has required carefully inspectoioning for all the information but is prone to human error. We are trying to account for that by cross checking what we are doing.
 
 
 

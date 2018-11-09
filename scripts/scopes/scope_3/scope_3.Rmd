@@ -191,7 +191,7 @@ database2_complete <- database2_complete_names %>%
   ungroup()
 
 ##Save complete database
-write.csv(database2_complete, here("clean_databases/model_df_by_group.csv"))
+write.csv(database2_complete, here("clean_databases/model_df_by_group.csv"), row.names = F)
 
 top_10_hc <- database2_complete %>% 
   arrange(year, desc(total)) %>% 
