@@ -32,9 +32,9 @@ library(stringr)
 
 ## Scope 1: Fisheries Context
 
-We used landing records from SERNAPESCA to identify the main species in terms of landed volume over the last five years (**Table 1**). Current data availability could also allow us to identify this species at the regional level and for each subsector artisanal and industrial. 
+**Methods**: We used landing records from SERNAPESCA (available online) to evaluate the main species in terms of landed volume over the last five years (2013-2017). To estimate most important fisheries in terms of economic value, we used data on first-transaction prices per species (requested to SERNAPESCA). This data was only available for the artisanal sector since data on industrial transactions is not recorded officially. 
 
-Most important species are 
+**Results and Discussion**: Most important species in this regard are the peruvian anchoveta (*Engraulis ringens*), the Araucarian herring (*Strangomera bentincki*) and the Giant grey weed (*Lessonia nigrensis*). More detail on anual variability and other important species can be found in **Table 1**. Landings are generally well documented in Chile and we are confident the dataset we are using for the estimates are the best we could find. However, it is built based on self-reported landings for each vessel therefore, it does not account for Illegal, unreported and unregulated fishing (IUU). 
 
 ```{r landings table, echo = FALSE, message= FALSE, warning= FALSE}
 
@@ -47,7 +47,7 @@ landings[is.na(landings)] <- as.numeric(0)
 landings <- landings %>% 
   filter(region != "national" & international_waters == 0) %>% 
   select(-month) %>% 
-  #ifelse(species == '')
+  mutate(species = ifelse(species == 'HUIRO NEGRO O CHASCON', 'CHASCON O HUIRO NEGRO', species))
   
 #  aggregating species over the years to get the 10 most common 
 most_landed<- landings %>% 
@@ -60,7 +60,7 @@ most_landed<- landings %>%
 # calculating SD in tons for each species
 landings_SD <- landings %>% 
   group_by(species) %>% 
-  summarise(SD= round(sd(tons, na.rm= TRUE), 2), Total = sum(tons))
+  summarise(SD= round(sd(tons, na.rm= TRUE), 0), Mean = round(mean(tons)),0)
 
 # making table
 landings_year_main <- landings %>%
@@ -77,14 +77,71 @@ species_match <- read_csv(here("clean_databases/species_match.csv")) %>%
 
 landings_year_main <- landings_year_main %>% 
   left_join(species_match) %>% 
-  select(sc_name, '2013', '2014', '2015', '2016', '2017', 'Total', 'SD') %>% 
-  arrange(desc(Total))
+  select(sc_name, '2013', '2014', '2015', '2016', '2017', 'Mean', 'SD') %>% 
+  arrange(desc(Mean))
 
-knitr::kable(landings_year_main, col.names = c('Species', '2013', '2014', '2015', '2016', '2017', 'Total', 'SD'), format.args = list(decimal.mark = '.', big.mark = ","))
+knitr::kable(landings_year_main, col.names = c('Species', '2013', '2014', '2015', '2016', '2017', 'Mean', 'SD'), format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Landings (in tons) between 2013 and 2017 for most common species landed in Chile')
+ 
 
 
 ```
 
+Most important fisheries in terms of economic value to artisanal fishers and its year landings are presented in **Table 2**. 
+
+```{r prices table, echo = FALSE, message= FALSE, warning= FALSE}
+
+# importing cleaned prices dataset and aggregating at the national level
+
+landings <- read_csv(here("clean_databases/landings_SERNAPESCA.csv"))
+
+# replacing NAs to zero
+landings[is.na(landings)] <- as.numeric(0)
+landings <- landings %>% 
+  filter(region != "national" & international_waters == 0) %>% 
+  select(-month) %>% 
+  mutate(species = ifelse(species == 'HUIRO NEGRO O CHASCON', 'CHASCON O HUIRO NEGRO', species))
+  
+#  aggregating species over the years to get the 10 most common 
+most_landed<- landings %>% 
+  group_by(species) %>% 
+  summarise(tons = sum(tons)) %>% 
+  arrange(desc(tons)) %>% 
+  top_n(10, tons) %>% 
+  select(species)
+
+# calculating SD in tons for each species
+landings_SD <- landings %>% 
+  group_by(species) %>% 
+  summarise(SD= round(sd(tons, na.rm= TRUE), 0), Mean = round(mean(tons)),0)
+
+# making table
+landings_year_main <- landings %>%
+  group_by(year, species) %>% 
+  summarise(tons = sum(tons)) %>% 
+  right_join(most_landed) %>% 
+  spread(key= year, value= tons) %>% 
+  left_join(landings_SD)
+landings_year_main[is.na(landings_year_main)]<- 0
+
+# including scientific name. Ojo Lessonia Nigrensis aparece como dos especies distintas. 
+species_match <- read_csv(here("clean_databases/species_match.csv")) %>% 
+  mutate(species = especie_SERNAPESCA) 
+
+landings_year_main <- landings_year_main %>% 
+  left_join(species_match) %>% 
+  select(sc_name, '2013', '2014', '2015', '2016', '2017', 'Mean', 'SD') %>% 
+  arrange(desc(Mean))
+
+knitr::kable(landings_year_main, col.names = c('Species', '2013', '2014', '2015', '2016', '2017', 'Mean', 'SD'), format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Landings (in tons) between 2013 and 2017 for most common species landed in Chile')
+ 
+
+```
+
+
+**Further anlayses**: 
+
+- Current data availability allow us to identify the most landed species at the regional level and for each subsector artisanal and industrial. 
+- Incorporate estimates of species specific IUU fishing if we can find them in the literatue. 
 
 ## Scope 3: Domestic Food Consumption
 
