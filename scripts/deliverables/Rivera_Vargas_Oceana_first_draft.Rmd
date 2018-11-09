@@ -417,11 +417,8 @@ top5_import
 ```
 
 
-<<<<<<< HEAD
 ```{r,  echo= FALSE, fig.cap= 'Relative contribution of four main componenst of the model to calulate domestic seafood consumption in Chile A) Main fisheries groups according to aquaculture, imports, exports and landings discounting tonnes that are not use for human consumption, . B) Main fisheries groups according to aquaculture harvest. C) Main mairine products exported by Chile. D) Main mairine products imported by Chile', fig.height=4}
-=======
-```{r,  echo= FALSE, fig.cap= 'Relative contribution of four main componenst of the model to calulate domestic seafood consumption in Chile'A) Main fisheries groups according to aquaculture, imports, exports and landings discounting tonnes that are not use for human consumption, . B) Main fisheries groups according to aquaculture harvest. C) Main mairine products exported by Chile. D) Main mairine products imported by Chile', fig.height=4}
->>>>>>> 3f4fd53d5986c8cc9be7f3f4e0c3551e1ce53249
+
 
 ##OJO: It is very confusing that the species change color along the frout plots. Maybe try ploting everything with wrap.
 
