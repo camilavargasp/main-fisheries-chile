@@ -20,7 +20,7 @@ library(readr)
 
 There are two marine extractive sectors in Chile, the artisanal and the industrial. 
 
-The artisanal sector correspond to fishing activities performed by vessels smaller than 18 meters in length and 50 tones and by individuals harvesting resources in the intertidal zone (i.e. harvesting drift alage or extracting benthic resources). Artisanal fishers and their vessels must be registed in the National Records of Artisanal Fishers (RPA, acronym in spanish) kept by SERNAPESCA. The RPA list which kind of species an individual is allowed to extract and in which area. It also categorize fishers as boat owners, fishers, divers or shore harvesters as well as gender and age of the registered fishers. Most artisanal fishers are organized at the local level in unions, economic associations or cooperatives and in federations at the national level. 
+The artisanal sector correspond to fishing activities performed by vessels smaller than 18 meters in length and 50 tones and by individuals harvesting resources in the intertidal zone (i.e. harvesting drift alage or extracting benthic resources). Artisanal fishers and their vessels must be registed in the National Records of Artisanal Fishers (RPA, acronym in spanish) kept by SERNAPESCA. The RPA list the kind of species an individual is allowed to extract and in which area. It also categorize fishers as boat owners, fishers, divers or shore harvesters as well as gender and age of the registered fishers. Most artisanal fishers are organized at the local level in unions, economic associations or cooperatives and in federations at the national level. 
 
 Landings are self-reported to SERNAPESCA [completar bien esto, explicar como se obtienen las bases de landings y precios en SERNAPESCA].
 
