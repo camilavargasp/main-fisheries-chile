@@ -29,6 +29,30 @@ library(readr)
 library(stringr)
 library(purrr)
 library(naniar)
+library(wesanderson)
+
+ggtheme_plot <- function() {
+  theme(
+    plot.title = element_text(size = rel(1), hjust = 0, face = "bold"),
+    panel.background = element_blank(),
+    strip.background = element_blank(),
+    # strip.text       = element_text(size = base_size, face = "italic"),
+    panel.border     = element_blank(),
+    panel.grid.minor = element_blank(),
+    panel.grid.major = element_blank(),
+    axis.ticks = element_blank(),
+    axis.text.x = element_text(size = 10,
+                               angle = 0,
+                               face = "plain"),
+    axis.text.y = element_text(size = 12),
+    axis.title = element_text(size = 14),
+    legend.key = element_rect(colour = NA, fill = NA),
+    legend.position  = "top",
+    legend.title = element_text(size = 16),
+    legend.text = element_text(size = 14),
+    strip.text.x = element_text(size = 18, colour = "darkgrey")
+  )
+}
 ```
 
 ## Scope 1: Top domestic marine, capture fisheries based on landings and value
@@ -276,10 +300,12 @@ job_type_product <- job_type_product %>%
     geom_bar(stat= "identity")+
     scale_y_continuous(expand = c(0, 0)) +
     labs(y="Percent of jobs in processing facilities (%)", x="Year")+
+    scale_fill_manual(values = c(wes_palette("Darjeeling1", 5, type = "discrete"), "#000000")) +
     theme_bw()+
     theme(axis.line = element_line(colour = "black"),
         axis.text=element_text(size=11),
-        axis.title=element_text(size=12,face="bold"))
+        axis.title=element_text(size=12,face="bold"))+
+  ggtheme_plot()
 
 job_type_product
 
@@ -344,7 +370,7 @@ top5_catch_for_hc <- complete_database1%>%
   data.frame()
 
 top5_catch_for_hc_fig <- 
-  ggplot(data = top5_catch_for_hc, aes(x = year, y = catch_no_hc, fill = group)) + 
+  ggplot(data = top5_catch_for_hc, aes(x = year, y = catch_no_hc, fill = group)) +
     geom_bar(stat= "identity")+
     scale_y_continuous(expand = c(0, 0)) +
     labs(y="Landings for human consumption \n (Tonnes)", x="Year")+
@@ -419,7 +445,6 @@ top5_import
 
 
 ```{r,  echo= FALSE, fig.cap= 'Relative contribution of four main componenst of the model to calulate domestic seafood consumption in Chile A) Main fisheries groups according to aquaculture, imports, exports and landings discounting tonnes that are not use for human consumption. B) Main fisheries groups according to aquaculture harvest. C) Main mairine products exported by Chile. D) Main mairine products imported by Chile', fig.height=6}
-
 
 
 ##OJO: It is very confusing that the species change color along the frout plots. Maybe try ploting everything with wrap.
