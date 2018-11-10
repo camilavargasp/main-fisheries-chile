@@ -1,0 +1,51 @@
+---
+title: "cleaning_production_facilities"
+author: "Camila Vargas e Ignacia Rivera"
+date: "November 9, 2018"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(here)
+library(magrittr)
+library(purrr)
+library(dplyr)
+library(tidyr)
+library(naniar)
+```
+
+```{r cars}
+
+# Importing national records of type of product per processing facilities
+
+files <- list.files(here('information/raw_databases/SERNAPESCA/processing_facilities'), pattern= 'names_processing_facilities_and_product_type_20.*.csv', full.names = TRUE)
+years <- c('2013', '2014', '2015', '2016', '2017')
+files <- setNames(files, years) # only needed when you need an id-column
+facilities <- map_df(files, read.csv, .id = "id") %>% 
+  select(id, X, X.2:X.16) %>% 
+  filter(!grepl('L', X.2)) %>% 
+  filter(row_number()> 2) 
+
+# Preparing the df (this is a mess!)
+colnames(facilities)<- c('year', 'code', 'fresh', 'frozen', 'surimi', 'dried', 'wet', 'smoked', 'canned', 'fish_meal', 'oil', 'agar', 'dried_algae', 'dehid', 'alginato', 'carragenina', 'colagar')
+facilities <- facilities %>% 
+  filter(!(code == "")) %>% 
+  replace_with_na_all(condition = ~.x == '') %>% 
+  mutate(code = as.numeric(code))
+
+first_columns <- facilities[1:2]
+facilities[!(is.na(facilities))] <- 1
+facilities <- cbind(first_columns, facilities[3:17])
+
+```
+
+
+```{r}
+## writes clean and complete database to clean_databases
+
+write.csv(facilities,  here("clean_databases/products_per_facilities.csv"), row.names=T)
+
+```
+

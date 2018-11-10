@@ -256,26 +256,11 @@ colnames(employment_facilities) <- c('year', 'month', 'region', 'port', 'code', 
 jobs_per_facility <- employment_facilities %>% 
   mutate(total_jobs= mo_perm_m + mo_perm_f + mo_temp_m + mo_temp_f)
 
-# Importing national records of type of product per processing facilities
-files <- list.files(here('information/raw_databases/SERNAPESCA/processing_facilities'), pattern= 'names_processing_facilities_and_product_type_20.*.csv', full.names = TRUE)
-years <- c('2013', '2014', '2015', '2016', '2017')
-files <- setNames(files, years) # only needed when you need an id-column
-facilities <- map_df(files, read.csv, .id = "id") %>% 
-  select(id, X, X.2:X.16) %>% 
-  filter(!grepl('L', X.2)) %>% 
-  filter(row_number()> 2) 
+# Importing data on types of products per facilities
 
-# Preparing the df (this is a mess!)
-colnames(facilities)<- c('year', 'code', 'fresh', 'frozen', 'surimi', 'dried', 'wet', 'smoked', 'canned', 'fish_meal', 'oil', 'agar', 'dried_algae', 'dehid', 'alginato', 'carragenina', 'colagar')
-facilities <- facilities %>% 
-  filter(!(code == "")) %>% 
-  replace_with_na_all(condition = ~.x == '') %>% 
-  mutate(code = as.numeric(code))
-
-first_columns <- facilities[1:2]
-facilities[!(is.na(facilities))] <- 1
-facilities <- cbind(first_columns, facilities[3:17])
-
+facilities <- read_csv(here('clean_databases/products_per_facilities.csv')) %>% 
+  select(-X1)
+  
 # Combining facilities production with jobs
 
 job_type_product <- facilities %>% 
