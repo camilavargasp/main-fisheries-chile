@@ -235,8 +235,11 @@ most_species_permits <- rpa_species %>%
   group_by(region) %>% 
   top_n(1, n) %>% 
   left_join(species_match) %>% 
-  select(species,species, sc_name)
+  select(species,species, sc_name) %>% 
   data.frame() 
+
+most_species_permits$species <- str_to_lower(most_species_permits$species)
+
 
 knitr::kable(most_species_permits, col.names = c('Region', 'Most targeted species (Common name)', 'Most targeted species (Scientific name)'), format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Most targeted species by the artisanal sector in each region based on the number of permits issued by SERNAPESCA') %>% 
   kable_styling(latex_options = 'hold_position')
