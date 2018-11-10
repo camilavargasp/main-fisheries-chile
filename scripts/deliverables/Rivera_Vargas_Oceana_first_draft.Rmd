@@ -29,6 +29,30 @@ library(readr)
 library(stringr)
 library(purrr)
 library(naniar)
+library(wesanderson)
+
+ggtheme_plot <- function() {
+  theme(
+    plot.title = element_text(size = rel(1), hjust = 0, face = "bold"),
+    panel.background = element_blank(),
+    strip.background = element_blank(),
+    # strip.text       = element_text(size = base_size, face = "italic"),
+    panel.border     = element_blank(),
+    panel.grid.minor = element_blank(),
+    panel.grid.major = element_blank(),
+    axis.ticks = element_blank(),
+    axis.text.x = element_text(size = 10,
+                               angle = 0,
+                               face = "plain"),
+    axis.text.y = element_text(size = 12),
+    axis.title = element_text(size = 14),
+    legend.key = element_rect(colour = NA, fill = NA),
+    legend.position  = "top",
+    legend.title = element_text(size = 16),
+    legend.text = element_text(size = 14),
+    strip.text.x = element_text(size = 18, colour = "darkgrey")
+  )
+}
 ```
 
 ## Scope 1: Top domestic marine, capture fisheries based on landings and value
@@ -276,10 +300,12 @@ job_type_product <- job_type_product %>%
     geom_bar(stat= "identity")+
     scale_y_continuous(expand = c(0, 0)) +
     labs(y="Percent of jobs in processing facilities (%)", x="Year")+
+    scale_fill_manual(values = c(wes_palette("Darjeeling1", 5, type = "discrete"), "#000000")) +
     theme_bw()+
     theme(axis.line = element_line(colour = "black"),
         axis.text=element_text(size=11),
-        axis.title=element_text(size=12,face="bold"))
+        axis.title=element_text(size=12,face="bold"))+
+  ggtheme_plot()
 
 job_type_product
 
@@ -344,14 +370,17 @@ top5_catch_for_hc <- complete_database1%>%
   data.frame()
 
 top5_catch_for_hc_fig <- 
-  ggplot(data = top5_catch_for_hc, aes(x = year, y = catch_no_hc, fill = group)) + 
+  ggplot(data = top5_catch_for_hc, aes(x = year, y = catch_no_hc, fill = group)) +
     geom_bar(stat= "identity")+
     scale_y_continuous(expand = c(0, 0)) +
     labs(y="Landings for human consumption \n (Tonnes)", x="Year")+
     theme_bw()+
     theme(axis.line = element_line(colour = "black"),
         axis.text=element_text(size=11),
-        axis.title=element_text(size=12,face="bold"))
+        axis.title=element_text(size=12,face="bold"))+
+  scale_fill_manual(values = c(wes_palette("Darjeeling1", 5, type = "discrete"),wes_palette("Darjeeling2", 3, type = "discrete")))+
+  ggtheme_plot()
+
 
 top5_catch_for_hc_fig
 
@@ -374,7 +403,9 @@ top5_aqua <-
     theme_bw()+
     theme(axis.line = element_line(colour = "black"),
         axis.text=element_text(size=11),
-        axis.title=element_text(size=12,face="bold"))
+        axis.title=element_text(size=12,face="bold"))+
+  scale_fill_manual(values = wes_palette("Darjeeling1", 5, type = "discrete"))+
+  ggtheme_plot()
 
 top5_aqua
 
@@ -397,7 +428,9 @@ top5_export <-
     theme_bw()+
     theme(axis.line = element_line(colour = "black"),
         axis.text=element_text(size=11),
-        axis.title=element_text(size=12,face="bold"))
+        axis.title=element_text(size=12,face="bold"))+
+  scale_fill_manual(values = c(wes_palette("Darjeeling1", 5, type = "discrete"),wes_palette("Darjeeling2", 3, type = "discrete")))+
+  ggtheme_plot()
 
 top5_export
 ```
@@ -419,7 +452,9 @@ top5_import <-
     theme_bw()+
     theme(axis.line = element_line(colour = "black"),
         axis.text=element_text(size=11),
-        axis.title=element_text(size=12,face="bold"))
+        axis.title=element_text(size=12,face="bold"))+
+  scale_fill_manual(values = c(wes_palette("Darjeeling1", 5, type = "discrete"),wes_palette("Darjeeling2", 4, type = "discrete")))+
+  ggtheme_plot()
 
 top5_import
 
@@ -428,7 +463,6 @@ top5_import
 
 
 The aquaculture activity in Chile is dominated by the production of salmon (*Figure 3*). Other groups of species harvested in Chile are mussels, trout and algae and scallops. However the production of these four other groups is relatively small. Quantities and main groups of species harvested in Chile are relatively constant in the last 5 years. The current data shows that Chilean exports are dominated by pelagic fishes (Salmon and jack mackerel, *Figure 4*), but we know that salmon should have a larger contribution respect to jack mackerel, therefore we need to revise our methods. Most of the seafood that Chile imports are also pelagic fishes mainly tuna (*Figure 5*).
-
 
 According to our model, salmon would be the main fish consumed by the Chilean population (*Figure 6*). However, that does not align to our internal conversations with fishers and local consumers which perceive that salmon is mainly exported and the main pelagic fish consumed by the population could be the hake.
 Furthermore, according to @observatorio_laboral_nacional_reporte_nodate, 66% of Chilean exports of sea products are salmon. Even though, our data shows salmon as one of the five main species exported by the country, we do not see a major difference with jack mackerel (*Trachurus murphy*) as we expected. This mean that our data is underestimating exports of salmon. 
@@ -451,7 +485,9 @@ top5_total_fig <-
     theme_bw()+
     theme(axis.line = element_line(colour = "black"),
         axis.text=element_text(size=11),
-        axis.title=element_text(size=12,face="bold"))
+        axis.title=element_text(size=12,face="bold"))+
+  scale_fill_manual(values = c(wes_palette("Darjeeling1", 5, type = "discrete"),wes_palette("Darjeeling2", 4, type = "discrete")))+
+  ggtheme_plot()
 
 top5_total_fig
 
@@ -483,7 +519,9 @@ top5_total_no_sal_fig <-
     theme_bw()+
     theme(axis.line = element_line(colour = "black"),
         axis.text=element_text(size=11),
-        axis.title=element_text(size=12,face="bold"))
+        axis.title=element_text(size=12,face="bold"))+
+  scale_fill_manual(values = c(wes_palette("Darjeeling1", 5, type = "discrete"),wes_palette("Darjeeling2", 3, type = "discrete")))+
+  ggtheme_plot()
 
 top5_total_no_sal_fig
 
