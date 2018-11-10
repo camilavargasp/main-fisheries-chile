@@ -328,10 +328,10 @@ Our preliminary results for this scope allows us to identify main groups of seaf
 
 We first analyzed the five main species that contribute to the four main components of the model: Landings subtracting tonnes that are used for products that are not directly related with human consumption, aquaculture, exports and imports. 
 
-We looked into the landings volumes subtracting all quantities that are know to be used in products other than human consumption such as fish oil and fish meal (*Figure 2A*). This data shows  that the main groups of species that go to human consumption (either domestic or abroad) are jack mackerel (*Trachurus murphy*), hake (*Merluccius spp*) , jumbo squid (*Trachurus murphyi*), crabs (*Cancer spp*) and algae. Through out the years the pattern is more or less constant, except for 2015. One possible explanation for this difference is that there is no data for how much fish (e.g. herrings) are use to produce oil for this year. In all other years, oil production is one of the main products that we account as no direct human consumption. Given this data gap, we asked SERNAPESCA to confirm that there is no data for fish oil production for 2015 and if that is the case we will gap-fill that information by doing a linear regression with the available data (years 2013, 2014, 2016, 2017).
+We looked into the landings volumes subtracting all quantities that are know to be used in products other than human consumption such as fish oil and fish meal (*Figure 2*). This data shows  that the main groups of species that go to human consumption (either domestic or abroad) are jack mackerel (*Trachurus murphy*), hake (*Merluccius spp*) , jumbo squid (*Trachurus murphyi*), crabs (*Cancer spp*) and algae. Through out the years the pattern is more or less constant, except for 2015. One possible explanation for this difference is that there is no data for how much fish (e.g. herrings) are use to produce oil for this year. In all other years, oil production is one of the main products that we account as no direct human consumption. Given this data gap, we asked SERNAPESCA to confirm that there is no data for fish oil production for 2015 and if that is the case we will gap-fill that information by doing a linear regression with the available data (years 2013, 2014, 2016, 2017).
 
 
-```{r, echo=FALSE, include=FALSE}
+```{r, echo=FALSE, fig.cap= 'Main fisheries groups according to landings discounting tonnes that are not use for human consumption'}
 ## Import database
 complete_database1 <- read.csv(here("clean_databases/model_df_by_group.csv"))
 
@@ -355,6 +355,9 @@ top5_catch_for_hc_fig <-
 
 top5_catch_for_hc_fig
 
+```
+
+```{r, echo=FALSE, fig.cap= 'Main fisheries groups based on aquaculture harvest'}
 ## Identify top 5 fieheries in aquaculture
 
 top5_aqua_per_yr <- complete_database1%>%
@@ -375,6 +378,10 @@ top5_aqua <-
 
 top5_aqua
 
+```
+
+
+```{r, echo=FALSE, fig.cap= 'Main fisheries groups based on seafood that Chile exports'}
 ##Identify top 5 exported products
 top5_export_per_yr <- complete_database1%>%
   arrange(year, desc(exports)) %>% 
@@ -393,6 +400,9 @@ top5_export <-
         axis.title=element_text(size=12,face="bold"))
 
 top5_export
+```
+
+```{r, echo=FALSE, fig.cap= 'Main fisheries groups according to products imported by Chile'}
 
 ##Identify top 5 imported products
 top5_import_per_yr <- complete_database1%>%
@@ -417,23 +427,10 @@ top5_import
 ```
 
 
-
-```{r,  echo= FALSE, fig.cap= 'Relative contribution of four main componenst of the model to calulate domestic seafood consumption in Chile A) Main fisheries groups according to aquaculture, imports, exports and landings discounting tonnes that are not use for human consumption. B) Main fisheries groups according to aquaculture harvest. C) Main mairine products exported by Chile. D) Main mairine products imported by Chile', fig.height=6}
-
+The aquaculture activity in Chile is dominated by the production of salmon (*Figure 3*). Other groups of species harvested in Chile are mussels, trout and algae and scallops. However the production of these four other groups is relatively small. Quantities and main groups of species harvested in Chile are relatively constant in the last 5 years. The current data shows that Chilean exports are dominated by pelagic fishes (Salmon and jack mackerel, *Figure 4*), but we know that salmon should have a larger contribution respect to jack mackerel, therefore we need to revise our methods. Most of the seafood that Chile imports are also pelagic fishes mainly tuna (*Figure 5*).
 
 
-##OJO: It is very confusing that the species change color along the frout plots. Maybe try ploting everything with wrap.
-
-Figure_model_component2 <- plot_grid(top5_catch_for_hc_fig, top5_aqua,top5_export, top5_import, labels = "AUTO", hjust = 0, vjust = 1, scale = c(1., 1., 0.9, 0.9))
-
-Figure_model_component2
-
-```
-
-The aquaculture activity in Chile is dominated by the production of salmon (*Figure 2B*). Other groups of species harvested in Chile are mussels, trout and algae and scallops. However the production of these four other groups is relatively small. Quantities and main groups of species harvested in Chile are relatively constant in the last 5 years. The current data shows that Chilean exports are dominated by pelagic fishes (Salmon and jack mackerel, *Figure 2C*), but we know that salmon should have a larger contribution respect to jack mackerel, therefore we need to revise our methods. Most of the seafood that Chile imports are also pelagic fishes mainly tuna (Figure 2D).
-
-
-According to our model, salmon would be the main fish consumed by the Chilean population (*Figure 3*). However, that does not align to our internal conversations with fishers and local consumers which perceive that salmon is mainly exported and the main pelagic fish consumed by the population could be the hake.
+According to our model, salmon would be the main fish consumed by the Chilean population (*Figure 6*). However, that does not align to our internal conversations with fishers and local consumers which perceive that salmon is mainly exported and the main pelagic fish consumed by the population could be the hake.
 Furthermore, according to @observatorio_laboral_nacional_reporte_nodate, 66% of Chilean exports of sea products are salmon. Even though, our data shows salmon as one of the five main species exported by the country, we do not see a major difference with jack mackerel (*Trachurus murphy*) as we expected. This mean that our data is underestimating exports of salmon. 
 One possible explanation for this issue is that through the process of matching exports' ids with the name of each product we missed salmon products therefore this products are currently not being considered within the exports values. We are currently revising our methods in order to incorporate all marine products that are not currently being accounted. 
 We also requested information about the destination of harvest products to SERNAPESCA to have a second source of information to compare the Chilean customs data. 
@@ -466,7 +463,7 @@ top5_total_fig
 ```
 
 
-We run the model not considering salmon (*Figure 4*) to have a better representation of domestic seafood consumption in Chile. As mention above, there is a data gap on 2015 no human consumption products, this explains the changes compared to all other years. But also allows us to visualize that most of the demersal fisheries (other fishes and herrings) catches are mainly used to produce products not for direct human consumption (e.g.: fish meal, fish oil).
+We run the model not considering salmon (*Figure 7*) to have a better representation of domestic seafood consumption in Chile. As mention above, there is a data gap on 2015 no human consumption products, this explains the changes compared to all other years. But also allows us to visualize that most of the demersal fisheries (other fishes and herrings) catches are mainly used to produce products not for direct human consumption (e.g.: fish meal, fish oil).
 
 ```{r, echo=FALSE, include=FALSE}
 
@@ -492,7 +489,7 @@ top5_total_no_sal_fig
 
 ```
 
-These results (*Figure 4*) show that domestic consumption is mainly dominated by algae, mussels, tuna and hake. There are two main things to remark on these results: (i) the high values on algae is probably due to our methodologies given that within our methods we did not include dry algae as a product not for human consumption. The rationale behind this decision was that subtracting dry algae from total landings would underestimate what ever is directly consumed by the population given that algae consumed by humans are mainly dry. However, we will re run our analysis discounting dry algae because most of the algae goes to the industry and only ~3% goes to human consumption @noauthor_incorporacion_2014.
+These results (*Figure 7*) show that domestic consumption is mainly dominated by algae, mussels, tuna and hake. There are two main things to remark on these results: (i) the high values on algae is probably due to our methodologies given that within our methods we did not include dry algae as a product not for human consumption. The rationale behind this decision was that subtracting dry algae from total landings would underestimate what ever is directly consumed by the population given that algae consumed by humans are mainly dry. However, we will re run our analysis discounting dry algae because most of the algae goes to the industry and only ~3% goes to human consumption @noauthor_incorporacion_2014.
 The second point we want to emphasis, is the tunas are within the main group of seafood consumed in Chile. However, tunas are one of the main imported species in the country *(Figure 2D*) rather than species caught locally.
 
 ```{r,  echo= FALSE, fig.cap= 'Total domestic consumptions according to model without slamon', fig.height=4}
