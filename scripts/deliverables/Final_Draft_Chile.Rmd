@@ -1,0 +1,104 @@
+---
+output: 
+  pdf_document: 
+    fig_caption: yes
+    includes:  
+title: "Contributions of marine capture fisheries to the domestic livelihoods and seafood consumption of Chile"
+subtitle: "Final Draft"
+author: "Camila Vargas e Ignacia Rivera"
+bibliography: main-fisheries-chile.bib
+csl: cell.csl
+---
+\newpage
+
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(echo = TRUE)
+library(knitr)
+library(here)
+library(magrittr)
+library(tidyr)
+library(reshape2)
+library(dplyr)
+library(ggplot2)
+library(gridExtra)
+library(readxl)
+library(cowplot)
+library(kableExtra)
+library(readr)
+library(stringr)
+library(purrr)
+library(naniar)
+library(wesanderson)
+
+ggtheme_plot <- function() {
+  theme(
+    plot.title = element_text(size = rel(1), hjust = 0, face = "bold"),
+    panel.background = element_blank(),
+    strip.background = element_blank(),
+    # strip.text       = element_text(size = base_size, face = "italic"),
+    panel.border     = element_blank(),
+    panel.grid.minor = element_blank(),
+    panel.grid.major = element_blank(),
+    axis.ticks = element_blank(),
+    axis.text.x = element_text(size = 10,
+                               angle = 0,
+                               face = "plain"),
+    axis.text.y = element_text(size = 12),
+    axis.title = element_text(size = 14),
+    legend.key = element_rect(colour = NA, fill = NA),
+    legend.position  = "top",
+    legend.title = element_text(size = 16),
+    legend.text = element_text(size = 14),
+    strip.text.x = element_text(size = 18, colour = "darkgrey")
+  )
+}
+```
+
+## Methods
+
+### Data sources
+
+1. The Chilean National Service of Fisheries (SERNAPESCA) is the main entity in charge of keeping track of landings and other fisheries and aquaculture related data in Chile. Most of their data is available on their website. We accessed their databases on landings from wild-caught and farmed fisheries, first transaction prices for artisanal fisheries, and landings used in different types of sea products. These databases provided information at the species and regional level. We also downloaded their data on the geographical distirbution of production facilities and the types of sea products they produce. 
+
+We issued data requests on SERNAPESCA's portal to obtain more detailed information. Via this method, they provided us the national record of artisanal fishers (RPA), which lists current registered fishers and boats, and the national record of industrial vessels (RPI), which lists current registered industrial vessels. The RPA details the region, gender and age for each artisanal fisher as well as the species-specific permits they hold. Together the RPA and RPI provide information of artisanal and industrial vessels like lenght and storing capacity. SERNAPESCA also provided the number of employees of each gender per processing facilities as well as species-specific landings per vessel, and artisanal fisher. 
+
+2. The Chilean Costumes (ADUANAS Chile) is the main entity in charge of keeping records of imported and exported goods in the country. We accessed their exports and imports data per product via their website.
+
+3. The Fisheries development institue (IFOP) is a private entity that advices fisheries management based on permanent biological, environmental and economic monitoring, and scientific reasoning. Although most of the data collected by IFOP pertains to stock assessments and biological indicators, they also generate economically relevant statistics and landing estimations. We reviewed their most recent annual report on the economic monitoring of Chilean fisheries for 2015. It includes estimates of employments and the economic value of different fisheries. 
+
+### Specific methodologies
+
+#### Fisheries context
+
+
+
+#### Estimating National Seafood Supply
+
+#### Estimating National Economic Participation
+
+## Results
+
+#### Fisheries context
+
+#### Estimating National Seafood Supply
+
+#### Estimating National Economic Participation
+
+The fisheries sector contributed to XX% of the national GDP in 2017. It presented a draatic increase relative to the previous two years mainly driven by the fisheries of sardines and anchovies (@central_cuentas_2017). While farmed fisheries contributed with increases in salmon harvests. The increase in fisheries production echoed in the manufacturing industry. 
+
+## Critical Analysis
+
+### Data uncertainty 
+
+### Fisheries context
+
+### Estimating National Seafood Supply
+
+### Estimating National Economic Participation
+
+
+
+
+
+
