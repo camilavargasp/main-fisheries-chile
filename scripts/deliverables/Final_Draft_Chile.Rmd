@@ -59,33 +59,156 @@ ggtheme_plot <- function() {
 
 ### Data sources
 
-1. The Chilean National Service of Fisheries (SERNAPESCA) is the main entity in charge of keeping track of landings and other fisheries and aquaculture related data in Chile. Most of their data is available on their website. We accessed their databases on landings from wild-caught and farmed fisheries, first transaction prices for artisanal fisheries, and landings used in different types of sea products. These databases provided information at the species and regional level. We also downloaded their data on the geographical distirbution of production facilities and the types of sea products they produce. 
+1. The Chilean National Service of Fisheries (SERNAPESCA) is the main entity in charge of keeping track of landings and other fisheries and aquaculture related data in Chile. Most of their data is available on their website. We accessed their databases on landings from wild-caught and farmed fisheries, first transaction prices for artisanal fisheries, and landings used in different types of sea products. These databases provided information at the species and regional level. We also downloaded their data on the geographical distribution of production facilities and the types of sea products they produce. 
 
-We issued data requests on SERNAPESCA's portal to obtain more detailed information. Via this method, they provided us the national record of artisanal fishers (RPA), which lists current registered fishers and boats, and the national record of industrial vessels (RPI), which lists current registered industrial vessels. The RPA details the region, gender and age for each artisanal fisher as well as the species-specific permits they hold. Together the RPA and RPI provide information of artisanal and industrial vessels like lenght and storing capacity. SERNAPESCA also provided the number of employees of each gender per processing facilities as well as species-specific landings per vessel, and artisanal fisher. 
+We issued data requests on SERNAPESCA's portal to obtain more detailed information. Via this method, they provided us the national record of artisanal fishers (RPA), which lists current registered fishers and boats, and the national record of industrial vessels (RPI), which lists current registered industrial vessels. The RPA informs the region, gender and age for each artisanal fisher as well as the species-specific permits they hold. Together the RPA and RPI provide information of artisanal and industrial vessels like lenght and storing capacity. SERNAPESCA also provided to us the number of employees of each gender per processing facilities as well as species-specific landings per vessel, and artisanal fisher. 
 
-2. The Chilean Costumes (ADUANAS Chile) is the main entity in charge of keeping records of imported and exported goods in the country. We accessed their exports and imports data per product via their website.
+2. The Chilean Costumes (ADUANAS Chile) is the main entity in charge of keeping records of imported and exported goods in the country. We accessed their exports and imports data per product and region via their website.
 
-3. The Fisheries development institue (IFOP) is a private entity that advices fisheries management based on permanent biological, environmental and economic monitoring, and scientific reasoning. Although most of the data collected by IFOP pertains to stock assessments and biological indicators, they also generate economically relevant statistics and landing estimations. We reviewed their most recent annual report on the economic monitoring of Chilean fisheries for 2015. It includes estimates of employments and the economic value of different fisheries. 
+3. The Fisheries development institue (IFOP) is a private entity that advices fisheries management based on permanent biological, environmental and economic monitoring, and scientific reasoning. Although most of the data collected by IFOP pertains to stock assessments and biological indicators, they also generate economically relevant statistics and landing estimations. We reviewed their most recent annual report on the economic monitoring of Chilean fisheries for 2015. It includes databases and estimates for employment and the economic value of different fisheries. 
+
+4. The Chilean Central Bank (Banco Central de Chile) is the entity in charge of estabilizing the Chilean currency. To fullfill its function it monitors the main economic indicators per economic sector. We accessed their data on sectorial GDP for each region per industry. 
+
+5. DataChile (www.datachile.com) is an online plataform that integrates, visualizes and distributes public available data from Chile. We accessed some of their databases for convience since they are already cleaned and organize for analyses. We downloaded from their website data from the New National Employment Surevy (NENE) and data from the Suplementary National Survey of Income (NESI). We also accessed their datasets on export and import records (originally from ADUANAS Chile), which where organized at the municipality level.
+
+6. The Undersecretary of Fisheries (SUBPESCA) takes cares of designing and imlpementing fisheries and aquaculture regulations. They generate monthly reports on changes in landings for the most important species and marine products exportations. The data in these reports comes from SERNAPESCA and ADUANAS. Thus, extracting data from these reports would be redundat but we use them to reference particular information of interest. 
+
+7. The Research Office of Agrarian Policies (ODEPA) as well as scientific publications. 
 
 ### Specific methodologies
 
 #### Fisheries context
 
-
+We used landing records from SERNAPESCA to evaluate the main species in terms of landed volume over the last five years (2013-2017). 
 
 #### Estimating National Seafood Supply
 
+We combined data from ADUANAS Chile and SERNAPESCA to generate two main databases on the number of tons that are catches, harvested, exported and imported for all marine species in Chile. 
+
+The specific data-sets we used are:
+
+- Catches: annual tonnes per marine species landed in each region (SERNAPESCA, 2013-2017).
+- Species contribution to different types of products: annual tons per marine species used in each region to elaborate each type of product (i.e. fish meal, oil, canned products, freeze products, dried products, smoked products, agar, col-agar, carragenina) (SERNAPESCA, 2012-2016).
+- Aquaculture: annual tonnes per species harvest from aquaculture centers in each region (SERNAPESCA, 2012-2017).
+- Exports: quantities of all the products exported from each Chilean region to other countries. (ADUANAS, 2013-2018).
+- Imports: quantities of all marine products imported into the country. (ADUANAS, 2013-2018)
+
+ 
+Each product in the original exports and imports data-sets is identified through an id number that matches the name of the product in a code known as the _Arancel Aduanero_. This document was only available to us in .pdf format. Thus, to identified the id of products containing domestically fished and harvest marine species we searched for the names of the fished and harvested species listed by SERNAPESCA in the document with the _Arancel Aduanero_. We searched for all the ids that refer to the species scientific name, common name or genus name as listed by SERNAPESCA and aggregated them under the species name.
+
+We included a column that indicates the number of tonnes of each species that were used in products that are not directly ingested by humans. For this, we assumed that the following categories of products are not for direct human consumption: fish meal, col-agar, agar, carragenina, oil and alginato. Finally, to aggregate all the data at comparable levels we generated broad categories of species based on the imports-data set, which is the one that has less detail at the species level.
+
+Because imports-data is not available at the regional level we generate two databases, (i) one describing tons landed, harvested, exported and imported at the national level per groups of species and (ii) one containing tons landed, harvested and exported at the regional level per species.
+
+We used the R software to clean and format all the available information in long-form databases. All the scripts for replicating our work are available in "scripts/cleaning_data".
+
+We determine the domestic human consumption of marine products through this general model: (Catch - Products not directly for human consumption) + Aquaculture + Imports - Exports. We assumed that all the products that are no exported or are not used in other elaboration process are consumed by the local population. For this report we explore database i mention above, because it has import quantities.
+
 #### Estimating National Economic Participation
+
+** General estimates of fisheries economic contrbiution ** 
+
+We use data from Banco Central de Chile to reconstruct the percent of the regional GDP that comes from fisheries and graphed the average between 2013 and 2016. 
+
+<!--- We may want to include exports estimates -->
+
+** Species-specific estimates of economic contribution **
+
+To estimate most important fisheries in terms of economic value, we used data on first-transaction prices per species per month and location (requested to SERNAPESCA) and computed the national average price per year. We used two different approaches, one considers the total revenue generated by different fisheries while the other considers how valuable they are based on their price. To estimate total revenue we multiplied price by the landed tons per year. We converted Chilean pesos to 2018 dollars. Data on price at first transaction at the level of species was only available for the artisanal sector since data on industrial transactions is not recorded officially. 
 
 ## Results
 
 #### Fisheries context
 
-#### Estimating National Seafood Supply
+According to SERNAPESCA information in the last five years the most important fisheries in terms of
+landings have been Anchovy (Engraulis ringens), Chilean jack mackerel (Trachurus murphy) and Araucanian herring (Strangomera bentincki) (Figure xx), all three of them mainly catch by the industrial fleet. This
+pelagic fishes are mainly used to produce fish meal. Other species that contribute importantly to industrial
+catch are merluza comun, merluza del sur, merluza de tres aletas, cod, merluza de cola, and langostinos
+amarillo and colorado (S Table x).
+In terms of aquaculture production the main species harvested in the last 5 years have been: Atlantic salmon
+(Salmo salar), mussels (Mytilus chilensis) and coho salmon (Oncorhynchus kisutch) in descending order
+(Figure x), among others (S Table x).
 
-#### Estimating National Economic Participation
 
-The fisheries sector contributed to XX% of the national GDP in 2017. It presented a draatic increase relative to the previous two years mainly driven by the fisheries of sardines and anchovies (@central_cuentas_2017). While farmed fisheries contributed with increases in salmon harvests. The increase in fisheries production echoed in the manufacturing industry. 
+#### National Seafood Supply
+
+<!--- Here, about the imports of animal products between regions https://es.datachile.io/products/productos-de-origen-animal-01 
+Validar resultados con Informe subsectorial SUBPESCA
+-->
+
+
+#### National Economic Participation
+
+** General estimates of fisheries economic contribution ** 
+
+The fisheries industry contributes to around 0.4% of the national GDP although it is a higly variable sector. During 2017 there was an increase in the sectors' GDP attributed to the wild caught of sardines and anchovies and to a lesser extent to farmed salmon (@central_cuentas_2017). This increase in fisheries production echoed in the manufacturing industry mainly via fish meal production (@central_cuentas_2017). The contribution of fisheries to regional GDP varies widely going for almost 30% in the XI region to 0% in the metropolitan (RM) and IX region (Fig. X). 
+
+
+```{r Fisheries contirbution to regional and national PIB, echo = FALSE, fig.cap= 'Percent of the regional GDP contirbuted by the fisheries sector averaging data between 2013 and 2016. Data source: Banco Central de Chile.'}
+
+PIB_region <- read.csv(here("information/raw_databases/Banco_Central/PIB_region.csv")) %>% 
+  mutate(perc_contr = (PIB_fish * 100)/ PIB_total) %>% 
+  group_by(region) %>% 
+  summarise(mean_perc_contr = mean(perc_contr))
+
+# Reordering regions
+
+PIB_region$region <- factor(PIB_region$region , levels = c("XII", "XI", "X", "XIV", "IX", "VIII", "VII", "VI", "RM","V", "IV", "III", "II", "I", "XV"))
+
+PIB_region_plot <- ggplot(PIB_region, aes(x= as.factor(region), y= mean_perc_contr)) +
+  geom_bar(stat = 'identity', fill = wes_palette("Darjeeling1")[2]) +
+  coord_flip()+
+  xlab('Region')+
+  ylab('Contribution of fisheries industry to regional GDP (%)')+
+  scale_y_continuous(expand = c(0, 0), breaks = c(seq(0,40, by = 5)))+
+  #geom_label(aes(label = paste(as.character(round(mean_perc_contr,1)))), position = )+
+  ggtheme_plot()
+
+PIB_region_plot 
+
+```
+
+Fisheries products are one of the most important exported products of the country. Around 72% of the landings from fisheries and aquaculture are exported outside the country (@ifop_monitoreo_2015). IFOP valued the exportation of fisheries related products to $ 6,280 million dollars 2017 (@ifop_boletines_2017). This corresponded to ~ 9 % of the total value of national exportations. The most important exported type of marine products in terms of value are frozen and fresh followed by fish meal and dried algae (@ifop_boletines_2017). 
+
+In terms of employment we estimated a total of ~100,000 job positions directly generated by the fisheries and aquaculture sector. Figure X shows the distribution of different types of participants among the different regions and by gender. Indirect employment per xx estimated to be. 
+
+```{r employees per activity, echo= FALSE, fig.cap= 'Number of artisanal fishers in each region by gender. Source: National record of artisanal fishers (SERNAPESCA, 2018)'}
+
+# Importing national records of artisanal fisheres
+rpa <- read_excel(here("information/raw_databases/SERNAPESCA/employment/RPA_RPI_mano_obra.xlsx"), sheet = "RPA PESCADORES", skip = 2, n_max = 138294) %>% 
+  rename(region = "Regi\u00f3n", year = "A\u00f1o Inscripci\u00f3n")%>% 
+  group_by(`RPA Pescador`, region, Genero) %>% 
+  summarise(n = n()) %>%
+  group_by(region, Genero) %>% 
+  summarise(count= n()) %>%
+  mutate(Region = ifelse(region ==15, 'XV', ifelse(region == 1, 'I', ifelse(region ==3, 'III', ifelse(region ==4, 'IV', ifelse(region == 5, 'V', ifelse(region ==6, 'IV', ifelse(region == 7, 'VII', ifelse(region ==8, 'VIII', ifelse(region == 9, 'IX', ifelse(region == 10, 'X', ifelse(region == 11, 'XI', ifelse(region == 12, 'XII', ifelse(region == 13, 'RM', ifelse(region == 14, 'XIV', ifelse(region == 15, 'XV','XVI')))))))))))))))) %>% 
+  select(gender = Genero, count, Region) %>% 
+  ggplot(aes(x= as.factor(Region), y= count, fill = gender)) +
+  geom_bar(stat = 'identity') +
+  coord_flip()+
+  labs(y="Region", x="Number of people", title = 'Artisanal fishers')+
+  scale_y_continuous(expand = c(0, 0))+
+  scale_fill_manual(values = wes_palette("Darjeeling1"))+
+  ggtheme_plot()
+
+rpa
+
+
+
+```
+
+** Species-specific estimates of economic contribution **
+
+
+
+
+
+
+
+
+
+
+
 
 ## Critical Analysis
 
