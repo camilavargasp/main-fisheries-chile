@@ -65,7 +65,7 @@ We issued data requests on SERNAPESCA's portal to obtain more detailed informati
 
 2. The Chilean Costumes (ADUANAS Chile) is the main entity in charge of keeping records of imported and exported goods in the country. We accessed their exports and imports data per product and region via their website.
 
-3. The Fisheries development institue (IFOP) is a private entity that advices fisheries management based on permanent biological, environmental and economic monitoring, and scientific reasoning. Although most of the data collected by IFOP pertains to stock assessments and biological indicators, they also generate economically relevant statistics and landing estimations. We reviewed their most recent annual report on the economic monitoring of Chilean fisheries for 2015. It includes databases and estimates for employment and the economic value of different fisheries. 
+3. The Fisheries development institute (IFOP) is a private entity that advices fisheries management based on permanent biological, environmental and economic monitoring, and scientific reasoning. Although most of the data collected by IFOP pertains to stock assessments and biological indicators, they also generate economically relevant statistics and landing estimations. We reviewed their most recent annual report on the economic monitoring of Chilean fisheries for 2015. It includes databases and estimates for employment and the economic value of different fisheries. 
 
 4. The Chilean Central Bank (Banco Central de Chile) is the entity in charge of estabilizing the Chilean currency. To fullfill its function it monitors the main economic indicators per economic sector. We accessed their data on sectorial GDP for each region per industry. 
 
@@ -106,7 +106,7 @@ We determine the domestic human consumption of marine products through this gene
 
 #### Estimating National Economic Participation
 
-** General estimates of fisheries economic contrbiution ** 
+** General estimates of fisheries economic contribution ** 
 
 We use data from Banco Central de Chile to reconstruct the percent of the regional GDP that comes from fisheries and graphed the average between 2013 and 2016. 
 
@@ -120,6 +120,21 @@ To estimate most important fisheries in terms of economic value, we used data on
 
 #### Fisheries context
 
+** Main fisheries in terms of landings **
+
+ <!--- Both industrial and artisanal --> 
+ 
+ ** Main Traded fisheries **
+ Imports
+ Exports
+ Net trade
+ 
+ ** Main Fisheries for Aquaculture production **
+ 
+ ** Regional Diferences in Landings **
+ 
+<!--- Both industrial and artisanal -->
+
 According to SERNAPESCA information in the last five years the most important fisheries in terms of
 landings have been Anchovy (Engraulis ringens), Chilean jack mackerel (Trachurus murphy) and Araucanian herring (Strangomera bentincki) (Figure xx), all three of them mainly catch by the industrial fleet. This
 pelagic fishes are mainly used to produce fish meal. Other species that contribute importantly to industrial
@@ -130,11 +145,17 @@ In terms of aquaculture production the main species harvested in the last 5 year
 (Figure x), among others (S Table x).
 
 
+<!--- Include subsector analisis and value analisis for artisanal fishers -->
+
 #### National Seafood Supply
 
 <!--- Here, about the imports of animal products between regions https://es.datachile.io/products/productos-de-origen-animal-01 
 Validar resultados con Informe subsectorial SUBPESCA
 -->
+** Main fisheries for food supply **
+** Total and per capita food consumption in the country **
+** Regional differences in per capita and total consumption **
+
 
 
 #### National Economic Participation
@@ -211,6 +232,8 @@ rpa
 
 
 ## Critical Analysis
+
+### Key Messages
 
 ### Data uncertainty 
 
