@@ -28,8 +28,11 @@ A: Corresponden a capturas realizadas en aguas internacionales y desembarcadas e
 
 Q: Las estadisticas de desembarque para de areas de manejo, estan inlcuidas en los desembarques del sector artesanal o son independientes?
 
+A:  Las estadísticas de desembarque artesanal si incluyen los desembarques  de areas de manejo.
+
 Q:  A que corresponde la columna AI en las bases de datos de desembarque de barcos fabrica en aguas internacionales por mes en 2016 y 2017? Por que no esta en anos anteriores?
 
+A:  La columna AI corresponde a capturas realizadas en aguas internacionales.
 
 ## Setup
 
