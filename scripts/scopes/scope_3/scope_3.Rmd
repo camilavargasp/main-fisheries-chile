@@ -9,9 +9,18 @@ output: pdf_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-In order to calculate the somestic food compsumtion we buit a model that considers landings, aquaculture harvest, exports and imports. 
+##Setup
+```{r}
+library(rfishbase) #install.packages("rfishbase")
+library(tidyverse)
+library(stringr)
+```
 
-In order to imput the data to the model we first need to combine all our clean datasets into one datafram according to the dummy dataframe. This dataframe has the following columns:
+
+
+In order to calculate the domestic food compsumtion we buit a model that considers landings, aquaculture harvest, exports and imports. 
+
+In order to imput the data to the model we first need to combine all our clean datasets into one dataframe that looks like the dummy dataframe (Juliano). This dataframe has the following columns:
 Species	
 Country	
 Region	
@@ -23,9 +32,9 @@ Imports
 Exports	
 DHC_Prop
 
-According to the data provided by ADUANA CHILE, exports are in a much detailed levels than imports. For this reseon we decided to create to main dataframe:
-1. With landings, aquaculture harvest and exports detailed by species and at a region level
-2. With landings, aquaculture harvest, exports and imports by groups of species (specifies in celan_databases/species_match.csv) at a national level.
+According to the data provided by ADUANA CHILE, exports are in a much detailed levels than imports. For this reseon we decided to create two main dataframe:
+1. With landings, aquaculture harvest and exports detailed by species and region
+2. With landings, aquaculture harvest, exports and imports by groups of species (specified in celan_databases/species_match.csv) at a national level.
 
 # Creating the first dataframe: Including landings, aquaculture harves and exports at a species and regional level
 
@@ -33,38 +42,49 @@ According to the data provided by ADUANA CHILE, exports are in a much detailed l
 
 Landings and aquacaltue are then combine with species_match in order to have scientific names
 
-OJO: HAY QU VER COMO AFREGAR EL NOMBRE SCIENTIFICO!! Probablemnte modificar bases de datos desde el principio en otros scripts.
+OJO: HAY QU VER COMO AGREGAR EL NOMBRE CIENTIFICO!! Probablemnte modificar bases de datos desde el principio en otros scripts.
 
 ```{r}
-## species_match
-species_match <- read.csv(here("clean_databases/species_match.csv")) %>% 
-  rename(species= especie_SERNAPESCA)
+
+##Species list with scientific name 
+sp_list <- read.csv(here("clean_databases/intermediate/sp_list.csv")) %>% 
+  rename(species= especie_SERNAPESCA, sc_name=nombre_cientifico_SERNAPESCA) %>% 
+  mutate( species = str_to_upper(species))
+
+
+###FATLTA AGREGAR NOMBRES COMUN EN INGLES!!!
+en_common <- common_names(sp_list$sc_name, server = NULL, Language = "English",
+fields = NULL) %>% 
+  filter(Language == "English")
+## las lista wu genera fishbase no ingluye todas las especies de sp_list
 
 
 ##landings
 landings<- read_csv(here("clean_databases/landings_SERNAPESCA.csv")) %>% 
-  filter(!region %in% c("national","AI", "R.M.")) %>% ##VER SI INCORPORAMOS AI O NO
+  filter(!region %in% c("national", "R.M.")) %>% 
   mutate( tons = as.numeric(tons)) %>% 
   select(-month, -international_waters, -subsector) %>% 
   group_by(year, region, species) %>% 
   summarise(tons = sum(tons, na.rm = T)) %>% 
   mutate(variable = "tonnes") %>% 
-  rename(catch = tons)
+  rename(catch = tons) %>% 
+  left_join(sp_list, by= "species")
   
 ##aquaculture harvest
-
 aquaculture <- read_csv(here("clean_databases/aquaculture_SERNAPESCA.csv")) %>% 
   filter(region != "national",
          year!=2012) %>% 
   mutate( tons = as.numeric(tons)) %>% 
   select(-subsector, -month) %>% 
   mutate(variable = "tonnes") %>% 
-  rename(aquaculture = tons)
+  rename(aquaculture = tons) %>% 
+  left_join(sp_list, by= "species")
+
 
 ## Exports
 
-exports <- read_csv(here("clean_databases/exports_ADUANA.csv")) %>% 
-  select(year, region, exports= tons, species= especie_SERNAPESCA, sc_name=nombre_cientifico_SERNAPESCA) %>% ##eventually add values
+exports_all <- read_csv(here("clean_databases/exports_ADUANA.csv")) %>% 
+  select(year, region, exports= tons, species= especie_SERNAPESCA, sc_name=nombre_cientifico_SERNAPESCA, value) %>%
   filter(year!= 2018,
          region != 20) %>% 
   mutate(region = ifelse(region==0, NA, region)) %>%
@@ -82,8 +102,24 @@ exports <- read_csv(here("clean_databases/exports_ADUANA.csv")) %>%
   mutate(region = ifelse(region==12, "XII", region)) %>% 
   mutate(region = ifelse(region==14, "XIV", region)) %>% 
   mutate(region = ifelse(region==15, "XV", region)) %>% 
-  mutate(region = ifelse(region==13, "R.M", region))%>% 
+  mutate(region = ifelse(region==13, "R.M", region)) %>%
+  mutate(species = str_to_upper(species)) %>% 
+  mutate(sc_name = ifelse(species == "SALMON OTROS", "Salmonidae", sc_name)) %>% 
+  mutate(sc_name = ifelse(species == "ALGAS MIXTAS", "Algas", sc_name))
+  
+exports_tons <- exports_all %>% 
+  select(-value) %>% 
   mutate(variable = "tonnes")
+
+
+exports_value <- exports_all %>% 
+  select(-exports) %>%
+  rename(exports= value) %>% 
+  mutate(variable = "value")
+
+
+exports <- exports_tons %>% 
+  rbind(exports_value)
 
 ```
 
@@ -92,10 +128,22 @@ exports <- read_csv(here("clean_databases/exports_ADUANA.csv")) %>%
 
 ```{r}
 database1_complete <- landings %>% 
-  full_join(aquaculture, by= c("year", "region", "species", "variable")) %>%
-  full_join(exports, by= c("year", "region", "species", "variable")) 
-  
+  full_join(aquaculture, by= c("year", "region", "species", "variable", "sc_name")) %>%
+  full_join(exports, by= c("year", "region", "species", "variable", "sc_name"))
+
 ```
+
+## Add DHC proportion
+
+```{r}
+
+##read dataset
+
+
+```
+
+
+
 
 # Creating the second dataframe: Including landings, aquaculture harvest, exports and imports at a species group lavel and at a national scale
 

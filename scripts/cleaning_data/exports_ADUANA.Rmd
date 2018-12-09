@@ -13,7 +13,7 @@ This document cleans the Aduana exports datasets and matches the item_sa with th
 
 Data was downloaded from XXX on October 8 2018.
 
-Here the [link](http://www.aduana.cl/aduana/site/artic/20080218/pags/20080218165942.html#vtxt_cuerpo_T47) witht the details of the codes use in the esports datasets
+Here the [link](http://www.aduana.cl/aduana/site/artic/20080218/pags/20080218165942.html#vtxt_cuerpo_T47) with the details of the metadata use in the exports datasets
 
 ## Setup
 ```{r}
@@ -34,7 +34,7 @@ library(purrr) ##install.packages("purrr")
 
 export_list <- list.files(here('information/raw_databases/ADUANAS_CHILE/exports'), pattern= 'exports_20.*.csv', full.names = TRUE)
 
-export_list <- export_list[4:9]
+export_list <- export_list[4:9] #select only years of interest
 
 ## Read, wrangle and bind all y datasets
 exports_all <- export_list %>% 
@@ -93,7 +93,7 @@ setdiff(test2$item_sa_17, test2$item_sa_12)
 ```{r}
 ## importa data set
 
-cod_aduana_sp <- read_excel(here("information/raw_databases/ADUANAS_CHILE/arancel_aduanero_nomenclatura/arancel_aduanero_2017/codigos_aduana_por_especie_2017.xlsx"), sheet = "Hoja1", range = "A1:G701") %>%
+cod_aduana_sp <- read_excel(here("information/raw_databases/ADUANAS_CHILE/arancel_aduanero_nomenclatura/arancel_aduanero_2017/codigos_aduana_por_especie_2017.xlsx"), sheet = "Hoja1", range = "A1:G756") %>%
 mutate(item_sa_17 = gsub("[.]","",codigo_aduana))
 
 
@@ -103,18 +103,17 @@ mutate(item_sa_17 = gsub("[.]","",codigo_aduana))
 ```
 
 ```{r}
-## maching segun codigo aduanero
+## match accordig to "codigo aduanero" (item_sa_17)
 
 match_exports <- exports_yr %>% 
   left_join(cod_aduana_sp, by = "item_sa_17") %>% 
   filter(!is.na(especie_SERNAPESCA)) %>% 
   group_by(year, region, especie_SERNAPESCA, nombre_cientifico_SERNAPESCA) %>% 
-  summarise(tons = sum(tons, na.rm = T)) %>% 
-  ungroup() %>% 
-  dplyr::mutate(especie_SERNAPESCA = ifelse(stringr::str_detect(especie_SERNAPESCA,"SARDINA ESPA.*OLA"), "SARDINA ESPANOLA", especie_SERNAPESCA)) ##correct name
-
-
-##Guardar base de datos final
+  summarise(tons = sum(tons, na.rm = T),
+            value = sum(value_fob, na.rm = T)) %>% 
+  ungroup()
+  
+##Save final and complete data base - Exports per region and species.
 
 write.csv(match_exports,here("clean_databases/exports_ADUANA.csv"), row.names=F)
 
