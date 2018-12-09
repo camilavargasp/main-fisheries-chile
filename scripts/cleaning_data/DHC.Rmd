@@ -1,0 +1,98 @@
+---
+title: "DHC_percentage"
+author: "Camila Vargas e Ignacia Rivera"
+date: "8 de diciembre de 2018"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This script builds a dataframe with the percentage of yield of each chilean species for direct humand consumption (DHC). We first looked into the database provided by Peru (Product yields by species.xlsx). We looked into all the species of this databses relevant to Chile. For the remaining species we used...XXXX
+
+## Setup
+```{r}
+library(tidyverse)
+library(here)
+library(readxl)
+library(stringr)
+
+```
+
+## Peru's database
+
+```{r}
+## read in the Peru's data set
+body_part_ratios <- read_excel(here("information/raw_databases/product_yield/product_yields_sp.xlsx"), sheet = "A", range = "A1:D167") %>% 
+  rename(species_en = "Common name (English)", sc_name = "Scientific name", body_part = "Body parts", yield = "Body part to total weight (%)")
+
+##Calculate mean yield form all body parts
+mean_yield_body_parts <- body_part_ratios %>% 
+  group_by(species_en, sc_name) %>% 
+  summarise(mean_yield = mean(yield)) ## yield is in percentage
+
+##Second data set witn min and max per body parts
+body_part_min_max <- read_excel(here("information/raw_databases/product_yield/product_yields_sp.xlsx"), sheet = "B", range = "A1:E99") %>% 
+  rename(species_en = "Common name (Eng)", sc_name = "Scientific name", body_part = "Presentations", min_yield = "Yield (% of whole fish weight)", max_yield = "X__1") %>% 
+  filter(!is.na(species_en)) %>% 
+  mutate(min_yield = as.numeric(min_yield)) %>% 
+  mutate(max_yield = as.numeric(max_yield))
+  
+
+
+##Calculate mean yield from all body parts
+
+mean_yield_body_parts_min_max <- body_part_min_max %>% 
+  group_by(species_en, sc_name) %>% 
+  summarise(mean_yield_min = mean(min_yield),
+            mean_yield_max = mean(max_yield)) %>%  ## yield is in percentage
+  mutate(mean_yield = (mean_yield_min + mean_yield_max)/2) 
+
+
+##NOTE:
+#setdiff(mean_yield_body_parts$sc_name, mean_yield_body_parts_min_max$sc_name)
+#What species of mean_yield_body_parts are not in mean_yield_body_parts_min_max?
+# 9 species difference so mean_yield_body_parts is more complete.
+
+
+##Third data set with overall yield
+
+yield_c <- read_excel(here("information/raw_databases/product_yield/product_yields_sp.xlsx"), sheet = "C", range = "A1:F111") %>% 
+  select(species_en = "Common name (Eng)", sc_name = "Scientific name", min_yield = "Yield range (min)", max_yield = "Yield range (max)") %>% 
+  filter(!is.na(species_en)) %>% 
+  mutate(min_yield = as.numeric(min_yield)) %>% 
+  mutate(max_yield = as.numeric(max_yield))
+
+##Calculate mean between min adn max
+
+mean_yield_c <- yield_c %>% 
+mutate(mean_yield = (min_yield + max_yield)/2)
+
+setdiff(mean_yield_c$sc_name, mean_yield_body_parts$sc_name) ## 89 differences
+setdiff(mean_yield_body_parts$sc_name, mean_yield_c$sc_name) ##8 differences
+
+##Relevant species for Chile from mean_yield_body_part
+
+mean_yield_bp_cl <- mean_yield_body_parts %>% 
+  filter(sc_name %in% c("Mesodesma donacium","Oncorhynchus mykiss", "Sardinops sagax")) %>% 
+  mutate(mean_yield = mean_yield/100) # from precentge to proportion
+
+
+##final yield database
+
+yield_DHC <- mean_yield_c %>% 
+  select(-min_yield, - max_yield) %>%
+  rbind(mean_yield_bp_cl)
+
+## Save yield dataset
+
+write.csv(yield_DHC, here("clean_databases/intermediate/yield_DHC.csv"), row.names=F)
+
+
+```
+
+
+
+
+
