@@ -1,0 +1,108 @@
+---
+title: "Estimating employment per fishery"
+author: "Camila Vargas e Ignacia Rivera"
+date: "November 19, 2018"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(readr)
+library(here)
+library(magrittr)
+library(dplyr)
+library(tidyr)
+library(stringr)
+library(ggplot2)
+library(wesanderson)
+
+```
+
+## Employment per fishery in the artisanal sector
+
+This is scripts uses the database provided by SERNAPESCA ( requested through the SIAC system) on the landings per vessel and species in the artisanal sector from 2007 to 2017. 
+
+```{r importing raw database}
+landings_art_per_vessel <- read_csv(here("information/raw_databases/SERNAPESCA/employment/landings_art_per_vessel.csv"), col_names = FALSE) %>% 
+rename(cd_region = X1, nm_folio = X2, nm_tipo_nave = X3, nr_folio_impreso = X4, cd_nave = X5,  nm_nave = X6,  nr_eslora = X7, nr_trg = X8, nr_bodega = X9, nr_matricula = X10, cd_capitania = X11, fc_zarpe = X12,  fc_llegada = X13, nm_provincia = X14, nm_comuna = X15, nm_caleta = X16, nr_resolucion = X17, nm_ano = X18, nr_rpa_buzo = X19, cd_especie = X20, nm_especie = X21, nr_toneladas = X22, cd_arte =  X23 , nm_arte = X24, cd_zona = X25, cd_regimen =  X26, cd_tipo_destino = X27, cd_destino = X28)
+
+```
+
+## Main species landed in the artisanal sector per year 
+
+The main species landed in the artisanal sector between 2010 and 2017 are shown in **Figure XX**. 
+
+```{r main artisanal landings per species per year, echo=FALSE}
+
+## selecting main landings per year, species and gear type for artisanal sector
+
+main_art_species_year <- landings_art_per_vessel %>% 
+  select(fc_llegada, nm_especie, nr_toneladas, nm_arte) %>% 
+  separate(fc_llegada, c("month", "day", "year"), sep = "/") %>% 
+  separate(year, c("year", "rest"), sep = " ") %>% 
+  select(- rest) %>% 
+  filter(year >2009 & year < 2018) %>% 
+  group_by(year, nm_especie) %>% 
+  #group_by(year, nm_especie, nm_arte) %>% #to include gear type
+  summarise(tons= sum(nr_toneladas)) %>% 
+  arrange(year, desc(tons)) %>% 
+  group_by(year) %>% 
+  top_n(5, tons) %>% 
+  data.frame()
+
+## plot 
+
+plot_landings_artisanal <- ggplot(data = main_art_species_year, aes(x = year, y = tons, fill = nm_especie)) + 
+    geom_bar(stat= "identity")+
+    scale_y_continuous(expand = c(0, 0)) +
+    labs(y="Landings (Tons)", x="Year")+
+    theme_bw()+
+    theme(axis.line = element_line(colour = "black"),
+        axis.text=element_text(size=11),
+        axis.title=element_text(size=12,face="bold"))+
+  scale_fill_manual(name = "",
+                    values = c('darkgreen', wes_palette("Darjeeling1", 5, type = "discrete"),"darkorchid4", "blue", "black","khaki4")) 
+
+
+plot_landings_artisanal
+
+
+```
+
+## Species dependency pero boat each year
+
+We consider the following information to extrapolate the number of fishers in each type of boat:
+
+ - In Chile, ∼85% of this fleet is composed of small wooden, 7–10 m long, boats operated by a crew of three or four members (Castilla and Fernandez, 1998)
+
+```{r species-dependency index per boat each year, echo=FALSE}
+
+## calculating total tons per boat per year 
+
+total_tons_boat <- landings_art_per_vessel %>% 
+  select(cd_nave, nm_especie, nr_toneladas, fc_llegada) %>% 
+  separate(fc_llegada, c("month", "day", "year"), sep = "/") %>% 
+  separate(year, c("year", "rest"), sep = " ") %>% 
+  select(- rest) %>% 
+  filter(year >2009 & year < 2018) %>% 
+  group_by(year, cd_nave) %>% 
+  summarise(total_tons = sum(nr_toneladas)) 
+
+## calculating species dependency index (tons sp / total tons) per boat per year 
+
+sp_dependency_boat <- landings_art_per_vessel %>% 
+  select(cd_nave, nm_especie, nr_toneladas, fc_llegada) %>% 
+  separate(fc_llegada, c("month", "day", "year"), sep = "/") %>% 
+  separate(year, c("year", "rest"), sep = " ") %>% 
+  select(- rest) %>% 
+  filter(year >2009 & year < 2018) %>% 
+  group_by(cd_nave, year, nm_especie)%>%
+  summarise(sp_tons = sum(nr_toneladas))%>% 
+  left_join(total_tons_boat, by = c('cd_nave', 'year')) %>% 
+  mutate(sp_dependency = sp_tons/total_tons) 
+
+## database woth boats features
+
+
+```
