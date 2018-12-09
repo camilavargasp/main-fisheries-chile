@@ -1,0 +1,248 @@
+especie_SERNAPESCA,nombre_cientifico_SERNAPESCA
+CHASCA,Gelidium rex
+HUIRO NEGRO O CHASCON,Lessonia nigrescens
+CHASCON O HUIRO NEGRO,Lessonia nigrescens
+CHICOREA DE MAR,Chondracanthus chamissoi
+COCHAYUYO,Durvillaea antarctica
+HUIRO,Macrocystis spp.
+HUIRO PALO,Lessonia trabeculata
+LECHUGUILLA,Ulva lactuca
+LIQUEN GOMOSO,Gymnogongrus furcellatus
+LUCHE,Porphyra columbina
+LUGA CUCHARA O CORTA,Mazzaella laminarioides
+LUGA NEGRA O CRESPA,Sarcothalia crispata
+LUGA-ROJA,Gigartina skottsbergii
+PELILLO,Gracilaria spp.
+AGUJILLA,Scomberesox saurus scombroides
+ALBACORA O PEZ ESPADA,Xiphias gladius
+ALBACORA O PEZ ESPADA / IVI HEHEU,Xiphias gladius
+ANCHOVETA,Engraulis ringens
+ANGUILA,Ophichthus spp.
+ANGUILA BABOSA,Eptatretus polytrema
+APANADO,Hemilutjanus macrophthalmos
+ATUN ALETA AMARILLA,Thunnus albacares
+ATUN ALETA AMARILLA / KAHI AVE AVE,Thunnus albacares
+ATUN ALETA LARGA,Thunnus alalunga
+ATUN CHAUCHERA,Gatrochisma melampus
+AZULEJO,Prionace glauca
+BACALADILLO O MOTE,Normanichthys crockeri
+BACALAO DE PROFUNDIDAD,Dissostichus eleginoides
+"BACALAO I.PASCUA,ATUN ESCOFINA",Ruvettus pretiosus
+KONSO,Ruvettus pretiosus
+"BACALAO I.PASCUA,ATUN ESCOFINA/KONSO",Ruvettus pretiosus
+BESUGO,Epigonus crassicaudus
+BLANQUILLO,Prolatilus jugularis
+BONITO,Sarda chiliensis
+BRECA O BILAGAY,Cheilodactylus variegatus
+CABALLA,Scomber japonicus
+CABINZA,Isacia conceptionis
+CABRILLA,Paralabrax humeralis
+CABRILLA COMUN,Paralabrax humeralis
+CABRILLA ESPANOLA,Sebastes capensis
+CANQUE,Stellifer minor
+CHANCHARRO,Helicolenus lengerichi
+CHASQUE O CHALACO,Auchenionchus spp.
+COJINOBA DEL NORTE,Seriolella violacea
+COJINOBA DEL NORTE / PIAFRI,Seriolella violacea
+COJINOBA DEL SUR,Seriolella caerulea
+COJINOBA DEL SUR O AZUL,Seriolella caerulea
+CONGRIO COLORADO,Genypterus chilensis
+CONGRIO DORADO,Genypterus blacodes
+CONGRIO NEGRO,Genypterus maculatus
+CORVINA,Cilus gilberti
+DORADO DE ALTURA,Coryphaena hippurus
+DORADO DE ALTURA / MAHI MAHI,Coryphaena hippurus
+EMPERADOR,Luvarus imperialis
+JERGUILLA,Aplodactylus punctatus
+JUREL,Trachurus murphyi
+JUREL DE JUAN FERNANDEZ,Caranx georgianus
+LENGUADO,Paralichthys spp.
+LENGUADO OJOS CHICOS,Paralichthys microps
+LENGUADO DE OJOS CHICOS,Paralichthys microps
+LISA,Mugil cephalus
+MACHUELO O TRITRE,Ethmidium maculatum
+MARLIN,"Tetrapturus spp., Makaira spp"
+MARLIN RAYADO,Tetrapturus audax
+MERLUZA COMUN,Merluccius gayi gayi
+MERLUZA DE COLA,Macruronus magellanicus
+MERLUZA DEL SUR O AUSTRAL,Merluccius australis
+MORENA DE ALETA BAJA,Gymnothorax porphyreus
+MORENA DE ALETA BAJA / KOREHA HA OKO,Gymnothorax porphyreus
+PAMPANITO,Stromateus stellatus
+PAMPANITO DE JUAN FERNANDEZ,Scorpis chilensis
+PEJE GATO HOCICON,Apristurus nasutus
+PEJEGALLO,Callorhinchus callorhynchus
+PEJEPERRO,Semicossyphus maculatus
+PEJERREY DE MAR,Odontesthes regia
+PEJESAPO,Sicyases sanguin
+PESCADO NO CLASIFICADO,Pescado
+PEZ SOL,Lampris guttatus
+PICHIBUENO,Menticirrhus ophicephalus
+PUYE,Galaxias maculatus
+RAYA VOLANTIN,Zearaja chilensis
+REINETA,Brama australis
+ROBALO,Eleginops maclovinus
+ROCOCO,Paralonchurus peruanus
+ROLLIZO,Pinguipes chilensis
+RONCACHO,Sciaena deliciosa
+SALMON REY,Oncorhynchus tshawytscha
+SARDINA AUSTRAL,Sprattus fuegensis
+SARDINA COMUN,Strangomera bentincki
+SARDINA ESPANOLA,Sardinops sagax
+SARGO,Anisotremus scapularis
+SIERRA,Thyrsites atun
+"TIBURON FUME, GRIS O GATA DE MAR",Hexanchus griseus
+TIBURON NARIGON GRIS,Deania calcea
+TIBURON O MARRAJO,Isurus oxyrinchus
+TIBURON O MARRAJO DENTUDO,Isurus oxyrinchus
+TIBURON SARDINERO,Lamna nasus
+TOLLO,Mustelus mento
+TOLLO DE CACHOS,Squalus acanthias
+TRUCHA ARCO IRIS,Oncorhynchus mykiss
+TRUCHA ARCOIRIS,Oncorhynchus mykiss
+TURBOT,Scophtalmus maximus
+"VIDRIOLA, PALOMETA, DORADO O TOREMO",Seriola lalandi
+VIEJA O MULATA,Graus nigra
+VINCIGUERRIA,Vinciguerria lucetia pacifici
+ABALON JAPONES,Haliotis discus hannai
+ABALON ROJO,Haliotis rufescens
+ALMEJA,Venus antiqua
+ALMEJA O TACA,Protothaca taca
+CALAMAR,Loligo gahi
+CARACOL LOCATE,Thais chocolata
+CARACOL PALO PALO,Argobuccinum spp.
+CARACOL PICUYO,Odontocymbiola magellanica
+CARACOL REAL O GIGANTE O VOLUTA ANGULOSA,Zidona dufresnei
+CARACOL RUBIO,Xantochorus cassidiformis
+CARACOL TEGULA,Tegula atra
+CARACOL TRUMULCO,Chorus giganteus
+CARACOL TROPHON,Trophon geversianus
+CARACOL PIQUILHUE,Adelomelon ancilla
+CHOCHA,Trochita trochiformes
+CHOLGA,Aulacomya ater
+CHORITO,Mytilus chilensis
+CHORO,Choromytilus chorus
+CULENGUE,Gari solida
+HUEPO O NAVAJA DE MAR,Ensis macha
+JIBIA O CALAMAR ROJO,Dosidicus gigas
+JULIANA O TAWERA,Tawera gayi
+LAPA,Fissurella spp.
+LAPA NEGRA,Fissurella latimarginata
+LAPA PICTA,Fissurella picta
+LAPA REINA,Fissurella maxima
+LAPA ROSADA,Fissurella cumingi
+LOCO,Concholepas concholepas
+MACHA,Mesodesma donacium
+NAVAJUELA,Tagelus dombeii
+OSTION DEL NORTE,Argopecten purpuratus
+OSTION DEL SUR,Chlamys vitrea
+OSTION PATAGONICO,Chlamys patagonica
+OSTRA CHILENA,Ostrea chilensis
+OSTRA DEL PACIFICO,Crassostrea gigas
+PULPO,Octopus (vulgaris) mimus
+PULPO DEL NORTE,Octopus (vulgaris) mimus
+PULPO DEL SUR,Enteroctopus megalocyathus
+TAQUILLA,Mulinia edulis
+TUMBAO,Semele solida
+CAMARON NAILON,Heterocarpus reedi
+CAMARON DE RIO DEL NORTE,Cryphiops caementarius
+CAMARON ECUATORIANO O PENAEUE,Penaeus vannamei
+CANGREJO DORADO DE J. FERNANDEZ,Chaceon chilensis
+CENTOLLA,Lithodes santolla
+CENTOLLON,Paralomis granulosa
+CENTOLLON DEL NORTE,Paralomis spp.
+GAMBA,Haliporoides diomedeae
+JAIBA,Cancer spp.
+JAIBA LIMON,Cancer porteri
+JAIBA MARMOLA,Cancer edwardsi
+JAIBA MORA,Homalaspis plana
+JAIBA PACO,Mursia gaudichaudi
+JAIBA PANCHOTE O CANGREJO,Taliepus dentatus
+JAIBA PANCORA,Hemigrapsus crenulatus
+JAIBA PATUDA,Taliepus marginatus
+JAIBA PELUDA O PACHONA,Cancer setosus
+JAIBA REINA,Cancer coronatus
+JAIBA REMADORA,Ovalipes trimaculatus
+LANGOSTA DE ISLA DE PASCUA O URA,Panulirus pascuensis
+LANGOSTA DE J.FERNANDEZ,Jasus frontalis
+LANGOSTINO AMARILLO,Cervimunida johni
+LANGOSTINO COLORADO,Pleuroncodes monodon
+LANGOSTINO DE LOS CANALES,Munida subrugosa
+LANGOSTINO ENANO,Pleuroncodes sp
+ACHA O HACHA,Medialuna ancietae
+ATUN OJOS GRANDES,Thunnus obesus
+ATUN OJOS GRANDES / KAHI MATA TATA,Thunnus obesus
+BACALAO DE J.FERNANDEZ / KOPUKU HAHA ROA,Polyprion oxygeneios
+BARRACUDA O PETO / KANA KANA,Acanthocybium solandri
+BROTULA,Salilota australis
+COJINOBA MOTEADA,Seriolella punctata
+PEJERRATA O GRANADERO,Coelorhynchus spp
+PEJEZORRO,Alopias vulpinus
+REMOREMO,Elagatis bipinnulata
+LAPA BONETE,Fissurella costata
+PULPO DE JUAN FERNANDEZ,Octopus Crusoe
+CAMARON DE ROCA,Rhynchocinetes typus
+LANGOSTA ENANA,Projasus bahamondei
+PICOROCO,Austromegabalanus psittacus
+PULGA SALTARINA O GAMBITA,Gammarus sp
+ERIZO,Loxechinus albus
+MEDUSA,Chrysaora Plocamia
+PEPINO DE MAR,Athyonidium chilensis
+PIURE,Pyura chilensis
+"ATUN LISTADO,BARRILETE,CACHURRETA/AUHOPU",Katsuwonus pelamis
+BAGRE,Ameiurus melas
+BRECA DE JUAN FERNANDEZ,Nemadactylus gayi
+COCHINILLA,Navodon Paschalis
+HUAIQUIL O CORVINILLA,Micropogonias manni
+RAYA ESPINOSA,Dipturus trachyderma
+CAMARON NAVAJA,Campylonotus semistriatus
+ALGAS MIXTAS,Algas
+CAROLA,Callophyllis variegata
+JUREL FINO,Decapterus macrosoma
+"MATAHUIRA, KARA KARA O KRA KRA",Heteropriacanthus cruentatus
+NANUE,Kiphosus sandwicensis
+"NANUE, NANUE PARA, PISI O PUA",Kiphosus sandwicensis 
+QUIMERA NEGRA,Hydrolagus melanophasma
+MERLUZA DE TRES ALETAS,Micromesistius australis
+LENGUADO DE OJOS GRANDES,Hippoglossina macrops
+CENTOLLA DEL NORTE,Lithodes spp.
+GRANADERO GRANDE,Macrourus holotrachys
+PEJERRATA,Coelorhynchus chilensis
+PEJERRATA O GRANADERO ESCAMOSO,Macrourus carinatus
+DRACO RAYADO,Champsocephalus gunnari
+KRILL,Euphasia superba
+RAYA AGUILA,Myliobatis peruvianus
+BACALAO ANTARTICO,Dissostichus mawsoni
+MERLUZA DEL ATLANTICO,Merluccius hubbsi
+NOTOTENIA O MARUJITO,Patagonotothen ramsayi
+RAYA MOTEADA O NEGRA,Sympterygia brevicaudata
+CALAMAR ILLEX O POTA DEL ATLANTICO,Illex argentinus
+POTA DEL PACIFICO,Todarodes Pacificus
+CUBICEPS,Cubiceps
+Cotoni,Eucheuma cottonii
+Enteromorpha,Enteromorpha sp.
+Luga luga,Mazzaella membranacea
+Spirulina,Spirulina spp.
+Alfonsino,Beryx splendens
+Anchoita,Engraulis anchoita
+Ayanque,Cynoscion analis
+BAGRE AGUA DULCE,Ictalurus punctatus
+Barrilete negro,Auxis spp.
+Esturion de Siberia,Acipencer baerii
+Halibut o Fletan,Hippoglossus hippoglossus
+Hirame,Paralichthys olivaceus
+Orange roughy,Hoplostethus atlanticus
+Pez rubio,Emmelichthys nitidus
+Ruhi,Caranx lugubris
+Salmon Artico,Salvelinus alpinus
+Salmon del Atlantico,Salmo salar
+Salmon keta,Oncorhynchus keta
+Salmon plateado,Oncorhynchus kisutch
+SALMON PLATEADO O COHO,Oncorhynchus kisutch
+"Salmon plateado, coho o del Pacifico",Oncorhynchus kisutch
+Caracol piquilhue,Adelomelon ancilla
+Chiton o Apretador,Chiton spp.
+salmon otros,Salmonidae
+CRUSTACEO NO CLASIFICADO,Crustacea
+HAEMATOCOCCUS,Haematococcus pluvialis
+LENGUADO FINO,Paralichthys adpersus
