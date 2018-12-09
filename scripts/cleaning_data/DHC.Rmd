@@ -72,27 +72,38 @@ mutate(mean_yield = (min_yield + max_yield)/2)
 setdiff(mean_yield_c$sc_name, mean_yield_body_parts$sc_name) ## 89 differences
 setdiff(mean_yield_body_parts$sc_name, mean_yield_c$sc_name) ##8 differences
 
-##Relevant species for Chile from mean_yield_body_part
+##Relevant species for Chile from mean_yield_body_part-- need this three species to the list
 
 mean_yield_bp_cl <- mean_yield_body_parts %>% 
   filter(sc_name %in% c("Mesodesma donacium","Oncorhynchus mykiss", "Sardinops sagax")) %>% 
   mutate(mean_yield = mean_yield/100) # from precentge to proportion
 
 
-##final yield database
-
-yield_DHC <- mean_yield_c %>% 
-  select(-min_yield, - max_yield) %>%
-  rbind(mean_yield_bp_cl)
 
 ## Save yield dataset
 
-write.csv(yield_DHC, here("clean_databases/intermediate/yield_DHC.csv"), row.names=F)
+write.csv(mean_yield_c, here("clean_databases/intermediate/yield_DHC.csv"), row.names=F)
 
 
 ```
 
 
+##Compare with list of chilean species
 
+```{r}
+DHC_yield <- read_csv("clean_databases/intermediate/yield_DHC.csv") %>% 
+  select(-min_yield, -max_yield)
+
+sp_cl <- read.csv(here("clean_databases/intermediate/sp_model.csv"))
+
+
+match_DHC <- sp_cl %>% 
+  left_join(DHC_yield, by = "sc_name")
+
+##Save match_DHC in order to complete the database by hand in excel considering similar species or other data source
+write.csv(match_DHC, here("clean_databases/intermediate/sp_cl_DHC.csv"), row.names = F)
+
+
+```
 
 

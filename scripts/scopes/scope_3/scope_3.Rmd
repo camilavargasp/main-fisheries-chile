@@ -13,7 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 library(rfishbase) #install.packages("rfishbase")
 library(tidyverse)
-library(stringr)
+library(here)
 ```
 
 
@@ -131,14 +131,23 @@ database1_complete <- landings %>%
   full_join(aquaculture, by= c("year", "region", "species", "variable", "sc_name")) %>%
   full_join(exports, by= c("year", "region", "species", "variable", "sc_name"))
 
+##Save as intermediate file in ordet to compare with yield_DHC
+sp_model <- unique(database1_complete[c("species", "sc_name")])
+
+##write.csv(sp_model, here("clean_databases/intermediate/sp_model.csv"), row.names=F)
 ```
 
 ## Add DHC proportion
 
 ```{r}
 
-##read dataset
+##read dataset generated in DHC.Rmd
+DHC_yield <- read_csv("clean_databases/intermediate/yield_DHC.csv") %>% 
+  select(-min_yield, -max_yield)
 
+
+setdiff(database1_complete$sc_name, DHC_yield$sc_name)
+setdiff(DHC_yield$sc_name, database1_complete$sc_name)
 
 ```
 
