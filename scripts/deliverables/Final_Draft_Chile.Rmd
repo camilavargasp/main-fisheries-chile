@@ -312,7 +312,7 @@ aquaculture_species_per_region$region <- factor(aquaculture_species_per_region$r
 
 Aquaculture production is dramaticlly concentrated in the South of the country, between the X and the XII regions (Figure X). From the I to the IV region the most farmed resources are algaes and scallops (*Argopecten purpuratus*). The red abalone (*Haliotis rufescens*) became the most farmed in 2013 in the V region, replacing the Turbot (*Scophtalmus maximus*). Towards the south salmons are the most farmed species along with some algaes and mussels (*Mytilus chilensis*) (Table SX).
 
-```{r Harvest fromaquaculture centers per region, echo = FALSE, fig.cap= 'Mean annual harvest per region from aquaculture centers between 2012 and 2017. Error bars represent one standard deviation. Data source: Harvests records from SERNAPESCA, 2018.' }
+```{r Harvest from aquaculture centers per region, echo = FALSE, fig.cap= 'Mean annual harvest per region from aquaculture centers between 2012 and 2017. Error bars represent one standard deviation. Data source: Harvests records from SERNAPESCA, 2018.' }
 
  # Aquaculture per region 
   
@@ -333,7 +333,7 @@ Aquaculture production is dramaticlly concentrated in the South of the country, 
   geom_bar(stat = 'identity', fill = wes_palette("Darjeeling1")[2] ) +
   geom_errorbar(aes(ymin=annual_tons-sd, ymax=annual_tons+sd), width=.2,
                  position=position_dodge(.9)) +
-  labs(y="Landings (Thousand Tons)", x="Region")+
+  labs(y="Harvest from aquaculture (Thousand Tons)", x="Region")+
   coord_flip()+
   scale_y_continuous(expand = c(0, 0))+
   ggtheme_plot()
@@ -346,8 +346,8 @@ Aquaculture production is dramaticlly concentrated in the South of the country, 
  Imports
  Exports
  Net trade
-
-<!--- Include subsector analisis and value analisis for artisanal fishers -->
+ 
+Around 72% of the landings from fisheries and aquaculture are exported outside the country (@ifop_monitoreo_2015).
 
 #### National Seafood Supply
 
@@ -365,6 +365,9 @@ Validar resultados con Informe subsectorial SUBPESCA
 ##### Income  
 
 The fisheries industry contributes to around 0.4% of the national GDP although it is a higly variable sector. During 2017 there was an increase in the sectors' GDP attributed to the wild caught of sardines and anchovies and to a lesser extent to farmed salmon (@central_cuentas_2017). This increase in fisheries production echoed in the manufacturing industry mainly via fish meal production (@central_cuentas_2017). The contribution of fisheries to regional GDP varies widely going for almost 30% in the XI region to 0% in the metropolitan (RM) and IX region (Fig. X). 
+
+The XI is by far the one with more GDP coming from the fisheries sector. Supresingly this region is neither the one with higher landings nor the one with most aquaculture  
+
 
 
 ```{r Fisheries contirbution to regional and national PIB, echo = FALSE, fig.cap= 'Percent of the regional GDP contirbuted by the fisheries sector averaging data between 2013 and 2016. Data source: Banco Central de Chile.'}
@@ -390,7 +393,7 @@ PIB_region_plot
 
 ```
 
-Fisheries products are one of the most important exported products of the country. IFOP valued the exportation of fisheries related products to $ 6,280 million dollars in 2017 (@ifop_boletines_2017). This corresponded to ~ 9 % of the total value of national exportations. The most important exported type of marine products in terms of value are frozen and fresh followed by fish meal and dried algae (@ifop_boletines_2017). Around 72% of the landings from fisheries and aquaculture are exported outside the country (@ifop_monitoreo_2015).
+Fisheries products are one of the most important exported products of the country. IFOP valued the exportation of fisheries related products to $6,280 million dollars in 2017 (@ifop_boletines_2017). This corresponded to ~ 9 % of the total value of national exportations. The most important exported type of marine products in terms of value are frozen and fresh followed by fish meal and dried algae (@ifop_boletines_2017). 
 
 ##### Employment
 
@@ -470,7 +473,7 @@ manufacturing_employment <- ggplot(manufacturing_employment, aes(x= as.factor(Zo
   facet_wrap(~Product, scales = 'free')+
   ggtheme_plot()
   
-industrial_employment 
+manufacturing_employment 
 
 ```
 
