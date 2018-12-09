@@ -77,9 +77,15 @@ We issued data requests on SERNAPESCA's portal to obtain more detailed informati
 
 ### Specific methodologies
 
+Any conversion from chilean pesos to dollars was done by first converting the amount in chilean pesos to its value in Chilean Units of account (UF, a monetary unit corrected by inflation) of that year. Then, transformed to the equivalent in 2018 Chilean pesos using the 2018 value of the UF and finally, converting the 2018 value in chilean pesos to its equivalent in 2018 US dollars, based on the conversion for Dec, 2018. 
+
+
+
 #### Fisheries context
 
 We used records of landings and aquaculture farming from SERNAPESCA to evaluate the main species in terms of volume over the last five years (2013-2017). <!--- We compare these results with information from different sources -->  
+
+
 
 #### Estimating National Seafood Supply
 
@@ -135,7 +141,7 @@ Over the last years the catch composition of the artisanal sector has presented 
 
 ```{r Most landed species in Chile, echo = FALSE, fig.cap= 'Top 5 species landed in Chile by the artisanal (left pannel) and industrial sector (right pannel) between 2013 and 2017. Data source: Landing records from SERNAPESCA, 2018.' }
 
-# Importing landings farmed and species names 
+# Importing landings and species names 
 
 landings<- read_csv(here("clean_databases/landings_SERNAPESCA.csv"))
 species_list <- read.csv(here("clean_databases/intermediate/sp_list.csv")) %>% 
@@ -173,6 +179,7 @@ annual_landings_sector <- landings %>%
   ggtheme_plot()
  
  landings_top_5
+ 
 ```
 
  ** Regional Diferences in wild-caught fisheries **
@@ -343,9 +350,19 @@ Aquaculture production is dramaticlly concentrated in the South of the country, 
 ```
 
  ** Main Traded marine products **
+
+El siguiente gráfico muestra la distribución de las exportaciones relacionadas con el sector
+pesquero, que totalizan US$ 386 millones FOB . En primer lugar se ubica el salmón (66%),
+seguido de moluscos y crustáceos (11%), trucha (10%), harina de pescado (8%) y luego
+exportaciones de menor tamaño, como la merluza, el aceite de pescado (ambos con un 2%)
+y las conservas de pescado (1%). Como se puede ver, la mayor parte de las exportaciones
+pesqueras nacionales corresponde a pescado fresco (@sense_reporte_2015).
+
  Imports
  Exports
  Net trade
+ 
+ ** Main Traded marine species **
  
 Around 72% of the landings from fisheries and aquaculture are exported outside the country (@ifop_monitoreo_2015).
 
@@ -362,20 +379,16 @@ Validar resultados con Informe subsectorial SUBPESCA
 
 #### National Economic Participation
 
-##### Income  
+##### Economy and Income  
 
 The fisheries industry contributes to around 0.4% of the national GDP although it is a higly variable sector. During 2017 there was an increase in the sectors' GDP attributed to the wild caught of sardines and anchovies and to a lesser extent to farmed salmon (@central_cuentas_2017). This increase in fisheries production echoed in the manufacturing industry mainly via fish meal production (@central_cuentas_2017). The contribution of fisheries to regional GDP varies widely going for almost 30% in the XI region to 0% in the metropolitan (RM) and IX region (Fig. X). 
-
-The XI is by far the one with more GDP coming from the fisheries sector. Supresingly this region is neither the one with higher landings nor the one with most aquaculture  
-
-
 
 ```{r Fisheries contirbution to regional and national PIB, echo = FALSE, fig.cap= 'Percent of the regional GDP contirbuted by the fisheries sector averaging data between 2013 and 2016. Data source: Banco Central de Chile.'}
 
 PIB_region <- read.csv(here("information/raw_databases/Banco_Central/PIB_region.csv")) %>% 
   mutate(perc_contr = (PIB_fish * 100)/ PIB_total) %>% 
   group_by(region) %>% 
-  summarise(mean_perc_contr = mean(perc_contr))
+  summarise(mean_perc_contr = mean(perc_contr), sd= sd(perc_contr))
 
 # Reordering regions
 PIB_region$region <- factor(PIB_region$region , levels = c("XII", "XI", "X", "XIV", "IX", "VIII", "VII", "VI", "RM","V", "IV", "III", "II", "I", "XV"))
@@ -386,21 +399,94 @@ PIB_region_plot <- ggplot(PIB_region, aes(x= as.factor(region), y= mean_perc_con
   xlab('Region')+
   ylab('Contribution of fisheries industry to regional GDP (%)')+
   scale_y_continuous(expand = c(0, 0), breaks = c(seq(0,40, by = 5)))+
+  geom_errorbar(aes(ymin=mean_perc_contr-sd, ymax=mean_perc_contr+sd), width=.2,
+                 position=position_dodge(.9)) +
   #geom_label(aes(label = paste(as.character(round(mean_perc_contr,1)))), position = )+
-  ggtheme_plot()
-
+  ggtheme_plot() 
 PIB_region_plot 
 
 ```
 
+Based on the most recent input-output matrix for the Chilean economy (2013), the sector most affected by fisheries is the manufacturing industry, for every 100 US dollars spent in the fisheries sector another 52.2 dollars are generated in the manufacturing sector. Other sectors affected by fisheres are the financing sector (24.8 dollars generated every 100) and transportation and comunication (13.4 dollars generated every 100) (@sence_reporte_2015). Based on tax data from 2014, aquaculture contributed to 90% of the sales made by the fisheries and aquaculture sector while extractive fisheries provided the rest (@sence_reporte_2015). Yet, the extractive sector count with a higher number of firms, 58% of the total (@sence_reporte_2015).
+
 Fisheries products are one of the most important exported products of the country. IFOP valued the exportation of fisheries related products to $6,280 million dollars in 2017 (@ifop_boletines_2017). This corresponded to ~ 9 % of the total value of national exportations. The most important exported type of marine products in terms of value are frozen and fresh followed by fish meal and dried algae (@ifop_boletines_2017). 
+
+People employed in the fisheries and aquaculture sector has an average monthly income of 578.27 US dollars, the lowest mean income in the country after the one generated by the agricultural sector (@sence_reporte_2015). This value ranges from 258 US dollars for people working independently and part-time to 1159 uS dollars for full-time employers (Table SX). 
+
+```{r transforming average income from chilean pesos 2014 to dollars 2018, echo =false}
+
+mean_income_sector_chp <- 345541 # Based on report from SENSE 2015
+mean_uf_2014 <- 23990 # Based on data from the Tax National Service (SII)
+mean_uf_2018 <- 27140 # Based on data from the Tax National Service (SII)
+from_ChP_to_dollar_dec_2018 <- 676 # Based on conversion for Dec, 2018
+mean_income_sector_dollar_2018 <- ((mean_income_sector_chp/mean_uf_2014)*mean_uf_2018)/from_ChP_to_dollar_dec_2018
+```
+
+```{r data from Reporte Sectorial Pesca 2015 for appendix, echo = FALSE, message=FALSE, warning= FALSE}
+
+full_time <- c(692786, 210046, 528532, 227808, 402353)
+part_time <-c(422099, 154040, 277600, 172445, 180434)
+
+table_incomes_sector <- rbind(full_time, part_time) %>% 
+  data.frame() %>% 
+  mutate(Type = c('Full time', 'Part time'), Employer= ((X1/mean_uf_2014)*mean_uf_2018)/from_ChP_to_dollar_dec_2018, Independent= ((X2/mean_uf_2014)*mean_uf_2018)/from_ChP_to_dollar_dec_2018, Dependent_Contract= ((X3/mean_uf_2014)*mean_uf_2018)/from_ChP_to_dollar_dec_2018, Dependent_no_contract= ((X4/mean_uf_2014)*mean_uf_2018)/from_ChP_to_dollar_dec_2018, mean_income_fisheries= ((X5/mean_uf_2014)*mean_uf_2018)/from_ChP_to_dollar_dec_2018)
+table_incomes_sector <- table_incomes_sector[6:11]
+
+```
+
+According to records of landings and ex-vessel prices, the most important species for the artisanal sector in terms of revenue are the Southern king crab (*Lithodes santolla*), the Chilean sea urchin (*Loxechinus albus*) and the Southern rays bream or Corina (*Brama australis*). This approach does not include the costs algaes may be cheaper to extract than fish
+
+```{r Species-specific revenues artisanal, echo = FALSE, message= FALSE, warning= FALSE}
+
+# importing cleaned prices dataset and aggregating at the national level
+prices_art <- read_csv(here("clean_databases/prices_art_SERNAPESCA.csv")) %>% 
+  filter(!(species == 'NA'))
+prices_art[is.na(prices_art)] <- as.numeric(0)
+ 
+# generating total national revenue
+most_revenue_sp_art <- prices_art %>% 
+  mutate(revenue= (price * tons)/1000000) %>% 
+  group_by(species, year) %>% 
+  summarise(national_revenue = sum(revenue)) %>% 
+  arrange(year, desc(national_revenue)) %>% 
+  group_by(year) %>% 
+  top_n(3, national_revenue) %>% 
+  ggplot(aes(x = as.factor(year), y = national_revenue, fill= species)) + 
+  geom_bar(stat = 'identity')+
+  labs(y="Revenues (Million Chilean Pesos)", x="Year")+
+  scale_y_continuous(expand = c(0, 0))+
+  scale_fill_manual(values = c(wes_palette("Darjeeling1"), wes_palette("Moonrise1"), wes_palette("Zissou1")))+
+  ggtheme_plot()
+
+most_expensive <- value_species_art %>% 
+  group_by(species) %>% 
+  summarise(mean_price = round(mean(price),0))%>%
+  arrange(desc(mean_price)) %>% 
+  top_n(10, mean_price)
+
+
+knitr::kable(most_valuable, col.names = c('Species', 'Total Revenues (from 2013 to 2017'), format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Species that generated the most revenue for the artisanal sector over the past five years based on records on landings and prices by SERNAPESCA.')
+
+knitr::kable(most_expensive, col.names = c('Species', 'Price (average from 2013 to 2017'), format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Most expensive species in Chile based on the mean price over the past five years based on records on prices by SERNAPESCA.') %>% 
+  kable_styling(latex_options = 'hold_position')
+
+```
+
+We could not reconstruct species-specific revenues for the industrial sector due to a lack of data on ex-vessel prices. But....
+
+Processing facilities are mainly producing bla, bla in each region and this are supported for this species. 
+
+Aquaculture centers bla, bla 
 
 ##### Employment
 
-In terms of employment we estimated a total of ~ 278,000 job positions generated by fisheries and aquaculture. This estimate considers artisanal and industrial fishers, workers in processing facilities and aquaculture centers and indirect jobs generated by the manufacturing sector (See Table X). It does not include indirect jobs generated by the extractive sector nor by the farming in aquaculutre centers. Thus, the number of total people directly and indireclty employed by fisheries and aquaculture in Chile could be higher. 
+Fisheries and aquaculture are considered to be the activities that provide less direct employment in the country, relative to other sectors (@sense_reporte_2015). Yet, we estimated a total of ~ 278,000 job positions generated by fisheries and aquaculture. This estimate considers artisanal and industrial fishers, workers in processing facilities and aquaculture centers and indirect jobs generated by the manufacturing sector (See Table X). It does not include indirect jobs generated by the extractive sector nor by the farming in aquaculutre centers. Thus, the number of total people directly and indireclty employed by fisheries and aquaculture in Chile could be higher. The number of people employed in the fisheries and aquculture sector has been on the rise since 2010 (@sence_reporte_2015). 
 
+On average, people employed in the fisheries and aquculture sector are a younger and less educated relative to the national average and are mostly men. However, there is high variation within subsectors, for example, artisanal fishers tend to be older @tam_gone_2018. Based on estimates from the New national survey of employment (NENE, 2015) only 57.7% of the people employed in the sector is formaly employed by an employer, the rest work independently (@sense_reporte_2015). 
 
-```{r Employment in fisheries from different sources, echo = FALSE, message=FALSE, warning= FALSE}
+```{r Employment in fisheries from different sources and demographics, echo = FALSE, message=FALSE, warning= FALSE}
+
+# Number of employees
 
 Artisanal_extraction <- c('88,968', '2018', 'RPA (SERNAPESCA, 2018)')
 Industrial_extraction <- c('3,525', '2018', 'RPI (SERNAPESCA, 2018) and SUBPESCA website (2018)')
@@ -416,10 +502,20 @@ table_employment <- table_employment [4:7]
 knitr::kable(table_employment, col.names = c('Stage of the supply chain', 'Employees', 'Year of the estimate', 'Source'), format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Most recent estimates of people employed in different stages of the supply chain of sea products in Chile. Note that the estimate of indirect employment only considers indirect employment generated by the manufacturing stage.') %>% 
 kable_styling(latex_options = 'hold_position')
 
+# Demographics of employees
+
+Average_age <- c('42.1', '43.2')
+Education_level <- c('9.5', '11.9')
+Women_perc <- c('8.2','40')
+
+table_demo_employment <- rbind(Average_age, Education_level, Women_perc) %>% 
+  data.frame() %>% 
+  mutate(Characteristic = c('Average age', 'Years of formal education', 'Percentage of women'), Fisheries_and_Aquaculture= X1, National= X2)
+table_demo_employment <- table_demo_employment [3:5]
 
 ```
 
-The artisanal sector correspond to fishing activities performed by vessels equal or smaller than 18 meters in length and by collectors in the inter-tidal zone (@subpesca_panorama_2018). Based on the current RPA, there are around 89,000 artisanal fishers along with 12,700 vessels in Chile. Figure X, shows the number of artisanal fishers per region and gender. They are concentrated in the X and VIII regions and are mostly men. Based on RPA information, the main activity in the artisanal sector is shore collection followed by fishing and to a lesser extent by diving. 
+The artisanal sector correspond to fishing activities performed by vessels equal or smaller than 18 meters in length and by collectors in the inter-tidal zone (@subpesca_panorama_2018). Based on the current RPA, there are around 89,000 artisanal fishers along with 12,700 vessels in Chile. Figure X, shows the number of artisanal fishers per region and gender. They are concentrated in the X and VIII regions and are mostly men. Based on RPA information, the main activity in the artisanal sector is shore collection followed by fishing and to a lesser extent by diving.  
 
 ```{r Artisanal employment, echo= FALSE, fig.cap= 'Number of artisanal fishers in each region by gender. Source: National record of artisanal fishers (SERNAPESCA, 2018)'}
 
@@ -448,7 +544,7 @@ rpa
 
 ```
 
-The industrial sector comprises activities performed by vessels larger than 18 meters. Currently, there are 475 industrial vessels and 164 vessel owners according to the RPI, from which only 25 are individual owners and the rest are firms (@maturana_mujeres_2017). Besides, 3,500 jobs are generated through vessels operations (@subpesca_pesca_2018). Some of the firms that own industrial vessels also own processing facilities whose employees are considered as part of the manufacturing stage. 
+The industrial sector comprises activities performed by vessels larger than 18 meters. Currently, there are 475 industrial vessels and 164 vessel owners according to the RPI, from which only 25 are individual owners and the rest are firms (@maturana_mujeres_2017). Besides, 3,500 jobs are generated through vessels operations (@subpesca_pesca_2018). We could only find information on the distirbution of the industrial vessels (Figure X). We observe that most industrial  extractive activities occur in the XXX region. Some of the firms that own industrial vessels also own processing facilities whose employees are considered as part of the manufacturing stage. 
 
 A comprehensive study form IFOP estimated a total of ~50,000 job positions in the manufacturing of marine products in processing facilties (@ifop_monitoring_2015). However, a more recent report form SERNAPESCA reports a total of 65,451 jobs (@maturana_mujeres_2017). Figure X displays the geographic distribution of people employed in the manufacturing sector per gender and type of product for 2015. Eployment in the processing facilities is dominated by human consumption (HC) products, whith ~ 40,000 job positions. Products for animal consumption (AC) generated around 5,000 positions while algae products employed less than 3,000 people. Most of the people employed by the industrial sector is located in the southern part of the country and the majority are men. 
 
@@ -511,9 +607,13 @@ Comercialization Indirect employment per xx estimated to be.
 
 - Algaes are important in Chile despite not being use for human consumption. They seem to be an important source of employment for artisanal fishers. We do not know much about algaes. 
 
+- Human Consumption south and Animal consumption south. 
+
 ### Key Messages
 
 ### Data uncertainty 
+
+- Industrial ex-vessel prices are confidential. Data gap. 
 
 ### Fisheries context
 
@@ -530,16 +630,27 @@ access to potential benefits like subsidies or territorial users’ rights for f
 ```{r Appendix, echo = FALSE, message= FALSE, warning= FALSE}
 
 # Most landed species per region artisanal (for each year between 2013-2017)
-knitr::kable(main_species_reg_art, col.names = c('Region', 'Most landed in 2013', 'Most landed in 2014', 'Most landed in 2015', 'Most landed in 2016', 'Most landed in 2017'), format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Most landed species per region in the artisanal sector') %>% 
+knitr::kable(main_species_reg_art, col.names = c('Region', 'Most landed in 2013', 'Most landed in 2014', 'Most landed in 2015', 'Most landed in 2016', 'Most landed in 2017'), format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Most landed species per region in the artisanal sector. Source: Landing records from SERNAPESCA, 2018') %>% 
 kable_styling(latex_options = 'hold_position')
 
 # Most landed species per region industrial (for each year between 2013-2017)
-knitr::kable(main_species_reg_ind, col.names = c('Region', 'Most landed in 2013', 'Most landed in 2014', 'Most landed in 2015', 'Most landed in 2016', 'Most landed in 2017'), format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Most landed species per region in the industrial sector') %>% 
+knitr::kable(main_species_reg_ind, col.names = c('Region', 'Most landed in 2013', 'Most landed in 2014', 'Most landed in 2015', 'Most landed in 2016', 'Most landed in 2017'), format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Most landed species per region in the industrial sector. Source: Landing records from SERNAPESCA, 2018') %>% 
 kable_styling(latex_options = 'hold_position')
 
 # Most harvested species per region (for each year between 2012-2017)
-knitr::kable(aquaculture_species_per_region, col.names = c('Region', 'Most landed in 2013', 'Most landed in 2014', 'Most landed in 2015', 'Most landed in 2016', 'Most landed in 2017'), format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Most landed species per region in the industrial sector') %>% 
+knitr::kable(aquaculture_species_per_region, col.names = c('Region', 'Most landed in 2013', 'Most landed in 2014', 'Most landed in 2015', 'Most landed in 2016', 'Most landed in 2017'), format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Most landed species per region in the industrial sector. Source: Landing records from SERNAPESCA, 2018') %>% 
 kable_styling(latex_options = 'hold_position')
+
+# Demographics of people employed in the fisheries and aquculuture sector
+knitr::kable(table_demo_employment, format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Average demographic characteristics of people employed in the fisheries and aquaculture sector in Chile. Source: Elaborated based on data from New supplementary income survey (NESI) in 2015 and published in SENSE, 2015') %>% 
+kable_styling(latex_options = 'hold_position')
+
+# Mean income for different times of employees in the fisheries and aquaculture sectors
+
+knitr::kable(table_incomes_sector , col.names = c('Type', 'Employer', 'Independent', 'Dependent with contract', 'Dependent without contract', 'Mean income'), format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Monthly incomes of fisheries sector in 2018 US dollars. Source: Elaborated based on data from New national employment survey (NENE) in 2015 and published in SENSE, 2015') %>% 
+  kable_styling(latex_options = 'hold_position')
+
+
 
 ```
 
