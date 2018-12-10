@@ -142,16 +142,20 @@ sp_model <- unique(database1_complete[c("species", "sc_name")])
 ```{r}
 
 ##read dataset generated in DHC.Rmd
-DHC_yield <- read_csv("clean_databases/intermediate/yield_DHC.csv") %>% 
-  select(-min_yield, -max_yield)
+DHC_yield <- read_csv("clean_databases/intermediate/sp_cl_DHC.csv") %>% 
+  select(-category, -reference)
+  
+
+##Combine both datasets - THIS LOOKS LIKE THE DUMMY DATASET
+NSS_model1 <- database1_complete %>% 
+  left_join(DHC_yield, by= c("species", "sc_name")) %>% 
+  select(species_es= species, species_en, sc_name, year, region, variable, catch, aquaculture, exports, DHC_pop = mean_yield)
 
 
-setdiff(database1_complete$sc_name, DHC_yield$sc_name)
-setdiff(DHC_yield$sc_name, database1_complete$sc_name)
 
 ```
 
-
+## Adding the tonnes thet are not for direct human consumption
 
 
 # Creating the second dataframe: Including landings, aquaculture harvest, exports and imports at a species group lavel and at a national scale
@@ -228,8 +232,6 @@ no_hc <- read.csv(here("clean_databases/landings_no_HC.csv")) %>%
 no_hc_groups <- no_hc %>% 
   left_join(group_name_complete, by= "species")
   
-
-
 
 database2_complete <- database2_complete_names %>% 
   left_join(imports_group, by= c("group", "year", "variable")) %>% 
