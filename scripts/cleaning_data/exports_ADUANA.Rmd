@@ -55,7 +55,7 @@ exports_all <- export_list %>%
 ##sumarise data to get values per year
 exports_yr <- exports_all %>% 
   select(- month, - destination, - quantity, -unit, - fub) %>%
-  mutate(fob= as.numeric(sub(",", "", fob, fixed = TRUE))) %>% 
+  mutate(fob= as.numeric(sub(",", ".", fob, fixed = TRUE))) %>% 
   mutate(kg= as.numeric(sub(",", "", kg, fixed = TRUE)))%>% 
   group_by(year, region, item_sa) %>% 
   summarise(value_fob = sum(fob, na.rm = T),
@@ -111,7 +111,8 @@ match_exports <- exports_yr %>%
   group_by(year, region, especie_SERNAPESCA, nombre_cientifico_SERNAPESCA) %>% 
   summarise(tons = sum(tons, na.rm = T),
             value = sum(value_fob, na.rm = T)) %>% 
-  ungroup()
+  ungroup() %>% 
+  mutate(value = ifelse(year != 2016, value/100, value))# removing two decimals cifres that were being considered as non decimal for all the years except 2016
   
 ##Save final and complete data base - Exports per region and species.
 
