@@ -1,0 +1,609 @@
+---
+title: "raw and processed"
+author: "Camila Vargas e Ignacia Rivera"
+date: "9 de diciembre de 2018"
+output: pdf_document
+---
+
+## Setup
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(purrr)
+library(here)
+library(tidyverse)
+library(readxl)
+
+```
+
+This scripts cleand the data bases products_per_species_region_month form 2013 to 2012. 
+This data was downloaded XXXX from SERNAPESCA.
+
+We will use this data to determine amount of landings that go directly to human consumption and the ones that go to other industrial product. 
+
+## Read in raw data
+
+Non- Human consumption products
+
+```{r}
+## importing fish meal 
+
+harina_2013 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2013.xlsx"), sheet = "Harinareg", range = "A6:Q44") %>% 
+  rename(m_p= X__1) %>% 
+  filter(m_p == "M") %>% 
+  select(-m_p)%>% 
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'fish meal', year = 2013, tons = ifelse(tons == "-", 0, tons)) %>%
+  rename(species =  ESPECIE)
+
+harina_2014 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2014.xlsx"), sheet = "Harinareg", range = "A6:Q54") %>% 
+   rename(m_p= X__1) %>% 
+  filter(m_p == "M") %>% 
+  select(-m_p)%>% 
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'fish meal', year = 2014, tons = ifelse(tons == "-", 0, tons)) %>%
+  rename(species =  ESPECIE)
+
+harina_2015 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2015.xlsx"), sheet = "Harinareg", range = "A6:Q46") %>% 
+  rename(m_p= X__1) %>% 
+  filter(m_p == "M") %>% 
+  select(-m_p)%>% 
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'fish meal', year = 2015, tons = ifelse(tons == "-", 0, tons)) %>%
+  rename(species =  ESPECIE)
+
+harina_2016 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2016.xlsx"), sheet = "Harinareg", range = "A6:Q44") %>% 
+  rename(m_p= X__1) %>% 
+  filter(m_p == "M") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'fish meal', year = 2016, species =  ESPECIE, tons = ifelse(tons == "-", 0, tons)) %>% 
+   rename(species =  ESPECIE)
+
+harina_2017 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2017.xlsx"), sheet = "Harinareg", range = "A6:Q46") %>% 
+  rename(m_p= X__1) %>% 
+  filter(m_p == "M") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'fish meal', year = 2017, tons = ifelse(tons == "-", 0, tons)) %>%
+  rename(species =  ESPECIE)
+
+
+## importing agar 
+
+agar_2013 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2013.xlsx"), sheet = "Agarreg", range = "A6:Q8") %>% 
+  rename(m_p= X__1) %>% 
+  filter(m_p == "M") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'agar', year = 2013, tons = ifelse(tons == "-", 0, tons)) %>% 
+  rename(species =  ESPECIE)
+
+agar_2014 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2014.xlsx"), sheet = "Agarreg", range = "A6:Q10") %>% 
+  rename(m_p= X__1) %>% 
+  filter(m_p == "M") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'agar', year = 2014, tons = ifelse(tons == "-", 0, tons)) %>% 
+  rename(species =  ESPECIE)
+
+agar_2015 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2015.xlsx"), sheet = "Agarreg", range = "A6:Q8") %>% 
+  rename(m_p= X__1) %>% 
+  filter(m_p == "M") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'agar', year = 2015, tons = ifelse(tons == "-", 0, tons)) %>% 
+  rename(species =  ESPECIE)
+
+agar_2016 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2016.xlsx"), sheet = "Agarreg", range = "A6:Q8") %>% 
+  rename(m_p= X__1) %>% 
+  filter(m_p == "M") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'agar', year = 2016, tons = ifelse(tons == "-", 0, tons)) %>% 
+  rename(species =  ESPECIE)
+
+agar_2017 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2017.xlsx"), sheet = "Agarreg", range = "A6:Q8") %>% 
+  rename(m_p= X__1) %>% 
+  filter(m_p == "M") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'agar', year = 2017, tons = ifelse(tons == "-", 0, tons)) %>% 
+  rename(species =  ESPECIE)
+
+
+## importing carragenina
+
+carragenina_2013 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2013.xlsx"), sheet = "Carrageninareg", range = "A6:Q12") %>% 
+  rename(m_p= X__1) %>% 
+  filter(m_p == "M") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'carragenina', year = 2013, tons = ifelse(tons == "-", 0, tons)) %>% 
+  rename(species =  ESPECIE)
+
+carragenina_2015 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2015.xlsx"), sheet = "Carrageninareg", range = "A6:Q12") %>% 
+  rename(m_p= X__1) %>% 
+  filter(m_p == "M") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'carragenina', year = 2015, tons = ifelse(tons == "-", 0, tons)) %>% 
+  rename(species =  ESPECIE)
+
+carragenina_2016 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2016.xlsx"), sheet = "Carrageninareg", range = "A6:Q12") %>% 
+  rename(m_p= X__1) %>% 
+  filter(m_p == "M") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'carragenina', year = 2016, tons = ifelse(tons =="-", 0, tons)) %>% 
+  rename(species =  ESPECIE)
+
+carragenina_2017 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2017.xlsx"), sheet = "Carrageninareg", range = "A6:Q14") %>% 
+  rename(m_p= X__1) %>% 
+  filter(m_p == "M") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'carragenina', year = 2017, tons = ifelse(tons =="-", 0, tons)) %>% 
+  rename(species =  ESPECIE)
+
+
+## importing colagar
+
+colagar_2013 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2013.xlsx"), sheet = "Colagarreg", range = "A6:Q8") %>% 
+  rename(m_p= X__1) %>% 
+  filter(m_p == "M") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'colagar', year = 2013, tons = ifelse(tons == "-", 0, tons)) %>% 
+  rename(species =  ESPECIE)
+
+colagar_2014 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2014.xlsx"), sheet = "Colagarreg", range = "A6:Q8") %>% 
+  rename(m_p= X__1) %>% 
+  filter(m_p == "M") %>% 
+  select(-m_p)%>% 
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'colagar', year = 2014, tons = ifelse(tons == "-", 0, tons)) %>% 
+  rename(species =  ESPECIE)
+
+colagar_2015 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2015.xlsx"), sheet = "Colagarreg", range = "A6:Q10") %>% 
+  rename(m_p= X__1) %>% 
+  filter(m_p == "M") %>% 
+  select(-m_p)%>% 
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'colagar', year = 2015, tons = ifelse(tons == "-", 0, tons)) %>% 
+  rename(species =  ESPECIE)
+
+colagar_2016 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2016.xlsx"), sheet = "Colagarreg", range = "A6:Q8") %>% 
+  rename(m_p= X__1) %>% 
+  filter(m_p == "M") %>% 
+  select(-m_p)%>% 
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'colagar', year = 2016, tons = ifelse(tons == "-", 0, tons)) %>% 
+  rename(species =  ESPECIE)
+
+colagar_2017 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2017.xlsx"), sheet = "Colagarreg", range = "A6:Q8") %>% 
+  rename(m_p= X__1) %>% 
+  filter(m_p == "M") %>% 
+  select(-m_p)%>% 
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'colagar', year = 2017, tons = ifelse(tons == "-", 0, tons)) %>% 
+  rename(species =  ESPECIE)
+
+## importing oil
+
+aceite_2013 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2013.xlsx"), sheet = "Aceitereg", range = "A6:Q31") %>% 
+  rename(m_p= X__1) %>% 
+  filter(m_p == "M") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'oil', year = 2013, tons = ifelse(tons == "-", 0, tons)) %>% 
+  rename(species =  ESPECIE) %>% 
+  mutate(tons = as.character(tons))
+
+aceite_2014 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2014.xlsx"), sheet = "Aceitereg", range = "A6:Q42") %>% 
+  rename(m_p= X__1) %>% 
+  filter(m_p == "M") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'oil', year = 2014, tons = ifelse(tons =="-", 0, tons)) %>% 
+  rename(species =  ESPECIE)%>% 
+  mutate(tons = as.character(tons))
+
+aceite_2016 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2016.xlsx"), sheet = "Aceitereg", range = "A6:P31") %>% 
+  rename(m_p= X__1) %>% 
+  filter(m_p == "M") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:15)%>% 
+  mutate (product = 'oil', year = 2016, tons = ifelse(tons == "-", 0, tons)) %>% 
+  rename(species =  ESPECIE)%>% 
+  mutate(tons = as.character(tons))
+
+aceite_2017 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2017.xlsx"), sheet = "Aceitereg", range = "A6:Q34") %>%
+  rename(m_p= X__1) %>% 
+  filter(m_p == "M") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'oil', year = 2017, tons = ifelse(tons == "-", 0, tons)) %>% 
+  rename(species =  ESPECIE)%>% 
+  mutate(tons = as.character(tons))
+
+
+## importing alginato
+
+alginato_2015 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2015.xlsx"), sheet = "Alginatoreg", range = "A6:Q8") %>% 
+  rename(m_p= X__1) %>% 
+  filter(m_p == "M") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'alginato', year = 2015, tons = ifelse(tons == "-", 0, tons)) %>% 
+  rename(species =  ESPECIE)
+
+
+```
+
+
+## Combine all raw materials that do not go to Human consumption
+
+```{r}
+raw_no_HC <- dplyr::bind_rows(aceite_2013, aceite_2014, aceite_2016, agar_2013, agar_2014, agar_2015, agar_2016, alginato_2015, carragenina_2013, carragenina_2015, carragenina_2016, colagar_2013, colagar_2014, colagar_2015, colagar_2016, harina_2013, harina_2014, harina_2015, harina_2016, harina_2017) %>% 
+  filter(!(species == 'NA')) %>% 
+  mutate(tons = as.numeric(tons))
+
+#read sp_index
+sp_index <- read.csv(here("clean_databases/sp_index.csv")) %>% 
+  rename(species = chl_name)
+
+## match data base with sc_names in order to group and calculate totals of NHC per species
+
+NHC_m <- raw_no_HC %>% 
+  left_join(sp_index, by="species") %>% 
+  group_by(year, region,sc_name) %>% 
+  summarise(total_NHC= sum(tons, na.rm = T))
+  
+##Save??
+
+
+```
+
+
+Human consumption products
+
+```{r}
+##Fresco Enfriado
+
+FE_2013 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2013.xlsx"), sheet = "FEespreg", range = "A6:Q122") %>% 
+  rename(m_p= X__1) %>% 
+  filter(m_p == "P") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'fresh', year = 2013, tons = ifelse(tons == "-", 0, tons)) %>% 
+  rename(species =  ESPECIE)
+
+FE_2014 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2014.xlsx"), sheet = "FE_region", range = "A6:Q118") %>% 
+  rename(m_p= X__1) %>% 
+  filter(m_p == "P") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'fresh', year = 2014, tons = ifelse(tons == "-", 0, tons)) %>% 
+  rename(species =  ESPECIE)
+
+FE_2015 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2015.xlsx"), sheet = "FE_REGION", range = "A6:Q123") %>% 
+  rename(m_p= X__1) %>% 
+  filter(m_p == "P") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'fresh', year = 2015, tons = ifelse(tons == "-", 0, tons)) %>% 
+  rename(species =  ESPECIE)
+
+FE_2016 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2016.xlsx"), sheet = "FE_REGION", range = "A6:Q154") %>% 
+  rename(m_p= X__1) %>% 
+  filter(m_p == "P") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'fresh', year = 2016, tons = ifelse(tons == "-", 0, tons)) %>% 
+  rename(species =  ESPECIE)
+
+FE_2017 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2017.xlsx"), sheet = "FE_REGION", range = "A6:Q149") %>% 
+  rename(m_p= X__1) %>% 
+  filter(m_p == "P") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'fresh', year = 2017, tons = ifelse(tons == "-", 0, tons)) %>% 
+  rename(species =  ESPECIE)
+
+## Congelados
+congelado_2013 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2013.xlsx"), sheet = "CONGespreg", range = "A6:Q179") %>%
+  rename(m_p= X__1) %>% 
+  filter(m_p == "P") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'frozen', year = 2013, tons = ifelse(tons == "-", 0, tons)) %>% 
+  rename(species =  ESPECIE)
+
+
+congelado_2014 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2014.xlsx"), sheet = "Cong_region", range = "A6:Q184") %>%
+  rename(m_p= X__1) %>% 
+  filter(m_p == "P") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'frozen', year = 2014, tons = ifelse(tons == "-", 0, tons)) %>% 
+  rename(species =  ESPECIE)
+
+congelado_2015 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2015.xlsx"), sheet = "CONG_REGION", range = "A6:Q182") %>%
+  rename(m_p= X__1) %>% 
+  filter(m_p == "P") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'frozen', year = 2015, tons = ifelse(tons == "-", 0, tons)) %>% 
+  rename(species =  ESPECIE)
+
+congelado_2016 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2016.xlsx"), sheet = "CONG_REGION", range = "A6:Q174") %>%
+  rename(m_p= X__1) %>% 
+  filter(m_p == "P") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'frozen', year = 2016, tons = ifelse(tons == "-", 0, tons)) %>% 
+  rename(species =  ESPECIE)
+
+congelado_2017 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2017.xlsx"), sheet = "CONG_REGION", range = "A6:Q172") %>%
+  rename(m_p= X__1) %>% 
+  filter(m_p == "P") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'frozen', year = 2016, tons = ifelse(tons == "-", 0, tons)) %>% 
+  rename(species =  ESPECIE)
+
+## Salado_Seco
+saladoseco_2014 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2014.xlsx"), sheet = "Salseco_region", range = "A6:Q8") %>%
+  rename(m_p= X__1) %>% 
+  filter(m_p == "P") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'salty dry', year = 2014, tons = ifelse(tons == "-", 0, tons)) %>%
+  rename(species =  ESPECIE)
+
+saladoseco_2015 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2015.xlsx"), sheet = "SALADO SECO_REGION", range = "A6:Q8") %>%
+  rename(m_p= X__1) %>% 
+  filter(m_p == "P") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'salty dry', year = 2015, tons = ifelse(tons == "-", 0, tons)) %>%
+  rename(species =  ESPECIE)
+
+saladoseco_2016 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2016.xlsx"), sheet = "SALADO SECO_REGION", range = "A6:Q8") %>%
+  rename(m_p= X__1) %>% 
+  filter(m_p == "P") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'salty dry', year = 20156, tons = ifelse(tons == "-", 0, tons)) %>%
+  rename(species =  ESPECIE)
+
+saladoseco_2017 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2017.xlsx"), sheet = "SALADO SECO_REGION", range = "A6:Q8") %>%
+  rename(m_p= X__1) %>% 
+  filter(m_p == "P") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'salty dry', year = 2017, tons = ifelse(tons == "-", 0, tons)) %>%
+  rename(species =  ESPECIE)
+
+##Salado humedo
+saladohumedo_2013 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2013.xlsx"), sheet = "SALHUMesoreg", range = "A6:Q11") %>%
+  rename(m_p= X__1) %>% 
+  filter(m_p == "P") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'salty wet', year = 2013, tons = ifelse(tons == "-", 0, tons)) %>%
+  rename(species =  ESPECIE)
+
+
+saladohumedo_2014 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2014.xlsx"), sheet = "Salhum_region", range = "A6:Q8") %>%
+  rename(m_p= X__1) %>% 
+  filter(m_p == "P") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'salty wet', year = 2014, tons = ifelse(tons == "-", 0, tons)) %>%
+  rename(species =  ESPECIE)
+
+saladohumedo_2016 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2016.xlsx"), sheet = "SALADO HUMEDO_REGION", range = "A6:Q8") %>%
+  rename(m_p= X__1) %>% 
+  filter(m_p == "P") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'salty wet', year = 2016, tons = ifelse(tons == "-", 0, tons)) %>%
+  rename(species =  ESPECIE)
+
+saladohumedo_2017 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2017.xlsx"), sheet = "SALADO HUMEDO_REGION", range = "A6:Q8") %>%
+  rename(m_p= X__1) %>% 
+  filter(m_p == "P") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'salty wet', year = 2017, tons = ifelse(tons == "-", 0, tons)) %>%
+  rename(species =  ESPECIE)
+
+
+##Ahumado
+ahumado_2013 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2013.xlsx"), sheet = "AHUMespreg", range = "A6:Q12") %>%
+  rename(m_p= X__1) %>% 
+  filter(m_p == "P") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'smoked', year = 2013, tons = ifelse(tons == "-", 0, tons)) %>%
+  rename(species =  ESPECIE)
+
+ahumado_2014 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2014.xlsx"), sheet = "Ahumado_region", range = "A6:Q12") %>%
+  rename(m_p= X__1) %>% 
+  filter(m_p == "P") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'smoked', year = 2014, tons = ifelse(tons == "-", 0, tons)) %>%
+  rename(species =  ESPECIE)
+
+ahumado_2015 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2015.xlsx"), sheet = "AHUMADO_REGION", range = "A6:Q10") %>%
+  rename(m_p= X__1) %>% 
+  filter(m_p == "P") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'smoked', year = 2015, tons = ifelse(tons == "-", 0, tons)) %>%
+  rename(species =  ESPECIE)
+
+ahumado_2016 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2016.xlsx"), sheet = "AHUMADO_REGION", range = "A6:Q10") %>%
+  rename(m_p= X__1) %>% 
+  filter(m_p == "P") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'smoked', year = 2016, tons = ifelse(tons == "-", 0, tons)) %>%
+  rename(species =  ESPECIE)
+
+ahumado_2017 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2017.xlsx"), sheet = "AHUMADO_REGION", range = "A6:Q10") %>%
+  rename(m_p= X__1) %>% 
+  filter(m_p == "P") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'smoked', year = 2017, tons = ifelse(tons == "-", 0, tons)) %>%
+  rename(species =  ESPECIE)
+
+
+##Conserva
+conserva_2013 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2013.xlsx"), sheet = "CONSespreg", range = "A6:Q67") %>%
+  rename(m_p= X__1) %>% 
+  filter(m_p == "P") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'canned', year = 2013, tons = ifelse(tons == "-", 0, tons)) %>%
+  rename(species =  ESPECIE)
+
+conserva_2014 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2014.xlsx"), sheet = "Conserva_region", range = "A6:Q59") %>%
+  rename(m_p= X__1) %>% 
+  filter(m_p == "P") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'canned', year = 2014, tons = ifelse(tons == "-", 0, tons)) %>%
+  rename(species =  ESPECIE)
+
+conserva_2015 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2015.xlsx"), sheet = "CONSERVA_REGION", range = "A6:Q51") %>%
+  rename(m_p= X__1) %>% 
+  filter(m_p == "P") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'canned', year = 2015, tons = ifelse(tons == "-", 0, tons)) %>%
+  rename(species =  ESPECIE)
+
+conserva_2016 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2016.xlsx"), sheet = "CONSERVA_REGION", range = "A6:Q59") %>%
+  rename(m_p= X__1) %>% 
+  filter(m_p == "P") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'canned', year = 2016, tons = ifelse(tons == "-", 0, tons)) %>%
+  rename(species =  ESPECIE)
+
+
+conserva_2017 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2017.xlsx"), sheet = "CONSERVA_REGION", range = "A6:Q53") %>%
+  rename(m_p= X__1) %>% 
+  filter(m_p == "P") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'canned', year = 2017, tons = ifelse(tons == "-", 0, tons)) %>%
+  rename(species =  ESPECIE)
+
+##Deshidratado
+deshidratado_2013 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2013.xlsx"), sheet = "DESHespreg", range = "A6:Q8") %>%
+  rename(m_p= X__1) %>% 
+  filter(m_p == "P") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'dehydrate', year = 2013, tons = ifelse(tons == "-", 0, tons)) %>%
+  rename(species =  ESPECIE)%>% 
+  mutate(tons = as.character(tons))
+
+
+deshidratado_2015 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2015.xlsx"), sheet = "DESHIDRATADO_REGION", range = "A6:Q8") %>%
+  rename(m_p= X__1) %>% 
+  filter(m_p == "P") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'dehydrate', year = 2015, tons = ifelse(tons == "-", 0, tons)) %>%
+  rename(species =  ESPECIE)%>% 
+  mutate(tons = as.character(tons))
+
+deshidratado_2016 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2016.xlsx"), sheet = "DESHIDRATADO_REGION", range = "A6:Q8") %>%
+  rename(m_p= X__1) %>% 
+  filter(m_p == "P") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'dehydrate', year = 2016, tons = ifelse(tons == "-", 0, tons)) %>%
+  rename(species =  ESPECIE)
+
+##Alga seca
+algaseca_2013 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2013.xlsx"), sheet = "ALGASECAespreg", range = "A6:Q32") %>%
+  rename(m_p= X__1) %>% 
+  filter(m_p == "P") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'dry algae', year = 2013, tons = ifelse(tons == "-", 0, tons)) %>%
+  rename(species =  ESPECIE)
+
+
+algaseca_2014 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2014.xlsx"), sheet = "Algaseca_region", range = "A6:Q28") %>%
+  rename(m_p= X__1) %>% 
+  filter(m_p == "P") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'dry algae', year = 2014, tons = ifelse(tons == "-", 0, tons)) %>%
+  rename(species =  ESPECIE)
+
+algaseca_2015 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2015.xlsx"), sheet = "ALGA SECA_REGION", range = "A6:Q30") %>%
+  rename(m_p= X__1) %>% 
+  filter(m_p == "P") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'dry algae', year = 2015, tons = ifelse(tons == "-", 0, tons)) %>%
+  rename(species =  ESPECIE)
+
+algaseca_2016 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2016.xlsx"), sheet = "ALGA SECA_REGION", range = "A6:Q34") %>%
+  rename(m_p= X__1) %>% 
+  filter(m_p == "P") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'dry algae', year = 2016, tons = ifelse(tons == "-", 0, tons)) %>%
+  rename(species =  ESPECIE)
+
+algaseca_2017 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2017.xlsx"), sheet = "ALGA SECA_REGION", range = "A6:Q36") %>%
+  rename(m_p= X__1) %>% 
+  filter(m_p == "P") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'dry algae', year = 2017, tons = ifelse(tons == "-", 0, tons)) %>%
+  rename(species =  ESPECIE)
+
+
+```
+
+combine all products for human consumption
+
+```{r}
+
+product_HC <- dplyr::bind_rows(FE_2013, FE_2014, FE_2015, FE_2016, FE_2017, congelado_2013, congelado_2014, congelado_2015,congelado_2016 ,congelado_2017 ,saladoseco_2014 ,saladoseco_2015 ,saladoseco_2016 ,saladoseco_2017 ,saladohumedo_2013, saladohumedo_2014 ,saladohumedo_2016 ,saladohumedo_2017, ahumado_2013 ,ahumado_2014,ahumado_2015 ,ahumado_2016 ,ahumado_2017,conserva_2013 , conserva_2014, conserva_2015 ,conserva_2016 ,conserva_2017 ,deshidratado_2013 , deshidratado_2015 ,deshidratado_2016 ,algaseca_2013 ,algaseca_2014 ,algaseca_2015 ,algaseca_2016 ,algaseca_2017) %>% 
+  filter(!(species == 'NA')) %>% 
+  mutate(tons = as.numeric(tons))
+
+#read sp_index
+sp_index <- read.csv(here("clean_databases/sp_index.csv")) %>% 
+  rename(species = chl_name)
+
+## match data base with sc_names in order to group and calculate totals of NHC per species
+
+HC_p <-product_HC %>% 
+  left_join(sp_index, by="species") %>% 
+  group_by(year, region,sc_name) %>% 
+  summarise(total_HC= sum(tons, na.rm = T))
+  
+##Save??
+
+
+
+
+```
+
+
+
+

@@ -171,7 +171,9 @@ colagar_2017 <- read_excel(here("information/raw_databases/SERNAPESCA/products/p
 ## importing oil
 
 aceite_2013 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2013.xlsx"), sheet = "Aceitereg", range = "A6:Q31") %>% 
-  select(-X__1) %>% 
+  rename(pm=X__1) %>% 
+  filter(pm == "P") %>% 
+  select(-pm) %>% 
   gather(key = region, value = tons, 2:16)%>% 
   mutate (product = 'oil', year = 2013, species =  ESPECIE, tons = ifelse(tons == "-", 0, tons))
 
@@ -188,7 +190,11 @@ aceite_2016 <- read_excel(here("information/raw_databases/SERNAPESCA/products/pr
 aceite_2017 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2017.xlsx"), sheet = "Aceitereg", range = "A6:Q34") %>% 
   select(-X__1) %>% 
   gather(key = region, value = tons, 2:15)%>% 
-  mutate (product = 'oil', year = 2017, species =  ESPECIE, tons = ifelse(tons == "-", 0, tons))
+  mutate (product = 'oil', year = 2017, species =  ESPECIE, tons = ifelse(tons == "-", 0, tons)) %>% 
+  select(-RM)
+
+##Combine all years for oil production in order to gapfill for 2015
+aceite_all <- rbind(aceite_2013, aceite_2014, aceite_2016, aceite_2017)
 
 
 ## importing alginato
