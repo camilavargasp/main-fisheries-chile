@@ -21,7 +21,8 @@ sp_yield <- read_csv(here("clean_databases/intermediate/sp_cl_DHC.csv"))
 # Marching and generating index
 sp_index <- sp_list %>% 
   left_join(sp_yield) %>% 
-  select(chl_name = especie_SERNAPESCA, sc_name, en_name = species_en)
+  select(chl_name = especie_SERNAPESCA, sc_name, en_name = species_en) %>% 
+  unique()
 
 # Saves species index
 write.csv(sp_index,  here("clean_databases/sp_index.csv"), row.names=F)
