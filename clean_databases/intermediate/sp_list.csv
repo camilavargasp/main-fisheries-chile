@@ -27,9 +27,9 @@ ATUN CHAUCHERA,Gatrochisma melampus
 AZULEJO,Prionace glauca
 BACALADILLO O MOTE,Normanichthys crockeri
 BACALAO DE PROFUNDIDAD,Dissostichus eleginoides
-"BACALAO I.PASCUA,ATUN ESCOFINA",Ruvettus pretiosus
+BACALAO I.PASCUA,ATUN ESCOFINA,Ruvettus pretiosus
 KONSO,Ruvettus pretiosus
-"BACALAO I.PASCUA,ATUN ESCOFINA/KONSO",Ruvettus pretiosus
+BACALAO I.PASCUA,ATUN ESCOFINA/KONSO,Ruvettus pretiosus
 BESUGO,Epigonus crassicaudus
 BLANQUILLO,Prolatilus jugularis
 BONITO,Sarda chiliensis
@@ -61,11 +61,12 @@ LENGUADO OJOS CHICOS,Paralichthys microps
 LENGUADO DE OJOS CHICOS,Paralichthys microps
 LISA,Mugil cephalus
 MACHUELO O TRITRE,Ethmidium maculatum
-MARLIN,"Tetrapturus spp., Makaira spp"
+"MARLIN,""Tetrapturus spp., Makaira spp"""
 MARLIN RAYADO,Tetrapturus audax
 MERLUZA COMUN,Merluccius gayi gayi
 MERLUZA DE COLA,Macruronus magellanicus
 MERLUZA DEL SUR O AUSTRAL,Merluccius australis
+MERLUZA DEL SUR,Merluccius australis
 MORENA DE ALETA BAJA,Gymnothorax porphyreus
 MORENA DE ALETA BAJA / KOREHA HA OKO,Gymnothorax porphyreus
 PAMPANITO,Stromateus stellatus
@@ -91,7 +92,7 @@ SARDINA COMUN,Strangomera bentincki
 SARDINA ESPANOLA,Sardinops sagax
 SARGO,Anisotremus scapularis
 SIERRA,Thyrsites atun
-"TIBURON FUME, GRIS O GATA DE MAR",Hexanchus griseus
+TIBURON FUME, GRIS O GATA DE MAR,Hexanchus griseus
 TIBURON NARIGON GRIS,Deania calcea
 TIBURON O MARRAJO,Isurus oxyrinchus
 TIBURON O MARRAJO DENTUDO,Isurus oxyrinchus
@@ -101,7 +102,7 @@ TOLLO DE CACHOS,Squalus acanthias
 TRUCHA ARCO IRIS,Oncorhynchus mykiss
 TRUCHA ARCOIRIS,Oncorhynchus mykiss
 TURBOT,Scophtalmus maximus
-"VIDRIOLA, PALOMETA, DORADO O TOREMO",Seriola lalandi
+VIDRIOLA, PALOMETA, DORADO O TOREMO,Seriola lalandi
 VIEJA O MULATA,Graus nigra
 VINCIGUERRIA,Vinciguerria lucetia pacifici
 ABALON JAPONES,Haliotis discus hannai
@@ -189,7 +190,7 @@ ERIZO,Loxechinus albus
 MEDUSA,Chrysaora Plocamia
 PEPINO DE MAR,Athyonidium chilensis
 PIURE,Pyura chilensis
-"ATUN LISTADO,BARRILETE,CACHURRETA/AUHOPU",Katsuwonus pelamis
+ATUN LISTADO,BARRILETE,CACHURRETA/AUHOPU,Katsuwonus pelamis
 BAGRE,Ameiurus melas
 BRECA DE JUAN FERNANDEZ,Nemadactylus gayi
 COCHINILLA,Navodon Paschalis
@@ -199,9 +200,9 @@ CAMARON NAVAJA,Campylonotus semistriatus
 ALGAS MIXTAS,Algas
 CAROLA,Callophyllis variegata
 JUREL FINO,Decapterus macrosoma
-"MATAHUIRA, KARA KARA O KRA KRA",Heteropriacanthus cruentatus
+MATAHUIRA, KARA KARA O KRA KRA,Heteropriacanthus cruentatus
 NANUE,Kiphosus sandwicensis
-"NANUE, NANUE PARA, PISI O PUA",Kiphosus sandwicensis 
+NANUE, NANUE PARA, PISI O PUA,Kiphosus sandwicensis 
 QUIMERA NEGRA,Hydrolagus melanophasma
 MERLUZA DE TRES ALETAS,Micromesistius australis
 LENGUADO DE OJOS GRANDES,Hippoglossina macrops
@@ -239,7 +240,7 @@ Salmon del Atlantico,Salmo salar
 Salmon keta,Oncorhynchus keta
 Salmon plateado,Oncorhynchus kisutch
 SALMON PLATEADO O COHO,Oncorhynchus kisutch
-"Salmon plateado, coho o del Pacifico",Oncorhynchus kisutch
+Salmon plateado, coho o del Pacifico,Oncorhynchus kisutch
 Caracol piquilhue,Adelomelon ancilla
 Chiton o Apretador,Chiton spp.
 salmon otros,Salmonidae
