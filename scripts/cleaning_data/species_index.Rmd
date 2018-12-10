@@ -11,9 +11,20 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r importing datasets}
 
-sp_list <- read.csv(here("clean_databases/intermediate/sp_list.csv")
+# Importing dataset with scientific and common chilean name
+sp_list <- read_csv(here("clean_databases/intermediate/sp_list.csv")) %>% 
+  rename(sc_name = 'nombre_cientifico_SERNAPESCA')
 
-                     
+# Importing dataset with scientific and common english name
+sp_yield <- read_csv(here("clean_databases/intermediate/sp_cl_DHC.csv"))
+
+# Marching and generating index
+sp_index <- sp_list %>% 
+  left_join(sp_yield) %>% 
+  select(chl_name = especie_SERNAPESCA, sc_name, en_name = species_en)
+
+# Saves species index
+write.csv(sp_index,  here("clean_databases/sp_index.csv"), row.names=F)
 
 ```
 

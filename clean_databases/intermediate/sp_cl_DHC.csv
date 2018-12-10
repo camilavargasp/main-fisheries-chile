@@ -98,7 +98,7 @@ LUGA NEGRA O CRESPA,Sarcothalia crispata,Black algae luga,algae,Dry ,0.75
 LUGA-ROJA,Gigartina skottsbergii,Red luga,algae,Dry ,0.75
 MACHA,Mesodesma donacium,Macha clam,,Gari solida,0.225
 MACHUELO O TRITRE,Ethmidium maculatum,Pacific menhaden,,,0.55
-MARLIN,"Tetrapturus spp., Makaira spp",Tetrapturus,medium fish,,0.5
+"MARLIN,""Tetrapturus spp., Makaira spp"",Tetrapturus,medium fish,,0.5"
 MERLUZA COMUN,Merluccius gayi gayi,South Pacific hake,,Merluccius gayi peruanus,0.5
 MERLUZA DE COLA,Macruronus magellanicus,Patagonian grenadier,,Merluccius gayi peruanus,0.5
 MERLUZA DE TRES ALETAS,Micromesistius australis,Southern blue whiting,,Merluccius gayi peruanus,0.5
@@ -140,12 +140,12 @@ TIBURON O MARRAJO,Isurus oxyrinchus,Shortfin mako,,,0.55
 TIBURON SARDINERO,Lamna nasus,Porbeagle,,,0.45
 TOLLO,Mustelus mento,Speckled smooth-hound,,shark average,0.56
 TUMBAO,Semele solida,Tumbao,,Gari solida,0.225
-"VIDRIOLA, PALOMETA, DORADO O TOREMO",Seriola lalandi,Yellowtail amberjack,,,0.55
+VIDRIOLA, PALOMETA, DORADO O TOREMO,Seriola lalandi,Yellowtail amberjack,,,0.55
 VIEJA O MULATA,Graus nigra,Vieja,,,0.55
 ALBACORA O PEZ ESPADA / IVI HEHEU,Xiphias gladius,Swordfish,,,0.425
 ANGUILA BABOSA,Eptatretus polytrema,Fourteen-gill hagfish,,Ophichthus remiger,0.4
 ATUN ALETA AMARILLA / KAHI AVE AVE,Thunnus albacares,Yellowfin tuna,,Thunnus sp,0.475
-"BACALAO I.PASCUA,ATUN ESCOFINA/KONSO",Ruvettus pretiosus,Oilfish,,,0.425
+BACALAO I.PASCUA,ATUN ESCOFINA/KONSO,Ruvettus pretiosus,Oilfish,,,0.425
 CABRILLA ESPANOLA,Sebastes capensis,Cape redfish,small fish,,0.5
 CHASQUE O CHALACO,Auchenionchus spp.,Chalaco,small fish,,0.5
 COJINOBA DEL NORTE / PIAFRI,Seriolella violacea,Palm ruff,,,0.6
@@ -169,7 +169,7 @@ PICHIBUENO,Menticirrhus ophicephalus,Snakehead kingcroaker,,,0.5
 PULGA SALTARINA O GAMBITA,Gammarus sp,Grammarus,Crustaceo,,0.2
 PULPO DEL NORTE,Octopus (vulgaris) mimus,Changos octopus,,,0.725
 SALMON REY,Oncorhynchus tshawytscha,Chinook salmon,Salmon,,0.5
-"TIBURON FUME, GRIS O GATA DE MAR",Hexanchus griseus,Bluntnose sixgill shark,,shark average,0.56
+TIBURON FUME, GRIS O GATA DE MAR,Hexanchus griseus,Bluntnose sixgill shark,,shark average,0.56
 TIBURON NARIGON GRIS,Deania calcea,Birdbeak dogfish,,shark average,0.56
 TIBURON O MARRAJO DENTUDO,Isurus oxyrinchus,Shortfin mako,,,0.55
 TOLLO DE CACHOS,Squalus acanthias,Picked dogfish,,shark average,0.56
@@ -192,7 +192,7 @@ MERLUZA DEL ATLANTICO,Merluccius hubbsi,Argentine hake,,Merluccius gayi peruanus
 NOTOTENIA O MARUJITO,Patagonotothen ramsayi,Longtail southern cod,medium fish,,0.5
 POTA DEL PACIFICO,Todarodes Pacificus,Japanese flying squid,,Doryteuthis gahi,0.775
 RAYA MOTEADA O NEGRA,Sympterygia brevicaudata,Shorttail fanskate,,Rays,0.5
-"ATUN LISTADO,BARRILETE,CACHURRETA/AUHOPU",Katsuwonus pelamis,Skipjack tuna,,,0.475
+ATUN LISTADO,BARRILETE,CACHURRETA/AUHOPU,Katsuwonus pelamis,Skipjack tuna,,,0.475
 BAGRE,Ameiurus melas,Black bullhead,medium fish,,0.5
 BRECA DE JUAN FERNANDEZ,Nemadactylus gayi,Breca,,Peruvian morwong,0.5
 CARACOL TROPHON,Trophon geversianus,Gevers's trophon,,Sea snails,0.2
@@ -202,8 +202,8 @@ ALGAS MIXTAS,Algas,Algaes,algae,Dry ,0.75
 CAROLA,Callophyllis variegata,Carola,algae,Dry ,0.75
 HUIRO NEGRO O CHASCON,Lessonia nigrescens,Giant grey kelp,algae,Dry ,0.75
 JUREL FINO,Decapterus macrosoma,Shortfin scad,,,0.5
-"MATAHUIRA, KARA KARA O KRA KRA",Heteropriacanthus cruentatus,Glasseye,small fish,,0.5
-"NANUE, NANUE PARA, PISI O PUA",Kiphosus sandwicensis ,Pacific chub,small fish,,0.5
+MATAHUIRA, KARA KARA O KRA KRA,Heteropriacanthus cruentatus,Glasseye,small fish,,0.5
+NANUE, NANUE PARA, PISI O PUA,Kiphosus sandwicensis ,Pacific chub,small fish,,0.5
 QUIMERA NEGRA,Hydrolagus melanophasma,Eastern Pacific Black Ghostshark,,Ophichthus remiger,0.4
 HAEMATOCOCCUS,Haematococcus pluvialis,Haematococcus,algae,Dry ,0.75
 SPIRULINA,Spirulina spp.,Spirulina,algae,Dry ,0.75
@@ -214,7 +214,7 @@ SALMON PLATEADO,Oncorhynchus kisutch,Coho salmon,Salmon,,0.5
 TRUCHA ARCO IRIS,Oncorhynchus mykiss,Rainbow trout,,Oncorhynchus mykiss fillete,0.5
 TURBOT,Scophtalmus maximus,Turbot,medium fish,,0.5
 ABALON JAPONES,Haliotis discus hannai,Japanese abalone,,Chilean abalone,0.225
-ABALON ROJO,Haliotis rufescens,NA,,Chilean abalone,0.225
+ABALON ROJO,Haliotis rufescens,Red Abalone,,Chilean abalone,0.225
 OSTION DEL NORTE,Argopecten purpuratus,Peruvian calico scallop,,,0.15
 OSTRA DEL PACIFICO,Crassostrea gigas,Pacifuc Oyster,,Gari solida,0.225
 SALMON PLATEADO O COHO,Oncorhynchus kisutch,Coho salmon,Salmon,,0.5
