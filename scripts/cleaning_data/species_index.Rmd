@@ -1,0 +1,19 @@
+---
+title: "species_index"
+author: "Camila Vargas e Ignacia Rivera"
+date: "December 9, 2018"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r importing datasets}
+
+sp_list <- read.csv(here("clean_databases/intermediate/sp_list.csv")
+
+                     
+
+```
+
