@@ -148,19 +148,17 @@ We also obtained data from SERNAPESCA detailing the number of people working in 
 
 ** Main wild-caught fisheries in terms of volume**
 
-According to landing records from SERNAPESCA over the last five years, the artisanal sector lands on average 1.6 ± 0.58 million tons per year of marine species while the industrial sector lands around 0.9 ± 0.16 million tons per year. The most landed species by the artisanal sector have been the Araucanian herring (*Strangomera bentincki*), the Giant grey weed (*Lessonia nigrescens*) and the Peruvian anchoveta (*Engraulis ringens*) and the most landed species by the industrial sector are the Peruvian anchoveta (*Engraulis ringens*), the Chilean jack mackerel (*Trachurus murphyi*) and the Araucanian herring (*Strangomera bentincki*) (**Figure 1**).
+According to landing records from SERNAPESCA over the last five years, the artisanal sector lands on average 1.6 ± 0.58 million tons per year of marine species while the industrial sector lands around 0.9 ± 0.16 million tons per year. The most landed species by the artisanal sector have been the Giant grey weed (*Lessonia nigrescens*), the Araucanian herring (*Strangomera bentincki*),  and the Peruvian anchoveta (*Engraulis ringens*) and the Jumbo squid (*Dosidicus gigas*). The most landed species by the industrial sector are the Peruvian anchoveta (*Engraulis ringens*), the Chilean jack mackerel (*Trachurus murphyi*) and the Araucanian herring (*Strangomera bentincki*) (**Figure 1**).
 
 Over the last years the catch composition of the artisanal sector has presented no major changes except from one species of algae replacing other within the top 5 landed species. In the case of the industrial sector, composition of the main three species seem to be stable over the last five years. Yet, the South pacific hake (*Merlucius gayi*) stoped being one of the specied most fished by the industrial sector after 2013. This can be explined by the reduction of the total allowable catch for this species given its risk of collapse in those years (@subpesca_cuota_2013). After 2013, the industrial sector introduced the Jumbo squid (*Dosidicus gigas*) among its top 5 landed species. As for 2016 the Chub mackerel (*Scomber japonicus*) has entered the top 5 for the indutrial sector replacing Patagonian grenadier (*Macruronus magellanicus*).
-
 
 ```{r Most landed species in Chile, echo = FALSE, fig.cap= 'Top 5 species landed in Chile by the artisanal (left pannel) and industrial sector (right pannel) between 2013 and 2017. Data source: Landing records from SERNAPESCA, 2018.' }
 
 # Importing landings and species names 
 
 landings<- read_csv(here("clean_databases/landings_SERNAPESCA.csv"))
-species_list <- read.csv(here("clean_databases/intermediate/sp_list.csv")) %>% 
-  rename(species= especie_SERNAPESCA, sc_name=nombre_cientifico_SERNAPESCA) %>% 
-  mutate(species = str_to_upper(species)) 
+sp_index <- read.csv(here("clean_databases/sp_index.csv")) %>% 
+  mutate(chl_name = str_to_upper(chl_name)) 
 
 # Calculating annual landings per sector 
 
@@ -177,17 +175,19 @@ annual_landings_sector <- landings %>%
  landings_top_5 <- landings %>% 
   filter(region != "national", international_waters == 0) %>% 
   mutate(tons = as.numeric(tons), subsector = ifelse(subsector =='fabric_vessel', 'industrial', subsector)) %>% 
-  group_by(year, species, subsector) %>% 
-  summarise(tons = sum(tons, na.rm = T))%>% 
+  rename(chl_name = species) %>% 
+  left_join(sp_index) %>% 
+  group_by(year, sc_name, subsector) %>% 
+  summarise(tons = sum(tons, na.rm = T)/1000000)%>% 
   arrange(year, desc(tons)) %>% 
   group_by(year, subsector) %>% 
-  top_n(5, tons) %>% 
-  left_join(species_list) %>% 
-  select(year, subsector, tons, species = sc_name) %>% 
+  top_n(5, tons) %>%
+  left_join(sp_index) %>% 
+  select(year, subsector, tons, species = en_name) %>% 
   ggplot(aes(x = year, y = tons, fill = species))+
   geom_bar(stat = 'identity') +
   facet_wrap(~subsector)+
-  labs(y="Landings (Tons)", x="Year")+
+  labs(y="Landings (Million tons)", x="Year")+
   scale_y_continuous(expand = c(0, 0))+
   scale_fill_manual(values = c(wes_palette("Darjeeling1"), wes_palette("Darjeeling2"),  'black'))+
   ggtheme_plot()
@@ -200,7 +200,9 @@ annual_landings_sector <- landings %>%
 
 The amount of landed tons (Figure X) and the main species landed vary widely along the coast of Chile for both sectors. The most landed species in each region has change little over the last five years (Tables SX). 
 
-In the north of Chile, from the XV to the III region, the most landed species of the artisanal sector over the last five years have been the Peruvian anchoveta (*Engraulis ringens*) and the algae Giant grey weed (**Lessonia nigrescens**). The species most landed by the industrial sector in this area is also the Peruvian anchoveta (*Engraulis ringens*). Between the IV and VI regions, artisanals' most landed species are algaes and the Jumbo squid (*Dosidicus gigas*) while for industrials the msot important species in these regions are the Chilean jack mackerel (*Trachurus murphyi*), Squat lobsters (*Cervimunida johni*), Shrimps (*Heterocarpus reedi*) and the South pacific hake (*Merlucius gayi*), which is also the most landed species by artisanal fishers in the VII region. The VIII is by far the region with most landings from both the artisanal and industrial sector. In this region artisanals' most important species is the Araucanian herring (*Strangomera bentincki*) whereas for the industrial sector is the Chilean jack mackarel (*Trachurus murphyi*). In the IX region the Southern rays bream is the (*Brama australis*) most landed species by the artisanals and towards the south, from X to the XII region artisanals' most landed species are sea urchins (*Loxechinus albus*) and different algaes. The most important species for the industrial sector in the austral south are the Southern king crab (*Lithodes santolla*) and the Patagonian toothfish (*Dissostichus eleginoides*) in the X region, and the Patagonian grenadier (*Macruronus magellanicus*) in the XI region. 
+In the north of Chile, from the XV to the III region, the most landed species of the artisanal sector over the last five years have been the Peruvian anchoveta (*Engraulis ringens*) and the algae Giant grey weed (**Lessonia nigrescens**). The species most landed by the industrial sector in this area is also the Peruvian anchoveta (*Engraulis ringens*). Between the IV and VI regions, artisanals' most landed species are algaes and the Jumbo squid (*Dosidicus gigas*) while for industrials the most important species in these regions are the Chilean jack mackerel (*Trachurus murphyi*), Blue squat lobster (*Cervimunida johni*), Chilean nylon shrimp (*Heterocarpus reedi*) and the South pacific hake (*Merlucius gayi*), which is also the most landed species by artisanal fishers in the VII region. 
+
+The VIII is by far the region with most landings from both the artisanal and industrial sector. In this region artisanals' most important species is the Araucanian herring (*Strangomera bentincki*) whereas for the industrial sector is the Chilean jack mackarel (*Trachurus murphyi*). In the IX region the Southern rays bream is the (*Brama australis*) most landed species by the artisanals and towards the south, from X to the XII region artisanals' most landed species are sea urchins (*Loxechinus albus*) and different algaes. The most important species for the industrial sector in the X region have been  the Southern king crab (*Lithodes santolla*) and the Patagonian toothfish (*Dissostichus eleginoides*) while the Patagonian grenadier (*Macruronus magellanicus*) is the most landed in the austral south by industrials. 
  
 
 ```{r Landings per region, echo = FALSE, fig.cap= 'Mean annual landings per region for the artisanal (left pannel) and industrial sector (right pannel) between 2013 and 2017. Error bars represent one standard deviation. Note that scales are different between pannels. Data source: Landing records from SERNAPESCA, 2018.'}
@@ -213,7 +215,7 @@ In the north of Chile, from the XV to the III region, the most landed species of
   arrange(year, desc(tons)) %>% 
   group_by(year, region, subsector) %>% 
   top_n(1, tons) %>% 
-  filter(year ==2017)
+  filter(year == 2017)
   
  # Landings per region 
   
@@ -225,7 +227,9 @@ In the north of Chile, from the XV to the III region, the most landed species of
   group_by(subsector, region) %>% 
   summarise(annual_tons = mean(tons, na.rm = T)/1000, sd = sd(tons, na.rm = T)/1000)%>% 
   left_join(main_species_per_region, by = c('region', 'subsector')) %>% 
-  select(subsector, region, annual_tons, sd, species)
+  select(subsector, region, annual_tons, sd, chl_name = species) %>% 
+    left_join(sp_index) %>% 
+    select(-chl_name, -sc_name)
   
 # Reordering regions
  landings_per_region$region <- factor(landings_per_region$region , levels = c("XII", "XI", "X", "XIV", "IX", "VIII", "VII", "VI", "RM","V", "IV", "III", "II", "I", "XV"))
@@ -246,33 +250,38 @@ In the north of Chile, from the XV to the III region, the most landed species of
 
  main_species_reg_art <- landings %>% 
   filter(region != "national", international_waters == 0, subsector == 'artisanal') %>% 
-  mutate(tons = as.numeric(tons)) %>% 
-  left_join(species_list) %>%
+  mutate(tons = as.numeric(tons)) %>%
+  rename(chl_name = species) %>% 
+  left_join(sp_index) %>%
   group_by(year, region, sc_name) %>% 
   summarise(tons = sum(tons, na.rm = T))%>% 
-  filter(tons!= 0) %>% 
   arrange(year, desc(tons)) %>%
   group_by(year, region) %>% 
   top_n(1, tons) %>% 
-  select(-tons) %>% 
-  spread(year, sc_name)
+  left_join(sp_index) %>% 
+  select(-tons, -sc_name, -chl_name) %>%
+  unique() %>% 
+  spread(year, en_name)
  
 main_species_reg_art$region <- factor(main_species_reg_art$region , levels = c("XII", "XI", "X", "XIV", "IX", "VIII", "VII", "VI", "RM","V", "IV", "III", "II", "I", "XV"))
  
 # Main species per region industrial sector overlast 5 years (Appendix)
 
-  main_species_reg_ind <- landings %>% 
-  filter(region != "national", international_waters == 0, subsector == 'industrial') %>% 
-  mutate(tons = as.numeric(tons)) %>% 
-  left_join(species_list) %>%
+ main_species_reg_ind <- landings %>% 
+  mutate(tons = as.numeric(tons), subsector = ifelse(subsector =='fabric_vessel', 'industrial', subsector)) %>% 
+  filter(region != "national", international_waters == 0, subsector == 'industrial') %>%
+  rename(chl_name = species) %>% 
+  left_join(sp_index) %>%
   group_by(year, region, sc_name) %>% 
   summarise(tons = sum(tons, na.rm = T))%>% 
-  filter(tons!= 0) %>% 
   arrange(year, desc(tons)) %>%
   group_by(year, region) %>% 
   top_n(1, tons) %>% 
-  select(-tons) %>% 
-  spread(year, sc_name)
+  filter(tons !=0 ) %>% 
+  left_join(sp_index) %>% 
+  select(-tons, -sc_name, -chl_name) %>%
+  unique() %>% 
+  spread(year, en_name)
   
 main_species_reg_ind$region <- factor(main_species_reg_ind$region , levels = c("XII", "XI", "X", "XIV", "IX", "VIII", "VII", "VI", "RM","V", "IV", "III", "II", "I", "XV"))
 
@@ -283,7 +292,7 @@ main_species_reg_ind$region <- factor(main_species_reg_ind$region , levels = c("
 
 ** Main farmed fisheries in terms of volume**
 
-The main species harvested from aquaculture centers in the last 5 years have been the Atlantic salmon (*Salmo salar*), mussels (*Mytilus chilensis*), Coho salmon (*Oncorhynchus kisutch*) in descending order (Figure x), among others (S Table x). Overall, the composition of the most farmed species and its volumes have been stable over the last 5 years. 
+The main species harvested from aquaculture centers in the last 5 years have been the Atlantic salmon (*Salmo salar*), Coho salmon (*Oncorhynchus kisutch*) and mussels (*Mytilus chilensis*), in descending order (Figure x), among others (S Table x). Overall, the composition of the most farmed species and its volumes have been stable over the last 5 years. However, the Raibow trout seems to be becoming less important in the composition over the years.  
 
 ```{r Most important farmed species in terms of volume in Chile, echo = FALSE, fig.cap= 'Top 5 species farmed in Chile between 2013 and 2017. Data source: Harvest records from SERNAPESCA, 2018.' }
 
@@ -293,15 +302,15 @@ aquaculture<- read_csv(here("clean_databases/aquaculture_SERNAPESCA.csv"))
 # Top aquaculture
   aquaculture_top_5 <-aquaculture %>% 
   filter(month == "anual") %>% 
-  mutate(tons = as.numeric(tons)) %>% 
-  group_by(year, species) %>% 
+  mutate(tons = as.numeric(tons), chl_name = species) %>%
+  left_join(sp_index) %>% 
+  group_by(year, sc_name) %>% 
   summarise(tons = sum(tons, na.rm = T))%>% 
   arrange(year, desc(tons)) %>% 
   group_by(year) %>% 
-  top_n(5, tons) %>% 
-  left_join(species_list) %>% 
-  select(-species) %>% 
-  rename(species = sc_name) %>% 
+  top_n(5, tons) %>%
+  left_join(sp_index) %>% 
+  rename(species= en_name) %>% 
   ggplot(aes(x = as.factor(year), y = tons/1000, fill = species))+
   geom_bar(stat = 'identity') +
   labs(y="Harvest (Thousand Tons)", x="Year")+
@@ -309,29 +318,11 @@ aquaculture<- read_csv(here("clean_databases/aquaculture_SERNAPESCA.csv"))
   scale_fill_manual(values = c(wes_palette("Darjeeling1"), wes_palette("Darjeeling2")))+
   ggtheme_plot()
   
-# Most important farmed species per region (Appendix)
-  
-  aquaculture_species_per_region <-aquaculture %>% 
-  filter(month == "anual") %>% 
-  mutate(tons = as.numeric(tons)) %>% 
-  group_by(year, species, region) %>% 
-  summarise(tons = sum(tons, na.rm = T))%>% 
-  arrange(year, desc(tons)) %>%
-  group_by(year, region) %>% 
-  top_n(1, tons) %>%
-  filter(tons != 0) %>% 
-  left_join(species_list) %>% 
-  select(-species, -tons) %>% 
-  rename(species = sc_name) %>% 
-  spread(year, species)
-  
-aquaculture_species_per_region$region <- factor(aquaculture_species_per_region$region , levels = c("XII", "XI", "X", "XIV", "IX", "VIII", "VII", "VI", "RM","V", "IV", "III", "II", "I", "XV"))
-
 ```
 
  ** Regional Diferences in farmed fisheries **
 
-Aquaculture production is dramaticlly concentrated in the South of the country, between the X and the XII regions (Figure X). From the I to the IV region the most farmed resources are algaes and scallops (*Argopecten purpuratus*). The red abalone (*Haliotis rufescens*) became the most farmed in 2013 in the V region, replacing the Turbot (*Scophtalmus maximus*). Towards the south salmons are the most farmed species along with some algaes and mussels (*Mytilus chilensis*) (Table SX).
+Aquaculture production is concentrated in the South of the country, between the X and the XII regions (Figure X). From the I to the IV region the most farmed resources are algaes and scallops (*Argopecten purpuratus*) (Table SX). The red abalone (*Haliotis rufescens*) became the most farmed in 2013 in the V region, replacing the Turbot (*Scophtalmus maximus*). Towards the south salmons and trouts are the most farmed species along with some algaes and mussels (*Mytilus chilensis*). The most farmed species in the austral south are the Atlantic salmon (*Salmo salar*) and the Chilean mussel (*Mytilus chilensis*).
 
 ```{r Harvest from aquaculture centers per region, echo = FALSE, fig.cap= 'Mean annual harvest per region from aquaculture centers between 2012 and 2017. Error bars represent one standard deviation. Data source: Harvests records from SERNAPESCA, 2018.' }
 
@@ -360,6 +351,25 @@ Aquaculture production is dramaticlly concentrated in the South of the country, 
   ggtheme_plot()
   
   aquaculture_per_region
+
+  # Most important farmed species per region (Appendix)
+  
+  aquaculture_species_per_region <-aquaculture %>% 
+  filter(month == "anual") %>% 
+  mutate(tons = as.numeric(tons), chl_name = species) %>%
+  left_join(sp_index) %>% 
+  filter(tons != 'NA') %>% 
+  group_by(year, sc_name, region) %>% 
+  summarise(tons = sum(tons, na.rm = T))%>% 
+  arrange(year, desc(tons)) %>%
+  group_by(year, region) %>% 
+  top_n(1, tons) %>%
+  left_join(sp_index) %>% 
+  select(-chl_name, -tons, -sc_name) %>%
+  unique() %>% 
+  spread(year, en_name)
+  
+aquaculture_species_per_region$region <- factor(aquaculture_species_per_region$region , levels = c("XII", "XI", "X", "XIV", "IX", "VIII", "VII", "VI", "RM","V", "IV", "III", "II", "I", "XV"))
 
 ```
 
@@ -395,7 +405,8 @@ Validar resultados con Informe subsectorial SUBPESCA
 
 ##### Economy and Income  
 
-The fisheries industry contributes to around 0.4% of the national GDP although it is a higly variable sector. During 2017 there was an increase in the sectors' GDP attributed to the wild caught of sardines and anchovies and to a lesser extent to farmed salmon (@central_cuentas_2017). This increase in fisheries production echoed in the manufacturing industry mainly via fish meal production (@central_cuentas_2017). The contribution of fisheries to regional GDP varies widely going for almost 30% in the XI region to 0% in the metropolitan (RM) and IX region (Fig. X). 
+The fisheries industry contributes to around 0.4% of the national GDP although it is a higly variable sector. During 2017 there was an increase in the sectors' GDP attributed to the wild caught of 
+Anchoveta (*Engraulis ringens*) and Araucanian herring (*Strangomera bentincki*) and to a lesser extent to farmed salmon (@central_cuentas_2017). This increase in fisheries production echoed in the manufacturing industry mainly via fish meal production (@central_cuentas_2017). The contribution of fisheries to regional GDP varies widely going for almost 30% in the XI region to 0% in the metropolitan (RM) and IX region (Fig. X). 
 
 ```{r Fisheries contirbution to regional and national PIB, echo = FALSE, fig.cap= 'Percent of the regional GDP contirbuted by the fisheries sector averaging data between 2013 and 2016. Data source: Banco Central de Chile.'}
 
@@ -421,11 +432,11 @@ PIB_region_plot
 
 ```
 
-Based on the most recent input-output matrix for the Chilean economy (2013), the sector most affected by fisheries is the manufacturing industry, for every 100 US dollars spent in the fisheries sector another 52.2 dollars are generated in the manufacturing sector. Other sectors affected by fisheres are the financing sector (24.8 dollars generated every 100) and transportation and comunication (13.4 dollars generated every 100) (@sence_reporte_2015). Based on tax data from 2014, aquaculture contributed to 90% of the sales made by the fisheries and aquaculture sector while extractive fisheries provided the rest (@sence_reporte_2015). Yet, the extractive sector count with a higher number of firms, 58% of the total (@sence_reporte_2015).
+Based on the most recent input-output matrix for the Chilean economy (2013), the sector most affected by fisheries is the manufacturing industry, for every 100 US dollars spent in the fisheries sector another 52.2 dollars are generated in the manufacturing sector (@sence_reporte_2015). Other sectors affected by fisheres are the financing sector (24.8 dollars generated every 100) and transportation and comunication (13.4 dollars generated every 100). A 90% of the sales in the aquaculture and fisheries sectore came from farmed products while wild-caught fisheries provided the rest (@sence_reporte_2015). Yet, the extractive sector count with a higher number of firms, 58% of the total (@sence_reporte_2015).
 
-Fisheries products are one of the most important exported products of the country. IFOP valued the exportation of fisheries related products to $6,280 million dollars in 2017 (@ifop_boletines_2017). This corresponded to ~ 9 % of the total value of national exportations. The most important exported type of marine products in terms of value are frozen and fresh followed by fish meal and dried algae (@ifop_boletines_2017). 
+Fisheries products are one of the most important exported products of the country. IFOP valued the exportation of fisheries-related products in $6,280 million dollars in 2017 (@ifop_boletines_2017). This corresponded to ~ 9 % of the total value of national exportations. The most important exported type of marine products in terms of value are frozen and fresh followed by fish meal and dried algae (@ifop_boletines_2017). 
 
-People employed in the fisheries and aquaculture sector has an average monthly income of 579 US dollars, the lowest mean income in the country after the one generated by the agricultural sector (@sence_reporte_2015). This value ranges from 258 US dollars for people working independently and part-time to 1159 uS dollars for full-time employers (Table SX). 
+People employed in the fisheries and aquaculture sector has an average monthly income of 579 US dollars, the lowest mean income in the country after the one generated by the agricultural sector (@sence_reporte_2015). This value ranges from 258 US dollars for people working independently and part-time to 1,160 US dollars for full-time employers (Table SX). 
 
 ```{r transforming average income from chilean pesos 2014 to dollars 2018, echo =false}
 
@@ -440,12 +451,13 @@ part_time <-c(422099, 154040, 277600, 172445, 180434)
 
 table_incomes_sector <- rbind(full_time, part_time) %>% 
   data.frame() %>% 
-  mutate(Type = c('Full time', 'Part time'), Employer= ((X1/mean_uf_2014)*mean_uf_2018)/from_ChP_to_dollar_dec_2018, Independent= ((X2/mean_uf_2014)*mean_uf_2018)/from_ChP_to_dollar_dec_2018, Dependent_Contract= ((X3/mean_uf_2014)*mean_uf_2018)/from_ChP_to_dollar_dec_2018, Dependent_no_contract= ((X4/mean_uf_2014)*mean_uf_2018)/from_ChP_to_dollar_dec_2018, mean_income_fisheries= ((X5/mean_uf_2014)*mean_uf_2018)/from_ChP_to_dollar_dec_2018)
+  mutate(Type = c('Full time', 'Part time'), Employer= round(((X1/mean_uf_2014)*mean_uf_2018)/from_ChP_to_dollar_dec_2018,2), Independent= round(((X2/mean_uf_2014)*mean_uf_2018)/from_ChP_to_dollar_dec_2018,2), Dependent_Contract= round( ((X3/mean_uf_2014)*mean_uf_2018)/from_ChP_to_dollar_dec_2018, 2), Dependent_no_contract= round( ((X4/mean_uf_2014)*mean_uf_2018)/from_ChP_to_dollar_dec_2018,2), mean_income_fisheries= round( ((X5/mean_uf_2014)*mean_uf_2018)/from_ChP_to_dollar_dec_2018),2)
+
 table_incomes_sector <- table_incomes_sector[6:11]
 
 ```
 
-We now turn to dicuss the species that are more important in terms of economic value for the different subsectors. Based on our estimates of species-specific revenue the most important species for the artisanal sector are the Southern king crab (*Lithodes santolla*), the Chilean sea urchin (*Loxechinus albus*) and the Southern rays bream or Corina (*Brama australis*). This approach does not include the costs algaes may be cheaper to extract than fish
+We now turn to dicuss the species that are more important in terms of economic value for the different subsectors. Based on our estimates of species-specific revenue the most important species for the artisanal sector are the Southern king crab (*Lithodes santolla*), the Chilean sea urchin (*Loxechinus albus*) and the Southern rays bream or Corvina (*Brama australis*). This approach does not include the costs algaes may be cheaper to extract than fish
 
 ```{r Species-specific revenues artisanal, echo = FALSE, message= FALSE, warning= FALSE, fig.cap= 'Species that generated the most revenue for the artisanal sector over the past five years based on records on landings and ex-vessel prices. Source: records from SERNAPESCA, 2018.'}
 
@@ -460,20 +472,21 @@ prices_art <- prices_art %>%
   
 # Most important species artisanal based on national revenue
 most_revenue_sp_art <- prices_art %>% 
-  mutate(revenue= (price_dollar * tons)) %>% 
-  group_by(species, year) %>% 
-  summarise(national_revenue = sum(revenue)) %>% 
+  mutate(revenue= (price_dollar * tons)) %>%
+  mutate(chl_name = str_to_upper(species)) %>% 
+  left_join(sp_index) %>%
+  group_by(sc_name, year) %>% 
+  summarise(national_revenue = round(sum(revenue),2)) %>% 
   arrange(year, desc(national_revenue)) %>% 
   group_by(year) %>% 
-  top_n(3, national_revenue) %>%
-  mutate(species = str_to_upper(species)) %>% 
-  left_join(species_list) %>%
-  select(year, national_revenue, species= sc_name) %>% 
+  top_n(4, national_revenue) %>%
+  left_join(sp_index) %>%
+  select(year, national_revenue, species= en_name) %>% 
   ggplot(aes(x = as.factor(year), y = national_revenue, fill= species)) + 
   geom_bar(stat = 'identity')+
   labs(y="Revenues (2018 US dollars)", x="Year")+
   scale_y_continuous(expand = c(0, 0))+
-  scale_fill_manual(values = c(wes_palette("Darjeeling1"), wes_palette("Darjeeling2")[2]))+
+  scale_fill_manual(values = c(wes_palette("Darjeeling1"), wes_palette("Darjeeling2")))+
   ggtheme_plot()
 
 # Most expensive species artisanal 
@@ -481,7 +494,11 @@ most_expensive <- prices_art %>%
   group_by(species) %>% 
   summarise(mean_price = round(mean(price_dollar),2))%>%
   arrange(desc(mean_price)) %>% 
-  top_n(10, mean_price)
+  top_n(10, mean_price) %>% 
+  mutate(chl_name = str_to_upper(species)) %>%
+  select(-species) %>% 
+  left_join(species_index) %>% 
+  mutate(species = ifelse(is.na(sc_name), 'Kyphosus analogus', en_name))
 
 knitr::kable(most_expensive, col.names = c('Species', 'Mean price (US$/Kg)'), format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Most expensive species in Chile based on the mean price over the past five years based on records on prices by SERNAPESCA.') %>% 
   kable_styling(latex_options = 'hold_position')
