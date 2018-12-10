@@ -12,12 +12,17 @@ ATUN OJOS GRANDES,Thunnus obesus,Bigeye tuna,,Thunnus sp,0.475
 AYANQUE,Cynoscion analis,Peruvian weakfish,,,0.6
 AZULEJO,Prionace glauca,Blue shark,,shark average,0.56
 BACALADILLO O MOTE,Normanichthys crockeri,Mote sculpin,,,0.5
+BACALADILLO,Normanichthys crockeri,Mote sculpin,,,0.5
 BACALAO DE PROFUNDIDAD,Dissostichus eleginoides,Patagonian toothfish,,,0.425
 BAGRE AGUA DULCE,Ictalurus punctatus,Channel catfish,,Ariidae,0.475
 BESUGO,Epigonus crassicaudus,NA,small fish,,0.5
 BLANQUILLO,Prolatilus jugularis,Pacific sandperch,small fish,,0.5
 BONITO,Sarda chiliensis,Eastern Pacific bonito,,,0.6
 BRECA O BILAGAY,Cheilodactylus variegatus,Peruvian morwong,,,0.5
+BILAGAY,Cheilodactylus variegatus,Peruvian morwong,,,0.5
+BRECA,Cheilodactylus variegatus,Peruvian morwong,,,0.5
+VILAGAY,Cheilodactylus variegatus,Peruvian morwong,,,0.5
+BRECA O VILAGAY,Cheilodactylus variegatus,Peruvian morwong,,,0.6
 BROTULA,Salilota australis,Tadpole codling,small fish,,0.5
 CABALLA,Scomber japonicus,Chub mackerel,,,0.6
 CABINZA,Isacia conceptionis,Cabinza grunt,,,0.5
@@ -71,11 +76,13 @@ JAIBA MORA,Homalaspis plana,Blackberry crab,,Crabs,0.225
 JAIBA PANCHOTE O CANGREJO,Taliepus dentatus,Crab panchote,,Crabs,0.225
 JAIBA PATUDA,Taliepus marginatus,Crab patuda,,Crabs,0.225
 JAIBA PELUDA O PACHONA,Cancer setosus,Crab peluda,,Crabs,0.225
+JAIBA PELUDA,Cancer setosus,Crab peluda,,Crabs,0.225
 JAIBA REINA,Cancer coronatus,Queen Crab,,Crabs,0.225
 JAIBA REMADORA,Ovalipes trimaculatus,Rowing Crab,,Crabs,0.225
 JERGUILLA,Aplodactylus punctatus,Jerguilla,,,0.5
 JIBIA O CALAMAR ROJO,Dosidicus gigas,Jumbo flying squid,,,0.8
 JULIANA O TAWERA,Tawera gayi,Tawera,,Gari solida,0.225
+JULIANA,Tawera gayi,Tawera,,Gari solida,0.225
 JUREL,Trachurus murphyi,Chilean jack mackerel,,,0.5
 KONSO,Ruvettus pretiosus,Oilfish,,,0.425
 LANGOSTA DE J.FERNANDEZ,Jasus frontalis,Juan Fernandez rock lobster,,Crabs,0.225
@@ -94,11 +101,15 @@ LISA,Mugil cephalus,Flathead grey mullet,,,0.6
 LOCO,Concholepas concholepas,Chilean abalone,,,0.225
 LUCHE,Porphyra columbina,Luche,algae,Dry ,0.75
 LUGA CUCHARA O CORTA,Mazzaella laminarioides,Luga,algae,Dry ,0.75
+LUCHA CUCHARA O CORTA,Mazzaella laminarioides,Luga,algae,Dry ,0.75
 LUGA NEGRA O CRESPA,Sarcothalia crispata,Black algae luga,algae,Dry ,0.75
+LUGA NEGRA,Sarcothalia crispata,Black algae luga,algae,Dry ,0.76
 LUGA-ROJA,Gigartina skottsbergii,Red luga,algae,Dry ,0.75
+LUGA ROJA,Gigartina skottsbergii,Red luga,algae,Dry ,0.75
 MACHA,Mesodesma donacium,Macha clam,,Gari solida,0.225
 MACHUELO O TRITRE,Ethmidium maculatum,Pacific menhaden,,,0.55
-"MARLIN,""Tetrapturus spp., Makaira spp"",Tetrapturus,medium fish,,0.5"
+MACHUELO,Ethmidium maculatum,Pacific menhaden,,,0.55
+MARLIN,Tetrapturus spp., Makaira spp,Tetrapturus,medium fish,,0.5
 MERLUZA COMUN,Merluccius gayi gayi,South Pacific hake,,Merluccius gayi peruanus,0.5
 MERLUZA DE COLA,Macruronus magellanicus,Patagonian grenadier,,Merluccius gayi peruanus,0.5
 MERLUZA DE TRES ALETAS,Micromesistius australis,Southern blue whiting,,Merluccius gayi peruanus,0.5
@@ -125,12 +136,14 @@ PULPO DEL SUR,Enteroctopus megalocyathus,Southern red octopus,,,0.725
 PUYE,Galaxias maculatus,Common galaxias,small fish,,0.5
 RAYA ESPINOSA,Dipturus trachyderma,Ray,,Rays,0.5
 RAYA VOLANTIN,Zearaja chilensis,Yellownose skate,,Rays,0.5
+RAYA,Zearaja chilensis,Yellownose skate,,Rays,0.5
 REINETA,Brama australis,Southern rays bream,,,0.5
 ROBALO,Eleginops maclovinus,Patagonian blennie,small fish,,0.5
 ROCOCO,Paralonchurus peruanus,Peruvian banded croaker,,,0.525
 ROLLIZO,Pinguipes chilensis,Chilean sandperch,small fish,,0.5
 RONCACHO,Sciaena deliciosa,Lorna drum,,,0.525
 SARDINA AUSTRAL,Sprattus fuegensis,Falkland sprat,,South American pilchard fillet,0.5
+SARDINA AUSTRAL O DEL SUR,Sprattus fuegensis,Falkland sprat,,South American pilchard fillet,0.6
 SARDINA COMUN,Strangomera bentincki,Araucanian herring,,South American pilchard fillet,0.5
 SARDINA ESPANOLA,Sardinops sagax,South American pilchard,,,0.5
 SARGO,Anisotremus scapularis,Peruvian grunt,,,0.525
@@ -138,9 +151,14 @@ SIERRA,Thyrsites atun,Snoek,,Sarda chiliensis,0.6
 TAQUILLA,Mulinia edulis,Taquilla,,Gari solida,0.225
 TIBURON O MARRAJO,Isurus oxyrinchus,Shortfin mako,,,0.55
 TIBURON SARDINERO,Lamna nasus,Porbeagle,,,0.45
-TOLLO,Mustelus mento,Speckled smooth-hound,,shark average,0.56
+TOLLO O FUME,Mustelus mento,Speckled smooth-hound,,shark average,0.56
+TOLLO,Mustelus mento,Speckled smooth-hound,,shark average,0.57
+TOMOYO,Labrisomus philippii,Chalapo clinid
 TUMBAO,Semele solida,Tumbao,,Gari solida,0.225
-VIDRIOLA, PALOMETA, DORADO O TOREMO,Seriola lalandi,Yellowtail amberjack,,,0.55
+TOREMO,Seriola lalandi,Yellowtail amberjack,,,0.55
+VIDRIOLA, PALOMETA, DORADO O TOREMO,Seriola lalandi,Yellowtail amberjack,,,0.56
+PALOMETA,Seriola lalandi,Yellowtail amberjack,,,0.55
+PALOMERTA,Seriola lalandi,Yellowtail amberjack,,,0.55
 VIEJA O MULATA,Graus nigra,Vieja,,,0.55
 ALBACORA O PEZ ESPADA / IVI HEHEU,Xiphias gladius,Swordfish,,,0.425
 ANGUILA BABOSA,Eptatretus polytrema,Fourteen-gill hagfish,,Ophichthus remiger,0.4
@@ -151,6 +169,7 @@ CHASQUE O CHALACO,Auchenionchus spp.,Chalaco,small fish,,0.5
 COJINOBA DEL NORTE / PIAFRI,Seriolella violacea,Palm ruff,,,0.6
 COJINOBA DEL SUR O AZUL,Seriolella caerulea,White warehou,,Seriolella violacea,0.6
 DORADO DE ALTURA / MAHI MAHI,Coryphaena hippurus,Common dolphinfish,,,0.6
+DORADO,Coryphaena hippurus,Common dolphinfish,,,0.6
 EMPERADOR,Luvarus imperialis,Luvar,big fish,,0.5
 GRANADERO GRANDE,Macrourus holotrachys,Bigeye grenadier,,Genypterus maculatus,0.5
 JAIBA PACO,Mursia gaudichaudi,Paco crab,,Crabs,0.225
@@ -174,6 +193,7 @@ TIBURON NARIGON GRIS,Deania calcea,Birdbeak dogfish,,shark average,0.56
 TIBURON O MARRAJO DENTUDO,Isurus oxyrinchus,Shortfin mako,,,0.55
 TOLLO DE CACHOS,Squalus acanthias,Picked dogfish,,shark average,0.56
 ACHA O HACHA,Medialuna ancietae,Sea Chab,medium fish,,0.5
+ACHA,Medialuna ancietae,Sea Chab,medium fish,,0.5
 ATUN OJOS GRANDES / KAHI MATA TATA,Thunnus obesus,Bigeye tuna,,Thunnus sp,0.475
 BACALAO DE J.FERNANDEZ / KOPUKU HAHA ROA,Polyprion oxygeneios,Hapuku wreckfish,,other bacalaos,0.425
 BARRACUDA O PETO / KANA KANA,Acanthocybium solandri,Wahoo,,,0.4
@@ -201,6 +221,7 @@ CUBICEPS,Cubiceps,Driftfish,small fish,,0.5
 ALGAS MIXTAS,Algas,Algaes,algae,Dry ,0.75
 CAROLA,Callophyllis variegata,Carola,algae,Dry ,0.75
 HUIRO NEGRO O CHASCON,Lessonia nigrescens,Giant grey kelp,algae,Dry ,0.75
+HUIRO NEGRO,Lessonia nigrescens,Giant grey kelp,algae,Dry ,0.75
 JUREL FINO,Decapterus macrosoma,Shortfin scad,,,0.5
 MATAHUIRA, KARA KARA O KRA KRA,Heteropriacanthus cruentatus,Glasseye,small fish,,0.5
 NANUE, NANUE PARA, PISI O PUA,Kiphosus sandwicensis ,Pacific chub,small fish,,0.5
@@ -228,3 +249,4 @@ OSTION PATAGONICO,Chlamys patagonica,Patagonian scallop,,Peruvian calico scallop
 ANCHOITA,Engraulis anchoita,Argentine anchovy,small fish,,0.5
 HIRAME,Paralichthys olivaceus,Bastard halibut,medium fish,,0.5
 CAMARON ECUATORIANO O PENAEUE,Penaeus vannamei,Whiteleg shrimp,,Changallo shrimp,0.2
+BABUNCO O BAUNCO,Doydixodon Laevifrons,Sea chub 

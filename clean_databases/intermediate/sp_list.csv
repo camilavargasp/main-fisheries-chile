@@ -1,6 +1,7 @@
 especie_SERNAPESCA,nombre_cientifico_SERNAPESCA
 CHASCA,Gelidium rex
 HUIRO NEGRO O CHASCON,Lessonia nigrescens
+HUIRO NEGRO,Lessonia nigrescens
 CHASCON O HUIRO NEGRO,Lessonia nigrescens
 CHICOREA DE MAR,Chondracanthus chamissoi
 COCHAYUYO,Durvillaea antarctica
@@ -10,8 +11,11 @@ LECHUGUILLA,Ulva lactuca
 LIQUEN GOMOSO,Gymnogongrus furcellatus
 LUCHE,Porphyra columbina
 LUGA CUCHARA O CORTA,Mazzaella laminarioides
+LUCHA CUCHARA O CORTA,Mazzaella laminarioides
 LUGA NEGRA O CRESPA,Sarcothalia crispata
+LUGA NEGRA,Sarcothalia crispata
 LUGA-ROJA,Gigartina skottsbergii
+LUGA ROJA,Gigartina skottsbergii
 PELILLO,Gracilaria spp.
 AGUJILLA,Scomberesox saurus scombroides
 ALBACORA O PEZ ESPADA,Xiphias gladius
@@ -26,6 +30,7 @@ ATUN ALETA LARGA,Thunnus alalunga
 ATUN CHAUCHERA,Gatrochisma melampus
 AZULEJO,Prionace glauca
 BACALADILLO O MOTE,Normanichthys crockeri
+BACALADILLO,Normanichthys crockeri
 BACALAO DE PROFUNDIDAD,Dissostichus eleginoides
 BACALAO I.PASCUA,ATUN ESCOFINA,Ruvettus pretiosus
 KONSO,Ruvettus pretiosus
@@ -34,6 +39,11 @@ BESUGO,Epigonus crassicaudus
 BLANQUILLO,Prolatilus jugularis
 BONITO,Sarda chiliensis
 BRECA O BILAGAY,Cheilodactylus variegatus
+BILAGAY,Cheilodactylus variegatus
+BRECA,Cheilodactylus variegatus
+BRECA O VILAGAY ,Cheilodactylus variegatus
+VILAGAY ,Cheilodactylus variegatus
+BRECA O VILLAGAY ,Cheilodactylus variegatus
 CABALLA,Scomber japonicus
 CABINZA,Isacia conceptionis
 CABRILLA,Paralabrax humeralis
@@ -52,6 +62,7 @@ CONGRIO NEGRO,Genypterus maculatus
 CORVINA,Cilus gilberti
 DORADO DE ALTURA,Coryphaena hippurus
 DORADO DE ALTURA / MAHI MAHI,Coryphaena hippurus
+DORADO,Coryphaena hippurus
 EMPERADOR,Luvarus imperialis
 JERGUILLA,Aplodactylus punctatus
 JUREL,Trachurus murphyi
@@ -61,7 +72,8 @@ LENGUADO OJOS CHICOS,Paralichthys microps
 LENGUADO DE OJOS CHICOS,Paralichthys microps
 LISA,Mugil cephalus
 MACHUELO O TRITRE,Ethmidium maculatum
-"MARLIN,""Tetrapturus spp., Makaira spp"""
+MACHUELO,Ethmidium maculatum
+MARLIN,Tetrapturus spp./Makaira spp
 MARLIN RAYADO,Tetrapturus audax
 MERLUZA COMUN,Merluccius gayi gayi
 MERLUZA DE COLA,Macruronus magellanicus
@@ -81,6 +93,7 @@ PEZ SOL,Lampris guttatus
 PICHIBUENO,Menticirrhus ophicephalus
 PUYE,Galaxias maculatus
 RAYA VOLANTIN,Zearaja chilensis
+RAYA,Zearaja chilensis
 REINETA,Brama australis
 ROBALO,Eleginops maclovinus
 ROCOCO,Paralonchurus peruanus
@@ -88,6 +101,7 @@ ROLLIZO,Pinguipes chilensis
 RONCACHO,Sciaena deliciosa
 SALMON REY,Oncorhynchus tshawytscha
 SARDINA AUSTRAL,Sprattus fuegensis
+SARDINA AUSTRAL O DEL SUR,Sprattus fuegensis
 SARDINA COMUN,Strangomera bentincki
 SARDINA ESPANOLA,Sardinops sagax
 SARGO,Anisotremus scapularis
@@ -98,11 +112,16 @@ TIBURON O MARRAJO,Isurus oxyrinchus
 TIBURON O MARRAJO DENTUDO,Isurus oxyrinchus
 TIBURON SARDINERO,Lamna nasus
 TOLLO,Mustelus mento
+TOLLO O FUME,Mustelus mento
 TOLLO DE CACHOS,Squalus acanthias
+TOMOYO, Labrisomus philippii
 TRUCHA ARCO IRIS,Oncorhynchus mykiss
 TRUCHA ARCOIRIS,Oncorhynchus mykiss
 TURBOT,Scophtalmus maximus
 VIDRIOLA, PALOMETA, DORADO O TOREMO,Seriola lalandi
+TOREMO,Seriola lalandi
+PALOMETA,Seriola lalandi
+PALOMERTA,Seriola lalandi
 VIEJA O MULATA,Graus nigra
 VINCIGUERRIA,Vinciguerria lucetia pacifici
 ABALON JAPONES,Haliotis discus hannai
@@ -127,6 +146,7 @@ CULENGUE,Gari solida
 HUEPO O NAVAJA DE MAR,Ensis macha
 JIBIA O CALAMAR ROJO,Dosidicus gigas
 JULIANA O TAWERA,Tawera gayi
+JULIANA,Tawera gayi
 LAPA,Fissurella spp.
 LAPA NEGRA,Fissurella latimarginata
 LAPA PICTA,Fissurella picta
@@ -162,6 +182,7 @@ JAIBA PANCHOTE O CANGREJO,Taliepus dentatus
 JAIBA PANCORA,Hemigrapsus crenulatus
 JAIBA PATUDA,Taliepus marginatus
 JAIBA PELUDA O PACHONA,Cancer setosus
+JAIBA PELUDA,Cancer setosus
 JAIBA REINA,Cancer coronatus
 JAIBA REMADORA,Ovalipes trimaculatus
 LANGOSTA DE ISLA DE PASCUA O URA,Panulirus pascuensis
@@ -171,11 +192,13 @@ LANGOSTINO COLORADO,Pleuroncodes monodon
 LANGOSTINO DE LOS CANALES,Munida subrugosa
 LANGOSTINO ENANO,Pleuroncodes sp
 ACHA O HACHA,Medialuna ancietae
+ACHA,Medialuna ancietae
 ATUN OJOS GRANDES,Thunnus obesus
 ATUN OJOS GRANDES / KAHI MATA TATA,Thunnus obesus
 BACALAO DE J.FERNANDEZ / KOPUKU HAHA ROA,Polyprion oxygeneios
 BARRACUDA O PETO / KANA KANA,Acanthocybium solandri
 BROTULA,Salilota australis
+BABUNCO O BAUNCO,Girella laevifrons
 COJINOBA MOTEADA,Seriolella punctata
 PEJERRATA O GRANADERO,Coelorhynchus spp
 PEJEZORRO,Alopias vulpinus
