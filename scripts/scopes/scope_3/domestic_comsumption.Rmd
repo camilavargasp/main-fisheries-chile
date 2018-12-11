@@ -1,0 +1,115 @@
+---
+title: "Domestic Food Consumption"
+author: "Camila Vargas e Ignacia Rivera"
+date: "10 de diciembre de 2018"
+output: pdf_document
+---
+
+## Setup
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(here)
+
+##Species Index
+sp_index <- read_excel(here("clean_databases/sp_index.xlsx")) %>% 
+  rename(species = chl_name)
+```
+
+In order to calculate the domestic food compsumtion we buit a model that considers landings, aquaculture harvest, exports and imports. 
+The model we are going to use is:
+HC = (L_hc * DHC_prop) + A + I - E
+Where,
+L_hc = L- NHC_m
+NHC_m = amount of raw products that enter to processing facilities to produce NHC products. 
+
+##Step 1: Calculate Landings for human consuption
+Import landing and NHC_m databases in ordet to calculate landings for human comsumption.
+
+NOTE: Match all databese with the species index.
+
+```{r human consumption landings}
+##Import landing data 
+
+landings<- read_csv(here("clean_databases/landings_SERNAPESCA.csv")) %>% 
+  filter(!region %in% c("national", "R.M.")) %>%
+  mutate( tons = as.numeric(tons)) %>% 
+  select(-month, -international_waters) %>% 
+  left_join(sp_index, by = "species") %>% 
+  group_by(year, region, sc_name, species) %>% 
+  summarise(tons = sum(tons, na.rm = T)) %>%  ##adds same species from different subsector
+  rename(catch = tons)
+
+
+##Import raw no human comsuption data (NHC_m)
+NHC_facilities <- read.csv(here("clean_databases/NHC_m.csv")) %>% 
+  rename(NHC_m = total_NHC)
+  
+
+##Join datasets and calculate L_hc
+landings_hc <-  landings %>% 
+  left_join(NHC_facilities, by= c("year", "region", "sc_name")) %>% 
+  mutate(NHC_m = ifelse(is.na(NHC_m), 0, NHC_m)) %>% 
+  mutate(L_hc = catch - NHC_m)
+
+landing_hc_nat <- landings %>% 
+  left_join(NHC_facilities, by= c("year", "region", "sc_name")) %>% 
+  mutate(NHC_m = ifelse(is.na(NHC_m), 0, NHC_m)) %>% 
+  group_by(year, sc_name, species, variable) %>% 
+  summarise(catch_nat = sum(catch, na.rm = T),
+            NHC_m_nat = sum(NHC_m, na.rm = T)) %>% 
+  mutate(L_hc_nat = catch_nat - NHC_m_nat) %>% 
+  mutate(L_hc_nat = ifelse(L_hc_nat < 0, 0, L_hc_nat))
+
+
+```
+
+
+## Step 2: Multiply landings for human consumptions 
+
+```{r}
+##Import yield proportion data
+DHC_yield <- read_xlsx(here("clean_databases/intermediate/sp_cl_DHC.xlsx")) %>% 
+  select(-category, -reference)
+
+##Calculate species yield
+species_yield <- landings_hc %>% 
+  left_join(DHC_yield, by= c("species", "sc_name")) %>% 
+  select(year, region, sc_name, species, species_en, catch, NHC_m, L_hc, mean_yield) %>% 
+  mutate(L_hc = L_hc*mean_yield)
+  
+
+
+
+
+```
+
+
+
+
+
+
+
+
+```{r}
+##Import Aquaculture data
+
+aquaculture <- read_csv(here("clean_databases/aquaculture_SERNAPESCA.csv")) %>% 
+  filter(region != "national",
+         year!=2012) %>% 
+  mutate( tons = as.numeric(tons)) %>% 
+  select(-subsector, -month) %>% 
+  mutate(variable = "tonnes") %>% 
+  rename(aquaculture = tons) %>% 
+  left_join(sp_index, by= "species")
+```
+
+
+
+
+
+
+
+
+

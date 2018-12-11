@@ -23,7 +23,7 @@ We will use this data to determine amount of landings that go directly to human 
 
 ## Read in raw data
 
-Non- Human consumption products
+Non- Human consumption raw
 
 ```{r}
 ## importing fish meal 
@@ -241,7 +241,7 @@ alginato_2015 <- read_excel(here("information/raw_databases/SERNAPESCA/products/
 ##Alga seca
 algaseca_2013 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2013.xlsx"), sheet = "ALGASECAespreg", range = "A6:Q32") %>%
   rename(m_p= X__1) %>% 
-  filter(m_p == "P") %>% 
+  filter(m_p == "M") %>% 
   select(-m_p)%>%
   gather(key = region, value = tons, 2:16)%>% 
   mutate (product = 'dry algae', year = 2013, tons = ifelse(tons == "-", 0, tons)) %>%
@@ -250,7 +250,7 @@ algaseca_2013 <- read_excel(here("information/raw_databases/SERNAPESCA/products/
 
 algaseca_2014 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2014.xlsx"), sheet = "Algaseca_region", range = "A6:Q28") %>%
   rename(m_p= X__1) %>% 
-  filter(m_p == "P") %>% 
+  filter(m_p == "M") %>% 
   select(-m_p)%>%
   gather(key = region, value = tons, 2:16)%>% 
   mutate (product = 'dry algae', year = 2014, tons = ifelse(tons == "-", 0, tons)) %>%
@@ -258,7 +258,7 @@ algaseca_2014 <- read_excel(here("information/raw_databases/SERNAPESCA/products/
 
 algaseca_2015 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2015.xlsx"), sheet = "ALGA SECA_REGION", range = "A6:Q30") %>%
   rename(m_p= X__1) %>% 
-  filter(m_p == "P") %>% 
+  filter(m_p == "M") %>% 
   select(-m_p)%>%
   gather(key = region, value = tons, 2:16)%>% 
   mutate (product = 'dry algae', year = 2015, tons = ifelse(tons == "-", 0, tons)) %>%
@@ -266,7 +266,7 @@ algaseca_2015 <- read_excel(here("information/raw_databases/SERNAPESCA/products/
 
 algaseca_2016 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2016.xlsx"), sheet = "ALGA SECA_REGION", range = "A6:Q34") %>%
   rename(m_p= X__1) %>% 
-  filter(m_p == "P") %>% 
+  filter(m_p == "M") %>% 
   select(-m_p)%>%
   gather(key = region, value = tons, 2:16)%>% 
   mutate (product = 'dry algae', year = 2016, tons = ifelse(tons == "-", 0, tons)) %>%
@@ -274,7 +274,7 @@ algaseca_2016 <- read_excel(here("information/raw_databases/SERNAPESCA/products/
 
 algaseca_2017 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2017.xlsx"), sheet = "ALGA SECA_REGION", range = "A6:Q36") %>%
   rename(m_p= X__1) %>% 
-  filter(m_p == "P") %>% 
+  filter(m_p == "M") %>% 
   select(-m_p)%>%
   gather(key = region, value = tons, 2:16)%>% 
   mutate (product = 'dry algae', year = 2017, tons = ifelse(tons == "-", 0, tons)) %>%
@@ -291,9 +291,17 @@ raw_no_HC <- dplyr::bind_rows(aceite_2013, aceite_2014, aceite_2016, agar_2013, 
   filter(!(species == 'NA')) %>% 
   mutate(tons = as.numeric(tons))
 
+
 #read sp_index
 sp_index <- read_excel(here("clean_databases/sp_index.xlsx")) %>% 
   rename(species = chl_name)
+
+NHC_m_product_type <- raw_no_HC %>% 
+  left_join(sp_index, by="species")
+
+##Save!!!!!!
+write.csv(NHC_m_product_type, here("clean_databases/NHC_m_product_type.csv"), row.names = F)
+
 
 ## match data base with sc_names in order to group and calculate totals of NHC per species
 
@@ -308,8 +316,78 @@ NHC_m <- raw_no_HC %>%
 write.csv(NHC_m, here("clean_databases/NHC_m.csv"), row.names = F)
 
 
+NHC_sin_algas <- raw_no_HC %>% 
+  filter(product %in% c("fish meal", "oil")) %>% 
+  left_join(sp_index, by="species") %>% 
+  group_by(year, region,sc_name) %>% 
+  summarise(total_NHC= sum(tons, na.rm = T)) %>% 
+  filter(!(sc_name == 'NA'))
+
+##Save!!!!!!
+write.csv(NHC_sin_algas, here("clean_databases/NHC_sin_algas.csv"), row.names = F)
 
 ```
+
+
+NO HUMAN CONSUMPTION ALGAE PRODUCT
+
+This will be used for substracting all algae products from export in order to avoid double accounting.
+
+```{r}
+
+##Alga seca
+algaseca_2013_p <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2013.xlsx"), sheet = "ALGASECAespreg", range = "A6:Q32") %>%
+  rename(m_p= X__1) %>% 
+  filter(m_p == "P") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'dry algae', year = 2013, tons = ifelse(tons == "-", 0, tons)) %>%
+  rename(species =  ESPECIE)
+
+
+algaseca_2014_p <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2014.xlsx"), sheet = "Algaseca_region", range = "A6:Q28") %>%
+  rename(m_p= X__1) %>% 
+  filter(m_p == "P") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'dry algae', year = 2014, tons = ifelse(tons == "-", 0, tons)) %>%
+  rename(species =  ESPECIE)
+
+algaseca_2015_p <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2015.xlsx"), sheet = "ALGA SECA_REGION", range = "A6:Q30") %>%
+  rename(m_p= X__1) %>% 
+  filter(m_p == "P") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'dry algae', year = 2015, tons = ifelse(tons == "-", 0, tons)) %>%
+  rename(species =  ESPECIE)
+
+algaseca_2016_p <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2016.xlsx"), sheet = "ALGA SECA_REGION", range = "A6:Q34") %>%
+  rename(m_p= X__1) %>% 
+  filter(m_p == "P") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'dry algae', year = 2016, tons = ifelse(tons == "-", 0, tons)) %>%
+  rename(species =  ESPECIE)
+
+algaseca_2017_p <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2017.xlsx"), sheet = "ALGA SECA_REGION", range = "A6:Q36") %>%
+  rename(m_p= X__1) %>% 
+  filter(m_p == "P") %>% 
+  select(-m_p)%>%
+  gather(key = region, value = tons, 2:16)%>% 
+  mutate (product = 'dry algae', year = 2017, tons = ifelse(tons == "-", 0, tons)) %>%
+  rename(species =  ESPECIE)
+
+##combine all algaes producs
+product_algae_no_HC <- dplyr::bind_rows(algaseca_2013_p,algaseca_2014_p ,algaseca_2015_p, algaseca_2016_p , algaseca_2017_p) %>% 
+  filter(!(species == 'NA')) %>% 
+  mutate(tons = as.numeric(tons)) %>% 
+  left_join(sp_index, by="species")
+
+##Save
+write.csv(product_algae_no_HC, here("clean_databases/product_algae_NHC.csv"), row.names = F)
+
+```
+
 
 
 Human consumption products
