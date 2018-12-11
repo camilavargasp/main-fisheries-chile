@@ -1,210 +1,234 @@
-"especie_SERNAPESCA","sc_name","group"
-"CHASCA","Gelidium rex","alga"
-"CHASCON O HUIRO NEGRO","Lessonia nigrescens","alga"
-"CHICOREA DE MAR","Chondracanthus chamissoi","alga"
-"COCHAYUYO","Durvillaea antarctica","alga"
-"HUIRO","Macrocystis spp.","alga"
-"HUIRO PALO","Lessonia trabeculata","alga"
-"LECHUGUILLA","Ulva lactuca","alga"
-"LIQUEN GOMOSO","Gymnogongrus furcellatus","alga"
-"LUCHE","Porphyra columbina","alga"
-"LUGA CUCHARA O CORTA","Mazzaella laminarioides","alga"
-"LUGA NEGRA O CRESPA","Sarcothalia crispata","alga"
-"LUGA-ROJA","Gigartina skottsbergii","alga"
-"PELILLO","Gracilaria spp.","alga"
-"AGUJILLA","Scomberesox saurus scombroides","pescado_otros"
-"ALBACORA O PEZ ESPADA / IVI HEHEU","Xiphias gladius","atunes"
-"ANCHOVETA","Engraulis ringens","pescado_otros"
-"ANGUILA","Ophichthus spp.","anguila"
-"ANGUILA BABOSA","Eptatretus polytrema","anguila"
-"APANADO","Hemilutjanus macrophthalmos","pescado_otros"
-"ATUN ALETA AMARILLA / KAHI AVE AVE","Thunnus albacares","atunes"
-"ATUN ALETA LARGA","Thunnus albacares","atunes"
-"ATUN CHAUCHERA","Gatrochisma melampus","atunes"
-"AZULEJO","Prionace glauca","tiburon"
-"BACALADILLO O MOTE","Normanichthys crockeri","pescado_otros"
-"BACALAO DE PROFUNDIDAD","Dissostichus eleginoides","pescado_otros"
-"BACALAO I.PASCUA,ATUN ESCOFINA/KONSO","Ruvettus pretiosus","pescado_otros"
-"BESUGO","Epigonus crassicaudus","pescado_otros"
-"BLANQUILLO","Prolatilus jugularis","pescado_otros"
-"BONITO","Sarda chiliensis","bonito"
-"BRECA O BILAGAY","Cheilodactylus variegatus","pescado_otros"
-"CABALLA","Scomber japonicus","caballa"
-"CABINZA","Isacia conceptionis","pescado_otros"
-"CABRILLA COMUN","Paralabrax humeralis","pescado_otros"
-"CABRILLA ESPANOLA","Sebastes capensis","pescado_otros"
-"CANQUE","Stellifer minor","pescado_otros"
-"CHANCHARRO","Helicolenus lengerichi","pescado_otros"
-"CHASQUE O CHALACO","Auchenionchus spp.","pescado_otros"
-"COJINOBA DEL NORTE / PIAFRI","Seriolella violacea","pescado_otros"
-"COJINOBA DEL SUR O AZUL","Seriolella caerulea","pescado_otros"
-"CONGRIO COLORADO","Genypterus chilensis","congrio"
-"CONGRIO DORADO","Genypterus blacodes","congrio"
-"CONGRIO NEGRO","Genypterus maculatus","congrio"
-"CORVINA","Cilus gilberti","pescado_otros"
-"DORADO DE ALTURA / MAHI MAHI","Coryphaena hippurus","pescado_otros"
-"EMPERADOR","Luvarus imperialis","pescado_otros"
-"JERGUILLA","Aplodactylus punctatus","pescado_otros"
-"JUREL","Trachurus murphyi","jurel"
-"JUREL DE JUAN FERNANDEZ","Caranx georgianus","jurel"
-"LENGUADO","Paralichthys spp.","pescado_otros"
-"LENGUADO DE OJOS CHICOS","Paralichthys microps","pescado_otros"
-"LISA","Mugil cephalus","pescado_otros"
-"MACHUELO O TRITRE","Ethmidium maculatum","pescado_otros"
-"MARLIN","Tetrapturus spp., Makaira spp","pescado_otros"
-"MARLIN RAYADO","Tetrapturus auda","pescado_otros"
-"MERLUZA COMUN","Merluccius gayi gayi","merluza"
-"MERLUZA DE COLA","Macruronus magellanicus","merluza"
-"MERLUZA DEL SUR O AUSTRAL","Merluccius australis","merluza"
-"MORENA DE ALETA BAJA / KOREHA HA OKO","Gymnothorax porphyreus","anguila"
-"PAMPANITO","Stromateus stellatus","pescado_otros"
-"PAMPANITO DE JUAN FERNANDEZ","Scorpis chilensis","pescado_otros"
-"PEJE GATO HOCICON","Apristurus nasutus","pescado_otros"
-"PEJEGALLO","Callorhinchus callorhynchus","pescado_otros"
-"PEJEPERRO","Semicossyphus maculatus","pescado_otros"
-"PEJERREY DE MAR","Odontesthes regia","pescado_otros"
-"PEJESAPO","Sicyases sanguin","pescado_otros"
-"PESCADO NO CLASIFICADO",NA,"pescado_otros"
-"PEZ SOL","Lampris guttatus","pescado_otros"
-"PICHIBUENO","Menticirrhus ophicephalus","pescado_otros"
-"PUYE","Galaxias maculatus","pescado_otros"
-"RAYA VOLANTIN","Zearaja chilensis","raya"
-"REINETA","Brama australis","pescado_otros"
-"ROBALO","Eleginops maclovinus","pescado_otros"
-"ROCOCO","Paralonchurus peruanus","pescado_otros"
-"ROLLIZO","Pinguipes chilensis","pescado_otros"
-"RONCACHO","Sciaena deliciosa","pescado_otros"
-"SALMON REY","Oncorhynchus tshawytscha","salmon"
-"SARDINA AUSTRAL","Sprattus fuegensis","sardina"
-"SARDINA COMUN","Strangomera bentincki","sardina"
-"SARDINA ESPANOLA","Sardinops sagax","sardina"
-"SARGO","Anisotremus scapularis","pescado_otros"
-"SIERRA","Thyrsites atun","tiburon"
-"TIBURON FUME, GRIS O GATA DE MAR","Hexanchus griseus","tiburon"
-"TIBURON NARIGON GRIS","Deania calcea","tiburon"
-"TIBURON O MARRAJO DENTUDO","Isurus oxyrinchus","tiburon"
-"TIBURON SARDINERO","Lamna nasus","tiburon"
-"TOLLO","Mustelus mento","tiburon"
-"TOLLO DE CACHOS","Squalus acanthias","tiburon"
-"TRUCHA ARCOIRIS","Oncorhynchus mykiss","trucha"
-"TURBOT","Scophtalmus maximus","pescado_otros"
-"VIDRIOLA, PALOMETA, DORADO O TOREMO","Seriola lalandi","pescado_otros"
-"VIEJA O MULATA","Graus nigra","pescado_otros"
-"VINCIGUERRIA","Vinciguerria lucetia pacifici","pescado_otros"
-"ABALON JAPONES","Haliotis discus hannai","abalon japones"
-"ABALON ROJO","Haliotis rufescens","abalon_otras"
-"ALMEJA","Venus antiqua","almeja_otras"
-"ALMEJA O TACA","Protothaca taca","almeja_otras"
-"CALAMAR","Loligo gahi","moluscos_otros"
-"CARACOL LOCATE","Thais chocolata","caracoles_otros"
-"CARACOL PALO PALO","Argobuccinum spp.","caracoles_otros"
-"CARACOL PICUYO","Odontocymbiola magellanica","caracoles_otros"
-"CARACOL REAL O GIGANTE O VOLUTA ANGULOSA","Zidona dufresnei","caracoles_otros"
-"CARACOL RUBIO","Xantochorus cassidiformis","caracoles_otros"
-"CARACOL TEGULA","Tegula atra","caracoles_otros"
-"CARACOL TRUMULCO","Chorus giganteus","caracoles_otros"
-"CARACOL TROPHON","Trophon geversianus","caracoles_otros"
-"CHOCHA","Trochita trochiformes","moluscos_otros"
-"CHOLGA","Aulacomya ater","moluscos_otros"
-"CHORITO","Mytilus chilensis","mejillon"
-"CHORO","Choromytilus chorus","mejillon"
-"CULENGUE","Gari solida","almeja_otras"
-"HUEPO O NAVAJA DE MAR","Ensis macha","navaja"
-"JIBIA O CALAMAR ROJO","Dosidicus gigas","jibia"
-"JULIANA O TAWERA","Tawera gayi","almeja_gayi"
-"LAPA","Fissurella spp.","moluscos_otros"
-"LAPA NEGRA","Fissurella latimarginata","moluscos_otros"
-"LAPA PICTA","Fissurella picta","moluscos_otros"
-"LAPA REINA","Fissurella maxima","moluscos_otros"
-"LAPA ROSADA","Fissurella cumingi","moluscos_otros"
-"LOCO","Concholepas concholepas","loco"
-"MACHA","Mesodesma donacium","macha"
-"NAVAJUELA","Tagelus dombeii","navajuela"
-"OSTION DEL NORTE","Argopecten purpuratus","ostion"
-"OSTION DEL SUR","Chlamys vitrea","moluscos_otros"
-"OSTION PATAGONICO","Chlamys patagonica","ostion"
-"OSTRA CHILENA","Ostrea chilensis","ostra"
-"OSTRA DEL PACIFICO","Crassostrea gigas","ostra"
-"PULPO DEL NORTE","Octopus (vulgaris) mimus","pulpo"
-"PULPO DEL SUR","Enteroctopus megalocyathus","pulpo"
-"TAQUILLA","Mulinia edulis","almeja_otras"
-"TUMBAO","Semele solida","almeja_otras"
-"CAMARON NAILON","Heterocarpus reedi","camaron_nai"
-"CAMARON DE RIO DEL NORTE","Cryphiops caementarius","camaron_rio"
-"CAMARON ECUATORIANO O PENAEUE","Penaeus vannamei","camaron_ecu"
-"CANGREJO DORADO DE J. FERNANDEZ","Chaceon chilensis","cangrejos_otros"
-"CENTOLLA","Lithodes santolla","centolla"
-"CENTOLLON","Paralomis granulosa","crustaceos_otros"
-"CENTOLLON DEL NORTE",NA,"crustaceos_otros"
-"GAMBA","Haliporoides diomedeae","gambas"
-"JAIBA","Cancer spp.","jaiba"
-"JAIBA LIMON","Cancer porteri","jaiba"
-"JAIBA MARMOLA","Cancer edwardsi","jaiba"
-"JAIBA MORA","Homalaspis plana","jaiba"
-"JAIBA PACO","Mursia gaudichaudi","crustaceos_otros"
-"JAIBA PANCHOTE O CANGREJO","Taliepus dentatus","jaiba"
-"JAIBA PANCORA","Hemigrapsus crenulatus","Crustaceos_otros"
-"JAIBA PATUDA","Taliepus marginatus","crustaceos_otros"
-"JAIBA PELUDA O PACHONA","Cancer setosus","jaiba"
-"JAIBA REINA","Cancer coronatus","jaiba"
-"JAIBA REMADORA","Ovalipes trimaculatus","jaiba"
-"LANGOSTA DE ISLA DE PASCUA O URA","Panulirus pascuensis","crustaceos_otros"
-"LANGOSTA DE J.FERNANDEZ","Jasus frontalis","crustaceos_otros"
-"LANGOSTINO AMARILLO","Cervimunida johni","langostinos_otros"
-"LANGOSTINO COLORADO","Pleuroncodes monodon","langostino_col"
-"LANGOSTINO DE LOS CANALES","Munida subrugosa","langostinos_otros"
-"LANGOSTINO ENANO","Pleuroncodes sp","langostinos_otros"
-"ACHA O HACHA","Medialuna ancietae","pescado_otros"
-"ATUN OJOS GRANDES / KAHI MATA TATA","Thunnus obesus","atunes"
-"BACALAO DE J.FERNANDEZ / KOPUKU HAHA ROA","Polyprion oxygeneios","pescado_otros"
-"BARRACUDA O PETO / KANA KANA",NA,"pescado_otros"
-"BROTULA","Salilota australis","pescado_otros"
-"COJINOBA MOTEADA","Seriolella punctata","pescado_otros"
-"PEJERRATA O GRANADERO","Coelorhynchus spp","pescado_otros"
-"PEJEZORRO","Alopias vulpinus","pescado_otros"
-"REMOREMO","Elagatis bipinnulata","pescado_otros"
-"LAPA BONETE","Fissurella costata","moluscos_otros"
-"PULPO DE JUAN FERNANDEZ","Octopus Crusoe","pulpo"
-"CAMARON DE ROCA","Rhynchocinetes typus","camaron_otro"
-"LANGOSTA ENANA","Projasus bahamondei","crustaceos_otros"
-"PICOROCO","Austromegabalanus psittacus","crustaceos_otros"
-"PULGA SALTARINA O GAMBITA","Gammarus sp","crustaceos_otros"
-"ERIZO","Loxechinus albus","erizo"
-"MEDUSA","Chrysaora Plocamia","meduza"
-"PEPINO DE MAR","Athyonidium chilensis","invertebrados_otros"
-"PIURE","Pyura chilensis","piure"
-"ATUN LISTADO,BARRILETE,CACHURRETA/AUHOPU","Katsuwonus pelamis","atunes"
-"BAGRE","Ameiurus melas","pescado_otros"
-"BRECA DE JUAN FERNANDEZ","Nemadactylus gayi","pescado_otros"
-"COCHINILLA","Navodon Paschalis","pescado_otros"
-"HUAIQUIL O CORVINILLA","Micropogonias manni","pescado_otros"
-"RAYA ESPINOSA","Dipturus trachyderma","raya"
-"CAMARON NAVAJA","Campylonotus semistriatus","camaron_otro"
-"ALGAS MIXTAS",NA,"alga"
-"CAROLA","Callophyllis variegata","alga"
-"JUREL FINO","Decapterus macrosoma","jurel"
-"MATAHUIRA, KARA KARA O KRA KRA","Heteropriacanthus cruentatus","pescado_otros"
-"NANUE, NANUE PARA, PISI O PUA","Kiphosus sandwicensis / Kiphosus bigibbus","pescado_otros"
-"QUIMERA NEGRA",NA,"tiburon"
-"MERLUZA DE TRES ALETAS","Micromesistius australis","merluza"
-"LENGUADO DE OJOS GRANDES","Hippoglossina macrops","pescado_otros"
-"CENTOLLA DEL NORTE","Lithodes spp.","centolla_nor"
-"GRANADERO GRANDE","Macrourus holotrachys","pescado_otros"
-"PEJERRATA","Coelorhynchus chilensis","pescado_otros"
-"PEJERRATA O GRANADERO ESCAMOSO","Macrourus carinatus.","pescado_otros"
-"DRACO RAYADO","Champsocephalus gunnari","pescado_otros"
-"KRILL","Euphasia superba","crustaceos_otros"
-"RAYA AGUILA","Myliobatis peruvianus","raya"
-"BACALAO ANTARTICO","Dissostichus mawsoni","pescado_otros"
-"MERLUZA DEL ATLANTICO","Merluccius hubbsi","merluza"
-"NOTOTENIA O MARUJITO","Patagonotothen ramsayi","pescado_otros"
-"RAYA MOTEADA O NEGRA","Sympterygia brevicaudata","raya"
-"CALAMAR ILLEX O POTA DEL ATLANTICO","Illex argentinus","moluscos_otros"
-"POTA DEL PACIFICO","Todarodes Pacificus","moluscos_otros"
-"CUBICEPS","Cubiceps","pescado_otros"
-NA,"Protothaca thaca","almeja_tha_ant"
-NA,"Ameghinomya antiqua","almeja_tha_ant"
-NA,"Cancer spp","jaiba"
-NA,"Pecten","vieiras_volan"
-NA,"Chlamys","vieiras_volan"
-NA,"Placopecten","vieiras_volan"
+especie_SERNAPESCA,sc_name,group,en_group
+CHASCA,Gelidium rex,alga,Algae
+CHASCON O HUIRO NEGRO,Lessonia nigrescens,alga,Algae
+CHICOREA DE MAR,Chondracanthus chamissoi,alga,Algae
+COCHAYUYO,Durvillaea antarctica,alga,Algae
+HUIRO,Macrocystis spp.,alga,Algae
+HUIRO PALO,Lessonia trabeculata,alga,Algae
+LECHUGUILLA,Ulva lactuca,alga,Algae
+LIQUEN GOMOSO,Gymnogongrus furcellatus,alga,Algae
+LUCHE,Porphyra columbina,alga,Algae
+LUGA CUCHARA O CORTA,Mazzaella laminarioides,alga,Algae
+LUGA NEGRA O CRESPA,Sarcothalia crispata,alga,Algae
+LUGA-ROJA,Gigartina skottsbergii,alga,Algae
+PELILLO,Gracilaria spp.,alga,Algae
+AGUJILLA,Scomberesox saurus scombroides,pescado_otros,Fish
+ALBACORA O PEZ ESPADA / IVI HEHEU,Xiphias gladius,atunes,Tuna
+ANCHOVETA,Engraulis ringens,pescado_otros,Fish
+ANGUILA,Ophichthus spp.,anguila,Eel
+ANGUILA BABOSA,Eptatretus polytrema,anguila,Eel
+APANADO,Hemilutjanus macrophthalmos,pescado_otros,Fish
+ATUN ALETA AMARILLA / KAHI AVE AVE,Thunnus albacares,atunes,Tuna
+ATUN ALETA LARGA,Thunnus albacares,atunes,Tuna
+ATUN CHAUCHERA,Gatrochisma melampus,atunes,Tuna
+AZULEJO,Prionace glauca,tiburon,Shark
+BACALADILLO O MOTE,Normanichthys crockeri,pescado_otros,Fish
+BACALAO DE PROFUNDIDAD,Dissostichus eleginoides,pescado_otros,Fish
+"BACALAO I.PASCUA,ATUN ESCOFINA/KONSO",Ruvettus pretiosus,pescado_otros,Fish
+BESUGO,Epigonus crassicaudus,pescado_otros,Fish
+BLANQUILLO,Prolatilus jugularis,pescado_otros,Fish
+BONITO,Sarda chiliensis,bonito,Bonito
+BRECA O BILAGAY,Cheilodactylus variegatus,pescado_otros,Fish
+CABALLA,Scomber japonicus,caballa,Caballa
+CABINZA,Isacia conceptionis,pescado_otros,Fish
+CABRILLA COMUN,Paralabrax humeralis,pescado_otros,Fish
+CABRILLA ESPANOLA,Sebastes capensis,pescado_otros,Fish
+CANQUE,Stellifer minor,pescado_otros,Fish
+CHANCHARRO,Helicolenus lengerichi,pescado_otros,Fish
+CHASQUE O CHALACO,Auchenionchus spp.,pescado_otros,Fish
+COJINOBA DEL NORTE / PIAFRI,Seriolella violacea,pescado_otros,Fish
+COJINOBA DEL SUR O AZUL,Seriolella caerulea,pescado_otros,Fish
+CONGRIO COLORADO,Genypterus chilensis,congrio,Cusk-eel
+CONGRIO DORADO,Genypterus blacodes,congrio,Cusk-eel
+CONGRIO NEGRO,Genypterus maculatus,congrio,Cusk-eel
+CORVINA,Cilus gilberti,pescado_otros,Fish
+DORADO DE ALTURA / MAHI MAHI,Coryphaena hippurus,pescado_otros,Fish
+EMPERADOR,Luvarus imperialis,pescado_otros,Fish
+JERGUILLA,Aplodactylus punctatus,pescado_otros,Fish
+JUREL,Trachurus murphyi,jurel,Jack mackerel
+JUREL DE JUAN FERNANDEZ,Caranx georgianus,jurel,Jack mackerel
+LENGUADO,Paralichthys spp.,pescado_otros,Fish
+LENGUADO DE OJOS CHICOS,Paralichthys microps,pescado_otros,Fish
+LISA,Mugil cephalus,pescado_otros,Fish
+MACHUELO O TRITRE,Ethmidium maculatum,pescado_otros,Fish
+MARLIN,"Tetrapturus spp., Makaira spp",pescado_otros,Fish
+MARLIN RAYADO,Tetrapturus auda,pescado_otros,Fish
+MERLUZA COMUN,Merluccius gayi gayi,merluza,Hake
+MERLUZA DE COLA,Macruronus magellanicus,merluza,Hake
+MERLUZA DEL SUR O AUSTRAL,Merluccius australis,merluza,Hake
+MORENA DE ALETA BAJA / KOREHA HA OKO,Gymnothorax porphyreus,anguila,Eel
+PAMPANITO,Stromateus stellatus,pescado_otros,Fish
+PAMPANITO DE JUAN FERNANDEZ,Scorpis chilensis,pescado_otros,Fish
+PEJE GATO HOCICON,Apristurus nasutus,pescado_otros,Fish
+PEJEGALLO,Callorhinchus callorhynchus,pescado_otros,Fish
+PEJEPERRO,Semicossyphus maculatus,pescado_otros,Fish
+PEJERREY DE MAR,Odontesthes regia,pescado_otros,Fish
+PEJESAPO,Sicyases sanguin,pescado_otros,Fish
+PESCADO NO CLASIFICADO,Pescado,pescado_otros,Fish
+PEZ SOL,Lampris guttatus,pescado_otros,Fish
+PICHIBUENO,Menticirrhus ophicephalus,pescado_otros,Fish
+PUYE,Galaxias maculatus,pescado_otros,Fish
+RAYA VOLANTIN,Zearaja chilensis,raya,Ray
+REINETA,Brama australis,pescado_otros,Fish
+ROBALO,Eleginops maclovinus,pescado_otros,Fish
+ROCOCO,Paralonchurus peruanus,pescado_otros,Fish
+ROLLIZO,Pinguipes chilensis,pescado_otros,Fish
+RONCACHO,Sciaena deliciosa,pescado_otros,Fish
+SALMON REY,Oncorhynchus tshawytscha,salmon,Salmon
+SARDINA AUSTRAL,Sprattus fuegensis,sardina,Sprat and herring
+SARDINA COMUN,Strangomera bentincki,sardina,Sprat and herring
+SARDINA ESPANOLA,Sardinops sagax,sardina,Sprat and herring
+SARGO,Anisotremus scapularis,pescado_otros,Fish
+SIERRA,Thyrsites atun,tiburon,Shark
+"TIBURON FUME, GRIS O GATA DE MAR",Hexanchus griseus,tiburon,Shark
+TIBURON NARIGON GRIS,Deania calcea,tiburon,Shark
+TIBURON O MARRAJO DENTUDO,Isurus oxyrinchus,tiburon,Shark
+TIBURON SARDINERO,Lamna nasus,tiburon,Shark
+TOLLO,Mustelus mento,tiburon,Shark
+TOLLO DE CACHOS,Squalus acanthias,tiburon,Shark
+TRUCHA ARCOIRIS,Oncorhynchus mykiss,trucha,Trout
+TURBOT,Scophtalmus maximus,pescado_otros,Fish
+"VIDRIOLA, PALOMETA, DORADO O TOREMO",Seriola lalandi,pescado_otros,Fish
+VIEJA O MULATA,Graus nigra,pescado_otros,Fish
+VINCIGUERRIA,Vinciguerria lucetia pacifici,pescado_otros,Fish
+ABALON JAPONES,Haliotis discus hannai,abalon japones,Abalone
+ABALON ROJO,Haliotis rufescens,abalon_otras,Abalone
+ALMEJA,Venus antiqua,almeja_otras,Clams
+ALMEJA O TACA,Protothaca taca,almeja_otras,Clams
+CALAMAR,Loligo gahi,moluscos_otros,Mollusks
+CARACOL LOCATE,Thais chocolata,caracoles_otros,Gastropods
+CARACOL PALO PALO,Argobuccinum spp.,caracoles_otros,Gastropods
+CARACOL PICUYO,Odontocymbiola magellanica,caracoles_otros,Gastropods
+CARACOL REAL O GIGANTE O VOLUTA ANGULOSA,Zidona dufresnei,caracoles_otros,Gastropods
+CARACOL RUBIO,Xantochorus cassidiformis,caracoles_otros,Gastropods
+CARACOL TEGULA,Tegula atra,caracoles_otros,Gastropods
+CARACOL TRUMULCO,Chorus giganteus,caracoles_otros,Gastropods
+CARACOL TROPHON,Trophon geversianus,caracoles_otros,Gastropods
+CHOCHA,Trochita trochiformes,moluscos_otros,Mollusks
+CHOLGA,Aulacomya ater,moluscos_otros,Mollusks
+CHORITO,Mytilus chilensis,mejillon,Mussels
+CHORO,Choromytilus chorus,mejillon,Mussels
+CULENGUE,Gari solida,almeja_otras,Clams
+HUEPO O NAVAJA DE MAR,Ensis macha,navaja,Razor clam
+JIBIA O CALAMAR ROJO,Dosidicus gigas,jibia,Squid
+JULIANA O TAWERA,Tawera gayi,almeja_gayi,Tawera
+LAPA,Fissurella spp.,moluscos_otros,Mollusks
+LAPA NEGRA,Fissurella latimarginata,moluscos_otros,Mollusks
+LAPA PICTA,Fissurella picta,moluscos_otros,Mollusks
+LAPA REINA,Fissurella maxima,moluscos_otros,Mollusks
+LAPA ROSADA,Fissurella cumingi,moluscos_otros,Mollusks
+LOCO,Concholepas concholepas,loco,Loco
+MACHA,Mesodesma donacium,macha,Macha
+NAVAJUELA,Tagelus dombeii,navajuela,Navajuela
+OSTION DEL NORTE,Argopecten purpuratus,ostion,Scallop
+OSTION DEL SUR,Chlamys vitrea,moluscos_otros,Mollusks
+OSTION PATAGONICO,Chlamys patagonica,ostion,Scallop
+OSTRA CHILENA,Ostrea chilensis,ostra,Oyster
+OSTRA DEL PACIFICO,Crassostrea gigas,ostra,Oyster
+PULPO DEL NORTE,Octopus (vulgaris) mimus,pulpo,Octopus
+PULPO DEL SUR,Enteroctopus megalocyathus,pulpo,Octopus
+TAQUILLA,Mulinia edulis,almeja_otras,Clams
+TUMBAO,Semele solida,almeja_otras,Clams
+CAMARON NAILON,Heterocarpus reedi,camaron_nai,Chilean nylon shrimp
+CAMARON DE RIO DEL NORTE,Cryphiops caementarius,camaron_rio,Freshwater shrimp
+CAMARON ECUATORIANO O PENAEUE,Penaeus vannamei,camaron_ecu,Whiteleg shrimp
+CANGREJO DORADO DE J. FERNANDEZ,Chaceon chilensis,cangrejos_otros,Crabs
+CENTOLLA,Lithodes santolla,centolla,King crab
+CENTOLLON,Paralomis granulosa,crustaceos_otros,Crustaceans
+CENTOLLON DEL NORTE,Paralomis spp.,crustaceos_otros,Crustaceans
+GAMBA,Haliporoides diomedeae,gambas,Prawns
+JAIBA,Cancer spp.,jaiba,Jaiba
+JAIBA LIMON,Cancer porteri,jaiba,Jaiba
+JAIBA MARMOLA,Cancer edwardsi,jaiba,Jaiba
+JAIBA MORA,Homalaspis plana,jaiba,Jaiba
+JAIBA PACO,Mursia gaudichaudi,crustaceos_otros,Crustaceans
+JAIBA PANCHOTE O CANGREJO,Taliepus dentatus,jaiba,Jaiba
+JAIBA PANCORA,Hemigrapsus crenulatus,Crustaceos_otros,Crustaceans
+JAIBA PATUDA,Taliepus marginatus,crustaceos_otros,Crustaceans
+JAIBA PELUDA O PACHONA,Cancer setosus,jaiba,Jaiba
+JAIBA REINA,Cancer coronatus,jaiba,Jaiba
+JAIBA REMADORA,Ovalipes trimaculatus,jaiba,Jaiba
+LANGOSTA DE ISLA DE PASCUA O URA,Panulirus pascuensis,crustaceos_otros,Crustaceans
+LANGOSTA DE J.FERNANDEZ,Jasus frontalis,crustaceos_otros,Crustaceans
+LANGOSTINO AMARILLO,Cervimunida johni,langostinos_otros,Langostinos
+LANGOSTINO COLORADO,Pleuroncodes monodon,langostino_col,Red squat lobster
+LANGOSTINO DE LOS CANALES,Munida subrugosa,langostinos_otros,Langostinos
+LANGOSTINO ENANO,Pleuroncodes sp,langostinos_otros,Langistinos
+ACHA O HACHA,Medialuna ancietae,pescado_otros,Fish
+ATUN OJOS GRANDES / KAHI MATA TATA,Thunnus obesus,atunes,Tuna
+BACALAO DE J.FERNANDEZ / KOPUKU HAHA ROA,Polyprion oxygeneios,pescado_otros,Fish
+BARRACUDA O PETO / KANA KANA,Acanthocybium solandri,pescado_otros,Fish
+BROTULA,Salilota australis,pescado_otros,Fish
+COJINOBA MOTEADA,Seriolella punctata,pescado_otros,Fish
+PEJERRATA O GRANADERO,Coelorhynchus spp,pescado_otros,Fish
+PEJEZORRO,Alopias vulpinus,pescado_otros,Fish
+REMOREMO,Elagatis bipinnulata,pescado_otros,Fish
+LAPA BONETE,Fissurella costata,moluscos_otros,Mollusks
+PULPO DE JUAN FERNANDEZ,Octopus Crusoe,pulpo,Octopus
+CAMARON DE ROCA,Rhynchocinetes typus,camaron_otro,Shrimp
+LANGOSTA ENANA,Projasus bahamondei,crustaceos_otros,Crustaceans
+PICOROCO,Austromegabalanus psittacus,crustaceos_otros,Crustaceans
+PULGA SALTARINA O GAMBITA,Gammarus sp,crustaceos_otros,Crustaceans
+ERIZO,Loxechinus albus,erizo,Sea urchin
+MEDUSA,Chrysaora Plocamia,meduza,Jellyfish
+PEPINO DE MAR,Athyonidium chilensis,invertebrados_otros,Invertebrates
+PIURE,Pyura chilensis,piure,Piure
+"ATUN LISTADO,BARRILETE,CACHURRETA/AUHOPU",Katsuwonus pelamis,atunes,Tuna
+BAGRE,Ameiurus melas,pescado_otros,Fish
+BRECA DE JUAN FERNANDEZ,Nemadactylus gayi,pescado_otros,Fish
+COCHINILLA,Navodon Paschalis,pescado_otros,Fish
+HUAIQUIL O CORVINILLA,Micropogonias manni,pescado_otros,Fish
+RAYA ESPINOSA,Dipturus trachyderma,raya,Ray
+CAMARON NAVAJA,Campylonotus semistriatus,camaron_otro,Shrimp
+ALGAS MIXTAS,Algas,alga,Algae
+CAROLA,Callophyllis variegata,alga,Algae
+JUREL FINO,Decapterus macrosoma,jurel,Jack mackerel
+"MATAHUIRA, KARA KARA O KRA KRA",Heteropriacanthus cruentatus,pescado_otros,Fish
+"NANUE, NANUE PARA, PISI O PUA",Kiphosus sandwicensis / Kiphosus bigibbus,pescado_otros,Fish
+QUIMERA NEGRA,Hydrolagus melanophasma,tiburon,Shark
+MERLUZA DE TRES ALETAS,Micromesistius australis,merluza,Hake
+LENGUADO DE OJOS GRANDES,Hippoglossina macrops,pescado_otros,Fish
+CENTOLLA DEL NORTE,Lithodes spp.,centolla_nor,King crab
+GRANADERO GRANDE,Macrourus holotrachys,pescado_otros,Fish
+PEJERRATA,Coelorhynchus chilensis,pescado_otros,Fish
+PEJERRATA O GRANADERO ESCAMOSO,Macrourus carinatus.,pescado_otros,Fish
+DRACO RAYADO,Champsocephalus gunnari,pescado_otros,Fish
+KRILL,Euphasia superba,crustaceos_otros,Crustaceans
+RAYA AGUILA,Myliobatis peruvianus,raya,Ray
+BACALAO ANTARTICO,Dissostichus mawsoni,pescado_otros,Fish
+MERLUZA DEL ATLANTICO,Merluccius hubbsi,merluza,Hake
+NOTOTENIA O MARUJITO,Patagonotothen ramsayi,pescado_otros,Fish
+RAYA MOTEADA O NEGRA,Sympterygia brevicaudata,raya,Ray
+CALAMAR ILLEX O POTA DEL ATLANTICO,Illex argentinus,moluscos_otros,Mollusks
+POTA DEL PACIFICO,Todarodes Pacificus,moluscos_otros,Mollusks
+CUBICEPS,Cubiceps,pescado_otros,Fish
+NA,Protothaca thaca,almeja_tha_ant,Clams
+NA,Ameghinomya antiqua,almeja_tha_ant,Clams
+NA,Cancer spp,jaiba,Jaiba
+NA,Pecten,vieiras_volan,Vieiras
+NA,Chlamys,vieiras_volan,Vieiras
+NA,Placopecten,vieiras_volan,Vieiras
+ATUN ALETA LARGA,Thunnus alalunga,NA,Tuna
+AYANQUE,Cynoscion analis,NA,Fish
+BAGRE AGUA DULCE,Ictalurus punctatus,NA,Fish
+CARACOL PIQUILHUE,Adelomelon ancilla,NA,Gastropods
+CRUSTACEO NO CLASIFICADO,Crustacea,NA,Crustaceans
+MARLIN,Tetrapturus spp.,NA,Fish
+NANUE,Kiphosus sandwicensis,NA,Fish
+TOMOYO,Labrisomus philippii,NA,Fish
+MARLIN RAYADO,Tetrapturus audax,NA,Fish
+PEJERRATA O GRANADERO ESCAMOSO,Macrourus carinatus,NA,Fish
+"NANUE, NANUE PARA, PISI O PUA",Kiphosus sandwicensis,NA,Fish
+HAEMATOCOCCUS,Haematococcus pluvialis,NA,Algae
+SPIRULINA,Spirulina spp.,NA,Algae
+HALIBUT O FLETAN,Hippoglossus hippoglossus,NA,Fish
+LENGUADO FINO,Paralichthys adpersus,NA,Fish
+SALMON DEL ATLANTICO,Salmo salar,NA,Salmon
+SALMON PLATEADO,Oncorhynchus kisutch,NA,Salmon
+SALMON PLATEADO O COHO,Oncorhynchus kisutch,NA,Salmon
+SALMON OTROS,Salmonidae,NA,Salmon
+LUGA LUGA,Mazzaella membranacea,NA,Algae
+ANCHOITA,Engraulis anchoita,NA,Sprat and herring
+HIRAME,Paralichthys olivaceus,NA,Sprat and herring
+BABUNCO O BAUNCO,Doydixodon Laevifrons,NA,Fish
+MOLUSCO NO CLASIFICADO,Mollusca,NA,Mollusks
