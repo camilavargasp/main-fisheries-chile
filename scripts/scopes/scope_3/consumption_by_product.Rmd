@@ -1,0 +1,60 @@
+---
+title: "consumption by products"
+author: "Camila Vargas e Ignacia Rivera"
+date: "11 de diciembre de 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Approch to HC by type of products
+
+##Import data
+
+
+```{r}
+
+##Human consuption products
+HC_products <- read.csv(here("clean_databases/products_HC.csv")) %>% 
+  group_by(year, species, product) %>% 
+  summarise(tonnes = sum(tons, na.rm = T)) %>% 
+  ungroup()
+
+##No human consumption products
+NHC_raw <- read.csv(here("clean_databases/raw_NHC.csv")) %>% 
+  group_by(year, species, product) %>% 
+  summarise(tonnes = sum(tons, na.rm = T)) %>% 
+  ungroup()
+
+##Export per product
+export_product <- read.csv("information/raw_databases/IFOP/product_exports_tons_value.csv") %>% 
+  rename(product = X...Product)
+
+
+```
+
+Adding all species formone product
+
+
+
+
+
+Top 3 species per type of products
+```{r}
+
+top_3_per_meal_hc <- HC_products  %>% 
+  group_by(year, product) %>% 
+  top_n(3, tonnes)
+
+
+
+
+```
+
+
+
+
+
+

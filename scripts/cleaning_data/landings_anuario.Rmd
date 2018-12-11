@@ -1,0 +1,78 @@
+---
+title: "landings anuario"
+author: "Camila Vargas e Ignacia Rivera"
+date: "11 de diciembre de 2018"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(here) #install.packages('here')
+library(magrittr) #install.packages('magrittr')
+library(dplyr) #install.packages('dplyr')
+library(tidyr) #install.packages('tidyr')
+library(readxl) #install.packages('readxl')
+library(stringr)
+```
+
+Iport landings form the anuario downloaded form: http://www.sernapesca.cl/informes/estadisticas in "Series cornológicas"
+
+
+##Import data per type of species
+
+```{r}
+peces <- read_excel(here("information/raw_databases/SERNAPESCA/landings/anuario_SERNAPESCA.xls"), sheet = "Series", range = "A5:L87", na = "-") %>% 
+  gather(key = year, value = tons, 2:12) %>% 
+  rename(species= ESPECIE) %>% 
+  filter(species != "TOTAL PECES")
+
+crustaceos <- read_excel(here("information/raw_databases/SERNAPESCA/landings/anuario_SERNAPESCA.xls"), sheet = "Series", range = "A105:L130", na = "-") %>% 
+  gather(key = year, value = tons, 2:12) %>% 
+  rename(species= ESPECIE) %>% 
+  filter(species != "TOTAL CRUSTACEOS")
+
+moluscos <- read_excel(here("information/raw_databases/SERNAPESCA/landings/anuario_SERNAPESCA.xls"), sheet = "Series", range = "A138:L177", na = "-") %>% 
+  gather(key = year, value = tons, 2:12) %>% 
+  rename(species= ESPECIE) %>% 
+  filter(species != "TOTAL MOLUSCOS")
+
+otras_especies <- read_excel(here("information/raw_databases/SERNAPESCA/landings/anuario_SERNAPESCA.xls"), sheet = "Series", range = "A183:L189", na = "-") %>% 
+  gather(key = year, value = tons, 2:12) %>% 
+  rename(species= ESPECIE) %>% 
+  filter(species != "TOTAL OTRAS ESPECIES")
+
+
+algas <- read_excel(here("information/raw_databases/SERNAPESCA/landings/anuario_SERNAPESCA.xls"), sheet = "Series", range = "A208:L226", na = "-") %>% 
+  gather(key = year, value = tons, 2:12) %>% 
+  rename(species= ESPECIE) %>% 
+  filter(species != "TOTAL ALGAS")
+
+
+```
+
+
+## Combine all in one df and match with index
+
+```{r}
+landings_anuario <- dplyr::bind_rows(peces, crustaceos, moluscos, otras_especies, algas)
+  
+
+##read sp_index
+species_index <- read.csv(here("clean_databases/sp_index.csv")) %>% 
+  rename(species = chl_name)
+
+landings_anuario_sp <- landings_anuario %>% 
+  left_join(species_index, by= "species") %>% 
+  filter(year %in% 2013:2017)
+
+##Save
+write.csv(landings_anuario_sp, here("clean_databases/landings_anuario.csv"), row.names = F)
+
+
+```
+
+
+
+
+
