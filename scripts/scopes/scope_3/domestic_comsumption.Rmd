@@ -29,6 +29,8 @@ Import landing and NHC_m databases in ordet to calculate landings for human coms
 
 NOTE: Match all databese with the species index.
 
+NOTE: We are going to do de analysis at anational level because we cannot account for transportation between the countris from place the place the product was transported to where they are prossesed and finally consumed.
+
 ```{r human consumption landings}
 ##Import landing data 
 
@@ -36,10 +38,10 @@ landings<- read_csv(here("clean_databases/landings_SERNAPESCA.csv")) %>%
   filter(!region %in% c("national", "R.M.")) %>%
   mutate( tons = as.numeric(tons)) %>% 
   select(-month, -international_waters) %>% 
-  left_join(sp_index, by = "species") %>% 
-  group_by(year, region, sc_name, species) %>% 
+  group_by(year, region, species) %>% 
   summarise(tons = sum(tons, na.rm = T)) %>%  ##adds same species from different subsector
   rename(catch = tons)
+  
 
 
 ##Import raw no human comsuption data (NHC_m)
@@ -56,12 +58,14 @@ landings_hc <-  landings %>%
 landing_hc_nat <- landings %>% 
   left_join(NHC_facilities, by= c("year", "region", "sc_name")) %>% 
   mutate(NHC_m = ifelse(is.na(NHC_m), 0, NHC_m)) %>% 
-  group_by(year, sc_name, species, variable) %>% 
+  group_by(year, sc_name, species) %>% 
   summarise(catch_nat = sum(catch, na.rm = T),
             NHC_m_nat = sum(NHC_m, na.rm = T)) %>% 
   mutate(L_hc_nat = catch_nat - NHC_m_nat) %>% 
-  mutate(L_hc_nat = ifelse(L_hc_nat < 0, 0, L_hc_nat))
-
+  mutate(L_hc_nat = ifelse(L_hc_nat < 0, 0, L_hc_nat)) %>% 
+  left_join(sp_index, by = c("species", "sc_name")) %>% 
+  select(year, sc_name, species, en_name, catch_nat, NHC_m_nat, L_hc_nat)
+  
 
 ```
 
@@ -73,37 +77,122 @@ landing_hc_nat <- landings %>%
 DHC_yield <- read_xlsx(here("clean_databases/intermediate/sp_cl_DHC.xlsx")) %>% 
   select(-category, -reference)
 
-##Calculate species yield
-species_yield <- landings_hc %>% 
+##Calculate yield at a national level
+species_yield_nat <- landing_hc_nat %>% 
   left_join(DHC_yield, by= c("species", "sc_name")) %>% 
-  select(year, region, sc_name, species, species_en, catch, NHC_m, L_hc, mean_yield) %>% 
-  mutate(L_hc = L_hc*mean_yield)
+  select(year, sc_name, species, L_hc_nat, mean_yield) %>%
+  mutate(L_hc_yield = L_hc_nat*mean_yield)
   
-
-
-
-
+  
 ```
 
 
-
-
-
-
+## Step 3: Add aquaculture to L_hc and subtract Exports
 
 
 ```{r}
 ##Import Aquaculture data
 
-aquaculture <- read_csv(here("clean_databases/aquaculture_SERNAPESCA.csv")) %>% 
+aquaculture_nat <- read_csv(here("clean_databases/aquaculture_SERNAPESCA.csv")) %>% 
   filter(region != "national",
          year!=2012) %>% 
   mutate( tons = as.numeric(tons)) %>% 
   select(-subsector, -month) %>% 
-  mutate(variable = "tonnes") %>% 
   rename(aquaculture = tons) %>% 
-  left_join(sp_index, by= "species")
+  left_join(sp_index, by= "species") %>% 
+  group_by(year, species, sc_name, en_name) %>% 
+  summarise(aquaculture_nat = sum(aquaculture, na.rm = T))
+  
+
+
+##Import Export data
+exports_nat <- read_csv(here("clean_databases/exports_ADUANA.csv")) %>% 
+  select(year, region, exports= tons, species= especie_SERNAPESCA, sc_name=nombre_cientifico_SERNAPESCA, value) %>%
+  filter(year!= 2018,
+         region != 20) %>% 
+  mutate(region = ifelse(region==0, NA, region)) %>%
+  mutate(region = ifelse(region==1, "I", region)) %>% 
+  mutate(region = ifelse(region==2, "II", region)) %>% 
+  mutate(region = ifelse(region==3, "III", region)) %>% 
+  mutate(region = ifelse(region==4, "IV", region)) %>% 
+  mutate(region = ifelse(region==5, "V", region)) %>% 
+  mutate(region = ifelse(region==6, "VI", region)) %>% 
+  mutate(region = ifelse(region==7, "VII", region)) %>% 
+  mutate(region = ifelse(region==8, "VIII", region)) %>% 
+  mutate(region = ifelse(region==9, "IX", region)) %>% 
+  mutate(region = ifelse(region==10, "X", region)) %>% 
+  mutate(region = ifelse(region==11, "XI", region)) %>% 
+  mutate(region = ifelse(region==12, "XII", region)) %>% 
+  mutate(region = ifelse(region==14, "XIV", region)) %>% 
+  mutate(region = ifelse(region==15, "XV", region)) %>% 
+  mutate(region = ifelse(region==13, "R.M", region)) %>%
+  mutate(species = str_to_upper(species)) %>% 
+  mutate(sc_name = ifelse(species == "SALMON OTROS", "Salmonidae", sc_name)) %>%
+  mutate(sc_name = ifelse(species == "ALGAS MIXTAS", "Algas", sc_name)) %>% 
+  select(year, region, species, sc_name, exports) %>% 
+  group_by(year, species, sc_name) %>% 
+  summarise(export_nat = round(sum(exports, na.rm = T),2)) %>% 
+  left_join(sp_index, by= c("species", "sc_name")) %>% 
+  select(year, species, sc_name, en_name, export_nat) %>% 
+  ungroup()
+exports_nat[is.na(exports_nat)] <- 0
+
+# %>%
+#   data.frame() %>% 
+#   mutate(year = as.integer(year)) %>% 
+#   mutate(exports_nat = as.numeric(exports_nat))
+
+
+##Add aquaculture and sutract exports
+model_hc_nat <-landing_hc_nat %>%
+  left_join(species_yield_nat, by= c("year", "species", "sc_name", "L_hc_nat")) %>% 
+  left_join(aquaculture_nat, by= c("year", "species", "sc_name", "en_name")) %>% 
+  left_join(exports_nat, by= c("year", "species", "sc_name", "en_name")) %>% 
+  mutate(aquaculture_nat = ifelse(is.na(aquaculture_nat), 0, aquaculture_nat))
+
+model_hc_nat$export_nat[is.na(model_hc_nat$export_nat)] <- 0
+
+model_hc_nat <- model_hc_nat %>% 
+  mutate(hc_total = (L_hc_nat+aquaculture_nat)-export_nat)
+  
+
+
+  
+
+
 ```
+
+
+
+## Step 4: Add imports
+
+Imports are not at a species level therfore we are going to group species by assinged categories according to import data. 
+
+```{r}
+##read in group index
+group_index <- read.csv(here("clean_databases/sp_index.csv")) %>% 
+  rename(species = chl_name) 
+
+##Add groups to model dataframe
+model_hc_group <- model_hc_nat %>% 
+  left_join(group_index, by=c("sc_name", "species", "en_name"))
+
+
+##import import data
+imports <- read_csv(here("clean_databases/imports_ADUANA.csv")) %>% 
+  select(year, tons, sp_group=name_sp, tons)
+
+
+  
+
+
+```
+
+
+
+
+
+
 
 
 
