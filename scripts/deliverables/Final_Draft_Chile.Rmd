@@ -150,7 +150,7 @@ Over the last years the catch composition of the artisanal sector has presented 
 # Importing landings and species names 
 
 landings<- read_csv(here("clean_databases/landings_SERNAPESCA.csv"))
-sp_index <- read_excel(here("clean_databases/sp_index.xlsx")) %>% 
+sp_index <- read_csv(here("clean_databases/sp_index.csv")) %>% 
   mutate(chl_name = str_to_upper(chl_name)) 
 
 # Calculating annual landings per sector 
@@ -195,7 +195,7 @@ The amount of landed tons varies widely along the coast of Chile for both sector
 
 ```{r Landings per region, echo = FALSE, fig.cap= 'Mean annual total landings per region for the artisanal (left pannel) and industrial sector (right pannel) between 2013 and 2017. The color represents the most landed species in 2017. Error bars represent one standard deviation. Note that scales are different between pannels. Data source: Landing records from SERNAPESCA, 2018.'}
 
-# Main species in 2017 per region and sector in case we want to add color to the barplot
+# Main species in 2017 per region and sector to add color to the barplot
 
   main_species_per_region <- landings %>% 
   filter(region != "national", international_waters == 0) %>% 
@@ -317,6 +317,18 @@ Aquaculture production is concentrated in the South of the country, between the 
 
 ```{r Harvest from aquaculture centers per region, echo = FALSE, fig.cap= 'Mean annual harvest per region from aquaculture centers between 2012 and 2017. Error bars represent one standard deviation. Data source: Harvests records from SERNAPESCA, 2018.' }
 
+# Main species in 2017 per region in case we want to add color to the barplot
+
+  main_species_per_region_aq <- aquaculture %>% 
+  filter(region != "national") %>% 
+  mutate(tons = as.numeric(tons)) %>% 
+  arrange(year, desc(tons)) %>% 
+  group_by(year, region) %>% 
+  top_n(1, tons) %>% 
+  filter(year == 2017) %>% 
+  select(region, chl_name = species, region)
+
+
  # Aquaculture per region 
   
   aquaculture_per_region <- aquaculture %>% 
@@ -325,20 +337,24 @@ Aquaculture production is concentrated in the South of the country, between the 
   group_by(year, region) %>% 
   summarise(tons = sum(tons, na.rm = T))%>% 
   group_by(region) %>% 
-  summarise(annual_tons = mean(tons, na.rm = T)/1000, sd = sd(tons, na.rm = T)/1000)
+  summarise(annual_tons = mean(tons, na.rm = T)/1000, sd = sd(tons, na.rm = T)/1000) %>% 
+  left_join(main_species_per_region_aq) %>% 
+  left_join(sp_index) %>% 
+  select(annual_tons, sd, species =en_name, region) 
   
   
 # Reordering regions
   aquaculture_per_region$region <- factor(aquaculture_per_region$region , levels = c("XII", "XI", "X", "XIV", "IX", "VIII", "VII", "VI", "RM","V", "IV", "III", "II", "I", "XV"))
 
   aquaculture_per_region <- aquaculture_per_region %>% 
-  ggplot(aes(x = region, y = annual_tons))+
-  geom_bar(stat = 'identity', fill = wes_palette("Darjeeling1")[2] ) +
+  ggplot(aes(x = region, y = annual_tons, fill = species))+
+  geom_bar(stat = 'identity', fill= wes_palette('Darjeeling1')[2]) +
   geom_errorbar(aes(ymin=annual_tons-sd, ymax=annual_tons+sd), width=.2,
                  position=position_dodge(.9)) +
   labs(y="Harvest from aquaculture (Thousand Tons)", x="Region")+
   coord_flip()+
   scale_y_continuous(expand = c(0, 0))+
+  #scale_fill_manual(values = c(wes_palette("Darjeeling1"), wes_palette("Darjeeling2")))+
   ggtheme_plot()
   
   aquaculture_per_region
@@ -390,18 +406,32 @@ Around 72% of the landings from fisheries and aquaculture are exported outside t
 
 ```{r International trade per species, echo = FALSE, message=FALSE, warning= FALSE}
 
-# Importing export and import data and calculating FOB per year and species
+# Importing export and import data 
+sp_exports<- read_csv(here("clean_databases/exports_ADUANA.csv"))
+sp_imports<- read_csv(here("clean_databases/imports_ADUANA.csv"))
 
-exports_ADUANA <- read_csv(here("clean_databases/exports_ADUANA.csv"))
-sp_exports <- exports_ADUANA%>% 
+# Exported tons per species
+sp_exports <- sp_exports%>% 
   filter(year != 2018) %>% 
   mutate(chl_name= str_to_upper(especie_SERNAPESCA))%>% 
   left_join(sp_index) %>% 
   group_by(year, sc_name) %>% 
-  summarise(tons = round(sum(tons)/1000,2))
+  summarise(tons = round(sum(tons)/1000,2), value = sum(value))
+
+# Imported tons per species
+sp_imports <- sp_imports%>% 
+  filter(year != 2018) %>% 
+  group_by(year, name_sp) %>% 
+  summarise(tons = round(sum(tons)/1000,2), value = sum(value_us)) %>% 
+  select(year, value, tons, group = name_sp) %>% 
+  left_join(sp_index)
+
+# Matching
+
+
+
 
 ```
-
 
 #### National Seafood Supply
 
@@ -494,8 +524,6 @@ main_sp_exports <- exports_ADUANA%>%
 
 main_sp_exports
 ```
-
-
 
 We now turn to dicuss the species that are more important in terms of economic value for the different subsectors. Based on our estimates of species-specific revenue the most important species for the artisanal sector are the Southern king crab (*Lithodes santolla*) and the Chilean sea urchin (*Loxechinus albus*). Nontheless, this varies across years. For 2017 for example, the Patagonian toothfish (*Dissostichus eleginoides*) and the  and the Southern rays bream or Corvina (*Brama australis*) were the species that provided more revenue followed by the Pink cusk-eel (*Genypterus blacodes*) in the artisanal sector.
 
