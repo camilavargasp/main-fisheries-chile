@@ -42,22 +42,17 @@ According to the data provided by ADUANA CHILE, exports are in a much detailed l
 
 Landings and aquacaltue are then combine with species_match in order to have scientific names
 
-OJO: HAY QU VER COMO AGREGAR EL NOMBRE CIENTIFICO!! Probablemnte modificar bases de datos desde el principio en otros scripts.
 
 ```{r}
 
 ##Species list with scientific name 
-sp_list <- read.csv(here("clean_databases/intermediate/sp_list.csv")) %>% 
-  rename(species= especie_SERNAPESCA, sc_name=nombre_cientifico_SERNAPESCA) %>% 
-  mutate( species = str_to_upper(species))
+sp_index <- read_excel(here("clean_databases/sp_index.xlsx")) %>% 
+  rename(species = chl_name)
 
-
-###FATLTA AGREGAR NOMBRES COMUN EN INGLES!!!
-en_common <- common_names(sp_list$sc_name, server = NULL, Language = "English",
-fields = NULL) %>% 
-  filter(Language == "English")
-## las lista wu genera fishbase no ingluye todas las especies de sp_list
-
+landings_raw <- read_csv(here("clean_databases/landings_SERNAPESCA.csv")) %>% 
+  filter(!region %in% c("national", "R.M.")) %>% 
+  mutate( tons = as.numeric(tons)) %>% 
+  select(-month, -international_waters, -subsector) 
 
 ##landings
 landings<- read_csv(here("clean_databases/landings_SERNAPESCA.csv")) %>% 
@@ -68,7 +63,7 @@ landings<- read_csv(here("clean_databases/landings_SERNAPESCA.csv")) %>%
   summarise(tons = sum(tons, na.rm = T)) %>% 
   mutate(variable = "tonnes") %>% 
   rename(catch = tons) %>% 
-  left_join(sp_list, by= "species")
+  left_join(sp_index, by= "species")
   
 ##aquaculture harvest
 aquaculture <- read_csv(here("clean_databases/aquaculture_SERNAPESCA.csv")) %>% 
@@ -78,7 +73,7 @@ aquaculture <- read_csv(here("clean_databases/aquaculture_SERNAPESCA.csv")) %>%
   select(-subsector, -month) %>% 
   mutate(variable = "tonnes") %>% 
   rename(aquaculture = tons) %>% 
-  left_join(sp_list, by= "species")
+  left_join(sp_index, by= "species")
 
 
 ## Exports
@@ -104,9 +99,9 @@ exports_all <- read_csv(here("clean_databases/exports_ADUANA.csv")) %>%
   mutate(region = ifelse(region==15, "XV", region)) %>% 
   mutate(region = ifelse(region==13, "R.M", region)) %>%
   mutate(species = str_to_upper(species)) %>% 
-  mutate(sc_name = ifelse(species == "SALMON OTROS", "Salmonidae", sc_name)) %>% 
+  mutate(sc_name = ifelse(species == "SALMON OTROS", "Salmonidae", sc_name)) %>%
   mutate(sc_name = ifelse(species == "ALGAS MIXTAS", "Algas", sc_name))
-  
+
 exports_tons <- exports_all %>% 
   select(-value) %>% 
   mutate(variable = "tonnes")
@@ -121,14 +116,36 @@ exports_value <- exports_all %>%
 exports <- exports_tons %>% 
   rbind(exports_value)
 
+
 ```
+
+
+
+
+#### Correction for not double accounting algaes
+To algaes export we need to dicount all algae products that go out of the facilieties.
+
+```{r}
+
+algaes_product <- read.csv(here("clean_databases/product_algae_NHC.csv"))
+
+exports_algae_discount <- exports_tons %>% 
+  left_join(algaes_product, by= c("sc_name", "species", "year", "region")) %>% 
+  mutate(tons= ifelse(is.na(tons), 0, tons)) %>% 
+  mutate(export_total = exports-tons)
+  
+
+
+
+```
+
 
 
 ## Combining all datasets!
 
 ```{r}
 database1_complete <- landings %>% 
-  full_join(aquaculture, by= c("year", "region", "species", "variable", "sc_name")) %>%
+  full_join(aquaculture, by= c("year", "region", "species", "variable", "sc_name", "en_name")) %>%
   full_join(exports, by= c("year", "region", "species", "variable", "sc_name"))
 
 ##Save as intermediate file in ordet to compare with yield_DHC
@@ -136,6 +153,23 @@ sp_model <- unique(database1_complete[c("species", "sc_name")])
 
 ##write.csv(sp_model, here("clean_databases/intermediate/sp_model.csv"), row.names=F)
 ```
+
+
+## Calculation a t a national level
+```{r}
+model_national <- database1_complete %>% 
+  group_by(year, sc_name, variable) %>% 
+  summarise(catch_nat= sum(catch, na.rm = T),
+            aquaculture_nat = sum(aquaculture, na.rm = T),
+            exports_nat = round(sum(exports, na.rm = T), 2)) %>% 
+  filter(variable == "tonnes") %>% 
+  left_join(sp_index, by = "sc_name")
+  
+```
+
+
+
+
 
 ## Add DHC proportion
 
@@ -151,11 +185,89 @@ NSS_model1 <- database1_complete %>%
   left_join(DHC_yield, by= c("species", "sc_name")) %>% 
   select(species_es= species, species_en, sc_name, year, region, variable, catch, aquaculture, exports, DHC_pop = mean_yield)
 
+##Save
 
 
 ```
 
-## Adding the tonnes thet are not for direct human consumption
+## Subtracting the tonnes that are not for direct human consumption
+
+According to the type of product produced from each specie we calculated the amount that does not go to direct human consumption. The first step of the model is to discount those amount form the total landings
+
+```{r}
+
+model1_tonnes <- NSS_model1 %>% 
+  filter(variable== "tonnes") %>% 
+  select(species_es, species_en, sc_name, year, region, landings=catch, DHC_pop)
+
+
+##read non-human consumption dataset
+NHC_facilities <- read.csv(here("clean_databases/NHC_m.csv")) %>% 
+  rename(m_nhc = total_NHC)
+
+##read human consumption raw
+HC_facilities_m <- read.csv(here("clean_databases/HC_m.csv")) %>% 
+  rename(m_hc = total_HC_m)
+
+##read human consumption products
+HC_facilities_p <- read.csv(here("clean_databases/HC_p.csv")) %>% 
+  rename(p_hc = total_HC_p)
+
+##join to overall model matrix 
+HC_model_landings <- model1_tonnes %>% 
+  left_join(NHC_facilities, by = c("sc_name", "year", "region")) %>% 
+  left_join(HC_facilities_m, by = c("sc_name", "year", "region")) %>% 
+  left_join(HC_facilities_p, by = c("sc_name", "year", "region")) %>%
+  mutate(landings = ifelse(is.na(landings), 0, landings),
+         m_nhc = ifelse(is.na(m_nhc), 0, m_nhc),
+         m_hc = ifelse(is.na(m_hc), 0, m_hc),
+         p_hc = ifelse(is.na(p_hc), 0, p_hc)) %>% 
+  mutate(L_HC = landings - m_nhc) %>% 
+  mutate(L_playa = L_HC - m_hc) %>% 
+  mutate(hc_facilities = m_hc - p_hc) %>% 
+  mutate(hc_playa = L_playa*DHC_pop) %>% 
+  mutate(total_HC = hc_playa + hc_facilities)
+
+##Model sin algas
+  
+##read NHC sin algas
+# NHC_facilities_sin_algas <- read.csv(here("clean_databases/NHC_sin_algas.csv"))%>% 
+#   rename(m_nhc = total_NHC)
+# 
+# HC_model_sin_algas <- model1_tonnes %>% 
+#   left_join(NHC_facilities_sin_algas, by = c("sc_name", "year", "region")) %>% 
+#   left_join(HC_facilities_m, by = c("sc_name", "year", "region")) %>% 
+#   left_join(HC_facilities_p, by = c("sc_name", "year", "region")) %>% 
+#   filter(!species %in% c("CHASCA", "CHASCON O HUIRO NEGRO", "CHICOREA DE MAR", "COCHAYUYO", "HUIRO", "HUIRO PALO", "LECHUGUILLA", "LIQUEN GOMOSO", "LUCHE", "LUGA CUCHARA O CORTA", "LUCHA CUCHARA O CORTA", "LUGA NEGRA O CRESPA", "LUGA NEGRA", "LUGA-ROJA", "LUGA ROJA", "PELILLO", "ALGAS MIXTAS", "CAROLA", "HUIRO NEGRO O CHASCON", "HUIRO NEGRO", "HAEMATOCOCCUS", "SPIRULINA", "LUGA LUGA"))
+
+```
+
+
+
+
+
+
+
+
+Top fisheries for human consumption per region
+
+```{r}
+
+top_5_hc_reg <- HC_model_landings %>% 
+  group_by(year, region) %>% 
+  top_n(5, total_HC) %>% 
+  data.frame()
+
+
+
+
+
+
+
+```
+
+
+
 
 
 # Creating the second dataframe: Including landings, aquaculture harvest, exports and imports at a species group lavel and at a national scale

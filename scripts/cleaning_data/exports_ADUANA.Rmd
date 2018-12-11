@@ -64,27 +64,27 @@ exports_yr <- exports_all %>%
   rename(item_sa_17 = item_sa)
 
 
-## importing tabla de correccion to match item_sa from year previous to 2017
-correction_table <- read_excel(here('information/raw_databases/ADUANAS_CHILE/arancel_aduanero_nomenclatura/tablas_correlacion/tabla_correccion_12_17.xlsx')) %>% 
-  rename(item_sa_12= "ARANCEL 2012", item_sa_17="ARANCEL 2017") %>% 
-  filter(!is.na(item_sa_12)) %>% 
-  mutate(item_sa_12 = gsub("[.]","",item_sa_12)) %>% 
-  mutate(item_sa_17 = gsub("[.]","",item_sa_17))
-
-
-##Correcting item_sa for year previous to 2017
-## Note: parece que lo que hace el arancel aduanero del 2017 es agregar más categorías que antes no existían par los productos del 2017 en adelante! por lo tanto no hay que hacer la corresccion.  
-#Esto fue lo que hice para ver que no habian diferencias entres los item_sa del 2012 y 2017 para los años 2013, 2014, 2015 y 2016:
-
-export_correct <- exports_yr %>% 
-  left_join(correction_table, by = "item_sa_17") 
-
-test2 <- export_correct %>% 
-  filter(!year %in% c(2017, 2018)) %>% 
-  filter(!is.na(item_sa_12))
-setdiff(test2$item_sa_17, test2$item_sa_12)
-
-##Resultado: character(0)
+# ## importing tabla de correccion to match item_sa from year previous to 2017
+# correction_table <- read_excel(here('information/raw_databases/ADUANAS_CHILE/arancel_aduanero_nomenclatura/tablas_correlacion/tabla_correccion_12_17.xlsx')) %>% 
+#   rename(item_sa_12= "ARANCEL 2012", item_sa_17="ARANCEL 2017") %>% 
+#   filter(!is.na(item_sa_12)) %>% 
+#   mutate(item_sa_12 = gsub("[.]","",item_sa_12)) %>% 
+#   mutate(item_sa_17 = gsub("[.]","",item_sa_17))
+# 
+# 
+# ##Correcting item_sa for year previous to 2017
+# ## Note: parece que lo que hace el arancel aduanero del 2017 es agregar más categorías que antes no existían par los productos del 2017 en adelante! por lo tanto no hay que hacer la corresccion.  
+# #Esto fue lo que hice para ver que no habian diferencias entres los item_sa del 2012 y 2017 para los años 2013, 2014, 2015 y 2016:
+# 
+# export_correct <- exports_yr %>% 
+#   left_join(correction_table, by = "item_sa_17") 
+# 
+# test2 <- export_correct %>% 
+#   filter(!year %in% c(2017, 2018)) %>% 
+#   filter(!is.na(item_sa_12))
+# setdiff(test2$item_sa_17, test2$item_sa_12)
+# 
+# ##Resultado: character(0)
 
 ```
 
@@ -120,6 +120,57 @@ write.csv(match_exports,here("clean_databases/exports_ADUANA.csv"), row.names=F)
 
 ```
 
+
+Matching exports with item_sa and removing items that are not for human consumption to avoid double accounting when imputing this information to the HC model. 
+We assume that all products for no human consumption (oil, fish meal, agar, alginato, carragenina, colagar and dry algae) go to a facility therefor we descount this directly to the landings (see script of Scope 3)
+
+Items SA that for the products we are removing:
+Fish meal:
+2301.2011
+2301.2012
+2301.2013
+2301.2021
+2301.2022
+2301.2029
+2301.2090
+Fish oil
+1603.0000 --> this item is not included in our database so we do not need to remove it.
+algas secas
+1212.2110
+1212.2120
+1212.2130
+1212.2140
+1212.2150
+1212.2160
+1212.2170
+1212.2190
+1212.2910
+1212.2920
+1212.2930
+1212.2940
+1212.2950
+1212.2960
+1212.2970
+1212.2990
+Agar
+1302.3100
+
+
+```{r}
+
+match_exports_no_NHC <- exports_yr %>% 
+  left_join(cod_aduana_sp, by = "item_sa_17") %>% 
+  filter(!is.na(especie_SERNAPESCA)) %>%
+  filter(!item_sa_17 %in% c("23012011", "23012012", "23012013", "23012021", "23012022", "23012029", "23012090", "12122110", "12122120", "12122130", "12122140", "12122150", "12122160", "12122170", "12122190", "12122910", "12122920", "12122930", "12122940", "12122950", "12122960", "12122970", "12122990", "13023100"))
+  group_by(year, region, especie_SERNAPESCA, nombre_cientifico_SERNAPESCA) %>% 
+  summarise(tons = sum(tons, na.rm = T),
+            value = sum(value_fob, na.rm = T)) %>% 
+  ungroup() %>% 
+  mutate(value = ifelse(year != 2016, value/100, value))
+  
+  
+
+```
 
 
 
