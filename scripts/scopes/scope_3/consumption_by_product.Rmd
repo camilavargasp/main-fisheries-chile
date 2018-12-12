@@ -7,6 +7,13 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+
+
+
+##Read sp_index
+species_index <- read.csv(here("clean_databases/sp_index.csv")) %>% 
+  rename(species = chl_name) %>% 
+  select(species, sc_name, en_name)
 ```
 
 Approch to HC by type of products
@@ -19,24 +26,79 @@ Approch to HC by type of products
 ##Human consuption products
 HC_products <- read.csv(here("clean_databases/products_HC.csv")) %>% 
   group_by(year, species, product) %>% 
-  summarise(tonnes = sum(tons, na.rm = T)) %>% 
-  ungroup()
+  summarise(tonnes = sum(tons, na.rm = T)) %>%
+  mutate(type = "product",
+         use= "HC") %>% 
+  ungroup() %>% 
+  left_join(species_index, by= "species") %>% 
+  select(year, species, product, sc_name, en_name, tonnes, type, use)
 
 ##No human consumption products
 NHC_raw <- read.csv(here("clean_databases/raw_NHC.csv")) %>% 
   group_by(year, species, product) %>% 
   summarise(tonnes = sum(tons, na.rm = T)) %>% 
+  mutate(type = "raw")
   ungroup()
 
+## No human  consupmtion products (this is waht is going to be exported)  
+  NHC_product <- read.csv(here("clean_databases/product_NHC.csv")) %>% 
+  mutate(species = as.character(species)) %>% 
+  group_by(year, species, product, sc_name, en_name) %>% 
+  summarise(tonnes = sum(tons, na.rm = T)) %>% 
+  mutate(type = "product",
+         use= "NHC") %>% 
+  ungroup()
+    
+
+  
 ##Export per product
 export_product <- read.csv("information/raw_databases/IFOP/product_exports_tons_value.csv") %>% 
-  rename(product = X...Product)
+  rename(product = X...Product) %>% 
+  mutate(use = ifelse(product %in% c("Agar-Agar", "Alginate", "Alginic acid", "Carrageenans", "Colagar", "Dried algae ", "Fish meal", "Natural polymer", "Oil"), "NHC", "HC")) %>% 
+  mutate(product = str_to_lower(product)) %>% 
+  mutate(product = ifelse(product == "agar-agar", "agar", product)) %>% 
+   mutate(product = ifelse(product== "dried", "dehydrate", product))
+  
+
+
+##combain HC and NHC products in one dataframe
+process_products <- rbind(HC_products, NHC_product) %>%
+  mutate(product = as.character(product)) %>%
+  mutate(product = ifelse(product == "alginato", "alginate", product)) %>%
+  mutate(product = ifelse(product== "dry algae", "dried algae", product)) %>% 
+  mutate(product = ifelse(product== "salty dry", "dried and salted", product)) %>% 
+  mutate(product = ifelse(product== "salty wet", "salted", product)) %>% ##???
+  mutate(product = ifelse(product== "carragenina", "carrageenans", product)) %>% 
+  mutate(year = ifelse(year== 20156, 2015, year))
+ 
+  ##Add totals per product
+process_product_totals <- process_products %>% 
+  group_by(year, product) %>% 
+  summarise(total_tonnes = sum(tonnes))
+
+
+##Combine with exports
+type_product_model <- process_product_totals %>% 
+  left_join(export_product, by = c("year", "product")) %>% 
+  rename(produced = total_tonnes, exports = tons) %>% 
+  mutate(domestic = produced - exports) %>% 
+  filter(use== "HC")
+
+
+
+
 
 
 ```
 
-Adding all species formone product
+Adding all species from one productper year
 
+```{r}
+
+
+
+
+```
 
 
 
