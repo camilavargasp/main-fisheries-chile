@@ -548,6 +548,10 @@ A further analysis is to incorporate the conversion of how much of the weight of
 
 - We are still lacking data that allow us to link specific fisheries with industrial employment and income. We are in conversations to get data on vessels crew and landing which would allow us to do that.
 
+- Most importants species and products in terms of food consumption. 
+- Trends in food consumption.
+- Lack of understanding on what species are the most important for domestic consumption. Only one serious attempt (@villena_diagnostico_2012). 
+- Despite its massive production, aquaculutre is not a major source of food supply for the Chilean population. Most of its production is exported and the species being farmed either go to non-human consumption (algae) or are too expenssive to be accessed by lower income groups which is the population of interest in the contxt of food security. 
 
 
 ## References
