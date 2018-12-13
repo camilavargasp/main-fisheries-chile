@@ -74,19 +74,22 @@ l.a <- read_csv(here("clean_databases/landings_SERNAPESCA.csv")) %>%
   select(-international_waters, -month) %>% 
   rename(chl_name = species) %>% 
   left_join(chl_to_sc) %>% 
-  select(-chl_name, -subsector)
+  select(-chl_name, -subsector) %>% 
+  group_by(sc_name, year) %>% 
+  summarise(tons= sum(tons))
 
 l.a$tons[is.na(l.a$tons)] <- 0  
 
 # Landings industrial
 
 l.i <- read_csv(here("clean_databases/landings_SERNAPESCA.csv")) %>% 
-    mutate(subsector = ifelse(subsector == 'fabric_vessel', 'industrial', subsector)) %>% 
     filter(region != 'national', subsector == 'industrial') %>% 
     select(-international_waters, -month)%>% 
     rename(chl_name = species) %>% 
     left_join(chl_to_sc) %>% 
-    select(-chl_name, -subsector)
+    select(-chl_name, -subsector) %>% 
+  group_by(sc_name, year) %>% 
+  summarise(tons= sum(tons))
 
 l.i$tons[is.na(l.i$tons)] <- 0
 
@@ -544,7 +547,9 @@ processing_minus_ind <- processing %>%
   select(-use, -m_p, -product) %>% 
   left_join(chl_to_sc) %>% 
   select(-chl_name) %>% 
-  left_join(l.i, by= c('year', 'region', 'sc_name')) %>% 
+  group_by(year, sc_name) %>% 
+  summarise(tons = sum(tons)) %>% 
+  left_join(l.i, by= c('year', 'sc_name')) %>% 
   mutate(tons_raw = as.numeric(tons.x), tons_ind = as.numeric(tons.y)) %>% 
   select(-tons.x, -tons.y)
   
