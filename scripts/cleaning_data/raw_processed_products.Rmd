@@ -264,7 +264,7 @@ algaseca_2015 <- read_excel(here("information/raw_databases/SERNAPESCA/products/
   mutate (product = 'dry algae', year = 2015, tons = ifelse(tons == "-", 0, tons)) %>%
   rename(species =  ESPECIE)
 
-algaseca_2016 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2016.xlsx"), sheet = "ALGA SECA_REGION", range = "A6:Q34") %>%
+algaseca_2016 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2016.xlsx"), sheet = "ALGA SECA_REGION", range = "A6:P34") %>%
   rename(m_p= X__1) %>% 
   filter(m_p == "M") %>% 
   select(-m_p)%>%
@@ -499,7 +499,7 @@ saladoseco_2016 <- read_excel(here("information/raw_databases/SERNAPESCA/product
   filter(m_p == "P") %>% 
   select(-m_p)%>%
   gather(key = region, value = tons, 2:16)%>% 
-  mutate (product = 'salty dry', year = 20156, tons = ifelse(tons == "-", 0, tons)) %>%
+  mutate (product = 'salty dry', year = 2016, tons = ifelse(tons == "-", 0, tons)) %>%
   rename(species =  ESPECIE)
 
 saladoseco_2017 <- read_excel(here("information/raw_databases/SERNAPESCA/products/products_per_species_region_month_2017.xlsx"), sheet = "SALADO SECO_REGION", range = "A6:Q8") %>%
@@ -767,7 +767,7 @@ congelado_2017_m <- read_excel(here("information/raw_databases/SERNAPESCA/produc
   filter(m_p == "M") %>% 
   select(-m_p)%>%
   gather(key = region, value = tons, 2:16)%>% 
-  mutate (product = 'frozen', year = 2016, tons = ifelse(tons == "-", 0, tons)) %>% 
+  mutate (product = 'frozen', year = 2017, tons = ifelse(tons == "-", 0, tons)) %>% 
   rename(species =  ESPECIE)
 
 ## Salado_Seco
