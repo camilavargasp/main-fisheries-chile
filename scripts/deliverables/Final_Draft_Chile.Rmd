@@ -480,7 +480,7 @@ net_trade_six_more_exported
 
 #### Species contribution to Human and Non-human consumption
 
-The main species 
+We looked into landing aquaculture and raw material that goes to processing facilities in order to evaluate what are the main species that are contributing to human consumption. Our results show that accounting landing plus aquiculture harvest, the main species that contribute to human consumption are Atlantic Slamon (*Salmo salar*) and the Chilean Mussel (*Mytilus chilensis*), two of the main aquaculture products from Chile (Figure sp_HC_with_Aq). On the other hand species that are used for non-human consumptions are Peruvian Anchoveta (*Engraulis ringens*) Araucarian Herring (*Strangomera bentincki*), the two main wild-caught fisheries of the country (Figure Figure sp_HC_with_Aq). The contribution of each specie to human consumption and non human consumption is relativly stable through time.
 
 ```{r Species in HC products, echo = FALSE, warning=FALSE, message=FALSE}
 
@@ -541,21 +541,19 @@ sp_HC_no_Aq <- sp_HC_no_Aq %>%
   ggtheme_plot()
 ```
 
-Considering aquiculture, results show that the main species that contribute to human consumption are Atlantic Slamon (*Salmo salar*) and the Chilean Mussel (*Mytilus chilensis*), two of the main aquaculture products from Chile (Figure sp_HC_with_Aq). On the other hand species that are used for non-human consumptions are Peruvian Anchoveta (*Engraulis ringens*) Araucarian Herring (*Strangomera bentincki*), the two main wild-caught fisheries of the country (Figure Figure sp_HC_with_Aq). The contribution of each specie to human consumption and non human consumption is relativly stable through time.
 
-```{r figure  }
+```{r figure, fig.cap= }
 sp_HC_with_Aq
 ```
 
-Within the wild-cought species, the one that have historically contributed more to human consumption products are: Chilean Jack Mackerel (*Trachurus murphyi*), Jumbo flying squid (*Dosidicus gigas*), and in a minor contribution Sea Urchins (*Loxechinus albus*) (Figure sp_HC_no_Aq). These results also show that the amount of with caught fiheries that go to non-human consumption is more than the double and some years the triple of that that goes to human consumption.
+Within the wild-cought species, the one that have historically contributed more to human consumption products are: Chilean Jack Mackerel (*Trachurus murphyi*), Jumbo flying squid (*Dosidicus gigas*), and in a minor contribution Sea Urchins (*Loxechinus albus*) (Figure sp_HC_no_Aq). These results also show that the amount of with caught fiheries that go to non-human consumption is more than the double and some years the triple of what that goes to human consumption.
 
 
 ```{r figure species for HC w_no aq echo= FALSE, message=FALSE, warning=FALSE}
 sp_HC_no_Aq
 ```
 
-
-In Chile, almost all $L_i$ and $Aq$ are send to processing facilities while only some of the $L_a$ is processed. We assume that the rest of the artisanals' catch that is not sent to processing facilities is sold as non-processed products for human consumption ($NP_{HC}$).
+In Chile, almost all industrial landings ($L_i$) and aquaculture harvest ($Aq$) go to processing facilities while only some of the artisanal landing ($L_a$) is processed. We assume that the rest of the artisanals' catch that is not sent to processing facilities is sold as non-processed products for human consumption ($NP_{HC}$).
 
 
 ```{r Non-processed Human consumption, echo= FALSE, message=FALSE, warning=FALSE}

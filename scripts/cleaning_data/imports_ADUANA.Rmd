@@ -77,8 +77,9 @@ cod_aduana_imports <- read_csv(here("information/raw_databases/ADUANAS_CHILE/imp
 
 ## maching segun codigo aduanero
 
-match_imports <- imports_yr %>% 
-  left_join(cod_aduana_imports, by = "item_sa") 
+match_imports <- cod_aduana_imports %>% 
+  left_join(imports_yr, by = "item_sa") %>% 
+  select(year, name_sp, sc_name, tons, value_us)
 
 ```
 
@@ -89,6 +90,14 @@ match_imports <- imports_yr %>%
 write.csv(match_imports,here("clean_databases/imports_ADUANA.csv"), row.names=F)
 ```
 
+##Extra
+```{r}
+##save a csv to match import sn export groups
+
+imports_groups <- unique(match_imports$name_sp)
+
+
+```
 
 
 

@@ -555,11 +555,14 @@ HC <- c('fresh', 'frozen', 'salty dry', 'salty wet', 'smoked', 'canned', 'dehydr
 processing <- dplyr::bind_rows(aceite_2013, aceite_2014, aceite_2016, agar_2013, agar_2014, agar_2015, agar_2016, alginato_2015, carragenina_2013, carragenina_2015, carragenina_2016, colagar_2013, colagar_2014, colagar_2015, colagar_2016, harina_2013, harina_2014, harina_2015, harina_2016, harina_2017, algaseca_2013 ,algaseca_2014 ,algaseca_2015 ,algaseca_2016 ,algaseca_2017, FE_2013, FE_2014, FE_2015, FE_2016, FE_2017, congelado_2013, congelado_2014, congelado_2015,congelado_2016 ,congelado_2017 ,saladoseco_2014 ,saladoseco_2015 ,saladoseco_2016 ,saladoseco_2017 ,saladohumedo_2013, saladohumedo_2014 ,saladohumedo_2016 ,saladohumedo_2017, ahumado_2013 ,ahumado_2014,ahumado_2015 ,ahumado_2016 ,ahumado_2017,conserva_2013 , conserva_2014, conserva_2015 ,conserva_2016 ,conserva_2017 ,deshidratado_2013 , deshidratado_2015 ,deshidratado_2016) %>% 
 mutate(use = ifelse(product %in% HC, 'HC', 'NHC'), tons = as.numeric(tons))
 
+##Save to call on draft
+write.csv(processing, here("clean_databases/processing.csv"), row.names = F)
+
 ```
 
 ### What species contribute the most to HC and NHC products?
 
-We use the volume of each species that goes into processing facilities to estimate their contribution to human consumption and non human consumption products. We them explore how this changes if we remove aquaculture inputs to see the species from fisheries that contribute the most. 
+We use the volume of each species that goes into processing facilities to estimate their contribution to human consumption and non human consumption products. We then explore how this changes if we remove aquaculture inputs to see the species from fisheries that contribute the most. 
 
 ```{r Species in HC products, echo = FALSE, warning=FALSE, message=FALSE}
 
