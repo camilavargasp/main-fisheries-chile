@@ -55,11 +55,7 @@ sp_index <- read_csv(here("clean_databases/sp_index.csv"))
 
 ## Landings
 
-Landings come either from industrial, which includes fabric vessels ($l_i$), or artisanal vessels ($l_a$).
-
-## Types of product use
-
-Landings can either be sold as fresh products for huamn consumption ($F_{HC}$) go to processing facilities where they will be transformed in products for human consumption ($P_{HC}$) or products for other uses ($P_{NHC}$). In both processes there are discards ($D_{HC}, D_{NHC}$) that can be represented as the differences between what entered the processing facility as raw material ($D_{HC} = R_{HC} - P_{HC}$, $D_{NHC} = R_{NHC} - P_{NHC}$ ). 
+Landings come either from industrial, which includes fabric vessels ($l_i$), or artisanal vessels ($l_a$). Here, we assume that all $l_i$ are send to processing facilities while $l_a$ can either go to processing facilities or be sold as non-processed products, which we assume, are used for HC ($NP_{HC}$).
 
 ```{r Landings, echo = FALSE, message = FALSE, warning=FALSE}
 
@@ -74,23 +70,49 @@ l.a <- read_csv(here("clean_databases/landings_SERNAPESCA.csv")) %>%
   select(-international_waters, -month) %>% 
   rename(chl_name = species) %>% 
   left_join(chl_to_sc) %>% 
-  select(-chl_name, -subsector)
+  select(-chl_name, -subsector) %>% 
+  group_by(sc_name, year) %>% 
+  summarise(tons= sum(tons, na.rm=TRUE))
 
 l.a$tons[is.na(l.a$tons)] <- 0  
 
 # Landings industrial
 
 l.i <- read_csv(here("clean_databases/landings_SERNAPESCA.csv")) %>% 
-    mutate(subsector = ifelse(subsector == 'fabric_vessel', 'industrial', subsector)) %>% 
     filter(region != 'national', subsector == 'industrial') %>% 
-    select(-international_waters, -month)%>% 
+    select(-international_waters, -month, -subsector)%>% 
     rename(chl_name = species) %>% 
     left_join(chl_to_sc) %>% 
-    select(-chl_name, -subsector)
+    select(-chl_name) %>% 
+    group_by(sc_name, year) %>% 
+    summarise(tons= sum(tons, na.rm = TRUE))
 
 l.i$tons[is.na(l.i$tons)] <- 0
 
 ```
+
+## Aquaculture
+
+Aquaculture ($Aq$) reffers to the harvest of different species being farmed at the sea or freshwater centers. We assume all the volumes coming from aquaculture center enter processing facilities. 
+
+```{r Aquaculture, echo=FALSE, message=FALSE, warning= FALSE}
+
+Aq <- read_csv(here("clean_databases/aquaculture_SERNAPESCA.csv")) %>% 
+  filter(region != 'national') %>% 
+  select(-subsector, -month) %>% 
+  rename(chl_name = species) %>% 
+  left_join(chl_to_sc) %>% 
+  group_by(year, sc_name) %>% 
+  summarise(tons=sum(tons, na.rm=TRUE))
+  
+Aq$tons[is.na(Aq$tons)] <- 0
+```
+
+## Lines of prduction
+
+Landings can either be sold as non-processed products ($NP_{HC}$) or go to processing facilities where they will be transformed in products for human consumption ($P_{HC}$) or products for other uses ($P_{NHC}$). In our analisys we are considering the following types of products to be use for human consumption: fresh, frozen, salty dry, salty wet, smoked, canned, dehydrate. While fish meal, oil, dehydrate, dried algae, and other algae derivatives are use for non human consumption. 
+
+In the processesing of both products for HC and for NHC there are discards ($D_{HC}, D_{NHC}$) that can be represented as the differences between what entered the processing facility as raw material and what left it as processed product ($D_{HC} = R_{HC} - P_{HC}$, $D_{NHC} = R_{NHC} - P_{NHC}$ ). 
 
 ```{r Lines of production, echo = FALSE, message=FALSE, warning=FALSE}
 
@@ -528,31 +550,140 @@ colagar_2017 <- read_excel(here("information/raw_databases/SERNAPESCA/products/p
 
 # Combining p_nhc
 
-HC <- c('fish meal', 'fresh', 'frozen', 'salty dry', 'salty wet', 'smoked', 'canned', 'dehydrate')
+HC <- c('fresh', 'frozen', 'salty dry', 'salty wet', 'smoked', 'canned', 'dehydrate')
 
 processing <- dplyr::bind_rows(aceite_2013, aceite_2014, aceite_2016, agar_2013, agar_2014, agar_2015, agar_2016, alginato_2015, carragenina_2013, carragenina_2015, carragenina_2016, colagar_2013, colagar_2014, colagar_2015, colagar_2016, harina_2013, harina_2014, harina_2015, harina_2016, harina_2017, algaseca_2013 ,algaseca_2014 ,algaseca_2015 ,algaseca_2016 ,algaseca_2017, FE_2013, FE_2014, FE_2015, FE_2016, FE_2017, congelado_2013, congelado_2014, congelado_2015,congelado_2016 ,congelado_2017 ,saladoseco_2014 ,saladoseco_2015 ,saladoseco_2016 ,saladoseco_2017 ,saladohumedo_2013, saladohumedo_2014 ,saladohumedo_2016 ,saladohumedo_2017, ahumado_2013 ,ahumado_2014,ahumado_2015 ,ahumado_2016 ,ahumado_2017,conserva_2013 , conserva_2014, conserva_2015 ,conserva_2016 ,conserva_2017 ,deshidratado_2013 , deshidratado_2015 ,deshidratado_2016) %>% 
 mutate(use = ifelse(product %in% HC, 'HC', 'NHC'), tons = as.numeric(tons))
 
 ```
 
-```{r Landing playa, echo= FALSE, message=FALSE, warning=FALSE}
+### What species contribute the most to HC and NHC products?
+
+We use the volume of each species that goes into processing facilities to estimate their contribution to human consumption and non human consumption products. We them explore how this changes if we remove aquaculture inputs to see the species from fisheries that contribute the most. 
+
+```{r Species in HC products, echo = FALSE, warning=FALSE, message=FALSE}
+
+## Species matching english scientific
+sc_to_en <- sp_index %>% 
+  select(sc_name, en_name) %>% 
+  unique()
+
+## Most important species based on  contribution to HC with Aquaculture
+
+sp_HC_with_Aq <- processing %>%
+  filter(m_p == 'M') %>% # Puedes comparar M y P si encuentras q es interesante
+  left_join(chl_to_sc) %>%
+  group_by(year, sc_name, use) %>%
+  summarise(tons = sum(tons, na.rm = TRUE)) %>% 
+  arrange(year, desc(tons)) %>% 
+  group_by(year, use) %>% 
+  top_n(5, tons) %>%
+  left_join(sc_to_en) %>% 
+  rename(species = en_name) %>% 
+  ggplot(aes(x= as.factor(year), y = tons/1000, fill = species)) +
+  geom_bar(stat= 'identity') +
+  labs(y="Tons (Thousand tons)", x="Year")+
+  scale_y_continuous(expand = c(0,0))+
+  scale_fill_manual(values = c(wes_palette("Darjeeling1"), wes_palette("Darjeeling2"), wes_palette("Royal1")))+
+  facet_wrap(~use, scale = 'free')+
+  ggtheme_plot()
+  
+## Without Aquaculture (this assumed that all Aq goes to processing facilities). Fr this one we use raw material no?
+
+sp_HC_no_Aq <- processing %>%
+  filter(m_p == 'M') %>% # Puedes comparar M y P si encuentras q es interesante
+  left_join(chl_to_sc) %>%
+  group_by(year, sc_name, use) %>%
+  summarise(tons = sum(tons, na.rm = TRUE)) %>% 
+  left_join(Aq, by = c('sc_name', 'year')) %>% 
+  rename(tons_raw = tons.x, tons_Aq = tons.y) 
+
+sp_HC_no_Aq$tons_Aq[is.na(sp_HC_no_Aq$tons_Aq)] <- 0
+  
+sp_HC_no_Aq <- sp_HC_no_Aq %>%
+  mutate(tons = tons_raw - tons_Aq) %>% 
+  arrange(year, desc(tons)) %>% 
+  group_by(year, use) %>% 
+  top_n(5, tons) %>% 
+  left_join(sc_to_en) %>% 
+  rename(species = en_name) %>% 
+  ggplot(aes(x= as.factor(year), y = tons/1000, fill = species)) +
+  geom_bar(stat= 'identity') +
+  labs(y="Tons (Thousand tons)", x="Year")+
+  scale_y_continuous(expand = c(0,0))+
+  scale_fill_manual(values = c(wes_palette("Darjeeling1"), wes_palette("Darjeeling2"), wes_palette("Royal1")))+
+  facet_wrap(~use, scale = 'free')+
+  ggtheme_plot()
+
+```
+
+### Regression for oil data 2015
+
+There is no data on how many tons did each species contributed to oil production in 2015, yet we know from other sources, that oil was produced in this year. We use the average volume of each species use in oil production over the years to get an estimate for 2015 and fill this data gap.
+
+```{r filling oil raw material for 2015, echo = FALSE, message=FALSE, warning= TRUE}
+
+mean_oil_sp <- processing %>% 
+  filter(product == 'oil', m_p == 'M') %>% 
+  left_join(chl_to_sc) %>% 
+  group_by(year, sc_name) %>% 
+  mutate(mean_oil = mean(tons, na.rm = TRUE))
+
+## Since oil is a reprocessed product there is no data on how much each species contirbute as raw material. So we will just remove it from the analysis.
+```
+
+
+### Estimating volume of non-processed products for human consumption
+
+In Chile, almost all $L_i$ and $Aq$ are send to processing facilities while only some of the $L_a$ is processed. We assume that the rest of the artisanals' catch that is not sent to processing facilities is sold as non-processed products for human consumption ($NP_{HC}$). To get an estimate of $NP_{HC}$ we substracted $Aq$ and $L_i$ to all the raw material entering processing facilities and use the residual as the volume of $L_a$ that is processed. We then, substracted this volume from $L_i$ to get $NP_{HC}$, which is the rest of the artisanals' catch that is not being processed. The assumptions behind this method are (i) that all the raw material in processing facilities that is not being supplied by industrial fishing or aquaculture is supplied by artisanals, and (ii) all the catch that artisanals do not sell to processing facilities is used for human consumption.
+
+```{r Non-processed Human consumption, echo= FALSE, message=FALSE, warning=FALSE}
 
 ## Raw material in processing plants with scientific name per region and year
 
-processing_minus_ind <- processing %>% 
+processing_minus_ind_Aq <- processing %>% 
   filter(m_p== 'M', tons !=0) %>% 
   select(-use, -m_p, -product) %>% 
   left_join(chl_to_sc) %>% 
   select(-chl_name) %>% 
-  left_join(l.i, by= c('year', 'region', 'sc_name')) %>% 
+  group_by(year, sc_name) %>% 
+  summarise(tons = sum(tons, na.rm = TRUE)) %>% 
+  left_join(l.i, by= c('year', 'sc_name')) %>% #How much of each sp comes from Li? 
   mutate(tons_raw = as.numeric(tons.x), tons_ind = as.numeric(tons.y)) %>% 
-  select(-tons.x, -tons.y)
+  select(-tons.x, -tons.y) %>% 
+  left_join(Aq, by=c('sc_name', 'year')) %>% #How much of each sp comes from Aq?
+  rename(tons_Aq = tons)
+
+processing_minus_ind_Aq$tons_ind[is.na(processing_minus_ind_Aq$tons_ind)] <- 0
+processing_minus_ind_Aq$tons_Aq[is.na(processing_minus_ind_Aq$tons_Aq)] <- 0
+
+processing_minus_ind_Aq <- processing_minus_ind_Aq %>% 
+  mutate(tons_art= tons_raw - tons_ind - tons_Aq) 
+
+## Substracting artisanal catch that goes to faiclities to artisanal landings to get the rest (non-processed human consumption)
+
+NP_HC <- l.a %>%
+  left_join(processing_minus_ind_Aq, by= c('sc_name', 'year')) %>% 
+  select(year, sc_name, tons_landed = tons, tons_processed= tons_art) %>% 
+  mutate(tons_processed = ifelse(tons_processed < 0, 0, tons_processed)) %>% 
+  mutate(tons_NP_HC = tons_landed - tons_processed)
+
+## Plot
+
+NP_HC_plot <-NP_HC %>% 
+  arrange(year, desc(tons_NP_HC)) %>%
+  group_by(year) %>% 
+  top_n(5, tons_NP_HC) %>% 
+  left_join(sc_to_en) %>% 
+  select(year, species= en_name, tons = tons_NP_HC) %>% 
+  filter(year != 2015) %>%  # There is no data for oil
+  ggplot(aes(x= as.factor(year), y = tons/1000, fill = species)) +
+  geom_bar(stat= 'identity') +
+  labs(y="Tons of non-processed HC (Thousand tons)", x="Year")+
+  scale_y_continuous(expand = c(0,0))+
+  scale_fill_manual(values = c(wes_palette("Darjeeling1"), wes_palette("Darjeeling2"), wes_palette("Moonrise1")))+
+  ggtheme_plot()
   
-processing_minus_ind$tons_ind[is.na(processing_minus_ind$tons_ind)] <- 0
-
-processing_minus_ind <- processing_minus_ind %>% 
-  mutate(no_ind_raw = tons_raw - tons_ind) 
-
-
+  
 ```
 
