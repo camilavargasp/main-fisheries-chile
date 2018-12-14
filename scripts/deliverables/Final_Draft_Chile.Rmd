@@ -94,7 +94,26 @@ To evaluate the volume contirbution of specific fisheries over the last five yea
 
 #### Estimating National Seafood Supply
 
-Forthcoming
+We combined data from Chilean Customs (ADUANAS Chile) and the National Service of Fisheries and Aquaculture (SERNAPESCA) to generate two main databases on the number of tons that are catches, harvested, exported and imported for all marine species in Chile. All the databases we use were available at the agencies' websites at the following links [National Service of Fisheries](http://www.sernapesca.cl/informes/estadisticas) and [Chilean Customs](http://www.aduana.cl/registros-de-comercio-exterior-datos-agregados/aduana/2017-07-21/113048.html), respectively and were accessed between August and September of 2018.
+
+The specific data-sets we used are:
+
+- Catches: annual tonnes per marine species landed in each region (SERNAPESCA, 2013-2017).
+- Species contribution to different types of products: annual tons per marine species used in each region to elaborate each type of product (i.e. fish meal, oil, canned products, freeze products, dried products, smoked products, agar, col-agar, carragenina) (SERNAPESCA, 2012-2016).
+- Aquaculture: annual tonnes per species harvest from aquaculture centers in each region (SERNAPESCA, 2012-2017).
+- Exports: quantities of all the products exported from each Chilean region to other countries. (ADUANAS, 2013-2018).
+- Imports: quantities of all marine products imported into the country. (ADUANAS, 2013-2018)
+
+ 
+Each product in the original exports and imports data-sets is identified through an id number that matches the name of the product in a code known as the _Arancel Aduanero_. This document was only available to us in .pdf format. Thus, to identified the id of products containing domestically fished and harvest marine species we searched for the names of the fished and harvested species listed by SERNAPESCA in the document with the _Arancel Aduanero_. We searched for all the ids that refer to the species scientific name, common name or genus name as listed by SERNAPESCA and aggregated them under the species name.
+
+We included a column that indicates the number of tonnes of each species that were used in products that are not directly ingested by humans. For this, we assumed that the following categories of products are not for direct human consumption: fish meal, col-agar, agar, carragenina, oil and alginato. Finally, to aggregate all the data at comparable levels we generated broad categories of species based on the imports-data set, which is the one that has less detail at the species level.
+
+Because imports-data is not available at the regional level we generate two databases, (i) one describing tons landed, harvested, exported and imported at the national level per groups of species and (ii) one containing tons landed, harvested and exported at the regional level per species.
+
+We used the R software to clean and format all the available information in long-form databases. All the scripts for replicating our work are available in "scripts/cleaning_data".
+
+We determine the domestic human consumption of marine products through this general model: (Catch - Products not directly for human consumption) + Aquaculture + Imports - Exports. We assumed that all the products that are no exported or are not used in other elaboration process are consumed by the local population. For this report we explore database i mention above, because it has import quantities. 
 
 #### Estimating National Economic Participation
 
@@ -459,6 +478,10 @@ net_trade
 <!--- Here, about the imports of animal products between regions https://es.datachile.io/products/productos-de-origen-animal-01 
 Validar resultados con Informe subsectorial SUBPESCA
 -->
+
+Chile is considered one of the main countries in fishery production worldwide (@fao_estado_2016), however several reports and studies suggest the Chilean population does not consume as many marine products (@gonzales_solo_2018). On average, people consume 10-13 kg a year, compared to the 20 kg a year recommended by Food and Agriculture organization (2016). Looking into what type of seafood the Chilean population consumes, a study done in 2012 shows that 60% of the seafood consume are pelagic fishes, 12% are mollusk and 2% are crustaceans (@villena_marcelo_diagnostico_2012).
+
+
 ** Main fisheries for food supply **
 ** Total and per capita food consumption in the country **
 ** Regional differences in per capita and total consumption **

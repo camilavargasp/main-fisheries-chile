@@ -24,6 +24,17 @@ library(stringr)
 library(purrr) ##install.packages("purrr")
 ```
 
+##Cleanin codigos aduaneros per export groups
+
+```{r}
+cod_aduana_grupo <- read_excel(here("information/raw_databases/ADUANAS_CHILE/arancel_aduanero_nomenclatura/arancel_aduanero_2017/codigos_aduana_por_especie_2017.xlsx"), sheet = "Hoja1", range = "A1:E755") %>%
+mutate(item_sa_17 = gsub("[.]","",codigo_aduana)) %>% 
+select(grupo_exportacion, item_sa_17) %>%
+  filter(!item_sa_17 %in% c("03024900" ,"03025990" ,"03035900", "03045100", "03049300","03053100", "03054400" ,"03055200", "03055400", "03056400","NA")) %>% ##removing cods that are repeated in more than one group, this underestimates aour expeorts but it is hard to clasify i oune group becasue thera are multiple groups involved in these codes
+  unique() #removes repeaed codes withina group
+
+```
+
 
 
 ## Import aduana export data
@@ -88,27 +99,15 @@ exports_yr <- exports_all %>%
 
 ```
 
-## match with species SERNAPESCA data base
+## match with export_groups
 
-```{r}
-## importa data set
-
-cod_aduana_sp <- read_excel(here("information/raw_databases/ADUANAS_CHILE/arancel_aduanero_nomenclatura/arancel_aduanero_2017/codigos_aduana_por_especie_2017.xlsx"), sheet = "Hoja1", range = "A1:G756") %>%
-mutate(item_sa_17 = gsub("[.]","",codigo_aduana))
-
-
-##eliminar espacio previo a la especie
-##hay alguna forma e leer acentos?? (al final cambiamos los acentos a mano pero seria una buea cosa aprender como poder leerlos directamente)
-
-```
 
 ```{r}
 ## match accordig to "codigo aduanero" (item_sa_17)
 
-match_exports <- exports_yr %>% 
-  left_join(cod_aduana_sp, by = "item_sa_17") %>% 
-  filter(!is.na(especie_SERNAPESCA)) %>% 
-  group_by(year, region, especie_SERNAPESCA, nombre_cientifico_SERNAPESCA) %>% 
+match_exports <- cod_aduana_grupo %>% 
+  left_join(exports_yr, by = "item_sa_17") %>% 
+  group_by(year, region, grupo_exportacion) %>% 
   summarise(tons = sum(tons, na.rm = T),
             value = sum(value_fob, na.rm = T)) %>% 
   ungroup() %>% 
@@ -121,56 +120,19 @@ write.csv(match_exports,here("clean_databases/exports_ADUANA.csv"), row.names=F)
 ```
 
 
-Matching exports with item_sa and removing items that are not for human consumption to avoid double accounting when imputing this information to the HC model. 
-We assume that all products for no human consumption (oil, fish meal, agar, alginato, carragenina, colagar and dry algae) go to a facility therefor we descount this directly to the landings (see script of Scope 3)
-
-Items SA that for the products we are removing:
-Fish meal:
-2301.2011
-2301.2012
-2301.2013
-2301.2021
-2301.2022
-2301.2029
-2301.2090
-Fish oil
-1603.0000 --> this item is not included in our database so we do not need to remove it.
-algas secas
-1212.2110
-1212.2120
-1212.2130
-1212.2140
-1212.2150
-1212.2160
-1212.2170
-1212.2190
-1212.2910
-1212.2920
-1212.2930
-1212.2940
-1212.2950
-1212.2960
-1212.2970
-1212.2990
-Agar
-1302.3100
-
-
+##Extra! Create a csv to match species sernapesca with export groups
 ```{r}
 
-match_exports_no_NHC <- exports_yr %>% 
-  left_join(cod_aduana_sp, by = "item_sa_17") %>% 
-  filter(!is.na(especie_SERNAPESCA)) %>%
-  filter(!item_sa_17 %in% c("23012011", "23012012", "23012013", "23012021", "23012022", "23012029", "23012090", "12122110", "12122120", "12122130", "12122140", "12122150", "12122160", "12122170", "12122190", "12122910", "12122920", "12122930", "12122940", "12122950", "12122960", "12122970", "12122990", "13023100"))
-  group_by(year, region, especie_SERNAPESCA, nombre_cientifico_SERNAPESCA) %>% 
-  summarise(tons = sum(tons, na.rm = T),
-            value = sum(value_fob, na.rm = T)) %>% 
-  ungroup() %>% 
-  mutate(value = ifelse(year != 2016, value/100, value))
-  
-  
+sp_export_gp <- read_excel(here("information/raw_databases/ADUANAS_CHILE/arancel_aduanero_nomenclatura/arancel_aduanero_2017/codigos_aduana_por_especie_2017.xlsx"), sheet = "Hoja1", range = "A1:E755") %>% 
+  select(species = especie_SERNAPESCA, sc_name= nombre_cientifico_SERNAPESCA, grupo_exportacion) %>% 
+  unique()
+
+##Save
+write.csv(sp_export_gp, here("clean_databases/intermediate/export_groups_index.csv"), row.names=F)
 
 ```
+
+
 
 
 
