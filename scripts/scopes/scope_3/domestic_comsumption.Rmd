@@ -275,7 +275,23 @@ preliminary_model <- intermediate_df %>%
 
 
 DHC_yield <- read_xlsx(here("clean_databases/intermediate/sp_cl_DHC.xlsx")) %>% 
-  select(sc_name, mean_yield)
+  select(sc_name, yield = mean_yield) %>%
+  unique() %>% 
+  left_join(export_gp_index, by= "sc_name") %>% 
+  mutate(export_group = as.character(grupo_exportacion)) %>% 
+  mutate(group_name = ifelse(is.na(export_group), sc_name, export_group)) %>%
+  select(sc_name, group_name, yield) %>% 
+  ungroup()
+
+dhc_yield_mean <- DHC_yield %>% 
+  group_by(group_name) %>% 
+  summarize(mean_yield = mean(yield, na.rm = T)) %>% 
+  ungroup() %>% 
+  mutate(group_name = ifelse(group_name== "ATUN ESCOFINA/KONSO", "Ruvettus pretiosus", group_name))
+
+intermediate_yield <- intermediate_df %>% 
+  left_join(dhc_yield_mean, by= "group_name") %>% 
+  mutate(prelim = ((catch + aquaculture - NHC)*mean_yield)-export)
 
 # domestic_consumption <- intermediate_df %>% 
 #   mutate(HC = catch + aquaculture - export) %>% 
@@ -283,45 +299,45 @@ DHC_yield <- read_xlsx(here("clean_databases/intermediate/sp_cl_DHC.xlsx")) %>%
 
 
 ##Add import data
-imports <- read_csv(here("clean_databases/imports_ADUANA.csv")) %>% 
-  select(year, name_sp, imports=tons) 
-
-group_match_imports <- read_excel(here("clean_databases/intermediate/species_import_group.xlsx"))
-
-##match imports with group name
-imports_group <- imports %>% 
-  left_join(group_match_imports, by= "name_sp") %>% 
-  select(year, group, imports) %>% 
-  group_by(year, group) %>% 
-  summarise(imports = sum(imports, na.rm = T))
-
-
-sp_groups <- read.csv(here("clean_databases/sp_index.csv")) %>% 
-  select(sc_name, group, en_group)
-
-int_group <- intermediate_df %>% 
-  left_join(sp_groups, by= "sc_name") %>% 
-  unique() %>% 
-  group_by(year, group) %>% 
-  summarise(catch = sum(catch),
-             no_hc = sum(total_NHC, na.rm = T),
-             aquaculture = sum(aquaculture, na.rm = T),
-            export= sum(export, na.rm = T),
-            mean_yield = mean(mean_yield, na.rm = T))
-
-int_total <- int_group %>% 
-  left_join(imports_group, by= c("year", "group")) 
-
-int_total$imports[is.na(int_total$imports)] <- 0
-
-
-
-domestic_consumption <- int_total %>% 
-  mutate(HC = ((catch- no_hc)*mean_yield) + aquaculture + imports - export)
-
-
-domestic_consumption_no_yield <- int_total %>% 
-  mutate(HC = (catch- no_hc) + aquaculture + imports - export)
+# imports <- read_csv(here("clean_databases/imports_ADUANA.csv")) %>% 
+#   select(year, name_sp, imports=tons) 
+# 
+# group_match_imports <- read_excel(here("clean_databases/intermediate/species_import_group.xlsx"))
+# 
+# ##match imports with group name
+# imports_group <- imports %>% 
+#   left_join(group_match_imports, by= "name_sp") %>% 
+#   select(year, group, imports) %>% 
+#   group_by(year, group) %>% 
+#   summarise(imports = sum(imports, na.rm = T))
+# 
+# 
+# sp_groups <- read.csv(here("clean_databases/sp_index.csv")) %>% 
+#   select(sc_name, group, en_group)
+# 
+# int_group <- intermediate_df %>% 
+#   left_join(sp_groups, by= "sc_name") %>% 
+#   unique() %>% 
+#   group_by(year, group) %>% 
+#   summarise(catch = sum(catch),
+#              no_hc = sum(total_NHC, na.rm = T),
+#              aquaculture = sum(aquaculture, na.rm = T),
+#             export= sum(export, na.rm = T),
+#             mean_yield = mean(mean_yield, na.rm = T))
+# 
+# int_total <- int_group %>% 
+#   left_join(imports_group, by= c("year", "group")) 
+# 
+# int_total$imports[is.na(int_total$imports)] <- 0
+# 
+# 
+# 
+# domestic_consumption <- int_total %>% 
+#   mutate(HC = ((catch- no_hc)*mean_yield) + aquaculture + imports - export)
+# 
+# 
+# domestic_consumption_no_yield <- int_total %>% 
+#   mutate(HC = (catch- no_hc) + aquaculture + imports - export)
 
 
 
@@ -330,15 +346,33 @@ domestic_consumption_no_yield <- int_total %>%
 
 ##Top domestic consumption
 ```{r}
-top_10_hc <- domestic_consumption %>% 
-  arrange(year, desc(HC)) %>% 
+# top_10_hc <- domestic_consumption %>% 
+#   arrange(year, desc(HC)) %>% 
+#   group_by(year) %>% 
+#   top_n(10, HC)
+# 
+# top_5_hc <- domestic_consumption %>% 
+#   arrange(year, desc(HC)) %>% 
+#   group_by(year) %>% 
+#   top_n(5, HC)
+
+top_10_hc <- intermediate_yield%>% 
+  arrange(year, desc(prelim)) %>% 
   group_by(year) %>% 
-  top_n(10, HC)
+  top_n(10, prelim)
+
+top_10_hc_ny <- preliminary_model%>% 
+  arrange(year, desc(prelim)) %>% 
+  group_by(year) %>% 
+  top_n(10, prelim)
+
 
 top_5_hc <- domestic_consumption %>% 
   arrange(year, desc(HC)) %>% 
   group_by(year) %>% 
   top_n(5, HC)
+
+
 
 
 top_5_hc_ny <- domestic_consumption_no_yield %>% 
