@@ -455,10 +455,12 @@ net_trade <- six_exports %>%
   rename(exports = tons.x, imports = tons.y) 
 
 net_trade$imports[is.na(net_trade$imports)] <- 0
+net_trade<- net_trade %>% 
+  mutate(net_trade = exports - imports)
 
 # Plot for 6 most exported species 
 
-net_trade <- net_trade %>%
+net_trade_six_more_exported <- net_trade %>%
   #mutate(net_trade = exports - imports) %>% 
   #select(year, group_name, exports, imports) %>% 
   gather(key = operation, value= tons, 3:4) %>% 
@@ -469,7 +471,7 @@ net_trade <- net_trade %>%
   scale_y_continuous(expand = c(0,0))+
   scale_fill_manual(values = c(wes_palette("Darjeeling1"), wes_palette("Darjeeling2"),  'black'))
 
-net_trade
+net_trade_six_more_exported
 
 
 ```
