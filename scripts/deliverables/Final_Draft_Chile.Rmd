@@ -73,6 +73,8 @@ ggtheme_plot <- function() {
 
 ### Specific methodologies
 
+#### Currency conversion
+
 Any conversion from chilean pesos to dollars was done by first converting the amount in chilean pesos to its value in Chilean Units of account (UF, a monetary unit corrected by inflation) of the respective year. Then, transformed to the equivalent in 2018 Chilean pesos using the 2018 UF value and finally, converting the 2018 value in chilean pesos to its equivalent in 2018 US dollars, based on the conversion for Dec, 2018 (1 US dollars corresponds to 676 Chilean pesos). 
 
 ```{r parameters for conversion, echo = FALSE}
@@ -90,11 +92,11 @@ from_ChP_to_dollar_dec_2018 <- 676 # Based on conversion for Dec, 2018
 
 #### Fisheries context
 
-To evaluate the volume contirbution of specific fisheries over the last five years, we used records of landings and aquaculture harvests from SERNAPESCA  (2013-2017). Using monthly data  published by IFOP, we identified the most exported fish products in terms of volume. To identify the participation of different species in exported volumes we generated a new database linking types of products listed in the _Arancel Aduanero_ with the names of the fished and farmed species listed by SERNAPESCA. We searched for all the products ids that refer to the species scientific name, common name or genus name as listed by SERNAPESCA and aggregated them under the species name.
+To evaluate the volume contirbution of specific fisheries over the last five years, we used records of landings and aquaculture harvests from SERNAPESCA  (2013-2017). Using monthly data  published by IFOP, we identified the most exported fish products in terms of volume. To identify the participation of different species in exported volumes we generated a new database linking types of products listed in the _Arancel Aduanero_ with the names of the fished and farmed species listed by SERNAPESCA. We searched for all the products ids that refer to the species scientific name, common name or genus name as listed by SERNAPESCA and aggregated them under the species or group name.
 
 #### Estimating National Seafood Supply
 
-We combined data from Chilean Customs (ADUANAS Chile) and the National Service of Fisheries and Aquaculture (SERNAPESCA) in order to estimate domestic consumption with out model. ll the databases we use were available at the agencies' websites at the following links [National Service of Fisheries](http://www.sernapesca.cl/informes/estadisticas) and [Chilean Customs](http://www.aduana.cl/registros-de-comercio-exterior-datos-agregados/aduana/2017-07-21/113048.html), respectively and were accessed between August and September of 2018.
+We combined data from Chilean Customs and SERNAPESCA to estimate domestic consumption with our model. We accessed their databases between August and September of 2018.
 
 The specific data-sets we used are:
 
@@ -104,20 +106,18 @@ The specific data-sets we used are:
 - Exports: quantities of all the products exported from each Chilean region to other countries. (ADUANAS, 2013-2018).
 - Imports: quantities of all marine products imported into the country. (ADUANAS, 2013-2018)
 
- 
-Each product in the original exports and imports data-sets is identified through an id number that matches the name of the product in a code known as the _Arancel Aduanero_. This document was only available to us in .pdf format. Thus, to identified the id of products containing domestically fished and harvest marine species we searched for the names of the fished and harvested species listed by SERNAPESCA in the document with the _Arancel Aduanero_. We searched for all the ids that refer to the species scientific name, common name or genus name as listed by SERNAPESCA and aggregated them under the species name. In many cases this index is detailed at a species level, however several products group species. In order to avoid double accounting of a specie, we grouped several species under one group. We did not include the _Arancel Aduanero_ of any of the code for non-human consumption products. 
+Each product in the original exports and imports data-sets is identified through an id number that matches the name of the product in a code known as the _Arancel Aduanero_. This document was only available to us in .pdf format. Thus, to identified the id of products containing domestically fished and harvest marine species we searched for the names of the fished and harvested species listed by SERNAPESCA in the document with the _Arancel Aduanero_. We searched for all the ids that refer to the species scientific name, common name or genus name as listed by SERNAPESCA and aggregated them under the species name. In many cases this index is detailed at a species level, however several products group species. In order to avoid double accounting of a specie, we grouped several species under one group. We did not include the codes of any of the products for non-human consumption to avoid double counting since they were substracted in a previous stage of the model. 
 
-We also calculated all raw material that enters to a facility and is used for non-human consumption products. For this, we assumed that the following categories of products are not for direct human consumption: fish meal, col-agar, agar, carragenina, oil and alginato, dry algae. Hance, the following products are considered for human consumption: fresh, frozen, salty dry, salty wet, smoked, canned, dehydrate. While fish meal, oil, dehydrate, dried algae, and other algae derivatives are use for non human consumption. We did not assume that all aquaculture goes to human-consumption because there are algaes harvest for no- human consumption. DFo this study we assume that all algae that goes in to a processing facility is not for human consuption.
+We also calculated all raw material that enters to a facility and is used for non-human consumption products. For this, we assumed that the following categories of products are not for direct human consumption: fish meal, col-agar, agar, carragenina, oil and alginato, dry algae. Hence, the following products are considered for human consumption: fresh, frozen, salty dry, salty wet, smoked, canned, dehydrate. While fish meal, oil, dehydrate, dried algae, and other algae derivatives are use for non human consumption. We did not assume that all aquaculture goes to human-consumption because there are algaes harvest for no- human consumption. Finally, we assume that all algae that goes in to a processing facility is not for human consuption.
 
 It was not possible to do the analysis at a regional level because there are internal transportation of raw and processed material within political regions that is hard to account for. One example of this is that some products are processed in the Metropolitan Region where there are no landings (land lock region).
 
-To identify the species contribute more to human consumption products, we analyzed every step of the supply chain. In Chile, landings can either be sold as non-processed products ($NP_{HC}$) or go to processing facilities where they will be transformed in products for human consumption ($P_{HC}$) or products for other uses ($P_{NHC}$). Landing come either from industrial, which includes fabric vessels ($l_i$), or artisanal vessels ($l_a$). We assume that all $l_i$ are send to processing facilities while $l_a$ can either go to processing facilities or be sold as non-processed products, which we assume, are used for human consumption ($NP_{HC}$). Additionally, we assume all the volumes coming from aquaculture center enter processing facilities.
+To identify the species contribute more to human consumption products, we analyzed the main steps of the supply chain. In Chile, landings can either be sold as non-processed products ($NP_{HC}$) or go to processing facilities where they will be transformed in products for human consumption ($P_{HC}$) or products for other uses ($P_{NHC}$). Landing come either from industrial, which includes fabric vessels ($L_i$), or artisanal vessels ($L_a$). We assume that all $L_i$ are send to processing facilities while $L_a$ can either go to processing facilities or be sold as non-processed products, which we assume, are used for human consumption ($NP_{HC}$). Additionally, we also assume all the volumes coming from aquaculture centers enter processing facilities.
 In the processesing of both products for HC and for NHC there are discards ($D_{HC}, D_{NHC}$) that can be represented as the differences between what entered the processing facility as raw material and what left it as processed product ($D_{HC} = R_{HC} - P_{HC}$, $D_{NHC} = R_{NHC} - P_{NHC}$ ). 
 
-In Chile, almost all $L_i$ and $Aq$ are send to processing facilities while only some of the $L_a$ is processed. We assume that the rest of the artisanals' catch that is not sent to processing facilities is sold as non-processed products for human consumption ($NP_{HC}$). To get an estimate of $NP_{HC}$ we substracted $Aq$ and $L_i$ to all the raw material entering processing facilities and use the residual as the volume of $L_a$ that is processed. We then, substracted this volume from $L_i$ to get $NP_{HC}$, which is the rest of the artisanals' catch that is not being processed. The assumptions behind this method are (i) that all the raw material in processing facilities that is not being supplied by industrial fishing or aquaculture is supplied by artisanals, and (ii) all the catch that artisanals do not sell to processing facilities is used for human consumption.
+In Chile, almost all $L_i$ and $Aq$ are send to processing facilities while only some of the $L_a$ is processed. We assume that the rest of the artisanals' catch that is not sent to processing facilities is sold as non-processed products for human consumption ($NP_{HC}$). To get an estimate of $NP_{HC}$ we substracted $Aq$ and $L_i$ to all the raw material entering processing facilities and use the residual as the volume of $L_a$ that is processed. We then, substracted this volume from $L_a$ to get $NP_{HC}$, which is the rest of the artisanals' catch that is not being processed. The assumptions behind this method are (i) that all the raw material in processing facilities that is not being supplied by industrial fishing or aquaculture is supplied by artisanals, and (ii) all the catch that artisanals do not sell to processing facilities is used for human consumption.
 
 We used the R software to clean and format all the available information in long-form databases. All the scripts for replicating our work are available in "scripts/cleaning_data".
-
 
 #### Estimating National Economic Participation
 
@@ -421,14 +421,15 @@ sp_exports<- read_csv(here("clean_databases/exports_ADUANA.csv"))
 sp_imports<- read_csv(here("clean_databases/imports_ADUANA.csv"))
 
 # Matching database
-species_match_import <- read_csv(here("clean_databases/intermediate/species_match_import.csv"))
+sp_match_trade <- read.csv(here("clean_databases/intermediate/export_groups_index.csv")) %>% 
+  select(-species, group = grupo_exportacion)
 
 # 6 most exported tons species
-ten_exports <- sp_exports%>% 
+six_exports <- sp_exports%>% 
   filter(year != 2018) %>% 
-  mutate(chl_name= str_to_upper(especie_SERNAPESCA))%>% 
-  left_join(sp_index) %>% 
-  group_by(year, group) %>% 
+  #mutate(chl_name= str_to_upper(grupo_exportacion))%>% 
+  #left_join(sp_match_trade) %>% 
+  group_by(year, grupo_exportacion) %>% 
   summarise(tons = round(sum(tons)/1000,2), value = sum(value)) %>% 
   select(-value) %>% 
   group_by(year) %>%
@@ -437,7 +438,7 @@ ten_exports <- sp_exports%>%
   select(-rank)
 
 # Imported tons per species
-sp_imports <- sp_imports%>% 
+six_imports <- sp_imports%>% 
   filter(year != 2018) %>% 
   left_join(species_match_import, by = 'name_sp') %>% 
   select(year, tons, group) %>%
@@ -445,7 +446,7 @@ sp_imports <- sp_imports%>%
   summarise(tons = sum(tons))
 
 
-# What are the imports volumes for the 10 most exported products
+# What are the sp with more imported volumes for the 10 most exported products
 
 net_trade <- ten_exports %>% 
   left_join(sp_imports, by = c('group', 'year')) %>% 
@@ -477,9 +478,11 @@ net_trade
 
 ```
 
-#### National Seafood Supply
+### National Seafood Supply
 
-We use the volume of each species that goes into processing facilities to estimate their contribution to human consumption and non human consumption products. We then explore how this changes if we remove aquaculture inputs to see the species from fisheries that contribute the most. Our results show that the main species that contributes to human consuption products are
+#### Species contribution to Human and Non-human consumption
+
+The main species 
 
 ```{r Species in HC products, echo = FALSE, warning=FALSE, message=FALSE}
 
