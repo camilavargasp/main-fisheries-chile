@@ -412,7 +412,7 @@ aquaculture_species_per_region$region <- factor(aquaculture_species_per_region$r
 
 #### Main Traded marine species 
  
-Chile is a major exporter of seafood products. According to SUBPESCA, Chile has been exporting at a rate of 1.3 ± 0.09 million tons per year since 2012 (@subpesca_informe_2017). Around 72% of the landings from fisheries and aquaculture are exported outside the country (@ifop_monitoreo_2015). **Figure 5** shows the six most exported groups of species in terms of volume, which are Jack mackerels, Salmons, Mussels, Mollusks, Trouts and Algae. For most of these groups of species exports are much larger than imports excpet from the Jack mackerel for which the net trade is almost zero. Salmon exports are on the rise. 
+Chile is a major exporter of seafood products. According to SUBPESCA, Chile has been exporting at a rate of 1.3 ± 0.09 million tons per year since 2012 (@subpesca_informe_2017). Around 72% of the landings from fisheries and aquaculture are exported outside the country (@ifop_monitoreo_2015). **Figure 5** shows the six most exported groups of species in terms of volume, which are Salmons, Trouts, Jack mackerel, Algae, Mussels and Squid in decreasing order. For most of these groups of species exports there are no imports excpet from the Jack mackerel for which the net trade is almost zero (For net trade for all species see **Table App.3**. Salmon exports are on the rise while exports of trouts are decreasing. 
 
 ```{r International trade per species, echo = FALSE, warning=FALSE, message=FALSE}
 
@@ -420,55 +420,51 @@ Chile is a major exporter of seafood products. According to SUBPESCA, Chile has 
 sp_exports<- read_csv(here("clean_databases/exports_ADUANA.csv"))
 sp_imports<- read_csv(here("clean_databases/imports_ADUANA.csv"))
 
-# Matching database
-sp_match_trade <- read.csv(here("clean_databases/intermediate/export_groups_index.csv")) %>% 
-  select(-species, group = grupo_exportacion)
+# Matchings
+imports_index <- read_csv(here("clean_databases/imports_index.csv"))
+exports_index <- read_csv(here("clean_databases/exports_index.csv"))
 
 # 6 most exported tons species
 six_exports <- sp_exports%>% 
   filter(year != 2018) %>% 
-  #mutate(chl_name= str_to_upper(grupo_exportacion))%>% 
-  #left_join(sp_match_trade) %>% 
-  group_by(year, grupo_exportacion) %>% 
+  rename(export_name = grupo_exportacion) %>% 
+  left_join(exports_index) %>% 
+  group_by(year, group_name) %>% 
   summarise(tons = round(sum(tons)/1000,2), value = sum(value)) %>% 
   select(-value) %>% 
   group_by(year) %>%
   mutate(rank = rank(desc(tons))) %>% 
-  filter(rank < 5) %>% 
+  filter(rank < 6) %>% 
   select(-rank)
 
 # Imported tons per species
 six_imports <- sp_imports%>% 
   filter(year != 2018) %>% 
-  left_join(species_match_import, by = 'name_sp') %>% 
-  select(year, tons, group) %>%
-  group_by(year, group) %>% 
-  summarise(tons = sum(tons))
+  rename(imports_name = name_sp) %>% 
+  left_join(imports_index) %>% 
+  filter(group_name != 'NA') %>% 
+  select(year, tons, group_name) %>%
+  group_by(year, group_name) %>% 
+  summarise(tons = round(sum(tons)/1000,2))
 
 
 # What are the sp with more imported volumes for the 10 most exported products
 
-net_trade <- ten_exports %>% 
-  left_join(sp_imports, by = c('group', 'year')) %>% 
-  rename( exports = tons.x, imports = tons.y) 
+net_trade <- six_exports %>% 
+  left_join(six_imports, by = c('group_name', 'year')) %>% 
+  rename(exports = tons.x, imports = tons.y) 
 
 net_trade$imports[is.na(net_trade$imports)] <- 0
 
-# Names to english
-
-sp_index_trade <- sp_index %>% 
-  select(group, en_group) %>% 
-  unique()
-
 # Plot for 6 most exported species 
 
-net_trade = net_trade %>%
-  left_join(sp_index_trade) %>% 
-  select(year, en_group, exports, imports) %>% 
+net_trade <- net_trade %>%
+  #mutate(net_trade = exports - imports) %>% 
+  #select(year, group_name, exports, imports) %>% 
   gather(key = operation, value= tons, 3:4) %>% 
   ggplot(aes(x = as.factor(year), y = tons, fill = operation))+
   geom_bar(stat = 'identity')+
-  facet_wrap(~en_group, scales = 'free')+
+  facet_wrap(~ group_name, scales = 'free')+
   labs(y="Thousand tons", x="Year")+
   scale_y_continuous(expand = c(0,0))+
   scale_fill_manual(values = c(wes_palette("Darjeeling1"), wes_palette("Darjeeling2"),  'black'))
