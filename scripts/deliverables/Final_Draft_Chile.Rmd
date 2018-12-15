@@ -553,8 +553,8 @@ Within the wild-cought species, the one that have historically contributed more 
 sp_HC_no_Aq
 ```
 
-In Chile, almost all industrial landings ($L_i$) and aquaculture harvest ($Aq$) go to processing facilities while only some of the artisanal landing ($L_a$) is processed. We assume that the rest of the artisanals' catch that is not sent to processing facilities is sold as non-processed products for human consumption ($NP_{HC}$).
-
+In Chile, almost all industrial landings ($L_i$) and aquaculture harvest ($Aq$) go to processing facilities while only some of the artisanal landing ($L_a$) is processed. We assume that the rest of the artisanals' catch that is not sent to processing facilities is sold as non-processed products for human consumption ($NP_{HC}$). These results show that the composition main species sold by artisanal fisher for human consumption have vary in the last years. The Southern rays bream (*Brama australis*) is the only specie that is common for every year of data. Indicating that historically has been an importat specie for direct human consumption. This aligns with results obtained in a survey implemented along Chile where 51% answered that Southern rays bream was their first preference (@fundacion_chile_chile_2016).
+!!!!!!!!
 
 ```{r Non-processed Human consumption, echo= FALSE, message=FALSE, warning=FALSE}
 
@@ -957,6 +957,21 @@ la hora de derribar mitos que puedan existir en la población sobre la inocuidad
 Aquaculuture is the most important activity in the fisheries sector in terms of economic value. Their profits come mainly from the exportation of salmon prodcts. This positions salmons as the group of marine species that contribute the most to the country's economy. The Chilean jack mackerel (*Trachurus murphyi*) and the Jumbo squid (*Dosidicus gigas*) are the wild-caught species that have contributed the most in exports over the pasts years. The latter is use for DHC and is targeted by both the artisanal an industrial sector. Yet, current discussion on closing access to the industrials. 
 
 Although the direct employment in aquaculture centers is low relative to the number of artisanal fishers, it is very likely that an important share of the job positions in the manufacturing sector are being supported by aquaculture. Especially in the South where most job positions for manufacturing of human consumption products are concetrated. The role of Algaes in terms of employment for the artisanal sector is also worth notice. The revenues of most these species are not particularly high, however the lower costs of extraction relative to other types of fishing make algae collection an attractive form of livelihood for coastal communities. 
+
+## Conclusions
+
+The main takeaway of our analysis regarding the contribution of domestic fisheries for human consumption is that most of the wild-caught fish currently does not go to human consumption, but to produce no human consumption products. On the other hand, most of the aquiculture produced in the country is for human consumption but it is exported elsewhere. Only XX% of the local production stays in the country for human consumption. Additionally, one of the most relevant species for human consumption in Chile is tuna, which mainly in imported and canned.
+
+A species specifics analysis on employment was not possible given the data collected for this study. However we determined..
+
+## Oceana Next Steps - BRAINSOTRM
+Along this study, we identified several sources of information that are available regarding Chilean fisheries. However a mayor challenge was to combine all datasets without losing species resolution. However we think there is potential to imporve the methods we used for scraping data from the imports and exports databases as for example, the Chilean customs reaceantly uploaded the export information for 2018 as an excel file combining type of products, aduana code, exported tones and values. When we ask for this sort of document back in October, the Chilean customes told us they were working on it so hopefully the publish historic data in that fomat. This could allow increase the specie resolution and be less rone to human error.
+
+
+We think a key project where Oceana could contribute is to add to the discussion of “lets increase the amount of fish we eat in Chile”, the whole picture of the state of the fisheries and the economic implication for the country of transitioning to a more fish based diet. For this an integrated analysis about the state of the fishery and its economic importance of the country needs to be done. 
+More than just promoting the increase in domestic seafood consumption we think that finding out why is it important and who will benefit and loose it is key for the success of any project. 
+
+We did not focuse on prices and places where fish is comercialized, if one of Oceanas goal is to characterized fish markets, resources will need to be invested in looking into fish merket (where and the local fishe comercialized and how) Algo si???
 
 
 
