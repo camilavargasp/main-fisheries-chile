@@ -1,285 +1,285 @@
-chl_name,sc_name,en_name,group,en_group
-AGUJILLA,Scomberesox saurus scombroides,King gar,pescado_otros,Fish
-ALBACORA O PEZ ESPADA,Xiphias gladius,Swordfish,atunes,Tuna
-ALBACORA,Xiphias gladius,Swordfish,atunes,Tuna
-ALFONSINO,Beryx splendens,Splendid alfonsino,pescado_otros,Fish
-ALMEJA,Venus antiqua,Chilean clam,almeja_otras,Clams
-ANCHOVETA,Engraulis ringens,Anchoveta,pescado_otros,Fish
-ANCHOVETA BLANCA,Anchoa nasus,Longnose anchovy,pescado_otros,Fish
-ANGUILA,Ophichthus spp.,eel,anguila,Eel
-APANADO,Hemilutjanus macrophthalmos,Grape-eye seabass,pescado_otros,Fish
-ATUN ALETA AMARILLA,Thunnus albacares,Yellowfin tuna,atunes,Tuna
-ATUN ALETA LARGA,Thunnus alalunga,Albacore,atunes,Tuna
-ATUN CHAUCHERA,Gatrochisma melampus,Butterfly kingfish,atunes,Tuna
-ATUN OJOS GRANDES,Thunnus obesus,Bigeye tuna,atunes,Tuna
-AYANQUE,Cynoscion analis,Peruvian weakfish,pescado_otros,Fish
-AZULEJO,Prionace glauca,Blue shark,tiburon,Shark
-BACALADILLO O MOTE,Normanichthys crockeri,Mote sculpin,pescado_otros,Fish
-BACALADILLO,Normanichthys crockeri,Mote sculpin,pescado_otros,Fish
-BACALAO DE PROFUNDIDAD,Dissostichus eleginoides,Patagonian toothfish,pescado_otros,Fish
-BAGRE AGUA DULCE,Ictalurus punctatus,Channel catfish,pescado_otros,Fish
-BESUGO,Epigonus crassicaudus,BESUGO,pescado_otros,Fish
-BLANQUILLO,Prolatilus jugularis,Pacific sandperch,pescado_otros,Fish
-BONITO,Sarda chiliensis,Eastern Pacific bonito,bonito,Bonito
-BRECA O BILAGAY,Cheilodactylus variegatus,Peruvian morwong,pescado_otros,Fish
-BILAGAY,Cheilodactylus variegatus,Peruvian morwong,pescado_otros,Fish
-BRECA,Cheilodactylus variegatus,Peruvian morwong,pescado_otros,Fish
-VILAGAY,Cheilodactylus variegatus,Peruvian morwong,pescado_otros,Fish
-BRECA O VILAGAY,Cheilodactylus variegatus,Peruvian morwong,pescado_otros,Fish
-BROTULA,Salilota australis,Tadpole codling,pescado_otros,Fish
-CABALLA,Scomber japonicus,Chub mackerel,caballa,Caballa
-CABINZA,Isacia conceptionis,Cabinza grunt,pescado_otros,Fish
-CABRILLA,Paralabrax humeralis,Peruvian rock seabass,pescado_otros,Fish
-CABRILLA COMUN,Paralabrax humeralis,Peruvian rock seabass,pescado_otros,Fish
-CALAMAR,Loligo gahi,Patagonian squid,moluscos_otros,Mollusks
-CAMARON DE ROCA,Rhynchocinetes typus,Rock shrimp,camaron_otro,Shrimp
-CAMARON NAILON,Heterocarpus reedi,Chilean nylon shrimp,camaron_nai,Chilean nylon shrimp
-CANGREJO DORADO DE J. FERNANDEZ,Chaceon chilensis,Juan Fernrndez golden crab,cangrejos_otros,Crabs
-CANGREJO D. DE J. FERNANDEZ,Chaceon chilensis,Juan Fernrndez golden crab,cangrejos_otros,Crabs
-CANGREJO DORADO DE JF,Chaceon chilensis,Juan Fernrndez golden crab,cangrejos_otros,Crabs
-CANQUE,Stellifer minor,Minor stardrum,pescado_otros,Fish
-CARACOL LOCATE,Thais chocolata,Snail locate,caracoles_otros,Gastropods
-CARACOL PALO PALO,Argobuccinum spp.,Sanil palo palo,caracoles_otros,Gastropods
-CARACOL PICUYO,Odontocymbiola magellanica,Snail picuyo,caracoles_otros,Gastropods
-CARACOL PIQUILHUE,Adelomelon ancilla,Snail Piquilhue,caracoles_otros,Gastropods
-CARACOL RUBIO,Xantochorus cassidiformis,Snail Rubio,caracoles_otros,Gastropods
-CARACOL TEGULA,Tegula atra,Snail tegula,caracoles_otros,Gastropods
-CARACOL TRUMULCO,Chorus giganteus,Snail trumulco,caracoles_otros,Gastropods
-CENTOLLA,Lithodes santolla,Southern king crab,centolla,King crab
-CENTOLLON,Paralomis granulosa,Softshell red crab,crustaceos_otros,Crustaceans
-CENTOLLON DEL NORTE,Paralomis spp.,Northern crab,crustaceos_otros,Crustaceans
-CHANCHARRO,Helicolenus lengerichi,Rockfish helicolenus,pescado_otros,Fish
-CHASCA,Gelidium rex,Red algae,alga,Algae
-CHASCON O HUIRO NEGRO,Lessonia nigrescens,Giant grey kelp,alga,Algae
-CHICOREA DE MAR,Chondracanthus chamissoi,Red algae chicorea,alga,Algae
-CHOCHA,Trochita trochiformes,Snail trochita,moluscos_otros,Mollusks
-CHOLGA,Aulacomya ater,Chilean ribbed mussel,mejillon,Mussels
-CHORITO,Mytilus chilensis,Chilean mussel,mejillon,Mussels
-CHORO,Choromytilus chorus,Chorus Mussel,mejillon,Mussels
-COCHAYUYO,Durvillaea antarctica,New Zealand bull,alga,Algae
-COCHINILLA,Navodon Paschalis,Navodon,pescado_otros,Fish
-COJINOBA DEL NORTE,Seriolella violacea,Palm ruff,pescado_otros,Fish
-COJINOBA DEL SUR,Seriolella caerulea,White warehou,pescado_otros,Fish
-COJINOBA,Seriolella ,Warehou,pescado_otros,Fish
-COJINOBA MOTEADA,Seriolella punctata,Silver warehou,pescado_otros,Fish
-CONGRIO COLORADO,Genypterus chilensis,Red cusk-eel,congrio,Cusk-eel
-CONGRIO DORADO,Genypterus blacodes,Pink cusk-eel,congrio,Cusk-eel
-CONGRIO NEGRO,Genypterus maculatus,Black cusk-eel,congrio,Cusk-eel
-CORVINA,Cilus gilberti,Corvina drum,pescado_otros,Fish
-CRUSTACEO NO CLASIFICADO,Crustacea,Crustaceans,crustaceos_otros,Crustaceans
-CULENGUE,Gari solida,Pacific clam,almeja_otras,Clams
-DORADO DE ALTURA,Coryphaena hippurus,Common dolphinfish,pescado_otros,Fish
-DRACO RAYADO,Champsocephalus gunnari,Mackerel icefish,pescado_otros,Fish
-ERIZO,Loxechinus albus,Chilean sea urchin,erizo,Sea urchin
-GAMBA,Haliporoides diomedeae,Chilean knife shrimp,gambas,Prawns
-HUAIQUIL O CORVINILLA,Micropogonias manni,Micropogonias manni,pescado_otros,Fish
-HUEPO O NAVAJA DE MAR,Ensis macha,Razor clam,navaja,Razor clam
-HUIRO,Macrocystis spp.,Giant kelp,alga,Algae
-HUIRO PALO,Lessonia trabeculata,Giant brown kelp,alga,Algae
-JAIBA LIMON,Cancer porteri,Crab limon,jaiba,Jaiba
-JAIBA MARMOLA,Cancer edwardsi,Mola rock crab,jaiba,Jaiba
-JAIBA MORA,Homalaspis plana,Blackberry crab,jaiba,Jaiba
-JAIBA PANCHOTE O CANGREJO,Taliepus dentatus,Crab panchote,jaiba,Jaiba
-CANGREJO O PANCHOTE,Taliepus dentatus,Crab panchote,jaiba,Jaiba
-JAIBA PATUDA,Taliepus marginatus,Crab patuda,crustaceos_otros,Crustaceans
-JAIBA PELUDA O PACHONA,Cancer setosus,Crab peluda,jaiba,Jaiba
-JAIBA PELUDA,Cancer setosus,Crab peluda,jaiba,Jaiba
-JAIBA REINA,Cancer coronatus,Queen Crab,jaiba,Jaiba
-JAIBA REMADORA,Ovalipes trimaculatus,Rowing Crab,jaiba,Jaiba
-JERGUILLA,Aplodactylus punctatus,Jerguilla,pescado_otros,Fish
-JIBIA O CALAMAR ROJO,Dosidicus gigas,Jumbo flying squid,jibia,Squid
-JIBIA,Dosidicus gigas,Jumbo flying squid,jibia,Squid
-JULIANA O TAWERA,Tawera gayi,Tawera,almeja_gayi,Tawera
-JULIANA,Tawera gayi,Tawera,almeja_gayi,Tawera
-JUREL,Trachurus murphyi,Chilean jack mackerel,jurel,Jack mackerel
-KONSO,Ruvettus pretiosus,Oilfish,pescado_otros,Fish
-LANGOSTA DE J.FERNANDEZ,Jasus frontalis,Juan Fernandez rock lobster,crustaceos_otros,Crustaceans
-LANGOSTA DE J. FERNANDEZ,Jasus frontalis,Juan Fernandez rock lobster,crustaceos_otros,Crustaceans
-LANGOSTA ENANA,Projasus bahamondei,Chilean Jagged Lobster,crustaceos_otros,Crustaceans
-LANGOSTINO AMARILLO,Cervimunida johni,Blue squat lobster,langostinos_otros,Langostinos
-LANGOSTINO COLORADO,Pleuroncodes monodon,Red squat lobster,langostino_col,Red squat lobster
-LANGOSTINO ENANO,Pleuroncodes sp,Squat lobster,langostinos_otros,Langistinos
-LAPA NEGRA,Fissurella latimarginata,Black keyhole limpet,moluscos_otros,Mollusks
-LAPA PICTA,Fissurella picta,Picta Keyhole limpet,moluscos_otros,Mollusks
-LAPA REINA,Fissurella maxima,Giant keyhole limpet,moluscos_otros,Mollusks
-LAPA ROSADA,Fissurella cumingi,Rosy keyhole limpet,moluscos_otros,Mollusks
-LECHUGUILLA,Ulva lactuca,Sea lettuce,alga,Algae
-LENGUADO OJOS CHICOS,Paralichthys microps,Small-eye flounder,pescado_otros,Fish
-LIQUEN GOMOSO,Gymnogongrus furcellatus,Liquen Gomoso,alga,Algae
-LISA,Mugil cephalus,Flathead grey mullet,pescado_otros,Fish
-LOCO,Concholepas concholepas,Chilean abalone,loco,Loco
-LUCHE,Porphyra columbina,Luche,alga,Algae
-LUGA CUCHARA O CORTA,Mazzaella laminarioides,Luga,alga,Algae
-LUCHA CUCHARA O CORTA,Mazzaella laminarioides,Luga,alga,Algae
-LUGA NEGRA O CRESPA,Sarcothalia crispata,Black algae luga,alga,Algae
-LUGA NEGRA,Sarcothalia crispata,Black algae luga,alga,Algae
-LUGA-ROJA,Gigartina skottsbergii,Red luga,alga,Algae
-LUGA ROJA,Gigartina skottsbergii,Red luga,alga,Algae
-MACHA,Mesodesma donacium,Macha clam,macha,Macha
-MACHUELO O TRITRE,Ethmidium maculatum,Pacific menhaden,pescado_otros,Fish
-MACHUELO TRITRE,Ethmidium maculatum,Pacific menhaden,pescado_otros,Fish
-MACHUELO,Ethmidium maculatum,Pacific menhaden,pescado_otros,Fish
-MARLIN,Tetrapturus spp.,Tetrapturus,pescado_otros,Fish
-MERLUZA COMUN,Merluccius gayi gayi,South Pacific hake,merluza,Hake
-MERLUZA DE COLA,Macruronus magellanicus,Patagonian grenadier,merluza,Hake
-MERLUZA DE TRES ALETAS,Micromesistius australis,Southern blue whiting,merluza,Hake
-MERLUZA DEL SUR O AUSTRAL,Merluccius australis,Southern hake,merluza,Hake
-MERLUZA DEL SUR,Merluccius australis,Southern hake,merluza,Hake
-NANUE,Kiphosus sandwicensis,Pacific chub,pescado_otros,Fish
-NAVAJUELA,Tagelus dombeii,Navajuela,navajuela,Navajuela
-OSTION DEL SUR,Chlamys vitrea,Sea scalop,moluscos_otros,Mollusks
-OSTRA CHILENA,Ostrea chilensis,Chilean flat oyster,ostra,Oyster
-PAMPANITO,Stromateus stellatus,Starry butterfish,pescado_otros,Fish
-PEJEGALLO,Callorhinchus callorhynchus,American Elephantfish,pescado_otros,Fish
-PEJEPERRO,Semicossyphus maculatus,Sheephead,pescado_otros,Fish
-PEJERRATA,Coelorhynchus chilensis,Chilean grenadier,pescado_otros,Fish
-PEJERREY DE MAR,Odontesthes regia,Chilean silverside,pescado_otros,Fish
-PEJESAPO,Sicyases sanguin,Pejesapo,pescado_otros,Fish
-PEJEZORRO,Alopias vulpinus,Thresher,pescado_otros,Fish
-PELILLO,Gracilaria spp.,Red algae gracilaria,alga,Algae
-PEPINO DE MAR,Athyonidium chilensis,Sea cucumber,invertebrados_otros,Invertebrates
-PESCADO NO CLASIFICADO,Pescado,Fish,pescado_otros,Fish
-PEZ SOL,Lampris guttatus,Opah,pescado_otros,Fish
-PICOROCO,Austromegabalanus psittacus,Giant barnacle,crustaceos_otros,Crustaceans
-PIURE,Pyura chilensis,Chilean tunicate,piure,Piure
-PULPO,Octopus (vulgaris) mimus,Changos octopus,pulpo,Octopus
-PULPO DEL SUR,Enteroctopus megalocyathus,Southern red octopus,pulpo,Octopus
-PUYE,Galaxias maculatus,Common galaxias,pescado_otros,Fish
-RAYA ESPINOSA,Dipturus trachyderma,Ray,raya,Ray
-RAYA VOLANTIN,Zearaja chilensis,Yellownose skate,raya,Ray
-RAYA,Zearaja chilensis,Yellownose skate,raya,Ray
-REINETA,Brama australis,Southern rays bream,pescado_otros,Fish
-ROBALO,Eleginops maclovinus,Patagonian blennie,pescado_otros,Fish
-ROCOCO,Paralonchurus peruanus,Peruvian banded croaker,pescado_otros,Fish
-ROLLIZO,Pinguipes chilensis,Chilean sandperch,pescado_otros,Fish
-RONCACHO,Sciaena deliciosa,Lorna drum,pescado_otros,Fish
-SARDINA AUSTRAL,Sprattus fuegensis,Falkland sprat,sardina,Sprat and herring
-SARDINA AUSTRAL O DEL SUR,Sprattus fuegensis,Falkland sprat,sardina,Sprat and herring
-SARDINA COMUN,Strangomera bentincki,Araucanian herring,sardina,Sprat and herring
-SARDINA,Strangomera bentincki,Araucanian herring,sardina,Sprat and herring
-SARDINA ESPANOLA,Sardinops sagax,South American pilchard,sardina,Sprat and herring
-SARGO,Anisotremus scapularis,Peruvian grunt,pescado_otros,Fish
-SIERRA,Thyrsites atun,Snoek,tiburon,Shark
-TAQUILLA,Mulinia edulis,Taquilla,almeja_otras,Clams
-TIBURON O MARRAJO,Isurus oxyrinchus,Shortfin mako,tiburon,Shark
-MARRAJO O TIBURON,Isurus oxyrinchus,Shortfin mako,tiburon,Shark
-TIBURON SARDINERO,Lamna nasus,Porbeagle,tiburon,Shark
-TOLLO O FUME,Mustelus mento,Speckled smooth-hound,tiburon,Shark
-TOLLO,Mustelus mento,Speckled smooth-hound,tiburon,Shark
-TOMOYO,Labrisomus philippii,Chalapo clinid,pescado_otros,Fish
-TUMBAO,Semele solida,Tumbao,almeja_otras,Clams
-TOREMO,Seriola lalandi,Yellowtail amberjack,pescado_otros,Fish
-"VIDRIOLA,  PALOMETA  DORADO O TOREMO",Seriola lalandi,Yellowtail amberjack,pescado_otros,Fish
-"VIDRIOLA, PALOMETA, DORADO O TOREMO",Seriola lalandi,Yellowtail amberjack,pescado_otros,Fish
-PALOMETA,Seriola lalandi,Yellowtail amberjack,pescado_otros,Fish
-PALOMERTA,Seriola lalandi,Yellowtail amberjack,pescado_otros,Fish
-VIEJA O MULATA,Graus nigra,Vieja,pescado_otros,Fish
-ALBACORA O PEZ ESPADA / IVI HEHEU,Xiphias gladius,Swordfish,atunes,Tuna
-ANGUILA BABOSA,Eptatretus polytrema,Fourteen-gill hagfish,anguila,Eel
-ATUN ALETA AMARILLA / KAHI AVE AVE,Thunnus albacares,Yellowfin tuna,atunes,Tuna
-"BACALAO I.PASCUA, ATUN ESCOFINA/KONSO",Ruvettus pretiosus,Oilfish,pescado_otros,Fish
-"BACALAO I.PASCUA,ATUN ESCOFINA/KONSO",Ruvettus pretiosus,Oilfish,pescado_otros,Fish
-CABRILLA ESPANOLA,Sebastes capensis,Cape redfish,pescado_otros,Fish
-CHASQUE O CHALACO,Auchenionchus spp.,Chalaco,pescado_otros,Fish
-COJINOBA DEL NORTE / PIAFRI,Seriolella violacea,Palm ruff,pescado_otros,Fish
-COJINOBA DEL SUR O AZUL,Seriolella caerulea,White warehou,pescado_otros,Fish
-DORADO DE ALTURA / MAHI MAHI,Coryphaena hippurus,Common dolphinfish,pescado_otros,Fish
-DORADO,Coryphaena hippurus,Common dolphinfish,pescado_otros,Fish
-EMPERADOR,Luvarus imperialis,Luvar,pescado_otros,Fish
-GRANADERO GRANDE,Macrourus holotrachys,Bigeye grenadier,pescado_otros,Fish
-JAIBA PACO,Mursia gaudichaudi,Paco crab,crustaceos_otros,Crustaceans
-JAIBA PANCORA,Hemigrapsus crenulatus,Hairy-handed crab,Crustaceos_otros,Crustaceans
-JUREL DE JUAN FERNANDEZ,Caranx georgianus,White trevally,jurel,Jack mackerel
-KRILL,Euphasia superba,Antarctic krill,crustaceos_otros,Crustaceans
-LANGOSTINO DE LOS CANALES,Munida subrugosa,Channel squat lobster,langostinos_otros,Langostinos
-LAPA,Fissurella spp.,Keyhole limpet,moluscos_otros,Mollusks
-LENGUADO,Paralichthys spp.,Large-tooth flounders,pescado_otros,Fish
-LENGUADO DE OJOS CHICOS,Paralichthys microps,Small-eye flounder,pescado_otros,Fish
-MARLIN RAYADO,Tetrapturus audax,Striped marlin,pescado_otros,Fish
-MORENA DE ALETA BAJA / KOREHA HA OKO,Gymnothorax porphyreus,Lowfin moray,anguila,Eel
-PAMPANITO DE JUAN FERNANDEZ,Scorpis chilensis,Pampanito,pescado_otros,Fish
-PEJE GATO HOCICON,Apristurus nasutus,Largenose catshark,pescado_otros,Fish
-PICHIBUENO,Menticirrhus ophicephalus,Snakehead kingcroaker,pescado_otros,Fish
-PULGA SALTARINA O GAMBITA,Gammarus sp,Grammarus,crustaceos_otros,Crustaceans
-PULPO DEL NORTE,Octopus (vulgaris) mimus,Changos octopus,pulpo,Octopus
-SALMON REY,Oncorhynchus tshawytscha,Chinook salmon,salmon,Salmon
-"TIBURON FUME, GRIS O GATA DE MAR",Hexanchus griseus,Bluntnose sixgill shark,tiburon,Shark
-TIBURON NARIGON GRIS,Deania calcea,Birdbeak dogfish,tiburon,Shark
-TIBURON O MARRAJO DENTUDO,Isurus oxyrinchus,Shortfin mako,tiburon,Shark
-TOLLO DE CACHOS,Squalus acanthias,Picked dogfish,tiburon,Shark
-TOLL0 DE CACHOS,Squalus acanthias,Picked dogfish,tiburon,Shark
-ACHA O HACHA,Medialuna ancietae,Sea Chab,pescado_otros,Fish
-ACHA,Medialuna ancietae,Sea Chab,pescado_otros,Fish
-ATUN OJOS GRANDES / KAHI MATA TATA,Thunnus obesus,Bigeye tuna,atunes,Tuna
-BACALAO DE J.FERNANDEZ / KOPUKU HAHA ROA,Polyprion oxygeneios,Hapuku wreckfish,pescado_otros,Fish
-BACALAO DE J. FERNANDEZ,Polyprion oxygeneios,Hapuku wreckfish,pescado_otros,Fish
-BARRACUDA O PETO / KANA KANA,Acanthocybium solandri,Wahoo,pescado_otros,Fish
-CAMARON NAVAJA,Campylonotus semistriatus,Razor shrimp,camaron_otro,Shrimp
-CAMARON DE TALUD,Campylonotus semistriatus,Razor shrimp,camaron_otro,Shrimp
-CENTOLLA DEL NORTE,Lithodes spp.,Northen king crab,centolla_nor,King crab
-LAPA BONETE,Fissurella costata,Costate keyhole limpet,moluscos_otros,Mollusks
-LENGUADO DE OJOS GRANDES,Hippoglossina macrops,Bigeye flounder,pescado_otros,Fish
-MEDUSA,Chrysaora Plocamia,South American sea nettle,meduza,Jellyfish
-PEJERRATA O GRANADERO,Coelorhynchus spp,Banded whiptail,pescado_otros,Fish
-PULPO DE JUAN FERNANDEZ,Octopus Crusoe,Crusoe octopus,pulpo,Octopus
-RAYA AGUILA,Myliobatis peruvianus,Peruvian eagle ray,raya,Ray
-REMOREMO,Elagatis bipinnulata,Rainbow runner,pescado_otros,Fish
-BACALAO ANTARTICO,Dissostichus mawsoni,Antarctic toothfish,pescado_otros,Fish
-CALAMAR ILLEX O POTA DEL ATLANTICO,Illex argentinus,Argentine shortfin squid,moluscos_otros,Mollusks
-MERLUZA DEL ATLANTICO,Merluccius hubbsi,Argentine hake,merluza,Hake
-NOTOTENIA O MARUJITO,Patagonotothen ramsayi,Longtail southern cod,pescado_otros,Fish
-POTA DEL PACIFICO,Todarodes Pacificus,Japanese flying squid,moluscos_otros,Mollusks
-RAYA MOTEADA O NEGRA,Sympterygia brevicaudata,Shorttail fanskate,raya,Ray
-"ATUN LISTADO, BARRILETE, CACHURRETA/AUHOPU",Katsuwonus pelamis,Skipjack tuna,atunes,Tuna
-CACHURRETA,Katsuwonus pelamis,Skipjack tuna,atunes,Tuna
-BAGRE,Ameiurus melas,Black bullhead,pescado_otros,Fish
-BRECA DE JUAN FERNANDEZ,Nemadactylus gayi,Breca,pescado_otros,Fish
-CARACOL TROPHON,Trophon geversianus,Gevers's trophon,caracoles_otros,Gastropods
-PEJERRATA O GRANADERO ESCAMOSO,Macrourus carinatus,Ridge scaled rattail,pescado_otros,Fish
-CUBICEPS,Cubiceps,Driftfish,pescado_otros,Fish
-ALGAS MIXTAS,Algas,Algaes,alga,Algae
-CAROLA,Callophyllis variegata,Carola,alga,Algae
-HUIRO NEGRO O CHASCON,Lessonia nigrescens,Giant grey kelp,alga,Algae
-HUIRO NEGRO,Lessonia nigrescens,Giant grey kelp,alga,Algae
-JUREL FINO,Decapterus macrosoma,Shortfin scad,jurel,Jack mackerel
-"MATAHUIRA, KARA KARA O KRA KRA",Heteropriacanthus cruentatus,Glasseye,pescado_otros,Fish
-"NANUE, NANUE PARA,  PISI O PUA",Kiphosus sandwicensis,Pacific chub,pescado_otros,Fish
-QUIMERA NEGRA,Hydrolagus melanophasma,Eastern Pacific Black Ghostshark,tiburon,Shark
-HAEMATOCOCCUS,Haematococcus pluvialis,Haematococcus,alga,Algae
-SPIRULINA,Spirulina spp.,Spirulina,alga,Algae
-HALIBUT O FLETAN,Hippoglossus hippoglossus,Atlantic halibut,pescado_otros,Fish
-LENGUADO FINO,Paralichthys adpersus,Fine flounder,pescado_otros,Fish
-SALMON DEL ATLANTICO,Salmo salar,Atlantic salmon,salmon,Salmon
-SALMON PLATEADO,Oncorhynchus kisutch,Coho salmon,salmon,Salmon
-TRUCHA ARCO IRIS,Oncorhynchus mykiss,Rainbow trout,trucha,Trout
-TURBOT,Scophtalmus maximus,Turbot,pescado_otros,Fish
-ABALON JAPONES,Haliotis discus hannai,Japanese abalone,abalon japones,Abalone
-ABALON ROJO,Haliotis rufescens,Red Abalone,abalon_otras,Abalone
-OSTION DEL NORTE,Argopecten purpuratus,Peruvian calico scallop,ostion,Scallop
-OSTRA DEL PACIFICO,Crassostrea gigas,Pacifuc Oyster,ostra,Oyster
-SALMON PLATEADO O COHO,Oncorhynchus kisutch,Coho salmon,salmon,Salmon
-TRUCHA ARCOIRIS,Oncorhynchus mykiss,Rainbow trout,trucha,Trout
-JAIBA,Cancer spp.,Crab,jaiba,Jaiba
-SALMON OTROS,Salmonidae,Salmon,salmon,Salmon
-CARACOL REAL O GIGANTE O VOLUTA ANGULOSA,Zidona dufresnei,Giant snail,caracoles_otros,Gastropods
-LUGA LUGA,Mazzaella membranacea,Luga,alga,Algae
-LUGA-LUGA,Mazzaella membranacea,Luga,alga,Algae
-ALMEJA O TACA,Protothaca taca,Taca clam,almeja_otras,Clams
-OSTION PATAGONICO,Chlamys patagonica,Patagonian scallop,ostion,Scallop
-ANCHOITA,Engraulis anchoita,Argentine anchovy,sardina,Sprat and herring
-HIRAME,Paralichthys olivaceus,Bastard halibut,sardina,Sprat and herring
-CAMARON ECUATORIANO O PENAEUE,Penaeus vannamei,Whiteleg shrimp,camaron_ecu,Whiteleg shrimp
-BABUNCO O BAUNCO,Doydixodon Laevifrons,Sea chub,pescado_otros,Fish
-MOLUSCO NO CLASIFICADO,Mollusca,Molluscs,moluscos_otros,Mollusks
-"ATUN LISTADO,BARRILETE,CACHURRETA/AUHOPU",Katsuwonus pelamis,Skipjack tuna,atunes,Tuna
-MERLUZA DEL SUR,Merluccius australis,Southern hake,merluza,Hake
-VIDRIOLA,Seriola lalandi,Yellowtail amberjack,pescado_otros,Fish
-BRECA O VILLAGAY,Cheilodactylus variegatus,Peruvian morwong,pescado_otros,Fish
-CAZON,Galeorhinus galeus,Tope shark,tiburon,Shark
-CHITON O APRETADOR,Chiton spp,Chitons,moluscos_otros,Mollusks
-ORANGE ROUGHY,Hoplosthethus atlanticus,Orange roughy,pescado_otros,Fish
-OTRAS ALGAS,Algaes,Algaes,alga,Algae
-OTROS CRUSTACEOS,Crustacea,Crustacean,crustaceos_otros,Crustaceans
-OTROS MOLUSCOS,Mollusca,Mollusks,moluscos_otros,Mollusks
-OTROS PESCADOS,Fish,Fish,pescado_otros,Fish
-SALMON ARTICO,Salvelinus alpinus,Arctic char,salmon,Salmon
+chl_name,sc_name,en_name,group,en_group,trade_name
+AGUJILLA,Scomberesox saurus scombroides,King gar,pescado_otros,Fish,King gar
+ALBACORA O PEZ ESPADA,Xiphias gladius,Swordfish,atunes,Tuna,Swordfish
+ALBACORA,Xiphias gladius,Swordfish,atunes,Tuna,Swordfish
+ALFONSINO,Beryx splendens,Splendid alfonsino,pescado_otros,Fish,Splendid alfonsino
+ALMEJA,Venus antiqua,Chilean clam,almeja_otras,Clams,Clams
+ANCHOVETA,Engraulis ringens,Anchoveta,pescado_otros,Fish,Peruvian anchoveta
+ANCHOVETA BLANCA,Anchoa nasus,Longnose anchovy,pescado_otros,Fish,Anchovy
+ANGUILA,Ophichthus spp.,eel,anguila,Eel,Eel
+APANADO,Hemilutjanus macrophthalmos,Grape-eye seabass,pescado_otros,Fish,Grape-eye seabass
+ATUN ALETA AMARILLA,Thunnus albacares,Yellowfin tuna,atunes,Tuna,Tuna
+ATUN ALETA LARGA,Thunnus alalunga,Albacore,atunes,Tuna,Tuna
+ATUN CHAUCHERA,Gatrochisma melampus,Butterfly kingfish,atunes,Tuna,Tuna
+ATUN OJOS GRANDES,Thunnus obesus,Bigeye tuna,atunes,Tuna,Tuna
+AYANQUE,Cynoscion analis,Peruvian weakfish,pescado_otros,Fish,Peruvian weakfish
+AZULEJO,Prionace glauca,Blue shark,tiburon,Shark,Shark
+BACALADILLO O MOTE,Normanichthys crockeri,Mote sculpin,pescado_otros,Fish,Mote sculpin
+BACALADILLO,Normanichthys crockeri,Mote sculpin,pescado_otros,Fish,Mote sculpin
+BACALAO DE PROFUNDIDAD,Dissostichus eleginoides,Patagonian toothfish,pescado_otros,Fish,Patagonian toothfish
+BAGRE AGUA DULCE,Ictalurus punctatus,Channel catfish,pescado_otros,Fish,Channel catfish
+BESUGO,Epigonus crassicaudus,BESUGO,pescado_otros,Fish,Sea bream
+BLANQUILLO,Prolatilus jugularis,Pacific sandperch,pescado_otros,Fish,Pacific sandperch
+BONITO,Sarda chiliensis,Eastern Pacific bonito,bonito,Bonito,Skipjack tuna
+BRECA O BILAGAY,Cheilodactylus variegatus,Peruvian morwong,pescado_otros,Fish,Peruvian morwong
+BILAGAY,Cheilodactylus variegatus,Peruvian morwong,pescado_otros,Fish,Peruvian morwong
+BRECA,Cheilodactylus variegatus,Peruvian morwong,pescado_otros,Fish,Peruvian morwong
+VILAGAY,Cheilodactylus variegatus,Peruvian morwong,pescado_otros,Fish,Peruvian morwong
+BRECA O VILAGAY,Cheilodactylus variegatus,Peruvian morwong,pescado_otros,Fish,Peruvian morwong
+BROTULA,Salilota australis,Tadpole codling,pescado_otros,Fish,Tadpole codling
+CABALLA,Scomber japonicus,Chub mackerel,caballa,Caballa,Mackerel
+CABINZA,Isacia conceptionis,Cabinza grunt,pescado_otros,Fish,Cabinza grunt
+CABRILLA,Paralabrax humeralis,Peruvian rock seabass,pescado_otros,Fish,Peruvian rock seabass
+CABRILLA COMUN,Paralabrax humeralis,Peruvian rock seabass,pescado_otros,Fish,Peruvian rock seabass
+CALAMAR,Loligo gahi,Patagonian squid,moluscos_otros,Mollusks,Squid
+CAMARON DE ROCA,Rhynchocinetes typus,Rock shrimp,camaron_otro,Shrimp,Shrimp
+CAMARON NAILON,Heterocarpus reedi,Chilean nylon shrimp,camaron_nai,Chilean nylon shrimp,Shrimp
+CANGREJO DORADO DE J. FERNANDEZ,Chaceon chilensis,Juan Fernrndez golden crab,cangrejos_otros,Crabs,Crab
+CANGREJO D. DE J. FERNANDEZ,Chaceon chilensis,Juan Fernrndez golden crab,cangrejos_otros,Crabs,Crab
+CANGREJO DORADO DE JF,Chaceon chilensis,Juan Fernrndez golden crab,cangrejos_otros,Crabs,Crab
+CANQUE,Stellifer minor,Minor stardrum,pescado_otros,Fish,Minor stardrum
+CARACOL LOCATE,Thais chocolata,Snail locate,caracoles_otros,Gastropods,Snails
+CARACOL PALO PALO,Argobuccinum spp.,Sanil palo palo,caracoles_otros,Gastropods,Snails
+CARACOL PICUYO,Odontocymbiola magellanica,Snail picuyo,caracoles_otros,Gastropods,Snails
+CARACOL PIQUILHUE,Adelomelon ancilla,Snail Piquilhue,caracoles_otros,Gastropods,Snails
+CARACOL RUBIO,Xantochorus cassidiformis,Snail Rubio,caracoles_otros,Gastropods,Snails
+CARACOL TEGULA,Tegula atra,Snail tegula,caracoles_otros,Gastropods,Snails
+CARACOL TRUMULCO,Chorus giganteus,Snail trumulco,caracoles_otros,Gastropods,Snails
+CENTOLLA,Lithodes santolla,Southern king crab,centolla,King crab,King crab
+CENTOLLON,Paralomis granulosa,Softshell red crab,crustaceos_otros,Crustaceans,King crab
+CENTOLLON DEL NORTE,Paralomis spp.,Northern crab,crustaceos_otros,Crustaceans,King crab
+CHANCHARRO,Helicolenus lengerichi,Rockfish helicolenus,pescado_otros,Fish,Rockfish helicolenus
+CHASCA,Gelidium rex,Red algae,alga,Algae,Algae
+CHASCON O HUIRO NEGRO,Lessonia nigrescens,Giant grey kelp,alga,Algae,Algae
+CHICOREA DE MAR,Chondracanthus chamissoi,Red algae chicorea,alga,Algae,Algae
+CHOCHA,Trochita trochiformes,Snail trochita,moluscos_otros,Mollusks,Snails
+CHOLGA,Aulacomya ater,Chilean ribbed mussel,mejillon,Mussels,Mussels
+CHORITO,Mytilus chilensis,Chilean mussel,mejillon,Mussels,Mussels
+CHORO,Choromytilus chorus,Chorus Mussel,mejillon,Mussels,Mussels
+COCHAYUYO,Durvillaea antarctica,New Zealand bull,alga,Algae,Algae
+COCHINILLA,Navodon Paschalis,Navodon,pescado_otros,Fish,Navodon
+COJINOBA DEL NORTE,Seriolella violacea,Palm ruff,pescado_otros,Fish,Warehou
+COJINOBA DEL SUR,Seriolella caerulea,White warehou,pescado_otros,Fish,Warehou
+COJINOBA,Seriolella ,Warehou,pescado_otros,Fish,Warehou
+COJINOBA MOTEADA,Seriolella punctata,Silver warehou,pescado_otros,Fish,Warehou
+CONGRIO COLORADO,Genypterus chilensis,Red cusk-eel,congrio,Cusk-eel,Cusk-eel
+CONGRIO DORADO,Genypterus blacodes,Pink cusk-eel,congrio,Cusk-eel,Cusk-eel
+CONGRIO NEGRO,Genypterus maculatus,Black cusk-eel,congrio,Cusk-eel,Cusk-eel
+CORVINA,Cilus gilberti,Corvina drum,pescado_otros,Fish,Corvina drum
+CRUSTACEO NO CLASIFICADO,Crustacea,Crustaceans,crustaceos_otros,Crustaceans,Other crustaceans
+CULENGUE,Gari solida,Pacific clam,almeja_otras,Clams,Clams
+DORADO DE ALTURA,Coryphaena hippurus,Common dolphinfish,pescado_otros,Fish,Mahi Mahi
+DRACO RAYADO,Champsocephalus gunnari,Mackerel icefish,pescado_otros,Fish,Mackerel icefish
+ERIZO,Loxechinus albus,Chilean sea urchin,erizo,Sea urchin,Sea urchin
+GAMBA,Haliporoides diomedeae,Chilean knife shrimp,gambas,Prawns,Prawns
+HUAIQUIL O CORVINILLA,Micropogonias manni,Micropogonias manni,pescado_otros,Fish,Huaiquil
+HUEPO O NAVAJA DE MAR,Ensis macha,Razor clam,navaja,Razor clam,Navaja de mar
+HUIRO,Macrocystis spp.,Giant kelp,alga,Algae,Algae
+HUIRO PALO,Lessonia trabeculata,Giant brown kelp,alga,Algae,Algae
+JAIBA LIMON,Cancer porteri,Crab limon,jaiba,Jaiba,Crabs
+JAIBA MARMOLA,Cancer edwardsi,Mola rock crab,jaiba,Jaiba,Crabs
+JAIBA MORA,Homalaspis plana,Blackberry crab,jaiba,Jaiba,Crabs
+JAIBA PANCHOTE O CANGREJO,Taliepus dentatus,Crab panchote,jaiba,Jaiba,Crabs
+CANGREJO O PANCHOTE,Taliepus dentatus,Crab panchote,jaiba,Jaiba,Crabs
+JAIBA PATUDA,Taliepus marginatus,Crab patuda,crustaceos_otros,Crustaceans,Crabs
+JAIBA PELUDA O PACHONA,Cancer setosus,Crab peluda,jaiba,Jaiba,Crabs
+JAIBA PELUDA,Cancer setosus,Crab peluda,jaiba,Jaiba,Crabs
+JAIBA REINA,Cancer coronatus,Queen Crab,jaiba,Jaiba,Crabs
+JAIBA REMADORA,Ovalipes trimaculatus,Rowing Crab,jaiba,Jaiba,Crabs
+JERGUILLA,Aplodactylus punctatus,Jerguilla,pescado_otros,Fish,Jerguilla
+JIBIA O CALAMAR ROJO,Dosidicus gigas,Jumbo flying squid,jibia,Squid,Squid
+JIBIA,Dosidicus gigas,Jumbo flying squid,jibia,Squid,Squid
+JULIANA O TAWERA,Tawera gayi,Tawera,almeja_gayi,Tawera,Clams
+JULIANA,Tawera gayi,Tawera,almeja_gayi,Tawera,Clams
+JUREL,Trachurus murphyi,Chilean jack mackerel,jurel,Jack mackerel,Jack mackerel
+KONSO,Ruvettus pretiosus,Oilfish,pescado_otros,Fish,Oilfish
+LANGOSTA DE J.FERNANDEZ,Jasus frontalis,Juan Fernandez rock lobster,crustaceos_otros,Crustaceans,Lobsters
+LANGOSTA DE J. FERNANDEZ,Jasus frontalis,Juan Fernandez rock lobster,crustaceos_otros,Crustaceans,Lobsters
+LANGOSTA ENANA,Projasus bahamondei,Chilean Jagged Lobster,crustaceos_otros,Crustaceans,Lobsters
+LANGOSTINO AMARILLO,Cervimunida johni,Blue squat lobster,langostinos_otros,Langostinos,Langostinos
+LANGOSTINO COLORADO,Pleuroncodes monodon,Red squat lobster,langostino_col,Red squat lobster,Langostinos
+LANGOSTINO ENANO,Pleuroncodes sp,Squat lobster,langostinos_otros,Langistinos,Langostinos
+LAPA NEGRA,Fissurella latimarginata,Black keyhole limpet,moluscos_otros,Mollusks,Limpet
+LAPA PICTA,Fissurella picta,Picta Keyhole limpet,moluscos_otros,Mollusks,Limpet
+LAPA REINA,Fissurella maxima,Giant keyhole limpet,moluscos_otros,Mollusks,Limpet
+LAPA ROSADA,Fissurella cumingi,Rosy keyhole limpet,moluscos_otros,Mollusks,Limpet
+LECHUGUILLA,Ulva lactuca,Sea lettuce,alga,Algae,Algae
+LENGUADO OJOS CHICOS,Paralichthys microps,Small-eye flounder,pescado_otros,Fish,Flounders
+LIQUEN GOMOSO,Gymnogongrus furcellatus,Liquen Gomoso,alga,Algae,Algae
+LISA,Mugil cephalus,Flathead grey mullet,pescado_otros,Fish,Flathead grey mullet
+LOCO,Concholepas concholepas,Chilean abalone,loco,Loco,Loco
+LUCHE,Porphyra columbina,Luche,alga,Algae,Algae
+LUGA CUCHARA O CORTA,Mazzaella laminarioides,Luga,alga,Algae,Algae
+LUCHA CUCHARA O CORTA,Mazzaella laminarioides,Luga,alga,Algae,Algae
+LUGA NEGRA O CRESPA,Sarcothalia crispata,Black algae luga,alga,Algae,Algae
+LUGA NEGRA,Sarcothalia crispata,Black algae luga,alga,Algae,Algae
+LUGA-ROJA,Gigartina skottsbergii,Red luga,alga,Algae,Algae
+LUGA ROJA,Gigartina skottsbergii,Red luga,alga,Algae,Algae
+MACHA,Mesodesma donacium,Macha clam,macha,Macha,Machas
+MACHUELO O TRITRE,Ethmidium maculatum,Pacific menhaden,pescado_otros,Fish,Pacific menhaden
+MACHUELO TRITRE,Ethmidium maculatum,Pacific menhaden,pescado_otros,Fish,Pacific menhaden
+MACHUELO,Ethmidium maculatum,Pacific menhaden,pescado_otros,Fish,Pacific menhaden
+MARLIN,Tetrapturus spp.,Tetrapturus,pescado_otros,Fish,Marlin
+MERLUZA COMUN,Merluccius gayi gayi,South Pacific hake,merluza,Hake,Hake
+MERLUZA DE COLA,Macruronus magellanicus,Patagonian grenadier,merluza,Hake,Hake
+MERLUZA DE TRES ALETAS,Micromesistius australis,Southern blue whiting,merluza,Hake,Hake
+MERLUZA DEL SUR O AUSTRAL,Merluccius australis,Southern hake,merluza,Hake,Hake
+MERLUZA DEL SUR,Merluccius australis,Southern hake,merluza,Hake,Hake
+NANUE,Kiphosus sandwicensis,Pacific chub,pescado_otros,Fish,Pacific chub
+NAVAJUELA,Tagelus dombeii,Navajuela,navajuela,Navajuela,Navajuela
+OSTION DEL SUR,Chlamys vitrea,Sea scalop,moluscos_otros,Mollusks,Scallop
+OSTRA CHILENA,Ostrea chilensis,Chilean flat oyster,ostra,Oyster,Oyster
+PAMPANITO,Stromateus stellatus,Starry butterfish,pescado_otros,Fish,Starry butterfish
+PEJEGALLO,Callorhinchus callorhynchus,American Elephantfish,pescado_otros,Fish,American Elephantfish
+PEJEPERRO,Semicossyphus maculatus,Sheephead,pescado_otros,Fish,Sheephead
+PEJERRATA,Coelorhynchus chilensis,Chilean grenadier,pescado_otros,Fish,Chilean grenadier
+PEJERREY DE MAR,Odontesthes regia,Chilean silverside,pescado_otros,Fish,Chilean silverside
+PEJESAPO,Sicyases sanguin,Pejesapo,pescado_otros,Fish,Pejesapo
+PEJEZORRO,Alopias vulpinus,Thresher,pescado_otros,Fish,Thresher
+PELILLO,Gracilaria spp.,Red algae gracilaria,alga,Algae,Algae
+PEPINO DE MAR,Athyonidium chilensis,Sea cucumber,invertebrados_otros,Invertebrates,Sea cucumber
+PESCADO NO CLASIFICADO,Pescado,Fish,pescado_otros,Fish,Other fish
+PEZ SOL,Lampris guttatus,Opah,pescado_otros,Fish,Opah
+PICOROCO,Austromegabalanus psittacus,Giant barnacle,crustaceos_otros,Crustaceans,Giant barnacle
+PIURE,Pyura chilensis,Chilean tunicate,piure,Piure,Chilean tunicate
+PULPO,Octopus (vulgaris) mimus,Changos octopus,pulpo,Octopus,Octopus
+PULPO DEL SUR,Enteroctopus megalocyathus,Southern red octopus,pulpo,Octopus,Octopus
+PUYE,Galaxias maculatus,Common galaxias,pescado_otros,Fish,Common galaxias
+RAYA ESPINOSA,Dipturus trachyderma,Ray,raya,Ray,Rays
+RAYA VOLANTIN,Zearaja chilensis,Yellownose skate,raya,Ray,Rays
+RAYA,Zearaja chilensis,Yellownose skate,raya,Ray,Rays
+REINETA,Brama australis,Southern rays bream,pescado_otros,Fish,Southern rays bream 
+ROBALO,Eleginops maclovinus,Patagonian blennie,pescado_otros,Fish,Patagonian blennie
+ROCOCO,Paralonchurus peruanus,Peruvian banded croaker,pescado_otros,Fish,Peruvian banded croaker
+ROLLIZO,Pinguipes chilensis,Chilean sandperch,pescado_otros,Fish,Chilean sandperch
+RONCACHO,Sciaena deliciosa,Lorna drum,pescado_otros,Fish,Lorna drum
+SARDINA AUSTRAL,Sprattus fuegensis,Falkland sprat,sardina,Sprat and herring,Sardines
+SARDINA AUSTRAL O DEL SUR,Sprattus fuegensis,Falkland sprat,sardina,Sprat and herring,Sardines
+SARDINA COMUN,Strangomera bentincki,Araucanian herring,sardina,Sprat and herring,Sardines
+SARDINA,Strangomera bentincki,Araucanian herring,sardina,Sprat and herring,Sardines
+SARDINA ESPANOLA,Sardinops sagax,South American pilchard,sardina,Sprat and herring,Sardines
+SARGO,Anisotremus scapularis,Peruvian grunt,pescado_otros,Fish,Peruvian grunt
+SIERRA,Thyrsites atun,Snoek,tiburon,Shark,Mackerel
+TAQUILLA,Mulinia edulis,Taquilla,almeja_otras,Clams,Clams
+TIBURON O MARRAJO,Isurus oxyrinchus,Shortfin mako,tiburon,Shark,Shark
+MARRAJO O TIBURON,Isurus oxyrinchus,Shortfin mako,tiburon,Shark,Shark
+TIBURON SARDINERO,Lamna nasus,Porbeagle,tiburon,Shark,Shark
+TOLLO O FUME,Mustelus mento,Speckled smooth-hound,tiburon,Shark,Shark
+TOLLO,Mustelus mento,Speckled smooth-hound,tiburon,Shark,Shark
+TOMOYO,Labrisomus philippii,Chalapo clinid,pescado_otros,Fish,Chalapo clinid
+TUMBAO,Semele solida,Tumbao,almeja_otras,Clams,Clams
+TOREMO,Seriola lalandi,Yellowtail amberjack,pescado_otros,Fish,Yellowtail amberjack
+"VIDRIOLA,  PALOMETA  DORADO O TOREMO",Seriola lalandi,Yellowtail amberjack,pescado_otros,Fish,Yellowtail amberjack
+"VIDRIOLA, PALOMETA, DORADO O TOREMO",Seriola lalandi,Yellowtail amberjack,pescado_otros,Fish,Yellowtail amberjack
+PALOMETA,Seriola lalandi,Yellowtail amberjack,pescado_otros,Fish,Yellowtail amberjack
+PALOMERTA,Seriola lalandi,Yellowtail amberjack,pescado_otros,Fish,Yellowtail amberjack
+VIEJA O MULATA,Graus nigra,Vieja,pescado_otros,Fish,Vieja
+ALBACORA O PEZ ESPADA / IVI HEHEU,Xiphias gladius,Swordfish,atunes,Tuna,Swordfish
+ANGUILA BABOSA,Eptatretus polytrema,Fourteen-gill hagfish,anguila,Eel,Eel
+ATUN ALETA AMARILLA / KAHI AVE AVE,Thunnus albacares,Yellowfin tuna,atunes,Tuna,Tuna
+"BACALAO I.PASCUA, ATUN ESCOFINA/KONSO",Ruvettus pretiosus,Oilfish,pescado_otros,Fish,Oilfish
+"BACALAO I.PASCUA,ATUN ESCOFINA/KONSO",Ruvettus pretiosus,Oilfish,pescado_otros,Fish,Oilfish
+CABRILLA ESPANOLA,Sebastes capensis,Cape redfish,pescado_otros,Fish,Cape redfish
+CHASQUE O CHALACO,Auchenionchus spp.,Chalaco,pescado_otros,Fish,Chalaco
+COJINOBA DEL NORTE / PIAFRI,Seriolella violacea,Palm ruff,pescado_otros,Fish,Warehou
+COJINOBA DEL SUR O AZUL,Seriolella caerulea,White warehou,pescado_otros,Fish,Warehou
+DORADO DE ALTURA / MAHI MAHI,Coryphaena hippurus,Common dolphinfish,pescado_otros,Fish,Mahi Mahi
+DORADO,Coryphaena hippurus,Common dolphinfish,pescado_otros,Fish,Mahi Mahi
+EMPERADOR,Luvarus imperialis,Luvar,pescado_otros,Fish,Luvar
+GRANADERO GRANDE,Macrourus holotrachys,Bigeye grenadier,pescado_otros,Fish,Bigeye grenadier
+JAIBA PACO,Mursia gaudichaudi,Paco crab,crustaceos_otros,Crustaceans,Crabs
+JAIBA PANCORA,Hemigrapsus crenulatus,Hairy-handed crab,Crustaceos_otros,Crustaceans,Crabs
+JUREL DE JUAN FERNANDEZ,Caranx georgianus,White trevally,jurel,Jack mackerel,Jack mackerel
+KRILL,Euphasia superba,Antarctic krill,crustaceos_otros,Crustaceans,Krill
+LANGOSTINO DE LOS CANALES,Munida subrugosa,Channel squat lobster,langostinos_otros,Langostinos,Langostinos
+LAPA,Fissurella spp.,Keyhole limpet,moluscos_otros,Mollusks,Limpet
+LENGUADO,Paralichthys spp.,Large-tooth flounders,pescado_otros,Fish,Flounders
+LENGUADO DE OJOS CHICOS,Paralichthys microps,Small-eye flounder,pescado_otros,Fish,Flounders
+MARLIN RAYADO,Tetrapturus audax,Striped marlin,pescado_otros,Fish,Marlin
+MORENA DE ALETA BAJA / KOREHA HA OKO,Gymnothorax porphyreus,Lowfin moray,anguila,Eel,Eel
+PAMPANITO DE JUAN FERNANDEZ,Scorpis chilensis,Pampanito,pescado_otros,Fish,Pampanito
+PEJE GATO HOCICON,Apristurus nasutus,Largenose catshark,pescado_otros,Fish,Largenose catshark
+PICHIBUENO,Menticirrhus ophicephalus,Snakehead kingcroaker,pescado_otros,Fish,Snakehead kingcroaker
+PULGA SALTARINA O GAMBITA,Gammarus sp,Grammarus,crustaceos_otros,Crustaceans,Grammarus
+PULPO DEL NORTE,Octopus (vulgaris) mimus,Changos octopus,pulpo,Octopus,Octopus
+SALMON REY,Oncorhynchus tshawytscha,Chinook salmon,salmon,Salmon,Salmon
+"TIBURON FUME, GRIS O GATA DE MAR",Hexanchus griseus,Bluntnose sixgill shark,tiburon,Shark,Shark
+TIBURON NARIGON GRIS,Deania calcea,Birdbeak dogfish,tiburon,Shark,Shark
+TIBURON O MARRAJO DENTUDO,Isurus oxyrinchus,Shortfin mako,tiburon,Shark,Shark
+TOLLO DE CACHOS,Squalus acanthias,Picked dogfish,tiburon,Shark,Shark
+TOLL0 DE CACHOS,Squalus acanthias,Picked dogfish,tiburon,Shark,Shark
+ACHA O HACHA,Medialuna ancietae,Sea Chab,pescado_otros,Fish,Sea Chab
+ACHA,Medialuna ancietae,Sea Chab,pescado_otros,Fish,Sea Chab
+ATUN OJOS GRANDES / KAHI MATA TATA,Thunnus obesus,Bigeye tuna,atunes,Tuna,Tuna
+BACALAO DE J.FERNANDEZ / KOPUKU HAHA ROA,Polyprion oxygeneios,Hapuku wreckfish,pescado_otros,Fish,Hapuku wreckfish
+BACALAO DE J. FERNANDEZ,Polyprion oxygeneios,Hapuku wreckfish,pescado_otros,Fish,Hapuku wreckfish
+BARRACUDA O PETO / KANA KANA,Acanthocybium solandri,Wahoo,pescado_otros,Fish,Wahoo
+CAMARON NAVAJA,Campylonotus semistriatus,Razor shrimp,camaron_otro,Shrimp,Shrimp
+CAMARON DE TALUD,Campylonotus semistriatus,Razor shrimp,camaron_otro,Shrimp,Shrimp
+CENTOLLA DEL NORTE,Lithodes spp.,Northen king crab,centolla_nor,King crab,King crab
+LAPA BONETE,Fissurella costata,Costate keyhole limpet,moluscos_otros,Mollusks,Limpet
+LENGUADO DE OJOS GRANDES,Hippoglossina macrops,Bigeye flounder,pescado_otros,Fish,Flounders
+MEDUSA,Chrysaora Plocamia,South American sea nettle,meduza,Jellyfish,Jellyfish
+PEJERRATA O GRANADERO,Coelorhynchus spp,Banded whiptail,pescado_otros,Fish,Chilean grenadier
+PULPO DE JUAN FERNANDEZ,Octopus Crusoe,Crusoe octopus,pulpo,Octopus,Octopus
+RAYA AGUILA,Myliobatis peruvianus,Peruvian eagle ray,raya,Ray,Rays
+REMOREMO,Elagatis bipinnulata,Rainbow runner,pescado_otros,Fish,Rainbow runner
+BACALAO ANTARTICO,Dissostichus mawsoni,Antarctic toothfish,pescado_otros,Fish,Antarctic toothfish
+CALAMAR ILLEX O POTA DEL ATLANTICO,Illex argentinus,Argentine shortfin squid,moluscos_otros,Mollusks,Squid
+MERLUZA DEL ATLANTICO,Merluccius hubbsi,Argentine hake,merluza,Hake,Hake
+NOTOTENIA O MARUJITO,Patagonotothen ramsayi,Longtail southern cod,pescado_otros,Fish,Longtail southern cod
+POTA DEL PACIFICO,Todarodes Pacificus,Japanese flying squid,moluscos_otros,Mollusks,Squid
+RAYA MOTEADA O NEGRA,Sympterygia brevicaudata,Shorttail fanskate,raya,Ray,Rays
+"ATUN LISTADO, BARRILETE, CACHURRETA/AUHOPU",Katsuwonus pelamis,Skipjack tuna,atunes,Tuna,Tuna
+CACHURRETA,Katsuwonus pelamis,Skipjack tuna,atunes,Tuna,Tuna
+BAGRE,Ameiurus melas,Black bullhead,pescado_otros,Fish,Black bullhead
+BRECA DE JUAN FERNANDEZ,Nemadactylus gayi,Breca,pescado_otros,Fish,Breca Juan Fernandez
+CARACOL TROPHON,Trophon geversianus,Gevers's trophon,caracoles_otros,Gastropods,Snails
+PEJERRATA O GRANADERO ESCAMOSO,Macrourus carinatus,Ridge scaled rattail,pescado_otros,Fish,Chilean grenadier
+CUBICEPS,Cubiceps,Driftfish,pescado_otros,Fish,Driftfish
+ALGAS MIXTAS,Algas,Algaes,alga,Algae,Algae
+CAROLA,Callophyllis variegata,Carola,alga,Algae,Algae
+HUIRO NEGRO O CHASCON,Lessonia nigrescens,Giant grey kelp,alga,Algae,Algae
+HUIRO NEGRO,Lessonia nigrescens,Giant grey kelp,alga,Algae,Algae
+JUREL FINO,Decapterus macrosoma,Shortfin scad,jurel,Jack mackerel,Jack mackerel
+"MATAHUIRA, KARA KARA O KRA KRA",Heteropriacanthus cruentatus,Glasseye,pescado_otros,Fish,Glasseye
+"NANUE, NANUE PARA,  PISI O PUA",Kiphosus sandwicensis,Pacific chub,pescado_otros,Fish,Pacific chub
+QUIMERA NEGRA,Hydrolagus melanophasma,Eastern Pacific Black Ghostshark,tiburon,Shark,Eastern Pacific Black Ghostshark
+HAEMATOCOCCUS,Haematococcus pluvialis,Haematococcus,alga,Algae,Alage
+SPIRULINA,Spirulina spp.,Spirulina,alga,Algae,Alage
+HALIBUT O FLETAN,Hippoglossus hippoglossus,Atlantic halibut,pescado_otros,Fish,Atlantic halibut
+LENGUADO FINO,Paralichthys adpersus,Fine flounder,pescado_otros,Fish,Flounders
+SALMON DEL ATLANTICO,Salmo salar,Atlantic salmon,salmon,Salmon,Salmon
+SALMON PLATEADO,Oncorhynchus kisutch,Coho salmon,salmon,Salmon,Salmon
+TRUCHA ARCO IRIS,Oncorhynchus mykiss,Rainbow trout,trucha,Trout,Trout
+TURBOT,Scophtalmus maximus,Turbot,pescado_otros,Fish,Turbot
+ABALON JAPONES,Haliotis discus hannai,Japanese abalone,abalon japones,Abalone,Abalone
+ABALON ROJO,Haliotis rufescens,Red Abalone,abalon_otras,Abalone,Abalone
+OSTION DEL NORTE,Argopecten purpuratus,Peruvian calico scallop,ostion,Scallop,Scallop
+OSTRA DEL PACIFICO,Crassostrea gigas,Pacifuc Oyster,ostra,Oyster,Oyster
+SALMON PLATEADO O COHO,Oncorhynchus kisutch,Coho salmon,salmon,Salmon,Salmon
+TRUCHA ARCOIRIS,Oncorhynchus mykiss,Rainbow trout,trucha,Trout,Trout
+JAIBA,Cancer spp.,Crab,jaiba,Jaiba,Crabs
+SALMON OTROS,Salmonidae,Salmon,salmon,Salmon,Salmon
+CARACOL REAL O GIGANTE O VOLUTA ANGULOSA,Zidona dufresnei,Giant snail,caracoles_otros,Gastropods,Snails
+LUGA LUGA,Mazzaella membranacea,Luga,alga,Algae,Algae
+LUGA-LUGA,Mazzaella membranacea,Luga,alga,Algae,Algae
+ALMEJA O TACA,Protothaca taca,Taca clam,almeja_otras,Clams,Clams
+OSTION PATAGONICO,Chlamys patagonica,Patagonian scallop,ostion,Scallop,Scallop
+ANCHOITA,Engraulis anchoita,Argentine anchovy,sardina,Sprat and herring,Sardines
+HIRAME,Paralichthys olivaceus,Bastard halibut,sardina,Sprat and herring,Herring
+CAMARON ECUATORIANO O PENAEUE,Penaeus vannamei,Whiteleg shrimp,camaron_ecu,Whiteleg shrimp,Shrimp
+BABUNCO O BAUNCO,Doydixodon Laevifrons,Sea chub,pescado_otros,Fish,Sea chub
+MOLUSCO NO CLASIFICADO,Mollusca,Molluscs,moluscos_otros,Mollusks,Other mollusks
+"ATUN LISTADO,BARRILETE,CACHURRETA/AUHOPU",Katsuwonus pelamis,Skipjack tuna,atunes,Tuna,Skipjack tuna
+MERLUZA DEL SUR,Merluccius australis,Southern hake,merluza,Hake,Hake
+VIDRIOLA,Seriola lalandi,Yellowtail amberjack,pescado_otros,Fish,Yellowtail amberjack
+BRECA O VILLAGAY,Cheilodactylus variegatus,Peruvian morwong,pescado_otros,Fish,Peruvian morwong
+CAZON,Galeorhinus galeus,Tope shark,tiburon,Shark,Shark
+CHITON O APRETADOR,Chiton spp,Chitons,moluscos_otros,Mollusks,Limpet
+ORANGE ROUGHY,Hoplosthethus atlanticus,Orange roughy,pescado_otros,Fish,Orange roughy
+OTRAS ALGAS,Algaes,Algaes,alga,Algae,Algae
+OTROS CRUSTACEOS,Crustacea,Crustacean,crustaceos_otros,Crustaceans,Other crustaceans
+OTROS MOLUSCOS,Mollusca,Mollusks,moluscos_otros,Mollusks,Other mollusks
+OTROS PESCADOS,Fish,Fish,pescado_otros,Fish,Other fish
+SALMON ARTICO,Salvelinus alpinus,Arctic char,salmon,Salmon,Salmon

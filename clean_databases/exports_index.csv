@@ -1,10 +1,10 @@
-﻿export_name,group_name
+﻿export_name,trade_name
 algas,Algae
 almejas,Clams
 bacalado_profundo,Patagonian toothfish
-caracol,Other snails
+caracol,Snails
 centolla,King crab
-culengues,Other mollusks
+culengues,Clams
 erizo,Sea urchin
 jaiba,Crabs
 jurel,Jack mackerel
@@ -47,17 +47,17 @@ hirame,Herring
 calamar,Squid
 jibias,Squid
 sarda,Skipjack tuna
-lapa,Other snails
+lapa,Limpet
 rayas,Rays
 tumbaos,Clams
 bacalao_jf,Hapuku wreckfish
 tiburones,Shark
 robalos,Patagonian blennie
 alfonsino,Splendid alfonsino
-besugo,BESUGO
-esturiones,Other fish
+besugo,Sea bream
+esturiones,Sturgeon
 fletanes,Atlantic halibut
-lenguados,Large-tooth flounders
+lenguados,Flounders
 medusas,Jellyfish
 orange_roughy,Orange roughy
 sargo,Peruvian grunt
