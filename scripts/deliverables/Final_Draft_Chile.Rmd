@@ -96,17 +96,7 @@ To evaluate the volume contirbution of specific fisheries over the last five yea
 
 #### Estimating National Seafood Supply
 
-We combined data from Chilean Customs and SERNAPESCA to estimate domestic consumption with our model. We accessed their databases between August and September of 2018.
-
-The specific data-sets we used are:
-
-- Catches: annual tonnes per marine species landed in each region (SERNAPESCA, 2013-2017).
-- Species contribution to different types of products: annual tons per marine species used in each region to elaborate each type of product (i.e. fish meal, oil, canned products, freeze products, dried products, smoked products, agar, col-agar, carragenina, dry algae) (SERNAPESCA, 2012-2016).
-- Aquaculture: annual tonnes per species harvest from aquaculture centers in each region (SERNAPESCA, 2012-2017).
-- Exports: quantities of all the products exported from each Chilean region to other countries. (ADUANAS, 2013-2018).
-- Imports: quantities of all marine products imported into the country. (ADUANAS, 2013-2018)
-
-Each product in the original exports and imports data-sets is identified through an id number that matches the name of the product in a code known as the _Arancel Aduanero_. This document was only available to us in .pdf format. Thus, to identified the id of products containing domestically fished and harvest marine species we searched for the names of the fished and harvested species listed by SERNAPESCA in the document with the _Arancel Aduanero_. We searched for all the ids that refer to the species scientific name, common name or genus name as listed by SERNAPESCA and aggregated them under the species name. In many cases this index is detailed at a species level, however several products group species. In order to avoid double accounting of a specie, we grouped several species under one group. We did not include the codes of any of the products for non-human consumption to avoid double counting since they were substracted in a previous stage of the model. 
+We combined trade data from Chilean Customs and landings data from SERNAPESCA to estimate domestic consumption with our model. Each product in the original exports and imports data-sets is identified through an id number that matches the name of the product in a code known as the _Arancel Aduanero_. To identified the id of products containing domestically fished and harvest marine species we searched for the names of the fished and harvested species listed by SERNAPESCA in the document with the _Arancel Aduanero_. We searched for all the ids that refer to the species scientific name, common name or genus name as listed by SERNAPESCA and aggregated them under the species name. In many cases this index is detailed at a species level, however several products aggregated species. In order to avoid double accounting of a specie, we grouped several species under one group. We did not include the codes of any of the products for non-human consumption to avoid double counting since they were substracted in a previous stage of the model. 
 
 We also calculated all raw material that enters to a facility and is used for non-human consumption products. For this, we assumed that the following categories of products are not for direct human consumption: fish meal, col-agar, agar, carragenina, oil and alginato, dry algae. Hence, the following products are considered for human consumption: fresh, frozen, salty dry, salty wet, smoked, canned, dehydrate. While fish meal, oil, dehydrate, dried algae, and other algae derivatives are use for non human consumption. We did not assume that all aquaculture goes to human-consumption because there are algaes harvest for no- human consumption. Finally, we assume that all algae that goes in to a processing facility is not for human consuption.
 
@@ -477,6 +467,90 @@ net_trade_six_more_exported
 ```
 
 ### National Seafood Supply
+
+```{r Domestic consumption, echo = FALSE, message=FALSE, warning = FALSE}
+
+#####################################################################################
+# Matching 
+####################################################################################
+sp_index <- read.csv(here('clean_databases/sp_index.csv'))
+
+# Chilean to trade name
+chl_to_trade <- sp_index %>% 
+  select(chl_name, trade_name ) %>% 
+  unique()
+
+# Imports to trade name 
+imp_to_trade <- read.csv(here('clean_databases/imports_index.csv')) %>% 
+  rename(imports_name = ï..imports_name)
+
+# Exports to trade name 
+exp_to_trade <- read.csv(here('clean_databases/exports_index.csv')) %>% 
+  rename(exports_name = ï..export_name)
+
+# Scientific to trade
+en_to_trade <- sp_index %>% 
+  select(en_name, trade_name ) %>% 
+  unique()
+
+#######################################################################################
+
+# Landings: Importing, cleaning and grouping by trade name 
+L <- read.csv(here('clean_databases/landings_SERNAPESCA.csv')) %>% 
+  filter(region != 'national') %>% 
+  select(year, chl_name = species, tons) %>% 
+  left_join(chl_to_trade) %>% 
+  group_by(year, trade_name) %>% 
+  summarise(tons = sum(tons, na.rm= TRUE))
+  
+# Aquaculture: Importing, cleaning and grouping by trade name
+A <- read.csv(here('clean_databases/aquaculture_SERNAPESCA.csv')) %>% 
+  filter(region != 'national') %>% 
+  select(year, chl_name = species, tons) %>% 
+  left_join(chl_to_trade) %>% 
+  group_by(year, trade_name) %>% 
+  summarise(tons = sum(tons, na.rm= TRUE))
+
+# Imports: Importing, cleaning and grouping by trade name
+I <- read.csv(here('clean_databases/imports_ADUANA.csv')) %>% 
+  select(year, imports_name = name_sp, tons) %>% 
+  left_join(imp_to_trade) %>% 
+  filter(trade_name != 'NA') %>% 
+  group_by(year, trade_name) %>% 
+  summarise(tons = sum(tons, na.rm= TRUE))
+
+# Exports: Importing, cleaning and grouping by trade name
+E <- read.csv(here('clean_databases/exports_ADUANA.csv')) %>% 
+  select(year, exports_name = grupo_exportacion, tons) %>% 
+  left_join(exp_to_trade) %>% 
+  filter(trade_name != 'NA') %>% 
+  group_by(year, trade_name) %>% 
+  summarise(tons = sum(tons, na.rm= TRUE))
+
+# Yields: Importing, cleaning and grouping by trade name
+
+Y <- read_csv(here("clean_databases/intermediate/yield_DHC.csv")) %>% 
+  rename(en_name = species_en) %>% 
+  left_join(en_to_trade)
+
+
+#####################################################################################
+# Implementing model Dom_consumption = (L+A)*Y + I - E
+####################################################################################
+  
+## full-join
+
+
+
+
+```
+
+
+
+
+
+
+
 
 #### Species contribution to Human and Non-human consumption
 
