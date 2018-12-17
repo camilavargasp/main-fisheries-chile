@@ -140,7 +140,7 @@ sp_index <- read_csv(here("clean_databases/sp_index.csv")) %>%
 # Calculating annual landings per sector 
 
 annual_landings_sector <- landings %>% 
-  filter(region != "national", international_waters == 0) %>% 
+  filter(region != "national") %>% 
   mutate(tons = as.numeric(tons), subsector = ifelse(subsector =='fabric_vessel', 'industrial', subsector)) %>% 
   group_by(year, subsector) %>% 
   summarise(tons = sum(tons, na.rm = T)) %>% 
@@ -152,7 +152,7 @@ annual_landings_sector <- landings %>%
 # to avoid repeated observations
 
  landings_top_5 <- landings %>% 
-  filter(region != "national", international_waters == 0) %>% 
+  filter(region != "national") %>% 
   mutate(tons = as.numeric(tons), subsector = ifelse(subsector =='fabric_vessel', 'industrial', subsector)) %>% 
   rename(chl_name = species) %>% 
   left_join(sp_index) %>% 
@@ -407,19 +407,20 @@ Chile is a major exporter of seafood products. According to SUBPESCA, Chile has 
 ```{r International trade per species, echo = FALSE, warning=FALSE, message=FALSE}
 
 # Importing export and import data 
-sp_exports<- read_csv(here("clean_databases/exports_ADUANA.csv"))
-sp_imports<- read_csv(here("clean_databases/imports_ADUANA.csv"))
+sp_exports<- read_csv(here("clean_databases/exports_ADUANA.csv")) %>% 
+  rename(export_name = grupo_exportacion)
+sp_imports<- read_csv(here("clean_databases/imports_ADUANA.csv")) %>% 
+  rename(imports_name = name_sp)
 
 # Matchings
-imports_index <- read_csv(here("clean_databases/imports_index.csv"))
-exports_index <- read_csv(here("clean_databases/exports_index.csv"))
-
+imports_index <- read_csv(here("clean_databases/imports_index.csv")) 
+exports_index <- read_csv(here("clean_databases/exports_index.csv")) 
+ 
 # 6 most exported tons species
 six_exports <- sp_exports%>% 
   filter(year != 2018) %>% 
-  rename(export_name = grupo_exportacion) %>% 
   left_join(exports_index) %>% 
-  group_by(year, group_name) %>% 
+  group_by(year, trade_name) %>% 
   summarise(tons = round(sum(tons)/1000,2), value = sum(value)) %>% 
   select(-value) %>% 
   group_by(year) %>%
@@ -430,18 +431,17 @@ six_exports <- sp_exports%>%
 # Imported tons per species
 six_imports <- sp_imports%>% 
   filter(year != 2018) %>% 
-  rename(imports_name = name_sp) %>% 
   left_join(imports_index) %>% 
-  filter(group_name != 'NA') %>% 
-  select(year, tons, group_name) %>%
-  group_by(year, group_name) %>% 
+  filter(trade_name != 'NA') %>% 
+  select(year, tons, trade_name) %>%
+  group_by(year, trade_name) %>% 
   summarise(tons = round(sum(tons)/1000,2))
 
 
 # What are the sp with more imported volumes for the 10 most exported products
 
 net_trade <- six_exports %>% 
-  left_join(six_imports, by = c('group_name', 'year')) %>% 
+  left_join(six_imports, by = c('trade_name', 'year')) %>% 
   rename(exports = tons.x, imports = tons.y) 
 
 net_trade$imports[is.na(net_trade$imports)] <- 0
@@ -456,13 +456,12 @@ net_trade_six_more_exported <- net_trade %>%
   gather(key = operation, value= tons, 3:4) %>% 
   ggplot(aes(x = as.factor(year), y = tons, fill = operation))+
   geom_bar(stat = 'identity')+
-  facet_wrap(~ group_name, scales = 'free')+
+  facet_wrap(~ trade_name, scales = 'free')+
   labs(y="Thousand tons", x="Year")+
   scale_y_continuous(expand = c(0,0))+
   scale_fill_manual(values = c(wes_palette("Darjeeling1"), wes_palette("Darjeeling2"),  'black'))
 
 net_trade_six_more_exported
-
 
 ```
 
