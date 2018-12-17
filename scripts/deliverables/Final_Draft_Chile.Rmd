@@ -467,6 +467,7 @@ net_trade_six_more_exported
 
 ### National Seafood Supply
 
+
 ```{r Domestic consumption landings por sector, echo = FALSE, message=FALSE, warning = FALSE}
 
 ##Aproach 1: Landings desagregados por sector
@@ -520,11 +521,9 @@ top5_hc_fig_Lan
 
 ```
 
-
-
 #### Species contribution to Human and Non-human consumption
 
-We looked into landing aquaculture and raw material that goes to processing facilities in order to evaluate what are the main species that are contributing to human consumption. Our results show that accounting landing plus aquiculture harvest, the main species that contribute to human consumption are Atlantic Slamon (*Salmo salar*) and the Chilean Mussel (*Mytilus chilensis*), two of the main aquaculture products from Chile (Figure sp_HC_with_Aq). On the other hand species that are used for non-human consumptions are Peruvian Anchoveta (*Engraulis ringens*) Araucarian Herring (*Strangomera bentincki*), the two main wild-caught fisheries of the country (Figure Figure sp_HC_with_Aq). The contribution of each specie to human consumption and non human consumption is relativly stable through time.
+We looked into landing aquaculture and raw material that goes to processing facilities in order to evaluate what are the main species that are contributing to human consumption. Our results show that considering landing plus aquiculture harvest, the main species that contribute to human consumption are Atlantic Slamon (*Salmo salar*) and the Chilean Mussel (*Mytilus chilensis*), two of the main aquaculture products from Chile (Figure sp_HC_with_Aq). On the other hand species that are used for non-human consumptions are Peruvian Anchoveta (*Engraulis ringens*) Araucarian Herring (*Strangomera bentincki*), the two main wild-caught fisheries of the country (Figure Figure sp_HC_with_Aq). The contribution of each specie to human consumption and non human consumption is relativly stable through time.
 
 ```{r Species in HC products, echo = FALSE, warning=FALSE, message=FALSE}
 
@@ -653,10 +652,74 @@ NP_HC_plot <-NP_HC %>%
 NP_HC_plot
 ```
 
+
+
+
 ** Main fisheries for food supply **
+
+To identify the main fisheries for human food supply in Chile we combined datasets from landings, aquaculture, raw material that goes into facilities for non-human consumption, imports and exports. Assumings that all local landings and harvest that is not processed for non-human consumption products or exported is comsumed locally. Eventhough landings and aquaculture databases are detailed at a species level, we agragated the data in larger groups (See appendix) to be able to combine datasets from different sources. Our results show, that the main fishery for local consumption across the years has been squid. Within this group there are: Patagonian squid (*Loligo gahi*), Jumbo flying squid (*Dosidicus gigas*), Argentine shortfin squid (*Illex argentinus*) and Japanese flying squid (*Todarodes Pacificus*). These species predominate local consumption from 2013 to 2017, however, we found that in 2017 there was an increase in the exports of this group of species, therefore explaining their relative contribution to domestic consumption. Other local fisheries important for domestic human consumption in Chile are Hakes and Southern rays bream (Figure top5_hc_fig_Lan). Our models show the chilean population also consumes high volumens of Tuna, however this is mainly imported. The ten most importat fisheries according to our model are shown in table XX.
+
+
+```{r Domestic consumption landings anuarios, echo = FALSE, message=FALSE, warning = FALSE}
+
+##Aproach 2: Landings de anuario
+model_results_Lan <- read.csv(here("clean_databases/final_model_results_Lan.cvs"))
+
+top_5_hc_Lan <- model_results_Lan%>%
+  arrange(year, desc(HC)) %>%
+  group_by(year) %>%
+  top_n(5, HC)
+
+summary_hc <- top_5_hc_Lan %>% 
+  group_by(year) %>% 
+  summarise(total= sum(HC))
+
+top5_hc_fig_Lan <- 
+  ggplot(data = top_5_hc_Lan, aes(x = year, y = HC, fill = trade_name)) +
+    geom_bar(stat= "identity")+
+    scale_y_continuous(expand = c(0, 0)) +
+    labs(y="Domestic human consumption \n (Tonnes)", x="Year")+
+    theme(axis.line = element_line(colour = "black"),
+        axis.text=element_text(size=11),
+        axis.title=element_text(size=12,face="bold"))+
+  scale_fill_manual(values = c(wes_palette("Darjeeling1", 5, type = "discrete"),wes_palette("Darjeeling2", 3, type = "discrete")))+
+  ggtheme_plot()
+
+
+```
+
+
+```{r fig.cap= Top 5 species for domestic food consumption in Chile besed on landings, aquaculture, imports and expost model}
+top5_hc_fig_Lan
+```
+
+```{r}
+top_10_hc_Lan <- model_results_Lan%>%
+  arrange(year, desc(HC)) %>%
+  group_by(year) %>%
+  top_n(10, HC)
+
+top_10_table <- top_10_hc_Lan %>% 
+  select(year, trade_name, HC) %>% 
+  filter(!is.na(year)) %>% 
+  group_by(year) %>%
+  mutate(rank = rank(desc(HC))) %>% 
+  spread(key= year, value =trade_name) 
+
+# Top 10 landed species artisanal (for each year between 2013-2017)
+knitr::kable(top_10_art, col.names = c('Ranking', '2013', '2014', '2015', '2016', '2017'), format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Top 10 landed species per year in the artisanal sector. Source: Landing records from SERNAPESCA, 2018') %>% 
+kable_styling(latex_options = 'hold_position')
+```
+
+
+
+
+
+
 ** Total and per capita food consumption in the country **
+Our estimates do not allow us to 
 ** Regional differences in per capita and total consumption **
-We where not able to do a regional analysis. Even though most of the data is provided at a regional level. We realized that is was not possible to assume that what was landed in a region was processed in that same area. According to a study done along the Chilean coast, 62% of the population form the north declares to eat fish once a week. in the north centre region that numbers decreases to 54% and it reaches its lowest point in the Metropolitan Region (42%). In the center south, 48% each fish at least once a week while in the south 48% (@fundacion_chile_chile_2016)
+We where not able to do a regional analysis. Even though most of the data is provided at a regional level. We realized that is was not possible to assume that what was landed in a region was processed in that same area. According to a study done along the Chilean coast, 62% of the population from the north declares to eat fish once a week. in the north centre region that numbers decreases to 54% and it reaches its lowest point in the Metropolitan Region (42%). In the center south, 48% each fish at least once a week while in the south 48% (@fundacion_chile_chile_2016)
 
 #### National Economic Participation
 
