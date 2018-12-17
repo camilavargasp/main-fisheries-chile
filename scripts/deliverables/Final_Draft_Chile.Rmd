@@ -470,77 +470,30 @@ net_trade_six_more_exported
 
 ```{r Domestic consumption, echo = FALSE, message=FALSE, warning = FALSE}
 
-#####################################################################################
-# Matching 
-####################################################################################
-sp_index <- read.csv(here('clean_databases/sp_index.csv'))
+model_results <- read.csv(here("clean_databases/final_model_results.cvs"))
 
-# Chilean to trade name
-chl_to_trade <- sp_index %>% 
-  select(chl_name, trade_name ) %>% 
-  unique()
+top_5_hc <- model_results%>%
+  arrange(year, desc(HC)) %>%
+  group_by(year) %>%
+  top_n(5, HC)
 
-# Imports to trade name 
-imp_to_trade <- read.csv(here('clean_databases/imports_index.csv')) %>% 
-  rename(imports_name = ï..imports_name)
-
-# Exports to trade name 
-exp_to_trade <- read.csv(here('clean_databases/exports_index.csv')) %>% 
-  rename(exports_name = ï..export_name)
-
-# Scientific to trade
-en_to_trade <- sp_index %>% 
-  select(en_name, trade_name ) %>% 
-  unique()
-
-#######################################################################################
-
-# Landings: Importing, cleaning and grouping by trade name 
-L <- read.csv(here('clean_databases/landings_SERNAPESCA.csv')) %>% 
-  filter(region != 'national') %>% 
-  select(year, chl_name = species, tons) %>% 
-  left_join(chl_to_trade) %>% 
-  group_by(year, trade_name) %>% 
-  summarise(tons = sum(tons, na.rm= TRUE))
-  
-# Aquaculture: Importing, cleaning and grouping by trade name
-A <- read.csv(here('clean_databases/aquaculture_SERNAPESCA.csv')) %>% 
-  filter(region != 'national') %>% 
-  select(year, chl_name = species, tons) %>% 
-  left_join(chl_to_trade) %>% 
-  group_by(year, trade_name) %>% 
-  summarise(tons = sum(tons, na.rm= TRUE))
-
-# Imports: Importing, cleaning and grouping by trade name
-I <- read.csv(here('clean_databases/imports_ADUANA.csv')) %>% 
-  select(year, imports_name = name_sp, tons) %>% 
-  left_join(imp_to_trade) %>% 
-  filter(trade_name != 'NA') %>% 
-  group_by(year, trade_name) %>% 
-  summarise(tons = sum(tons, na.rm= TRUE))
-
-# Exports: Importing, cleaning and grouping by trade name
-E <- read.csv(here('clean_databases/exports_ADUANA.csv')) %>% 
-  select(year, exports_name = grupo_exportacion, tons) %>% 
-  left_join(exp_to_trade) %>% 
-  filter(trade_name != 'NA') %>% 
-  group_by(year, trade_name) %>% 
-  summarise(tons = sum(tons, na.rm= TRUE))
-
-# Yields: Importing, cleaning and grouping by trade name
-
-Y <- read_csv(here("clean_databases/intermediate/yield_DHC.csv")) %>% 
-  rename(en_name = species_en) %>% 
-  left_join(en_to_trade)
+top5_hc_fig <- 
+  ggplot(data = top_5_hc, aes(x = year, y = HC, fill = trade_name)) +
+    geom_bar(stat= "identity")+
+    scale_y_continuous(expand = c(0, 0)) +
+    labs(y="Domestic human consumption \n (Tonnes)", x="Year")+
+    theme(axis.line = element_line(colour = "black"),
+        axis.text=element_text(size=11),
+        axis.title=element_text(size=12,face="bold"))+
+  scale_fill_manual(values = c(wes_palette("Darjeeling1", 5, type = "discrete"),wes_palette("Darjeeling2", 3, type = "discrete")))+
+  ggtheme_plot()
 
 
-#####################################################################################
-# Implementing model Dom_consumption = (L+A)*Y + I - E
-####################################################################################
-  
-## full-join
+top5_hc_fig
 
 
+##filter out algaes
+results_no_algae <- 
 
 
 ```
