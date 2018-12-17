@@ -299,7 +299,7 @@ preliminary_yield <- intermediate_df %>%
 
 ##Adding Imports
 
-1. Create a matchin indext between the importas and exports
+1. Create a matchin index between the importas and exports
 ```{r}
 
 imp_exp_index <- read_csv(here("clean_databases/sp_index.csv")) %>% 
@@ -355,7 +355,6 @@ domestic_consumption <- complete_model_hc %>%
 
 
 ```
-
 
 
 

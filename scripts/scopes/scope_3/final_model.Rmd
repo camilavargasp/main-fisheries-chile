@@ -141,7 +141,7 @@ model_trade_name$mean_yield[is.na(model_trade_name$mean_yield)] <- 0
 
 
 
-###LA HORA D ELA VERDAD
+###LA HORA DE ELA VERDAD
 
 dom_cons_trade_name <- model_trade_name %>% 
   mutate(HC = ((landing + aquaculture - NHC)*mean_yield) - export + import) %>% 
@@ -150,6 +150,9 @@ dom_cons_trade_name <- model_trade_name %>%
 per_capita_total <- dom_cons_trade_name %>% 
   group_by(year) %>% 
   summarise(HC_year = sum(HC))
+
+## Save final results
+write.csv(dom_cons_trade_name, here("clean_databases/final_model_results.cvs"), row.names = F)
 
 
 ```
@@ -186,188 +189,4 @@ View(top_5_per_capita)
 
 
 ```
-
-
-
-
-
-
-
-
-
-
-Indexes to transform everything to same group
-```{r}
-export_index <- read.csv(here("clean_databases/exports_index.csv")) %>% 
-  rename(export_name = X...export_name)
-
-import_index <- read.csv(here("clean_databases/imports_index.csv")) %>% 
-  rename(import_name = X...imports_name)
-
-sp_index <- read_csv(here("clean_databases/sp_index.csv"))
-
-chl_to_sc <- sp_index %>% 
-  select(chl_name, sc_name) %>% 
-  unique()
-
-export_gp_index <- read.csv(here("clean_databases/intermediate/export_groups_index.csv"))
-
-
-```
-## Landings
-
-```{r}
-
-landings<- read_csv(here("clean_databases/landings_SERNAPESCA.csv")) %>% 
-  filter(!region %in% c("national", "R.M.")) %>% 
-  select(-month, -international_waters, -subsector) %>% 
-  rename(chl_name = species) %>% 
-  mutate( tons = as.numeric(tons)) %>% 
-  left_join(chl_to_sc, by= "chl_name") %>% 
-  select(year, sc_name, tons) %>% 
-  group_by(year, sc_name) %>% ##combines regions
-  summarise(catch = sum(tons, na.rm = T)) %>% 
-  left_join(export_gp_index, by= "sc_name") %>% 
-  mutate(export_name = as.character(grupo_exportacion)) %>% 
-  select(year, sc_name, export_name, catch) %>% 
-  ungroup() %>% 
-  left_join(export_index, by = "export_name") %>% 
-  mutate(group_name = ifelse(is.na(export_name), sc_name, export_name)) %>%
-  group_by(year,group_name) %>% 
-  summarise(catch = round(sum(catch)/1000,2))
-  
-
-```
-
-## Aquaculture
-```{r}
-
-aquaculture <- read_csv(here("clean_databases/aquaculture_SERNAPESCA.csv")) %>% 
-  filter(region != "national",
-         year!=2012) %>% 
-  mutate( tons = as.numeric(tons)) %>% 
-  rename(chl_name = species) %>% 
-  select(-subsector, -month) %>% 
-  rename(aquaculture = tons) %>% 
-   left_join(chl_to_sc, by= "chl_name") %>% 
-  select(year, sc_name, aquaculture) %>% 
-  group_by(year,sc_name) %>% 
-  summarise(aquaculture= sum(aquaculture, na.rm = T)) %>% 
-  left_join(export_gp_index, by= "sc_name") %>% 
-  mutate(export_name = as.character(grupo_exportacion)) %>% 
-  select(year, sc_name, export_name, aquaculture) %>% 
-  ungroup() %>% 
-  left_join(export_index, by = "export_name") %>% 
-  mutate(group_name = ifelse(is.na(export_name), sc_name, export_name)) %>%
-  group_by(year,group_name) %>% 
-  summarise(aquaculture = round(sum(aquaculture)/1000,2))
-  
-```
-
-## Non-human consumption
-```{r}
-non_human_cons <- read.csv(here("clean_databases/NHC_m.csv")) %>% 
-  group_by(year, sc_name) %>% 
-  mutate(total_NHC = as.numeric(total_NHC)) %>% 
-  summarise(total_NHC = sum(total_NHC, na.rm = T)) %>% 
-  left_join(export_gp_index, by= "sc_name") %>% 
-  mutate(export_name = as.character(grupo_exportacion)) %>% 
-  select(year, sc_name, export_name, total_NHC) %>% 
-  ungroup() %>% 
-  left_join(export_index, by = "export_name") %>% 
-  mutate(group_name = ifelse(is.na(export_name), sc_name, export_name)) %>%
-  group_by(year,group_name) %>% 
-  summarise(NHC = round(sum(total_NHC)/1000, 2))
-  
-
-```
-
-
-
-## Exports
-
-```{r}
-exports <- read_csv(here("clean_databases/exports_ADUANA.csv")) %>% 
-  select(year, region, group_name=grupo_exportacion, exports= tons) %>%
-  filter(year != 2018) %>% 
-  left_join(export_index) %>% 
-  group_by(year, group_name) %>% 
-  summarise(exports = round(sum(exports)/1000,2))
-
-
-
-```
-
-## Imports
-
-```{r}
-imports<- read_csv(here("clean_databases/imports_ADUANA.csv")) %>% 
-  filter(year != 2018) %>% 
-  rename(import_name = name_sp) %>% 
-  left_join(import_index, by= "import_name") %>% 
-  filter(group_name != 'NA') %>% 
-  select(year, tons, group_name) %>%
-  group_by(year, group_name) %>% 
-  summarise(imports = round(sum(tons)/1000,2))
-
-```
-
-##yield
-```{r}
-yield <- read_xlsx(here("clean_databases/intermediate/sp_cl_DHC.xlsx")) %>% 
-  select(sc_name, yield = mean_yield) %>%
-  unique() %>% 
-  left_join(export_gp_index, by= "sc_name") %>% 
-  mutate(export_name = as.character(grupo_exportacion)) %>% 
-  select(sc_name, export_name, yield) %>% 
-  ungroup() %>% 
-  left_join(export_index, by = "export_name") %>% 
-  mutate(group_name = ifelse(is.na(export_name), sc_name, export_name)) %>%
-  group_by(group_name) %>% 
-  summarise(mean_yield = round(sum(yield),2)) %>% 
-  mutate(group_name = ifelse(group_name== "ATUN ESCOFINA/KONSO", "Ruvettus pretiosus", group_name))
-  
-
-```
-
-##Combining all
-```{r}
-
-model_model <- landings %>% 
-  full_join(aquaculture, by= c("year", "group_name")) %>% 
-  full_join(non_human_cons, by= c("year", "group_name")) %>% 
-  full_join(yield, by= "group_name") %>% 
-  full_join(exports, by= c("year", "group_name")) %>% 
-  full_join(imports, by= c("year", "group_name")) 
-
-#convert all NAs to 0
-
-model_model$aquaculture[is.na(model_model$aquaculture)] <- 0
-model_model$NHC[is.na(model_model$NHC)] <- 0
-model_model$exports[is.na(model_model$exports)] <- 0
-model_model$imports[is.na(model_model$imports)] <- 0
-
-domestic_consumption <- model_model %>% 
-  mutate(HC = ((catch + aquaculture - NHC)*mean_yield)- exports + imports) %>% 
-  mutate(per_cap_kg = format((HC/17762681)*1000000, scientific = FALSE))
-
-sum(domestic_consumption$HC)
-
-
-
-```
-
-```{r}
-top_10_hc <- domestic_consumption %>%
-  arrange(year, desc(HC)) %>%
-  group_by(year) %>%
-  top_n(10, HC)
-
-View(top_10_hc)
-
-```
-
-
-
-
 
