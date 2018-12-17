@@ -467,8 +467,9 @@ net_trade_six_more_exported
 
 ### National Seafood Supply
 
-```{r Domestic consumption, echo = FALSE, message=FALSE, warning = FALSE}
+```{r Domestic consumption landings por sector, echo = FALSE, message=FALSE, warning = FALSE}
 
+##Aproach 1: Landings desagregados por sector
 model_results <- read.csv(here("clean_databases/final_model_results.cvs"))
 
 top_5_hc <- model_results%>%
@@ -490,13 +491,34 @@ top5_hc_fig <-
 
 top5_hc_fig
 
-
-##filter out algaes
-results_no_algae <- 
-
-
 ```
 
+
+```{r Domestic consumption landings anuarios, echo = FALSE, message=FALSE, warning = FALSE}
+
+##Aproach 2: Landings de anuario
+model_results_Lan <- read.csv(here("clean_databases/final_model_results_Lan.cvs"))
+
+top_5_hc_Lan <- model_results_Lan%>%
+  arrange(year, desc(HC)) %>%
+  group_by(year) %>%
+  top_n(5, HC)
+
+top5_hc_fig_Lan <- 
+  ggplot(data = top_5_hc_Lan, aes(x = year, y = HC, fill = trade_name)) +
+    geom_bar(stat= "identity")+
+    scale_y_continuous(expand = c(0, 0)) +
+    labs(y="Domestic human consumption \n (Tonnes)", x="Year")+
+    theme(axis.line = element_line(colour = "black"),
+        axis.text=element_text(size=11),
+        axis.title=element_text(size=12,face="bold"))+
+  scale_fill_manual(values = c(wes_palette("Darjeeling1", 5, type = "discrete"),wes_palette("Darjeeling2", 3, type = "discrete")))+
+  ggtheme_plot()
+
+
+top5_hc_fig_Lan
+
+```
 
 
 
