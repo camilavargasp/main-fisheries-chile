@@ -67,9 +67,7 @@ ggtheme_plot <- function() {
 
 4. The Chilean Central Bank (Banco Central de Chile) is the entity in charge of estabilizing the Chilean currency. To fullfill its function it monitors the main economic indicators per economic sector. We accessed their data on sectorial GDP for each region per industry. 
 
-5. DataChile (www.datachile.com) is an online plataform that integrates, visualizes and distributes public available data from Chile. They also inform their visualizations with data from the ADUANAS Chile and national surveys. Using their visualization tools we extracted information on fish products imports for different municipalities.
-
-6. We reviewed several reports from other national agencies like the Undersecretary of Fisheries (SUBPESCA), NGOs and scientific publications to complement our analysis.
+5. We reviewed several reports from other national agencies like the Undersecretary of Fisheries (SUBPESCA), NGOs and scientific publications to complement our analysis.
 
 ### Specific methodologies
 
@@ -467,6 +465,17 @@ net_trade_six_more_exported
 
 ### National Seafood Supply
 
+Chile is considered one of the main countries in fishery production worldwide (@fao_estado_2016), however several reports and studies suggest the Chilean population does not consume as many marine products (@gonzales_solo_2018). On average, people consume 10-13 kg a year, compared to the 20 kg a year recommended by Food and Agriculture organization (2016). Looking into what type of seafood the Chilean population consumes, a study done in 2012 shows that 60% of the seafood consume are pelagic fishes, 12% are mollusk and 2% are crustaceans (@villena_marcelo_diagnostico_2012).
+
+According to the National Health Survey (Encuata Nacional de Salud, ENS), only 9.2% of the chilean population eats fish at least two times a week as recommended. This see value seemed to be decreasing since the early 2000s where this percentage was 10.7% (@ENS). World data (@ritchie_our_nodate) also shows a decrease in the amount of seafood consumed the Chilean population from ~16kg consumed in 2004 to 12.5kg in 2013.
+
+The frequency of seafood consumption varies along socio-economic groups in Chile, according to a study done in 2016 by Fundación Chile and Adimark (@fundacion_chile_chile_2016), 55% of the high-income group consumes seafood at least once a week compared to the 38% of the lower-income group. It has also been identified (@ENE) that people with less years of schooling tend to eat less fish (only 6.3 percent eats seafood twice a week) that people that have compleated high shool education, where 11.2% eats as frequntly. 
+
+Within the Chilean population there is a strong belief that seafood is expensive. However, there is wide range of fish prices. There are expensive products sucha as salmon or lobsters and afordable alternatives such as Chilean Jack Mackerel (*Trachurus murphyi*), Jumbo Flying Squid (*Dosidicus gigas*) and Southern Rays Bream (*Brama australis*).
+
+FUNDACION CHILE
+En el mismo estudio, cuando se pregunta a los chilenos cuál es su formato de consumo en un mes normal, el 84% de las personas contesta que pre ere el pescado enlatado, un 80% lo consume fresco y sólo un 37% de las personas se inclinan por el producto congelado. Esta gran diferencia respecto del consumo de pescado congelado representa un desafío a
+la hora de derribar mitos que puedan existir en la población sobre la inocuidad, contenido nutricional, entre otros factores.
 
 ```{r Domestic consumption landings por sector, echo = FALSE, message=FALSE, warning = FALSE}
 
@@ -491,6 +500,23 @@ top5_hc_fig <-
 
 
 top5_hc_fig
+
+
+# Appendix table Approach 1
+
+top_10_hc <- model_results%>%
+  arrange(year, desc(HC)) %>%
+  group_by(year) %>%
+  top_n(10, HC)
+
+top_10_table <- top_10_hc %>% 
+  select(year, trade_name, HC) %>% 
+  filter(!is.na(year)) %>% 
+  group_by(year) %>%
+  mutate(rank = rank(desc(HC))) %>%
+  select(-HC) %>% 
+  spread(key= year, value =trade_name)
+
 
 ```
 
@@ -519,11 +545,29 @@ top5_hc_fig_Lan <-
 
 top5_hc_fig_Lan
 
+
+# Appendix table Approach 2
+
+top_10_hc_Lan <- model_results_Lan%>%
+  arrange(year, desc(HC)) %>%
+  group_by(year) %>%
+  top_n(10, HC)
+
+top_10_table_Lan <- top_10_hc_Lan %>% 
+  select(year, trade_name, HC) %>% 
+  filter(!is.na(year)) %>% 
+  group_by(year) %>%
+  mutate(rank = rank(desc(HC))) %>%
+  select(-HC) %>% 
+  spread(key= year, value =trade_name)
+
+
+
 ```
 
 #### Species contribution to Human and Non-human consumption
 
-We looked into landing aquaculture and raw material that goes to processing facilities in order to evaluate what are the main species that are contributing to human consumption. Our results show that considering landing plus aquiculture harvest, the main species that contribute to human consumption are Atlantic Slamon (*Salmo salar*) and the Chilean Mussel (*Mytilus chilensis*), two of the main aquaculture products from Chile (Figure sp_HC_with_Aq). On the other hand species that are used for non-human consumptions are Peruvian Anchoveta (*Engraulis ringens*) Araucarian Herring (*Strangomera bentincki*), the two main wild-caught fisheries of the country (Figure Figure sp_HC_with_Aq). The contribution of each specie to human consumption and non human consumption is relativly stable through time.
+We looked into landings, aquaculture harvest and raw material that goes to processing facilities in order to evaluate what are the main species that are contributing to products for human consumption (HC). Our results show that considering landing plus aquiculture harvest, the main species that enter supply chains of HC are the Atlantic Slamon (*Salmo salar*) and the Chilean Mussel (*Mytilus chilensis*), two of the main aquaculture products from Chile (Figure sp_HC_with_Aq). On the other hand species that are used for non-human consumptions are Peruvian Anchoveta (*Engraulis ringens*) Araucarian Herring (*Strangomera bentincki*), the two main wild-caught fisheries of the country (Figure Figure sp_HC_with_Aq). The contribution of each specie to human consumption and non human consumption is relativly stable through time.
 
 ```{r Species in HC products, echo = FALSE, warning=FALSE, message=FALSE}
 
@@ -1048,41 +1092,37 @@ We also lacked data on the transportation of landings and products between Chile
 
 ### Estimating National Seafood Supply
 
-Chile is considered one of the main countries in fishery production worldwide (@fao_estado_2016), however several reports and studies suggest the Chilean population does not consume as many marine products (@gonzales_solo_2018). On average, people consume 10-13 kg a year, compared to the 20 kg a year recommended by Food and Agriculture organization (2016). Looking into what type of seafood the Chilean population consumes, a study done in 2012 shows that 60% of the seafood consume are pelagic fishes, 12% are mollusk and 2% are crustaceans (@villena_marcelo_diagnostico_2012).
+We found that Chileans moslty rely on pelagic fisheries as their primary source for seafood. The most important groups of species for domestic food consumption are squids, tuna, hake, and the Southern ray beam. However, it is likely that we have overestimated squid consumption. It is worth noting that Tuna is mostly imported into the country while most of the species that are use in Chile for Human Consumption products like salmon, trouts and mussels are exported. This reflects the importance of market forces on world-wide seafood distirbution and supply. Salmon and trouts get better prices a broad and are too expensive for Chileans in general. 
 
-According to the National Health Survey (Encuata Nacional de Salud, ENS), only 9.2% of the chilean population eats fish at least two times a week as recommended. This see value seemed to be decreasing since the early 2000s where this percentage was 10.7% (@ENS). World data (@ritchie_our_nodate) also shows a decrease in the amount of seafood consumed the Chilean population from ~16kg consumed in 2004 to 12.5kg in 2013.
+Although our is just a preliminary approach, we found that Chilean Jack Mackerel (*Trachurus murphyi*), Jumbo flying squid (*Dosidicus gigas*), and Sea Urchins (*Loxechinus albus*) are species that are being conssumed without going through processing facilities. We believe this species are mostly sold close to their landing points and therefore are important for coastal communities.
 
-The frequency of seafood consumption varies along socio-economic groups in Chile, according to a study done in 2016 by Fundación Chile and Adimark (@fundacion_chile_chile_2016), 55% of the high-income group consumes seafood at least once a week compared to the 38% of the lower-income group. It has also been identified (@ENE) that people with less years of schooling tend to eat less fish (only 6.3 percent eats seafood twice a week) that people that have compleated high shool education, where 11.2% eats as frequntly. 
-
-Within the Chilean population there is a strong belief that seafood is expensive. However, there is wide range of fish prices. There are expensive products sucha as salmon or lobsters and afordable alternatives such as Chilean Jack Mackerel (*Trachurus murphyi*), Jumbo Flying Squid (*Dosidicus gigas*) and Southern Rays Bream (*Brama australis*).
-
-FUNDACION CHILE
-En el mismo estudio, cuando se pregunta a los chilenos cuál es su formato de consumo en un mes normal, el 84% de las personas contesta que pre ere el pescado enlatado, un 80% lo consume fresco y sólo un 37% de las personas se inclinan por el producto congelado. Esta gran diferencia respecto del consumo de pescado congelado representa un desafío a
-la hora de derribar mitos que puedan existir en la población sobre la inocuidad, contenido nutricional, entre otros factores.
-
+Seafood consumption in Chile has been shown to be correlated with income, as in other parts of the world. However, the data is spotty and is provably missing some of the consumption that occurs in coastal communities.
 
 ### Estimating National Economic Participation
 
-Aquaculuture is the most important activity in the fisheries sector in terms of economic value. Their profits come mainly from the exportation of salmon prodcts. This positions salmons as the group of marine species that contribute the most to the country's economy. The Chilean jack mackerel (*Trachurus murphyi*) and the Jumbo squid (*Dosidicus gigas*) are the wild-caught species that have contributed the most in exports over the pasts years. The latter is use for DHC and is targeted by both the artisanal an industrial sector. Yet, current discussion on closing access to the industrials. 
+Aquaculuture is the most important activity in the fisheries sector in terms of economic value. Their profits come mainly from the exportation of salmon products. This positions salmons as the group of marine species that contribute the most to the country's economy. The Chilean jack mackerel (*Trachurus murphyi*) and the Jumbo squid (*Dosidicus gigas*) are the wild-caught species that have contributed the most in exports over the pasts years. The latter is use for DHC and is targeted by both the artisanal an industrial sector. Yet, current discussion on closing access to the industrials to this fishery could bring consequences for both income and food supply. 
+
+Among wild-caught fisheries the ones that seems to generate more revenues for the artisanal sector are the Southern king crab (*Lithodes santolla*) and the Chilean sea urchin (*Loxechinus albus*). While the first fishery occurs only in the South of the country, the latter is ditributed along the coast of Chile.
 
 Although the direct employment in aquaculture centers is low relative to the number of artisanal fishers, it is very likely that an important share of the job positions in the manufacturing sector are being supported by aquaculture. Especially in the South where most job positions for manufacturing of human consumption products are concetrated. The role of Algaes in terms of employment for the artisanal sector is also worth notice. The revenues of most these species are not particularly high, however the lower costs of extraction relative to other types of fishing make algae collection an attractive form of livelihood for coastal communities. 
 
 ## Conclusions
 
-The main takeaway of our analysis regarding the contribution of domestic fisheries for human consumption is that most of the wild-caught fish currently does not go to human consumption, but to produce no human consumption products. On the other hand, most of the aquiculture produced in the country is for human consumption but it is exported elsewhere. Only XX% of the local production stays in the country for human consumption. Additionally, one of the most relevant species for human consumption in Chile is tuna, which mainly in imported and canned.
+The main takeaway of our analysis regarding the contribution of domestic fisheries for human consumption is that most of the wild-caught fish currently does not go to human consumption, but to produce no human consumption products like fish meal and oil or algae products. On the other hand, most of the aquiculture produced in the country is for human consumption but it is exported elsewhere. Only XX% of the local production stays in the country for human consumption. Additionally, one of the most relevant species for human consumption in Chile is tuna, which mainly in imported and canned.
 
-A species specifics analysis on employment was not possible given the data collected for this study. However we determined..
+In economic terms, aquaculture is more important than wild-caught fisheries producing ~ 90% of the sales of the economic sector. Nontheless, wild fisheries is more important in terms of employment if we consider both the artisanal and industrial sector. 
 
-## Oceana Next Steps - BRAINSOTRM
-Along this study, we identified several sources of information that are available regarding Chilean fisheries. However a mayor challenge was to combine all datasets without losing species resolution. However we think there is potential to imporve the methods we used for scraping data from the imports and exports databases as for example, the Chilean customs reaceantly uploaded the export information for 2018 as an excel file combining type of products, aduana code, exported tones and values. When we ask for this sort of document back in October, the Chilean customes told us they were working on it so hopefully the publish historic data in that fomat. This could allow increase the specie resolution and be less rone to human error.
+## Oceana Next Steps 
 
+We learned that there is poor undertanding on Chile regarding the main marine species in terms of food security and economic participation. Although people have tried to answered these kind of questions before there is not a constant track of what species are being eaten and how much. We think that an approach like the one presented here could be easily automatized to keep track of the trends on domestic seafood consumption. Nonetheless, it would requiere some improvements to get more reliable estimates by full-filling some of the datagaps. 
 
-We think a key project where Oceana could contribute is to add to the discussion of “lets increase the amount of fish we eat in Chile”, the whole picture of the state of the fisheries and the economic implication for the country of transitioning to a more fish based diet. For this an integrated analysis about the state of the fishery and its economic importance of the country needs to be done. 
-More than just promoting the increase in domestic seafood consumption we think that finding out why is it important and who will benefit and loose it is key for the success of any project. 
+A mayor challenge we faced was to combine all datasets without losing species resolution. We think there is potential to imporve the methods we used for scraping data from the imports and exports databases as for example, the Chilean customs recently uploaded the export information for 2018 as an excel file combining type of products, aduana code, exported tones and values. When we ask for this sort of document back in October, the Chilean customes told us they were working on it so hopefully the publish historic data in that fomat. This could increase the species resolution, reduce human error and facilitate automatization. Othe two things that would improve the estimates we obtained here are species-specific IUU estimates and yields per type of product for Chilean species. IUU estimates are becoming more popular and different methods have been developed for estimate it from elliciation tasks to more model driven approaches. This kinds of estimate could be also of interested to management authorities. Thus, Oceana could cooperate with them to ellaborate them. 
 
-We did not focuse on prices and places where fish is comercialized, if one of Oceanas goal is to characterized fish markets, resources will need to be invested in looking into fish merket (where and the local fishe comercialized and how) Algo si???
+Chile is increasingly pushing for an increase in seafood consumption. Currently, there are programs that promote seafood consumption like XXXX. We think Oceana could contribute adding to the discussion the whole picture of the state of the fisheries and the economic implication for the country of transitioning to a more fish based diet. For this an integrated analysis about the state of the fishery and its economic importance for the country needs to be done. More than just promoting the increase in domestic seafood consumption we think that finding out why is it important and who will benefit and loose it is key for the success of any project. 
 
+In our analysis we did not explore the role of the commercialization chain on food supply and distribution. Investing in better understanding from where can people access seafood and at what prices is crucial to improve food security. Thus, there is a need to better characterize the distirbution of seafood in Chile and explore the possibility of improving seafood access by better managing the supply chain. 
 
+Finally, it would be interesting to study the preferences an attitudes of Chileans towards products that have not been historically consumed but that are becoming important in terms of landings like algae and squid. Understanding the potential for this species to succed as food products within the country may be important to improve access to marine food at lower prices. 
 
 ## Appendix
 
