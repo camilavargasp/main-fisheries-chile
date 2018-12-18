@@ -268,7 +268,7 @@ algaseca_2016 <- read_excel(here("information/raw_databases/SERNAPESCA/products/
   rename(m_p= X__1) %>% 
   filter(m_p == "M") %>% 
   select(-m_p)%>%
-  gather(key = region, value = tons, 2:16)%>% 
+  gather(key = region, value = tons, 2:15)%>% 
   mutate (product = 'dry algae', year = 2016, tons = ifelse(tons == "-", 0, tons)) %>%
   rename(species =  ESPECIE)
 

@@ -467,15 +467,12 @@ net_trade_six_more_exported
 
 Chile is considered one of the main countries in fishery production worldwide (@fao_estado_2016), however several reports and studies suggest the Chilean population does not consume as many marine products (@gonzales_solo_2018). On average, people consume 10-13 kg a year, compared to the 20 kg a year recommended by Food and Agriculture organization (2016). Looking into what type of seafood the Chilean population consumes, a study done in 2012 shows that 60% of the seafood consume are pelagic fishes, 12% are mollusk and 2% are crustaceans (@villena_marcelo_diagnostico_2012).
 
-According to the National Health Survey (Encuata Nacional de Salud, ENS), only 9.2% of the chilean population eats fish at least two times a week as recommended. This see value seemed to be decreasing since the early 2000s where this percentage was 10.7% (@ENS). World data (@ritchie_our_nodate) also shows a decrease in the amount of seafood consumed the Chilean population from ~16kg consumed in 2004 to 12.5kg in 2013.
+According to the National Health Survey (Encuata Nacional de Salud, ENS), only 9.2% of the Chilean population eats fish at least two times a week as recommended. This see value seemed to be decreasing since the early 2000s where this percentage was 10.7% (@ENS). World data (@ritchie_our_nodate) also shows a decrease in the amount of seafood consumed the Chilean population from ~16kg consumed in 2004 to 12.5kg in 2013.
 
-The frequency of seafood consumption varies along socio-economic groups in Chile, according to a study done in 2016 by Fundación Chile and Adimark (@fundacion_chile_chile_2016), 55% of the high-income group consumes seafood at least once a week compared to the 38% of the lower-income group. It has also been identified (@ENE) that people with less years of schooling tend to eat less fish (only 6.3 percent eats seafood twice a week) that people that have compleated high shool education, where 11.2% eats as frequntly. 
+The frequency of seafood consumption varies along socio-economic groups in Chile, according to a study done in 2016 by Fundación Chile and Adimark (@fundacion_chile_chile_2016), 55% of the high-income group consumes seafood at least once a week compared to the 38% of the lower-income group. It has also been identified (@ENE) that people with less years of schooling tend to eat less fish (only 6.3 percent eats seafood twice a week) that people that have completed high school education, where 11.2% eats as frequently. 
 
-Within the Chilean population there is a strong belief that seafood is expensive. However, there is wide range of fish prices. There are expensive products sucha as salmon or lobsters and afordable alternatives such as Chilean Jack Mackerel (*Trachurus murphyi*), Jumbo Flying Squid (*Dosidicus gigas*) and Southern Rays Bream (*Brama australis*).
+Within the Chilean population there is a strong belief that seafood is expensive. However, there is wide range of fish prices. There are expensive products such as salmon or lobsters and affordable alternatives such as Chilean Jack Mackerel (*Trachurus murphyi*), Jumbo Flying Squid (*Dosidicus gigas*) and Southern Rays Bream (*Brama australis*).
 
-FUNDACION CHILE
-En el mismo estudio, cuando se pregunta a los chilenos cuál es su formato de consumo en un mes normal, el 84% de las personas contesta que pre ere el pescado enlatado, un 80% lo consume fresco y sólo un 37% de las personas se inclinan por el producto congelado. Esta gran diferencia respecto del consumo de pescado congelado representa un desafío a
-la hora de derribar mitos que puedan existir en la población sobre la inocuidad, contenido nutricional, entre otros factores.
 
 ```{r Domestic consumption landings por sector, echo = FALSE, message=FALSE, warning = FALSE}
 
@@ -567,7 +564,7 @@ top_10_table_Lan <- top_10_hc_Lan %>%
 
 #### Species contribution to Human and Non-human consumption
 
-We looked into landings, aquaculture harvest and raw material that goes to processing facilities in order to evaluate what are the main species that are contributing to products for human consumption (HC). Our results show that considering landing plus aquiculture harvest, the main species that enter supply chains of HC are the Atlantic Slamon (*Salmo salar*) and the Chilean Mussel (*Mytilus chilensis*), two of the main aquaculture products from Chile (Figure sp_HC_with_Aq). On the other hand species that are used for non-human consumptions are Peruvian Anchoveta (*Engraulis ringens*) Araucarian Herring (*Strangomera bentincki*), the two main wild-caught fisheries of the country (Figure Figure sp_HC_with_Aq). The contribution of each specie to human consumption and non human consumption is relativly stable through time.
+As a first approach to analyzed main fisheries that countribute to human conssumption in Chile, we looked into landings, aquaculture harvest and raw material that goes to processing facilities. Our results show that considering landing plus aquiculture harvest, the main species that enter supply chains of HC are the Atlantic Slamon (*Salmo salar*) and the Chilean Mussel (*Mytilus chilensis*), two of the main aquaculture products from Chile (Figure sp_HC_with_Aq). On the other hand species that are used for non-human consumptions are Peruvian Anchoveta (*Engraulis ringens*) Araucarian Herring (*Strangomera bentincki*), the two main wild-caught fisheries of the country (Figure Figure sp_HC_with_Aq). The contribution of each specie to human consumption and non human consumption is relativly stable through time.
 
 ```{r Species in HC products, echo = FALSE, warning=FALSE, message=FALSE}
 
@@ -628,21 +625,21 @@ sp_HC_no_Aq <- sp_HC_no_Aq %>%
   ggtheme_plot()
 ```
 
-```{r figure, fig.cap= }
+```{r figure, fig.cap= Tons of main species landed and haverst in aquaculture combined designated for human and non human consumption}
 sp_HC_with_Aq
 ```
 
-Within the wild-cought species, the one that have historically contributed more to human consumption products are: Chilean Jack Mackerel (*Trachurus murphyi*), Jumbo flying squid (*Dosidicus gigas*), and in a minor contribution Sea Urchins (*Loxechinus albus*) (Figure sp_HC_no_Aq). These results also show that the amount of with caught fiheries that go to non-human consumption is more than the double and some years the triple of what that goes to human consumption.
+Within the wild-cought species, the one that have historically contributed more to human consumption products are: Chilean Jack Mackerel (*Trachurus murphyi*), Jumbo flying squid (*Dosidicus gigas*), and in a minor contribution Sea Urchins (*Loxechinus albus*) (Figure sp_HC_no_Aq). These results also shows that the amount of wild caught fiheries that go to non-human consumption is more than the double and some years the triple of what that goes to human consumption.
 
 
-```{r figure species for HC w_no aq echo= FALSE, message=FALSE, warning=FALSE}
+```{r figure species for HC w_no aq echo= FALSE, message=FALSE, warning=FALSE, fig.cap= Main species landed that are designated for human consumption}
 sp_HC_no_Aq
 ```
 
-In Chile, almost all industrial landings ($L_i$) and aquaculture harvest ($Aq$) go to processing facilities while only some of the artisanal landing ($L_a$) is processed. We assume that the rest of the artisanals' catch that is not sent to processing facilities is sold as non-processed products for human consumption ($NP_{HC}$). These results show that the composition main species sold by artisanal fisher for human consumption have vary in the last years. The Southern rays bream (*Brama australis*) is the only specie that is common for every year of data. Indicating that historically has been an importat specie for direct human consumption. This aligns with results obtained in a survey implemented along Chile where 51% answered that Southern rays bream was their first preference (@fundacion_chile_chile_2016).
-!!!!!!!!
+In Chile, almost all industrial landings ($L_i$) and aquaculture harvest ($Aq$) go to processing facilities while only some of the artisanal landing ($L_a$) is processed. We assume that the the artisanals' catch that is not sent to processing facilities is sold as non-processed products for human consumption ($NP_{HC}$). These approach allowed us to analyze main species sold by artisanal fisher and we assumed it is all for human consumption. Species vary across years, but the Southern rays bream (*Brama australis*) is the only specie that is common for every year of data (Figure NP_HC_plot). Indicating that historically has been an importat specie for direct human consumption. This aligns with results obtained in a survey implemented along Chile where 51% answered that Southern rays bream was their first preference (@fundacion_chile_chile_2016). Within 2013, 2014 and 2016, we can see the presence of anchoveta (*Engraulis ringens*), while in 2017 there is high increase in Jumbo flying squid (*Dosidicus gigas*). We identified that data per sector provided by SERNAPESCA for 2015  was not accurate therefore remeoved it for this analysis. 
 
-```{r Non-processed Human consumption, echo= FALSE, message=FALSE, warning=FALSE}
+
+```{r Non-processed Human consumption, echo= FALSE, message=FALSE, warning=FALSE }
 
 ## Raw material in processing plants with scientific name per region and year
 
@@ -692,16 +689,16 @@ NP_HC_plot <-NP_HC %>%
   
 ```
 
-```{r}
+```{r, fig.cap= Main artisanal landings that are not processe in facilities therfore }
 NP_HC_plot
 ```
 
 
-
-
 ** Main fisheries for food supply **
 
-To identify the main fisheries for human food supply in Chile we combined datasets from landings, aquaculture, raw material that goes into facilities for non-human consumption, imports and exports. Assumings that all local landings and harvest that is not processed for non-human consumption products or exported is comsumed locally. Eventhough landings and aquaculture databases are detailed at a species level, we agragated the data in larger groups (See appendix) to be able to combine datasets from different sources. Our results show, that the main fishery for local consumption across the years has been squid. Within this group there are: Patagonian squid (*Loligo gahi*), Jumbo flying squid (*Dosidicus gigas*), Argentine shortfin squid (*Illex argentinus*) and Japanese flying squid (*Todarodes Pacificus*). These species predominate local consumption from 2013 to 2017, however, we found that in 2017 there was an increase in the exports of this group of species, therefore explaining their relative contribution to domestic consumption. Other local fisheries important for domestic human consumption in Chile are Hakes and Southern rays bream (Figure top5_hc_fig_Lan). Our models show the chilean population also consumes high volumens of Tuna, however this is mainly imported. The ten most importat fisheries according to our model are shown in table XX.
+To identify the main fisheries for human food supply in Chile we combined datasets from landings, aquaculture, raw material that goes into facilities for non-human consumption, imports and exports. Assuming that all local landings and harvest that is not processed as non-human consumption products or exported is comsumed locally. Eventhough landings and aquaculture databases are detailed at a species level, we agragated the data in larger groups (See appendix) to be able to combine them with the Chilean Customs datasets. Our results show, that the main fishery for local consumption across the years has been squid. Within this group we considered: Patagonian squid (*Loligo gahi*), Jumbo flying squid (*Dosidicus gigas*), Argentine shortfin squid (*Illex argentinus*) and Japanese flying squid (*Todarodes Pacificus*). These species predominate local consumption from 2013 to 2017, however, we found that in 2017 there was an increase in the exports of this group of species, therefore explaining their relatively less contribution to domestic consumption. Other local fisheries important for domestic human consumption in Chile are Hakes (Southern hake *Merluccius australis*, South Pacific hake *Merluccius gayi gayi*, Patagonian grenadier *Macruronus magellanicus*, Southern blue whiting *Micromesistius australis*) and Southern rays bream (*Brama australis*) (Figure top5_hc_fig_Lan). It is important to mention that the Southern rays bream is classified on its own group, therefore its relative contribution to domestic consumption is higher compered to other aggregated groups. Another caviet to make here is that squids have a the highest yield of all species, therfore there contribution to domestic consumption per landed ton is higher, partly explining its high predominance in our results.  
+
+Our models show the chilean population also consumes high volumens of Tuna, however this is mainly imported in a canned format. This results aliged with the chilean population preferences, based on a study along the country, where 84% of the respondee aswered that their normal format for eating fish within a month was canned fish, follwed by freshed fish (80%) and frozen fish (37%) (@fundacion_chile_chile_2016). The ten most importat fisheries according to our model are shown in table XX.
 
 
 ```{r Domestic consumption landings anuarios, echo = FALSE, message=FALSE, warning = FALSE}
@@ -750,18 +747,22 @@ top_10_table <- top_10_hc_Lan %>%
   mutate(rank = rank(desc(HC))) %>% 
   spread(key= year, value =trade_name) 
 
-# Top 10 landed species artisanal (for each year between 2013-2017)
-knitr::kable(top_10_art, col.names = c('Ranking', '2013', '2014', '2015', '2016', '2017'), format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Top 10 landed species per year in the artisanal sector. Source: Landing records from SERNAPESCA, 2018') %>% 
-kable_styling(latex_options = 'hold_position')
+
+```
+
+
+** Total and per capita food consumption in the country **
+Our models is highly sensitive to species yield, therefore not in many cases results of our calculations return a negative number implaying that exports are higher than the product of the yield times the local production (landings nad aquaculture) minus all tons that go for non-human consumption products. Assuming that all negative numbers do not contribut to domestic consumption (all of the product is exported and non is imported), we calculated a percapita consumption per year. 
+We summed all the human consumption per year (Table XX) and devided by the chilean population of 17,762,681 (@INE, 2015). Results aling with what has been calculated in by others studies with an average of 11.5 kg of seafood compsumption a year, which is similar to what has been estimated by the FAO (2016) for Chile of 10-13kg of fish a year.
+
+```{r}
+##Percapita consumption table
+
+##FALTA TABLA!!!
 ```
 
 
 
-
-
-
-** Total and per capita food consumption in the country **
-Our estimates do not allow us to 
 ** Regional differences in per capita and total consumption **
 We where not able to do a regional analysis. Even though most of the data is provided at a regional level. We realized that is was not possible to assume that what was landed in a region was processed in that same area. According to a study done along the Chilean coast, 62% of the population from the north declares to eat fish once a week. in the north centre region that numbers decreases to 54% and it reaches its lowest point in the Metropolitan Region (42%). In the center south, 48% each fish at least once a week while in the south 48% (@fundacion_chile_chile_2016)
 
@@ -1017,7 +1018,6 @@ ind_vessels_reg
 
 ```
 
-
 A rigourus study by IFOP estimated a total of ~50,000 job positions in the manufacturing of marine products in processing facilities in 2014 (@ifop_monitoring_2015). However, a more recent report form SERNAPESCA reports a total of 65,451 jobs (@maturana_mujeres_2017). *Figure 9* displays the geographic distribution of people employed in the manufacturing sector per gender and type of product for 2015. Employment in the processing facilities is dominated by human consumption (HC) products, with ~ 40,000 job positions. Products for animal consumption (AC) generated around 5,000 positions while algae products employed less than 3,000 people. Most people employed by the manufacturing sector are located in the southern part of the country and the majority are men. 
 
 ```{r Employment in facilities, echo= FALSE, warning=FALSE, message=FALSE, fig.cap= 'Number of employees in the fisheries manufacturing sector in each region by gender in 2015. AC refers to products for animal consumption and HC products for human consumption. Source: Report by IFOP based on facilities survey (IFOP, 2015)'}
@@ -1080,11 +1080,11 @@ Most of our analysis relied on publically available data collected by government
 
 Particularly concerning is landing data since it is mainly generated via landings declarations. Fishers should announce their intention to land catch to the authority in charge, who must weight and certify the catch. Commercialization centers should not sell any kind of catch that is not certified. Thus, fishers have an incentive to report their landings. In addition, those fishers that do not declare their landings risk their permits and penalty fees. Still, these rules are poorly enforced generating incentives to underreport. IUU fishing occurs in Chile. In 2017, the five most seized species due to non-compliance with fishing regulations were the Araucanian herring (*Strangomera bentincki*), the Peruvian anchoveta (*Engraulis ringens*), the Giant grey kelp (*Lessonia nigrescens*), the Jumbo Flying Squid (*Dosidicus gigas*), and the South pacific hake (*Merluccius gayi*). All of them are among the most landed species in the country. There has been recent efforts to generate estimates for IUU for some Chilean fisheries like Loco (*Concholepas concholepas*) (@oyanedel_illegal_2018) and the South pacific hake (@wwfchile_estimacion_2017). However, we did not include them in our analysis because they are not available for all species and including them only for the species that have been studied could have bias our results in a systematic way. IUU is not recorded in the landings database but products coming from IUU that are exported are likely to be recorded in the exports database. This could be making us to underestimate domestic consumption. 
 
-The lack of consistency in data collection between and within agencies brings another source of uncertainty to our analysis. We found inconsistencies between two databases of landings published by SERNAPESCA in their website. They differed in the level at which data was aggregated. But, when we aggregated the most detailed database to the same level as the other one we observed differences in landing volumes for some species. We considered this to be part of the measurement error involved in any process of data collection. Nonetheless, because the differences in numbers where too high for 2015 we ran the analysis with both datsets to see how the use of different datasets affected our results.  
+The lack of consistency in data collection between and within agencies brings another source of uncertainty to our analysis. We found inconsistencies between two databases of landings published by SERNAPESCA in their website. They differed in the level at which data was aggregated. One data base was clasified per secto (artisanal, industria, fabric vessels) and the other was the summary for lanfings and aquaculture for each year pero region. When we aggregated the most detailed database to the same level as the anual summary database we observed differences in landing volumes for the year 2015. We considered this to be part of the measurement error involved in any process of data collection or data entry. We used the summary annual data dor our domestic human consumption model because it alinged more with amounts reported all other years.
 
-A major challenge was to match trade and landings data. SERNAPESCA collects data under the common names while Aduanas Chile record exported and imported products under the international Harmonized System nomenclature. To overcome this issue we use the information provided by Aduanas Chile on the species contained in some types of products. This allowed us to aggregate products per groups of species and match volumes and values to landing record by SERNAPESCA. In addition, SERNAPESCA applies several variations of a species common name between databases. This difficults the calculation of aggregated estimates. We solve this by generating a dataset that categorize all the names currently used by SERNAPESCA under their respective scientific name to be able to aggregate data on a particular species. Although we did it as carefully as we could and we double checked the code several times, this kind of steps are always prone to human error bringing more uncertainty to the analysis. As for 2013, SERNAPESCA is using an online plataform that facilitates the reporting of catches to fishers and improves data automatization. Yet, there are still an important number of landings that are reported and recorded on paper. We expect that this new technology will bring more consistency in data collection facilitating this types of analsis in the future. 
+A major challenge was to match trade and landings data. SERNAPESCA collects data under the common names while Aduanas Chile record exported and imported products under the international Harmonized System nomenclature. To overcome this issue we use the information provided by Aduanas Chile on the species contained in some types of products. This allowed us to aggregate products per groups of species and match volumes and values to landing record by SERNAPESCA. In addition, SERNAPESCA applies several variations of a species common name between databases. This difficults the calculation of aggregated estimates. We solve this by generating a dataset that categorize all the names currently used by SERNAPESCA under a common group among the import and export data (See appendix for group details). We designated the groups and did all the corresponfing matching, this step is prone to human error.
 
-It is possible that we have overestimated exports volumes for some species since some products combine the species of interest with other ingredients. We could not account for this since we did not have data on the products composition on different ingredients. However, for the most exported products this is not a major issue since fish fillets and fresh products are usually almost 100% made by fish meat or shellfish. Similarly, we lacked data on species-specific yields to estimate how many Kg of a species translates into different marine products. To fill this gap, we use information from Peru on production yields and apply it to Chilean species. Some of them were excatly the same species but for those that did not present a match in Peru we use the yield of the most similar species. We found our analysis to be particularly sensitive to the values of species-specific yields, highlighting the importance of improving or understanding of how efficient are we in producing different products with particular species. 
+It is possible that we have overestimated exports volumes for some species since some products combine the species of interest with other ingredients. We could not account for this since we did not have data on the products composition on different ingredients. However, for the most exported products this is not a major issue since fish fillets and fresh products are usually almost 100% made by fish meat or shellfish. Similarly, we lacked data on species-specific yields to estimate how many Kg of a species translates into different marine products. To fill this gap, we use information from Peru on production yields and apply it to Chilean species. Some of them were excatly the same species but for those that did not present a match in Peru we use the yield of the most similar species. We found our analysis to be particularly sensitive to the values of species-specific yields, highlighting the importance of improving this aspect of the model.
 
 A major information gap we identified is the lack of publically available data on ex-vessel prices and employment for the industrial sector. To our knowledge neither SERNAPESCA, IFOP nor SUBPESCA collect data on this regard. Thus, identifying what were the most valuable species for the industrial sector was not possible. An approach we were unable to apply due to time constraints is to derive ex-vessel prices from trade data (@melnychuk_reconstruction_2017). Contrary to what we expected, the fisheries sector for which we found most available information was the artisanal sector. We were able to get a count of the direct employment generated by the artisanal sector thanks to the National Record of Artisanal Fishers (RPA). Still, we cannot ensure we are not underestimating the number of people that rely on fishing. We know enforcement is weak specially in remote areas of the country therefore there is room for illigal activity. We were also able to estimate species-specific revenues by using landings and prices of first transactions. Finally, information on employees in processing facilities was also available. However, some values were unrealistic since they were larger than the entire population of the country. Thus, we prefered relied on a survey study performed by IFOP to fullfill this estimate.   
 
@@ -1094,7 +1094,7 @@ We also lacked data on the transportation of landings and products between Chile
 
 We found that Chileans moslty rely on pelagic fisheries as their primary source for seafood. The most important groups of species for domestic food consumption are squids, tuna, hake, and the Southern ray beam. However, it is likely that we have overestimated squid consumption. It is worth noting that Tuna is mostly imported into the country while most of the species that are use in Chile for Human Consumption products like salmon, trouts and mussels are exported. This reflects the importance of market forces on world-wide seafood distirbution and supply. Salmon and trouts get better prices a broad and are too expensive for Chileans in general. 
 
-Although our is just a preliminary approach, we found that Chilean Jack Mackerel (*Trachurus murphyi*), Jumbo flying squid (*Dosidicus gigas*), and Sea Urchins (*Loxechinus albus*) are species that are being conssumed without going through processing facilities. We believe this species are mostly sold close to their landing points and therefore are important for coastal communities.
+Although our is just a preliminary approach, we found that Chilean Jack Mackerel (*Trachurus murphyi*), Jumbo flying squid (*Dosidicus gigas*), and Sea Urchins (*Loxechinus albus*) are species that are being conssumed without going through processing facilities. We believe this species are mostly sold close to their landing points and therefore are important for coastal communities livelihoods.
 
 Seafood consumption in Chile has been shown to be correlated with income, as in other parts of the world. However, the data is spotty and is provably missing some of the consumption that occurs in coastal communities.
 
@@ -1118,7 +1118,7 @@ We learned that there is poor undertanding on Chile regarding the main marine sp
 
 A mayor challenge we faced was to combine all datasets without losing species resolution. We think there is potential to imporve the methods we used for scraping data from the imports and exports databases as for example, the Chilean customs recently uploaded the export information for 2018 as an excel file combining type of products, aduana code, exported tones and values. When we ask for this sort of document back in October, the Chilean customes told us they were working on it so hopefully the publish historic data in that fomat. This could increase the species resolution, reduce human error and facilitate automatization. Othe two things that would improve the estimates we obtained here are species-specific IUU estimates and yields per type of product for Chilean species. IUU estimates are becoming more popular and different methods have been developed for estimate it from elliciation tasks to more model driven approaches. This kinds of estimate could be also of interested to management authorities. Thus, Oceana could cooperate with them to ellaborate them. 
 
-Chile is increasingly pushing for an increase in seafood consumption. Currently, there are programs that promote seafood consumption like XXXX. We think Oceana could contribute adding to the discussion the whole picture of the state of the fisheries and the economic implication for the country of transitioning to a more fish based diet. For this an integrated analysis about the state of the fishery and its economic importance for the country needs to be done. More than just promoting the increase in domestic seafood consumption we think that finding out why is it important and who will benefit and loose it is key for the success of any project. 
+Chile is increasingly pushing for an increase in seafood consumption. Currently, there are programs that promote seafood consumption like _Del Mar a mia Mesa_ (From the sea to my table). We think Oceana could contribute adding to the discussion the whole picture of the state of the fisheries and the economic implication for the country of transitioning to a more fish based diet. For this an integrated analysis about the state of the fishery and its economic importance for the country needs to be done. More than just promoting the increase in domestic seafood consumption we think that finding out why is it important and who will benefit and loose it is key for the success of any project. 
 
 In our analysis we did not explore the role of the commercialization chain on food supply and distribution. Investing in better understanding from where can people access seafood and at what prices is crucial to improve food security. Thus, there is a need to better characterize the distirbution of seafood in Chile and explore the possibility of improving seafood access by better managing the supply chain. 
 
@@ -1158,6 +1158,11 @@ knitr::kable(table_incomes_sector , col.names = c('Type', 'Employer', 'Independe
 
 # Demographics of people employed in the fisheries and aquculuture sector
 knitr::kable(table_demo_employment, format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Average demographic characteristics of people employed in the fisheries and aquaculture sector in Chile. Source: Elaborated based on data from New supplementary income survey (NESI) in 2015 and published in SENSE, 2015') %>% 
+kable_styling(latex_options = 'hold_position')
+
+
+# Top 10 species for human consumption (for each year between 2013-2017)
+knitr::kable(top_10_table, col.names = c('Ranking', '2013', '2014', '2015', '2016', '2017'), format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Top 10 human cosnsumption species per year in the artisanal sector. Source: Landing and aquaculture records from SERNAPESCA & Imports and Export data from ADUANAS, 2018') %>% 
 kable_styling(latex_options = 'hold_position')
 
 ```
