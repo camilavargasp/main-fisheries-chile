@@ -1,0 +1,65 @@
+name_sp,sc_name,group
+erizos de mar,NA,erizo
+abalon japones,Haliotis discus hannai,abalon japones
+almejas,Tawera gayi,almeja_gayi
+almejas,Protothaca thaca,almeja_otras
+almejas,Ameghinomya antiqua,almeja_otras
+anchoas,NA,pescado_otros
+arenques,NA,pescado_otros
+atunes,NA,atunes
+bonitos,NA,bonito
+caballas,NA,caballa
+camaron de rio,Cryphiops caementarius,camaron_otro
+camaron ecuatoriano,Penaeus vannamei,camaron_ecu
+camaron nailon,Heterocarpus reedi,camaron_nai
+caracoles excepto los de mar,NA,camaron_otro
+caviar,NA,caviar
+centolla,Lithodes santolla,centolla
+centolla del norte,Lithodes spp.,centolla_nor
+congrio,NA,congrio
+"extracto de pescado, crustaceos moluscos",NA,pescado_otros
+gambas,Haliporoides diomedeae,gambas
+jaibas,Cancer spp,jaiba
+jaibas,Cancer porteri,jaiba
+jaibas,Cancer edwardsi,jaiba
+jaibas,Homalaspis plana,jaiba
+jaibas,Taliepus dentatus,jaiba
+jaibas,Cancer setosus,jaiba
+jaibas,Cancer coronatus,jaiba
+jaibas,Ovalipes trimaculatus,jaiba
+jibias,Dosidicus gigas,jibia
+jurel,NA,jurel
+langostino colorado,Pleuroncodes monodon,langostino_col
+las demas almejas,NA,almeja_otras
+"las demas jibias",NA,jibia
+"las demas vieiras, volandeiras ",Pecten,moluscos_otros
+"las demas vieiras, volandeiras ",Chlamys,moluscos_otros
+"las demas vieiras, volandeiras ",Placopecten,moluscos_otros
+listados,NA,atunes
+los demas abalones y orejas de mar,NA,abalon_otras
+los demas camarones,NA,camaron_otro
+los demas cangrejos,NA,cangrejos_otros
+los demas caracoles,NA,caracoles_otros
+los demas centollas y centollon,NA,centolla
+los demas crustaceos,NA,crustaceos_otros
+los demas de los demas moluscos,NA,moluscos_otros
+los demas decapodos Natantia,NA,crustaceos_otros
+los demas invertebrados acuaticos,NA,invertebrados_otros
+los demas langostinos,NA,langostinos_otros
+los demas pescados,NA,pescado_otros
+machas,Mesodesma donacium,macha
+meduzas,NA,meduza
+mejillones,NA,mejillon
+merluza,NA,merluza
+navajas de mar,Ensis macha,navaja
+navajuelas,Tagelus dombeii,navajuela
+ostiones,Argopecten purpuratus,ostion
+ostiones,Chlamys patagonica,ostion
+ostras,NA,ostra
+pulpos,NA,pulpo
+salmon,NA,salmon
+sardina y jurel,NA,sardina_jurel
+sardinas,NA,sardina
+sardinelas y espadines,NA,sardinelas
+sucedaneos de caviar,NA,caviar
+trucha,NA,trucha
