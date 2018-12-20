@@ -185,8 +185,419 @@ top_5_per_capita <- dom_cons_trade_name %>%
 View(top_5_per_capita)
 
 
+```
+
+
+
+####TODO CON LANDINGS ANUARIOS
+
+```{r matiching function, echo = FALSE, message=FALSE, warning = FALSE}
+
+##complete specie name list with corresponding trade name
+sp_index <- read.csv(here('clean_databases/sp_index.csv'))
+
+# Chilean to trade name
+chl_to_trade <- sp_index %>% 
+  select(chl_name, trade_name ) %>% 
+  unique()
+
+# Imports to trade name 
+imp_to_trade <- read.csv(here('clean_databases/imports_index.csv')) %>% 
+  rename(imports_name = X...imports_name)
+
+# Exports to trade name 
+##exp_to_trade <- read.csv(here('clean_databases/exports_index.csv')) %>% 
+  ##rename(exports_name = X...export_name)
+
+exp_to_trade <- read_delim("clean_databases/exports_index.csv", 
+    "\t", escape_double = FALSE, trim_ws = TRUE) %>% 
+  rename(exports_name = export_name)
+
+# english to trade
+en_to_trade <- sp_index %>% 
+  select(en_name, trade_name ) %>% 
+  unique()
+
+# scientific to trade
+sc_to_trade <- sp_index %>% 
+  select(sc_name, trade_name ) %>% 
+  unique()
+
+```
+
+Convert each data base into the trade name using the dataframe created above
+
+
+```{r convertion each datasat to trade name}
+# Landings: Importing, cleaning and grouping by trade name 
+L <- read.csv(here('clean_databases/landings_SERNAPESCA.csv')) %>% 
+  filter(region != 'national') %>% 
+  select(year, chl_name = species, tons) %>% 
+  left_join(chl_to_trade) %>% 
+  group_by(year, trade_name) %>% 
+  summarise(landing = sum(tons, na.rm= TRUE))%>% 
+  ungroup()
+  
+# Aquaculture: Importing, cleaning and grouping by trade name
+A <- read.csv(here('clean_databases/aquaculture_SERNAPESCA.csv')) %>% 
+  filter(region != 'national') %>%
+  filter(year !=2012) %>% 
+  select(year, chl_name = species, tons) %>% 
+  left_join(chl_to_trade) %>% 
+  group_by(year, trade_name) %>% 
+  summarise(aquaculture = sum(tons, na.rm= TRUE))%>% 
+  ungroup()
+
+# Imports: Importing, cleaning and grouping by trade name
+I <- read.csv(here('clean_databases/imports_ADUANA.csv')) %>% 
+  select(year, imports_name = name_sp, tons) %>% 
+  filter(year != 2018) %>% 
+  left_join(imp_to_trade) %>% 
+  filter(trade_name != 'NA') %>% 
+  group_by(year, trade_name) %>% 
+  summarise(import = sum(tons, na.rm= TRUE))%>% 
+  ungroup()
+
+# Exports: Importing, cleaning and grouping by trade name
+E <- read.csv(here('clean_databases/exports_ADUANA.csv')) %>% 
+  select(year, exports_name = grupo_exportacion, tons) %>% 
+  filter(year != 2018) %>% 
+  left_join(exp_to_trade) %>% 
+  filter(trade_name != 'NA') %>% 
+  group_by(year, trade_name) %>% 
+  summarise(export = sum(tons, na.rm= TRUE))%>% 
+  ungroup()
+
+# Yields: Importing, cleaning and grouping by trade name
+Y <- sp_index %>% 
+  group_by(trade_name) %>% 
+  summarise(mean_yield= mean(yield))%>% 
+  ungroup()
+
+# Non-himan consumption: Importing, cleaning and grouping by trade name
+NHC <- read.csv(here("clean_databases/NHC_m.csv")) %>% 
+  group_by(year, sc_name) %>% 
+  summarise(NHC = sum(total_NHC, na.rm = T)) %>% 
+  ungroup() %>% 
+  left_join(sc_to_trade) %>% 
+  group_by(year, trade_name) %>% 
+  summarise(NHC = sum(NHC, na.rm= TRUE)) %>% 
+  ungroup()
+  
+
+```
+
+Combining all datasets by trade name to creat the model
+
+Implementing model Dom_consumption = (L+A)*Y + I - E
+
+```{r combining and calculatind}
+  
+## full-join
+model_trade_name <- L %>% 
+  full_join(A, by= c("year", "trade_name")) %>% 
+  full_join(NHC, by= c("year", "trade_name")) %>% 
+  full_join(E, by= c("year", "trade_name")) %>% 
+  full_join(I, by= c("year", "trade_name")) %>% 
+  full_join(Y, by= "trade_name") %>% 
+  mutate(landing = as.numeric(landing))
+
+#convert all NAs to 0
+model_trade_name$landing[is.na(model_trade_name$landing)] <- 0
+
+model_trade_name$aquaculture[is.na(model_trade_name$aquaculture)] <- 0
+
+model_trade_name$NHC[is.na(model_trade_name$NHC)] <- 0
+
+model_trade_name$export[is.na(model_trade_name$export)] <- 0
+
+model_trade_name$import[is.na(model_trade_name$import)] <- 0
+
+model_trade_name$mean_yield[is.na(model_trade_name$mean_yield)] <- 0
+
+
+
+
+###LA HORA DE ELA VERDAD
+
+dom_cons_trade_name <- model_trade_name %>% 
+  mutate(HC = ((landing + aquaculture - NHC)*mean_yield) - export + import) %>% 
+  mutate(per_cap_kg = format((HC/17762681)*1000000, scientific = FALSE))
+
+per_capita_total <- dom_cons_trade_name %>% 
+  group_by(year) %>% 
+  summarise(HC_year = sum(HC))
+
+## Save final results
+write.csv(dom_cons_trade_name, here("clean_databases/final_model_results.cvs"), row.names = F)
+
+
+```
+
+
+top 10 fisheries
+```{r}
+
+top_10_hc <- dom_cons_trade_name %>%
+  arrange(year, desc(HC)) %>%
+  group_by(year) %>%
+  top_n(10, HC)
+
+View(top_10_hc)
+
+
+top_5_hc <- dom_cons_trade_name %>%
+  arrange(year, desc(HC)) %>%
+  group_by(year) %>%
+  top_n(5, HC)
+
+View(top_5_hc)
+
+
+top_5_per_capita <- dom_cons_trade_name %>%
+  arrange(year, desc(per_cap_kg)) %>%
+  group_by(year) %>%
+  top_n(5, HC)
+
+View(top_5_per_capita)
 
 
 
 ```
+
+
+###TODOD CON LANDINGS ANUARIOS
+
+```{r matiching function, echo = FALSE, message=FALSE, warning = FALSE}
+
+##complete specie name list with corresponding trade name
+sp_index <- read.csv(here('clean_databases/sp_index.csv'))
+
+# Chilean to trade name
+chl_to_trade <- sp_index %>% 
+  select(chl_name, trade_name ) %>% 
+  unique()
+
+# Imports to trade name 
+imp_to_trade <- read.csv(here('clean_databases/imports_index.csv')) %>% 
+  rename(imports_name = X...imports_name)
+
+# Exports to trade name 
+exp_to_trade <- read.csv(here('clean_databases/exports_index.csv'))
+
+# english to trade
+en_to_trade <- sp_index %>% 
+  select(en_name, trade_name ) %>% 
+  unique()
+
+# scientific to trade
+sc_to_trade <- sp_index %>% 
+  select(sc_name, trade_name ) %>% 
+  unique()
+
+```
+
+Convert each data base into the trade name using the dataframe created above
+
+
+```{r convertion each datasat to trade name}
+# Landings: Importing, cleaning and grouping by trade name 
+L_an <- read.csv(here("clean_databases/landings_anuario.csv")) %>% 
+  select(year, chl_name = species, sc_name, landing_aqua = tons) %>% 
+  left_join(chl_to_trade) %>% 
+  group_by(year, trade_name) %>% 
+  summarise(landing_aqua = sum(landing_aqua, na.rm= TRUE))%>% 
+  ungroup()
+  
+# Aquaculture: Importing, cleaning and grouping by trade name
+# A <- read.csv(here('clean_databases/aquaculture_SERNAPESCA.csv')) %>% 
+#   filter(region != 'national') %>%
+#   filter(year !=2012) %>% 
+#   select(year, chl_name = species, tons) %>% 
+#   left_join(chl_to_trade) %>% 
+#   group_by(year, trade_name) %>% 
+#   summarise(aquaculture = sum(tons, na.rm= TRUE))%>% 
+#   ungroup()
+
+# Imports: Importing, cleaning and grouping by trade name
+I <- read.csv(here('clean_databases/imports_ADUANA.csv')) %>% 
+  select(year, imports_name = name_sp, tons) %>% 
+  filter(year != 2018) %>% 
+  left_join(imp_to_trade) %>% 
+  filter(trade_name != 'NA') %>% 
+  group_by(year, trade_name) %>% 
+  summarise(import = sum(tons, na.rm= TRUE))%>% 
+  ungroup()
+
+# Exports: Importing, cleaning and grouping by trade name
+E <- read.csv(here('clean_databases/exports_ADUANA.csv')) %>% 
+  select(year, export_name = grupo_exportacion, tons) %>% 
+  filter(year != 2018) %>% 
+  left_join(exp_to_trade) %>% 
+  filter(trade_name != 'NA') %>% 
+  group_by(year, trade_name) %>% 
+  summarise(export = sum(tons, na.rm= TRUE))%>% 
+  ungroup()
+
+# Yields: Importing, cleaning and grouping by trade name
+Y <- sp_index %>% 
+  group_by(trade_name) %>% 
+  summarise(mean_yield= mean(yield))%>% 
+  ungroup()
+
+# Non-himan consumption: Importing, cleaning and grouping by trade name
+NHC_raw <- read.csv(here("clean_databases/processing.csv")) %>%
+  filter(m_p == "M",
+         use== "NHC") %>% 
+  group_by(year, chl_name) %>% 
+  summarise(NHC = sum(tons, na.rm = T)) %>% 
+  ungroup() %>% 
+  left_join(chl_to_trade) %>% 
+  group_by(year, trade_name) %>% 
+  summarise(NHC = sum(NHC, na.rm= TRUE)) %>% 
+  ungroup()
+  
+##Alterantive NHC
+# raw_NHC <- read.csv(here("clean_databases/raw_NHC.csv")) %>% 
+#   rename(chl_name = species) %>% 
+#   group_by(chl_name, year) %>% 
+#   summarise(NHC = sum(tons, na.rm = T)) %>% 
+#   ungroup() %>% 
+#   left_join(chl_to_trade) %>% 
+#   group_by(year, trade_name) %>% 
+#   summarise(NHC = sum(NHC, na.rm= TRUE)) %>% 
+#   ungroup()
+  
+```
+
+Combining all datasets by trade name to creat the model
+
+Implementing model Dom_consumption = (L+A)*Y + I - E
+
+```{r combining and calculatind}
+  
+## full-join
+model_trade_name_Lan <- L_an %>% 
+  ##full_join(A, by= c("year", "trade_name")) %>% 
+  full_join(NHC_raw, by= c("year", "trade_name")) %>% 
+  full_join(E, by= c("year", "trade_name")) %>% 
+  full_join(I, by= c("year", "trade_name")) %>% 
+  full_join(Y, by= "trade_name")
+
+#convert all NAs to 0
+model_trade_name_Lan$landing_aqua[is.na(model_trade_name_Lan$landing_aqua)] <- 0
+
+# model_trade_name_Lan$aquaculture[is.na(model_trade_name_Lan$aquaculture)] <- 0
+
+model_trade_name_Lan$NHC[is.na(model_trade_name_Lan$NHC)] <- 0
+
+model_trade_name_Lan$export[is.na(model_trade_name_Lan$export)] <- 0
+
+model_trade_name_Lan$import[is.na(model_trade_name_Lan$import)] <- 0
+
+model_trade_name_Lan$mean_yield[is.na(model_trade_name_Lan$mean_yield)] <- 0
+
+##intermediate check landing_aqua -NHC
+landing_aqua_no_NHC <- model_trade_name_Lan %>% 
+  mutate(land_no_NHC = landing_aqua - NHC) %>% 
+  arrange(year, desc(land_no_NHC)) %>%
+  group_by(year) %>%
+  top_n(10, land_no_NHC)
+
+View(landing_aqua_no_NHC)
+
+###L
+dom_cons_Lan <- model_trade_name_Lan %>% 
+  mutate(HC = ((landing_aqua - NHC)*mean_yield) - export + import) %>%
+  mutate(per_cap_kg = format((HC/17762681)*1000000, scientific = FALSE))
+
+per_capita_total_Lan <- dom_cons_Lan %>%
+  filter(HC>0) %>% 
+  group_by(year) %>% 
+  summarise(HC_year = sum(HC)) %>% 
+  mutate(per_capita = (HC_year/17762681)*1000)
+
+
+
+
+
+## Save final results
+#write.csv(dom_cons_Lan, here("clean_databases/final_model_results_Lan.cvs"), row.names = F)
+
+
+```
+
+
+top 10 fisheries landings anuario
+```{r}
+
+top_5_hc_Lan <- dom_cons_Lan %>%
+  arrange(year, desc(HC)) %>%
+  group_by(year) %>%
+  top_n(5, HC)
+
+View(top_5_hc_Lan)
+
+
+top_5_Land_Aqua <- L_an %>%
+  arrange(year, desc(landing_aqua)) %>%
+  group_by(year) %>%
+  top_n(5, landing_aqua)
+
+View(top_5_Land_Aqua)
+
+
+
+top_10_Land_Aqua <- L_an %>%
+  arrange(year, desc(landing_aqua)) %>%
+  group_by(year) %>%
+  top_n(10, landing_aqua)
+
+View(top_10_Land_Aqua)
+
+top_10_NHC <- raw_NHC %>%
+  arrange(year, desc(NHC)) %>%
+  group_by(year) %>%
+  top_n(10, NHC)
+
+View(top_10_NHC)
+
+
+top_10_I <- I %>%
+  arrange(year, desc(import)) %>%
+  group_by(year) %>%
+  top_n(10, import)
+
+View(top_10_I)
+
+top_10_E <- E %>%
+  arrange(year, desc(export)) %>%
+  group_by(year) %>%
+  top_n(10, export)
+
+View(top_10_E)
+
+
+
+```
+
+
+
+```{r}
+
+
+top5_hc_fig2 <- 
+  ggplot(data = top_5_hc_Lan, aes(x = year, y = HC, fill = trade_name)) +
+    geom_bar(stat= "identity")+
+    scale_y_continuous(expand = c(0, 0)) +
+    labs(y="Domestic human consumption \n (Tonnes)", x="Year")+
+    theme(axis.line = element_line(colour = "black"),
+        axis.text=element_text(size=11),
+        axis.title=element_text(size=12,face="bold"))+
+  scale_fill_manual(values = c(wes_palette("Darjeeling1", 5, type = "discrete"),wes_palette("Darjeeling2", 5, type = "discrete")))+
+  ggtheme_plot()
+
+
+```
+
 
