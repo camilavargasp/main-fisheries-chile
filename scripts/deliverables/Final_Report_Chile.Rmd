@@ -29,9 +29,6 @@ subtitle: Report prepared for Oceana
 
 <!-- ## Chile -->
 
-
-
-
 ```{r setup, eval = T, echo=F, warning=F,message=F,results='hide'}
 
 #### READ ME !!! ####
@@ -86,7 +83,6 @@ suppressWarnings(
 options("scipen"=100, "digits"=4) 
 
 ```
-
 
 ```{r Data_Fun, eval = T, echo = F, warning = F, message = F, results = 'hide'}
 
@@ -230,7 +226,7 @@ from_ChP_to_dollar_dec_2018 <- 676 # Based on conversion for Dec, 2018
 
 ### Fisheries Context
 
-To evaluate the volume contribution of specific fisheries over the last five years, we used records of landings and aquaculture harvests from SERNAPESCA  (2013-2017). Using monthly data  published by IFOP, we identified the most exported fish products in terms of volume. To identify the participation of different species in exported volumes we generated a new database linking types of products listed in the *Arancel Aduanero* with the names of the fished and farmed species listed by SERNAPESCA. We searched for all the products ids that refer to the species scientific name, common name or genus name as listed by SERNAPESCA and aggregated them under the species name.
+To evaluate the volume contribution of specific fisheries over the last five years, we used records of landings and aquaculture harvests from SERNAPESCA  (2013-2017). Using monthly data published by IFOP, we identified the most exported fish products in terms of volume. To identify the participation of different species in exported volumes we generated a new database linking types of products listed in the *Arancel Aduanero* with the names of the fished and farmed species listed by SERNAPESCA. We searched for all the products ids that refer to the species scientific name, common name or genus name as listed by SERNAPESCA and aggregated them under the species name.
 
 #### Wild Caught Fish
 
@@ -238,7 +234,7 @@ To evaluate the volume contribution of specific fisheries over the last five yea
 
 According to landing records from SERNAPESCA over the last five years, the artisanal sector lands on average 1.6 ± 0.58 million annual tonnes of marine species while the industrial sector lands around 0.9 ± 0.16 million tonnes per year. Is worth noting that large part of the artisanal landings are of algae and benthic species that are not targeted by the industrial sector. Both sectors have among their most landed species the Peruvian anchoveta (*Engraulis ringens*) and the Araucanian herring (*Strangomera bentincki*), two species that are mostly used as inputs for fish meal and oil (Figure 19). Other important species in artisanal landings are the Giant grey kelp (*Lessonia nigrescens*), exported mostly as dried algae, and the Jumbo squid (*Dosidicus gigas*), mostly commercialized fresh or frozen for human consumption (HC). The Chilean jack mackerel (*Trachurus murphyi*) is also an important fishery in terms of volume for the industrial sector, which is also mostly used in the production of fish meal and oil and to a lesser extent for direct HC. 
 
-Over the last years the catch composition of the artisanal sector has presented no major changes except from one species of algae (Giant brown kelp, *Lessonia trabeculata*) replacing other (Red algae gracilaria, *Gracilaria spp*) within the top 5 landed species as for 2013. In the case of the industrial sector, composition of the main species is also stable over the last years. Yet, the landings of Peruvian anchoveta (*Engraulis ringens*) started decreasing in 2014 relative to previous years, this incresed the relevance of other species like the Chilean jack mackerel (*Trachurus murphyi*). Other important species for the artisanal sector are   (Table Chile S1).
+Over the last years the catch composition of the artisanal sector has presented no major changes except from one species of algae (Giant brown kelp, *Lessonia trabeculata*) replacing other (Red algae gracilaria, *Gracilaria spp*) within the top 5 landed species as for 2013. In the case of the industrial sector, composition of the main species is also stable over the last years. Yet, the landings of Peruvian anchoveta (*Engraulis ringens*) started decreasing in 2014 relative to previous years, this incresed the relevance of other species like the Chilean jack mackerel (*Trachurus murphyi*). Other important species for the artisanal sector are the Mote sculpin (*Normanichthys crockeri*) and the Chilean sea urchin (*Loxechinus albus*) (Table Chile S1).
 
 ```{r Top_landed_Chile_G, echo = FALSE, warning=FALSE, message=FALSE, fig.height=5, fig.width=9, fig.cap= 'Top 5 species landed in Chile by the artisanal (left pannel) and industrial sector (right pannel) between 2013 and 2017. Data source: Landing records from SERNAPESCA, 2018.' }
 
@@ -315,6 +311,8 @@ landings_plot <- landings_year %>%
 
 landings_plot
 ```
+
+These resuts are in line with those observed using international databases. SAU and FAO databases 
 
 ```{r top_10_Chile_T, eval=T, echo=F, warning=F,message=F}
 
@@ -1312,7 +1310,7 @@ We also lacked data on the transportation of landings and products between Chile
 
 ### Fisheries context
 
--  The most important fisheries in Chile in terms of landings have been Anchovy (*Engraulis ringens*), Chilean jack mackerel (*Trachurus murphy*i) and Araucanian herring (*Strangomera bentincki*) (*Figure 1*), all three of them mainly catch by the industrial fleet. This pelagic fishes are mainly used to produce fish meal therefore not for human consumption. 
+-  The most important fisheries in Chile in terms of landings are Anchovy (*Engraulis ringens*), the Araucanian herring (*Strangomera bentincki*), which are fished by both the artisanal and industrial sectors, and the Chilean jack mackerel (*Trachurus murphyi*), fished mostly by artisanals. 
 
 ### Seafood Consumption
 
