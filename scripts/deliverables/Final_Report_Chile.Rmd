@@ -3623,19 +3623,22 @@ model_results %>%
 
 
 #### Total and per capita food consumption in the country
-Our models is highly sensitive to species yield, therefore not in many cases results of our calculations return a negative number implaying that exports are higher than the product of the yield times the local production (landings nad aquaculture) minus all tons that go for non-human consumption products. Assuming that all negative numbers do not contribut to domestic consumption (all of the product is exported and non is imported), we calculated a percapita consumption per year. 
-We summed all the human consumption per year (Table XX) and devided by the chilean population of 17,762,681 (@INE, 2015). Results aling with what has been calculated in by others studies with an average of 11.5 kg of seafood compsumption a year, which is similar to what has been estimated by the FAO (2016) for Chile of 10-13kg of fish a year.
+Our models is highly sensitive to species yield, therefore in many cases results of our calculations return a negative number implaying that exports are higher than the product of the yield times the local production (landings and aquaculture) minus all tons that go for non-human consumption products. Assuming that all negative numbers do not contribut to domestic consumption  because all of the product is exported and non is imported, we calculated a percapita consumption per year. We summed all the human consumption per year (Table XX) and devided by the chilean population of 17,762,681 (@INE, 2015). Results aling with what has been calculated in by others studies with an average of 11.5 kg of seafood compsumption a year, which is similar to what has been estimated by the FAO (2016) for Chile of 10-13kg of fish a year.
 
 ```{r eval=F}
 ##Percapita consumption table
 
-##FALTA TABLA!!!
+kable(per_capita_total_Lan, col.names = c('Year', 'Total Human Consumption (tons)', 'Per-capita consumption/year (kg)'), format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Total tones of seafood for humanc consumption and per-capita consumption per year (kg) considering a popilation of 17,762,681 individuals') %>% 
+kable_styling(latex_options = 'hold_position') %>% 
+  column_spec(4, width = "6cm")
+
+
 ```
 
 
 
 #### Regional differences in per capita and total consumption
-We where not able to do a regional analysis. Even though most of the data is provided at a regional level. We realized that is was not possible to assume that what was landed in a region was processed in that same area. According to a study done along the Chilean coast, 62% of the population from the north declares to eat fish once a week. in the north centre region that numbers decreases to 54% and it reaches its lowest point in the Metropolitan Region (42%). In the center south, 48% each fish at least once a week while in the south 48% (@fundacion_chile_chile_2016)
+We where not able to do a regional analysis for domestic consuption. Even though most of the data is provided at a regional level. We realized that is was not possible to assume that what was landed in a region was processedand then exported in that same area. Nor that the imports per area accounted for the actual imported food consumed in theregions. Looking into a study done in 2016, along the Chilean coast, 62% of the population from the north declares to eat fish once a week. in the north centre region that numbers decreases to 54% and it reaches its lowest point in the Metropolitan Region (42%). In the center south, 48% each fish at least once a week while in the south 48% (@fundacion_chile_chile_2016)
 
 ### National Economic Participation
 
