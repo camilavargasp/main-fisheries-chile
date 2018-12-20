@@ -741,9 +741,8 @@ HC_no_Aq <- sp_HC_no_Aq %>%
 
 In Chile, almost all industrial landings ($L_i$) and aquaculture harvest ($Aq$) go to processing facilities while only some of the artisanal landing ($L_a$) is processed. We assume that the the artisanals' catch that is not sent to processing facilities is sold as non-processed products for human consumption ($NP_{HC}$). These approach allowed us to analyze main species sold by artisanal fisher assuming it is all for human consumption. Results show that species vary across years, but the Southern rays bream (*Brama australis*) is the only specie that is common for every year of data (Figure NP_HC_plot). Indicating that historically has been an importat specie for direct human consumption. This aligns with results obtained in a survey implemented along Chile where 51% answered that Southern rays bream was their first preference (@fundacion_chile_chile_2016). Within 2013, 2014 and 2016, we can see the presence of anchoveta (*Engraulis ringens*), while in 2017 there is high increase in Jumbo flying squid (*Dosidicus gigas*). 
 
-VER GRAFICO!!!
 
-```{r Non-processed Human consumption,eval=F, echo= FALSE, message=FALSE, warning=FALSE }
+```{r Non-processed Human consumption,eval=F, echo= FALSE, message=FALSE, warning=FALSE, fig.cap= "Main artisanal landings that are not processe in facilities"}
 
 ## Raw material in processing plants with scientific name per region and year
 
@@ -754,7 +753,7 @@ processing_minus_ind_Aq <- processing %>%
   select(-chl_name) %>% 
   group_by(year, sc_name) %>% 
   summarise(tons = sum(tons, na.rm = TRUE)) %>% 
-  left_join(l.i, by= c('year', 'sc_name')) %>% #How much of each sp comes from Li?
+  left_join(l.i, by= c('year', 'sc_name')) %>% #How much of each sp comes from Li? 
   mutate(tons_raw = as.numeric(tons.x), tons_ind = as.numeric(tons.y)) %>% 
   select(-tons.x, -tons.y) %>% 
   left_join(Aq, by=c('sc_name', 'year')) %>% #How much of each sp comes from Aq?
@@ -772,35 +771,46 @@ NP_HC <- l.a %>%
   left_join(processing_minus_ind_Aq, by= c('sc_name', 'year')) %>% 
   select(year, sc_name, tons_landed = tons, tons_processed= tons_art) %>% 
   mutate(tons_processed = ifelse(tons_processed < 0, 0, tons_processed)) %>% 
-  mutate(tons_NP_HC = tons_landed - tons_processed)
+  mutate(tons_NP_HC = tons_landed - tons_processed) %>% 
+  mutate(tons_NP_HC = ifelse(tons_NP_HC < 0, 0, tons_NP_HC)) %>%
+  left_join(sc_to_en)
 
-## Plot
-
-NP_HC_plot <-NP_HC %>% 
+top_5_NP_HC <-NP_HC %>% 
+  filter(year != 2015) %>%# data not accurate
+  group_by(year, en_name) %>% 
+  summarise(tons_NP_HC = sum(tons_NP_HC, na.rm = T)) %>% 
+  ungroup() %>% 
   arrange(year, desc(tons_NP_HC)) %>%
   group_by(year) %>% 
   top_n(5, tons_NP_HC) %>% 
-  left_join(sc_to_en) %>% 
-  select(year, species= en_name, tons = tons_NP_HC) %>% 
-  filter(year != 2015) %>%  # There is no data for oil
-  ggplot(aes(x= as.factor(year), y = tons/1000, fill = species)) +
+  filter(!is.na(tons_NP_HC)) %>% 
+  select(year, tons_NP_HC, Species = en_name)
+  
+  
+## Plot
+NP_HC %>% 
+  filter(!en_name %in% top_5_NP_HC$Species,
+         year != 2015) %>% 
+  group_by(year) %>% 
+  summarise(tons_NP_HC = sum(tons_NP_HC, na.rm = T)) %>% 
+  mutate(Species = "Others") %>% 
+  bind_rows(top_5_NP_HC) %>%
+  filter(!Species %in% c("Giant kelp", "Red algae gracilaria")) %>% 
+  ggplot(aes(x= as.factor(year), y = tons_NP_HC/1000, fill = Species)) +
   geom_bar(stat= 'identity') +
   labs(y="Tons of non-processed HC (Thousand tons)", x="Year")+
   scale_y_continuous(expand = c(0,0))+
   scale_fill_manual(values = c(wes_palette("Darjeeling1"), wes_palette("Darjeeling2"), wes_palette("Moonrise1")))+
   ggtheme_plot()
-  
-  
+ 
+
 ```
 
-```{r, eval=F, fig.cap= "Main artisanal landings that are not processe in facilities" }
-NP_HC_plot
-```
 
 
 #### Main fisheries for food supply
 
-To identify the main fisheries for human food supply in Chile we combined datasets from landings, aquaculture, raw material that goes into facilities for non-human consumption, imports and exports. Assuming that all local landings and harvest that is not processed as non-human consumption products nor exported is comsumed locally. Eventhough landings and aquaculture databases are detailed at a species level, we agragated the data in larger groups (See Suplementary Material) to be able to combine them with the Chilean Customs datasets. Our results show, that the main fishery for local consumption across the years has been squid. Within this group we considered: Patagonian squid (*Loligo gahi*), Jumbo flying squid (*Dosidicus gigas*), Argentine shortfin squid (*Illex argentinus*) and Japanese flying squid (*Todarodes Pacificus*). These species predominate local consumption from 2013 to 2017, however, we data shows that in 2017 there was a significant increase in the exports of this group of species, therefore explaining their relatively less contribution to domestic consumption. Other local fisheries important for domestic human consumption in Chile are Hakes (Southern hake *Merluccius australis*, South Pacific hake *Merluccius gayi gayi*, Patagonian grenadier *Macruronus magellanicus*, Southern blue whiting *Micromesistius australis*) and Southern rays bream (*Brama australis*) (Figure line 952). It is important to mention that the Southern rays bream is classified on its own group, therefore its relative contribution to domestic consumption is higher compared to other aggregated groups. Another caviet to make here is that squids have a the highest yield of all species, therfore there contribution to domestic consumption per landed tonnes is higher, partly explining its high predominance in our results. These resutls differe from the outcomes obtained with the international databases, where the model concludes that the main fish group destined for food in Chile is salmon. This difference can be explained due to the details in export data. In the model done with regional data, we grouped a larger groups of species under one group in order to match all databases which overall drived differences in our analysis. We also know that our regional analysis is sensitive to the yield, therefore results show that all salmon produced in Chile is exported. But even though most of the salmon is exported, according to SalmonChile [@salmonchile.cl],  10-20% of the production stays in the country.
+To identify the main fisheries for human food supply in Chile we combined datasets from landings, aquaculture, raw material that goes into facilities for non-human consumption, imports and exports. Assuming that all local landings and harvest that is not processed as non-human consumption products nor exported is comsumed locally. Eventhough landings and aquaculture databases are detailed at a species level, we agragated the data in larger groups (See Suplementary Material) to be able to combine them with the Chilean Customs datasets. Our results show, that the main fishery for local consumption across the years has been squid. Within this group we considered: Patagonian squid (*Loligo gahi*), Jumbo flying squid (*Dosidicus gigas*), Argentine shortfin squid (*Illex argentinus*) and Japanese flying squid (*Todarodes Pacificus*). These species predominate local consumption from 2013 to 2017, however, we data shows that in 2017 there was a significant increase in the exports of this group of species, therefore explaining their relatively less contribution to domestic consumption. Other local fisheries important for domestic human consumption in Chile are Hakes (Southern hake *Merluccius australis*, South Pacific hake *Merluccius gayi gayi*, Patagonian grenadier *Macruronus magellanicus*, Southern blue whiting *Micromesistius australis*) and Southern rays bream (*Brama australis*) (Figure line 952). It is important to mention that the Southern rays bream is classified on its own group, therefore its relative contribution to domestic consumption is higher compared to other aggregated groups. Another caviet to make here is that squids have a the highest yield of all species, therfore there contribution to domestic consumption per landed tonnes is higher, partly explining its high predominance in our results. These resutls differe from the outcomes obtained with the international databases, where the model concludes that the main fish group destined for food in Chile is salmon. This difference can be explained due to the details in export data. In the model done with regional data, we grouped a larger groups of species under one group in order to match all databases which overall drived differences in our analysis. We also know that our regional analysis is sensitive to the yield, therefore results show that all salmon produced in Chile is exported. But even though most of the salmon is exported, according to SalmonChile [@asociacion_de_la_industria_de_salmon_de_chile_salmonchile_2018],  10-20% of the production stays in the country.
 
 Our models show the chilean population also consumes high volumens of Tuna, however this is mainly imported in a canned format. This results aliged with the chilean population preferences, based on a study along the country, where 84% of the respondee aswered that their normal format for eating fish within a month was canned fish, follwed by freshed fish (80%) and frozen fish (37%) [@fundacion_chile_chile_2016]. The ten most importat fisheries according to our model are provided in the Appendix (Table XX).
 
@@ -952,7 +962,7 @@ model_results %>%
 
 
 #### Total and per capita food consumption in the country
-Our models is highly sensitive to species yield, therefore in many cases results of our calculations return a negative number implaying that exports are higher than the product of the yield times the local production (landings and aquaculture) minus all tons that go for non-human consumption products. Assuming that all negative numbers do not contribut to domestic consumption  because they are mainly exported or used for non human consumption (eg:algaes) and non is imported, we calculated a percapita consumption per year. We summed all the human consumption per year (Table XX, chunk below) and devided by the chilean population of 17,762,681 (@INE, 2015). We alculated an average of 11.5 kg of seafood compsumption a year, which is similar to what has been estimated by the FAO (2016) for Chile of 10-13kg of fish a year.
+Our models is highly sensitive to species yield, therefore in many cases results of our calculations return a negative number implaying that exports are higher than the product of the yield times the local production (landings and aquaculture) minus all tons that go for non-human consumption products. Assuming that all negative numbers do not contribut to domestic consumption  because they are mainly exported or used for non human consumption (eg:algaes) and non is imported, we calculated a percapita consumption per year. We summed all the human consumption per year (Table XX, chunk below) and devided by the chilean population of 17,574,033 [@instituto_nacional_de_estadisticas_-_chile_sintesis_2018]. We alculated an average of 11.5 kg of seafood compsumption a year, which is similar to what has been estimated by the FAO (2016) for Chile of 10-13kg of fish a year.
 
 ```{r percapita year consumption table eval=F}
 ##Percapita consumption table
@@ -1313,24 +1323,24 @@ We also lacked data on the transportation of landings and products between Chile
 
 **Key messages**:
 
-- Most importants species in terms of food consumption in Chile are Jumbo Squid and Southern rays bream followed by hakes and mackerel. 
+- Most importants species in terms of food consumption in Chile are Jumbo Squid (*Dosidicus gigas*) and Southern rays bream (*Brama australis*) followed by hakes and mackerel. 
 
 - Trends in food consumption show that in general the species that contrubut to domestic food consumption has been constant through time exept for Hake, that has been constanlly decreasing.
 
-- Lack of understanding on what species are the most important for domestic consumption.
+- Tuna is one of the main groups of species consumed in the country but is mainly imported.
 
 - Most of wild-caught fish is processed for non-human consumption products.
 
 - Despite its massive production, aquaculutre is not a major source of food supply for the Chilean population. Most of its production is exported or are too expenssive to be accessed by lower income groups which is the population of interest in the contxt of food security.
 
 
-Chile is considered one of the main countries in fishery production worldwide (@fao_estado_2016), however several reports and studies suggest the Chilean population does not consume as many marine products (@gonzales_solo_2018). We found that on average between 2013 to 2017O the chilean population eats ~11kg of seafood a year. This is lower than the 20 kg a year recommended by Food and Agriculture organization (2016). According to the National Health Survey (Encuata Nacional de Salud, ENS), only 9.2% of the Chilean population eats fish at least two times a week as recommended. This value has decreased since the early 2000s where this percentage was 10.7% (@ENS). World data (@ritchie_our_nodate) also shows a decrease in the amount of percapita seafood consumed in a year by the Chilean population from ~16kg consumed in 2004 to 12.5kg in 2013.
+Chile is considered one of the main countries in fishery production worldwide [@fao_estado_2016], however several reports and studies suggest the Chilean population does not consume as many marine products [@gonzales_solo_2018]. We found that on average between 2013 to 2017 the chilean population eats ~11kg of seafood a year. This is lower than the 20 kg a year recommended by Food and Agriculture organization (2016). According to the National Health Survey [@ministerio_de_salud_gobierno_de_chile_encuesta_2018], only 9.2% of the Chilean population eats fish at least two times a week as recommended. This value has decreased since the early 2000s where this percentage was 10.7% [@ministerio_de_salud_gobierno_de_chile_encuesta_2018]. World Data [@ritchie_our_nodate] also shows a decrease in the amount of percapita seafood consumed per year by the Chilean population from ~16kg consumed in 2004 to 12.5kg in 2013.
 
-Looking into what type of seafood the Chilean population consumes, a study done in 2012 shows that 60% of the seafood consume are pelagic fishes, 12% are mollusk and 2% are crustaceans (@villena_marcelo_diagnostico_2012). With our model we also identifyed that Chileans moslty rely on pelagic fisheries as their primary source for seafood. The most important groups of species for domestic food consumption are squids, tuna, hake, and the Southern ray beam. However, it is likely that we have overestimated squid consumption. It is worth noting that Tuna is mostly imported into the country while most of the species that are use in Chile for Human Consumption products like salmon, trouts and mussels are exported. This reflects the importance of market forces on world-wide seafood distirbution and supply. Salmon and trouts get better prices a broad and are too expensive for Chileans in general. 
+Looking into what type of seafood the Chilean population consumes, a study done in 2012 shows that 60% of the seafood consume are pelagic fishes, 12% are mollusk and 2% are crustaceans [@villena_marcelo_diagnostico_2012]. With our model we also identifyed that Chileans moslty rely on pelagic fisheries as their primary source for seafood. The most important groups of species for domestic food consumption are squids, tuna, hake, and the Southern ray beam. However, it is likely that we have overestimated squid consumption. It is worth noting that Tuna is mostly imported into the country while most of the species that are use in Chile for Human Consumption products like salmon, trouts and mussels are exported. This reflects the importance of market forces on world-wide seafood distirbution and supply. Salmon and trouts get better prices a broad and are too expensive for Chileans in general. 
 
-Seafood consumption in Chile has been shown to be correlated with income, as in other parts of the world. However, the data is spotty and is provably missing some of the consumption that occurs in coastal communities. According to a study done in 2016 by Fundación Chile and Adimark (@fundacion_chile_chile_2016), the frequency of seafood consumption varies along socio-economic groups in Chile, , 55% of the high-income group consumes seafood at least once a week compared to the 38% of the lower-income group. It has also been identified (@ENE) that people with less years of schooling tend to eat less fish (only 6.3 percent eats seafood twice a week) than people that have completed high school education, where 11.2% eats as frequently. 
+Seafood consumption in Chile has been shown to be correlated with income, as in other parts of the world. However, the data is spotty and is provably missing some of the consumption that occurs in coastal communities. According to a study done in 2016 by Fundación Chile and Adimark [@fundacion_chile_chile_2016], the frequency of seafood consumption varies along socio-economic groups in Chile, 55% of the high-income group consumes seafood at least once a week compared to the 38% of the lower-income group. It has also been identified [@ministerio_de_salud_gobierno_de_chile_encuesta_2018] that people with less years of schooling tend to eat less fish (only 6.3 percent eats seafood twice a week) than people that have completed high school education, where 11.2% eats as frequently. 
 
-Within the Chilean population there is a strong belief that seafood is expensive. However, there is wide range of fish prices. There are expensive products such as salmon or lobsters and affordable alternatives such as Chilean Jack Mackerel (*Trachurus murphyi*), Jumbo Flying Squid (*Dosidicus gigas*) and Southern Rays Bream (*Brama australis*) (@ENE).
+Within the Chilean population there is a strong belief that seafood is expensive. However, there is wide range of fish prices. There are expensive products such as salmon and affordable alternatives such as Chilean Jack Mackerel (*Trachurus murphyi*), Jumbo Flying Squid (*Dosidicus gigas*) and Southern Rays Bream (*Brama australis*) [@ministerio_de_salud_gobierno_de_chile_encuesta_2018].
 
 
 ### Economic participation
