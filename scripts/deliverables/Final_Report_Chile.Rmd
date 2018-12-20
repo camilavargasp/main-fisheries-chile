@@ -193,7 +193,7 @@ from_ChP_to_dollar_dec_2018 <- 676 # Based on conversion for Dec, 2018
 
 ### Fisheries Context
 
-To evaluate the volume contribution of specific fisheries over the last five years, we used records of landings and aquaculture harvests from SERNAPESCA  (2013-2017). Using monthly data published by IFOP, we identified the most exported fish products in terms of volume. To identify the participation of different species in exported volumes we generated a new database linking types of products listed in the *Arancel Aduanero* with the names of the fished and farmed species listed by SERNAPESCA. We searched for all the products ids that refer to the species scientific name, common name or genus name as listed by SERNAPESCA and aggregated them under the species name.
+To evaluate the volume contribution of specific fisheries over the last five years, we used records of landings and aquaculture harvests from SERNAPESCA  (2013-2017). We identified the most exported fish products in terms of volume using trade records from Aduanas Chile. To identify the participation of different species in exported products we generated a new database linking types of products listed in the *Arancel Aduanero* with the names of the fished and farmed species listed by SERNAPESCA. We searched for all the products ids that refer to the species scientific name, common name or genus name as listed by SERNAPESCA and aggregated them under the species name.
 
 #### Wild Caught Fish
 
@@ -310,7 +310,7 @@ These resuts are in line with those observed using international databases. SAU 
 
 ##### Regional Diferences in volumes of wild-caught fisheries
 
-Landings varies widely along the coast of Chile for both artisanal and industrial sectors. Figure 20 shows the mean total landing per sector and region. The color of the bars represents the most landed species in 2017. We observe that the VIII region is by far the region with most landings from both sectors. However, the industrial sector also concentrates landings in the north of the country, while artisanals are spread throughout the country. The most landed species in 2017 also vary by region but have changed little over the last five years (Table XX Appendix and Table XX Appendix). 
+Landings varies widely along the coast of Chile for both artisanal and industrial sectors. Figure 20 shows the mean total landing per sector and region. The color of the bars represents the most landed species in 2017. We observe that the VIII region is by far the region with most landings from both sectors. However, the industrial sector also concentrates landings in the north of the country, while artisanals are spread throughout the country. The most landed species in 2017 also vary by region but have changed little over the last five years (Appendix Chile 1 and 2). 
 
 ```{r Landings_per_region, echo = FALSE, fig.height=5, fig.width=10, warning=FALSE, message=FALSE, fig.cap= 'Mean annual total landings per region for the artisanal (left pannel) and industrial sector (right pannel) between 2013 and 2017. The color represents the most landed species in 2017 and regions are ordered vrom north to south. Error bars represent one standard deviation. Note that scales are different between pannels. Data source: Landing records from SERNAPESCA, 2018.'}
 
@@ -319,7 +319,7 @@ Landings varies widely along the coast of Chile for both artisanal and industria
 landings<- read_csv(here("clean_databases/landings_SERNAPESCA.csv"))
 
   main_species_per_region <- landings %>% 
-  filter(region != "national", international_waters == 0) %>% 
+  filter(region != "national") %>% 
   mutate(tons = as.numeric(tons), subsector = ifelse(subsector =='fabric_vessel', 'industrial', subsector)) %>% 
   arrange(year, desc(tons)) %>% 
   group_by(year, region, subsector) %>% 
@@ -329,7 +329,7 @@ landings<- read_csv(here("clean_databases/landings_SERNAPESCA.csv"))
  # Landings per region 
   
   landings_per_region <- landings %>% 
-  filter(region != "national", international_waters == 0) %>% 
+  filter(region != "national") %>% 
   mutate(tons = as.numeric(tons), subsector = ifelse(subsector =='fabric_vessel', 'industrial', subsector)) %>% 
   group_by(year, subsector, region) %>% 
   summarise(tons = sum(tons, na.rm = T))%>% 
@@ -360,6 +360,49 @@ landings_per_region$region <- factor(landings_per_region$region , levels = c("XI
   ggtheme_plot() +
    guides(fill = guide_legend(nrow = 4, byrow = TRUE))
  
+```
+
+```{r Appendix Chile Results 1 - Most landed species per region each year artisanal, echo = FALSE, message= FALSE, warning=FALSE}
+
+# APPENDIX 1. Main species per region artisanal sector overlast 5 years
+
+ main_species_per_region_artisanal <- read_csv(here("clean_databases/landings_SERNAPESCA.csv")) %>% 
+  mutate(tons = as.numeric(tons), subsector = ifelse(subsector =='fabric_vessel', 'industrial', subsector)) %>% 
+  filter(region != "national", subsector == 'artisanal') %>%
+  rename(chl_name = species) %>% 
+  left_join(sp_index) %>%
+  group_by(year, region, en_name) %>% 
+  summarise(tons = sum(tons, na.rm = T))%>% 
+  arrange(year, desc(tons)) %>%
+  group_by(year, region) %>% 
+  top_n(1, tons) %>% 
+  filter(tons !=0 ) %>% 
+  select(-tons) %>%
+  unique() %>% 
+  spread(year, en_name)
+  
+ main_species_per_region_artisanal$region <- factor( main_species_per_region_artisanal$region , levels = c("XII", "XI", "X", "XIV", "IX", "VIII", "VII", "VI", "RM","V", "IV", "III", "II", "I", "XV"))
+```
+
+```{r Appendix Chile Results 2 - Most landed species per region each year industrial, echo = FALSE, message= FALSE, warning=FALSE}
+
+# APPENDIX 2. Main species per region industrial sector overlast 5 years
+
+ main_species_per_region_industrial <- read_csv(here("clean_databases/landings_SERNAPESCA.csv")) %>% 
+  mutate(tons = as.numeric(tons), subsector = ifelse(subsector =='fabric_vessel', 'industrial', subsector)) %>% 
+  filter(region != "national", subsector == 'industrial', region != 'NA') %>%
+  rename(chl_name = species) %>% 
+  left_join(sp_index) %>%
+  group_by(year, region, en_name) %>% 
+  summarise(tons = sum(tons, na.rm = T))%>% 
+  arrange(year, desc(tons)) %>%
+  group_by(year, region) %>% 
+  top_n(1, tons) %>% 
+  filter(tons !=0) %>% 
+  select(-tons) %>%
+  spread(year, en_name) 
+  
+  main_species_per_region_industrial$region <- factor(     main_species_per_region_industrial$region , levels = c("XII", "XI", "X", "XIV", "IX", "VIII", "VII", "VI", "RM","V", "IV", "III", "II", "I", "XV"))
 ```
 
 #### Aquaculture production
@@ -406,7 +449,7 @@ aquaculture_plot
 
 ##### Regional diferences in farmed fisheries
 
-Aquaculture production is highly concentrated in the South of the country, between regions X and XII (Figure 22). Nevertheless, from the I to the IV region the most farmed resources are algaes and scallops (*Argopecten purpuratus*) (Appendix Chile - 3). The red abalone (*Haliotis rufescens*) became the most farmed in 2013 in the V region, replacing the turbot (*Scophtalmus maximus*). Towards the south, salmons and trouts are the most farmed species along with some algaes and mussels (*Mytilus chilensis*). The most farmed species in the austral south are the Atlantic salmon (*Salmo salar*) and the Chilean mussel (*Mytilus chilensis*).
+Aquaculture production is highly concentrated in the South of the country, between regions X and XII (Figure 22). Nevertheless, from the I to the IV region the most farmed resources are algaes and scallops (*Argopecten purpuratus*) (Appendix Chile 3). The red abalone (*Haliotis rufescens*) became the most farmed in 2013 in the V region, replacing the turbot (*Scophtalmus maximus*). Towards the south, salmons and trouts are the most farmed species along with some algaes and mussels (*Mytilus chilensis*). The most farmed species in the austral south are the Atlantic salmon (*Salmo salar*) and the Chilean mussel (*Mytilus chilensis*).
 
 ```{r Harvest from aquaculture centers per region, echo = FALSE, warning=FALSE, message=FALSE, fig.height=4,fig.width=6, fig.cap= 'Mean annual harvest per region from aquaculture centers between 2012 and 2017. Error bars represent one standard deviation. Only showing regions with production. Database SERNAPESCA'}
 
@@ -450,8 +493,11 @@ Aquaculture production is highly concentrated in the South of the country, betwe
   #scale_fill_manual(values = c(wes_palette("Darjeeling1"), wes_palette("Darjeeling2")))+
   ggtheme_plot()
   
-# APPENDIX. 3 - Most important farmed species per region
-  
+```
+
+```{r Appendix Chile Results 3 - Most farmed species per region each year, echo = FALSE, message= FALSE, warning=FALSE}
+
+# APPENDIX 3. Main farmed per region overlast 5 years  
   aquaculture_species_per_region <-aquaculture %>% 
   group_by(year, en_name, region) %>% 
   summarise(tons = sum(tons, na.rm = T))%>% 
@@ -467,10 +513,9 @@ aquaculture_species_per_region$region <- factor(aquaculture_species_per_region$r
 
 ```
 
-
 #### Fish Trade
  
-Around 72% of the landings from fisheries and aquaculture are exported outside the country [@ifop_monitoreo_2015]. In Chile, exported volumes of marine products are larger than imported volumes. The main species exported is Atlantic salmon produced in aquaculture, followed by far by jack mackerel (Figure 23-A). Tuna leads the import activities followed, also by far, by jack mackerel (Figure 23-B). Table X shows the import and export volume and the net trade of the most imported species. We note that the type of species that enters the country the most is Tuna, with a net trade of ~ 25,100 ± 4,100 tonnes per year. Jack mackerel and shrimp also present high net trades.
+Around 72% of the landings from fisheries and aquaculture are exported outside the country [@ifop_monitoreo_2015]. In Chile, exported volumes of marine products are larger than imported volumes. The main species exported is Atlantic salmon produced in aquaculture, followed by far by jack mackerel (Figure 23-A). Tuna leads the import activities followed, also by far, by jack mackerel (Figure 23-B). Table X shows the import and export volume and the net trade of the most imported species. We note that the type of species that enters the country the most is Tuna, with a net trade of ~ 25,100 ± 4,100 tonnes per year. This result matches that from international databases, for which the estimates Tuna net trade were ~ 22,000. Jack mackerel and shrimp also present high net trades in Chile based on the analyses of both national and international databases. 
 
 ```{r Trade_Chile, echo = FALSE, warning=FALSE, message=FALSE, fig.height=4, fig.width=8, fig.cap="Main species exported and imported in Chile between 2013 and 2017. Thousand Tonnes"}
 
