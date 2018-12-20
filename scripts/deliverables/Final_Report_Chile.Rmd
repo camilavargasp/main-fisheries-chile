@@ -310,7 +310,7 @@ These resuts are in line with those observed using international databases. SAU 
 
 ##### Regional Diferences in volumes of wild-caught fisheries
 
-Landings varies widely along the coast of Chile for both artisanal and industrial sectors. Figure 20 shows the mean total landing per sector and region. The color of the bars represents the most landed species in 2017. We observe that the VIII region is by far the region with most landings from both sectors. However, the industrial sector also concentrates landings in the north of the country, while artisanals are spread throughout the country. The most landed species in 2017 also vary by region but have changed little over the last five years (Appendix Chile 1 and 2). 
+Landings varies widely along the coast of Chile for both artisanal and industrial sectors. Figure 20 shows the mean total landing per sector and region. The color of the bars represents the most landed species in 2017. We observe that the VIII region is by far the region with most landings from both sectors. However, the industrial sector also concentrates landings in the north of the country, while artisanals are spread throughout the country. The most landed species in 2017 also vary by region but have changed little over the last five years (Appendix Results Chile 1 and 2). 
 
 ```{r Landings_per_region, echo = FALSE, fig.height=5, fig.width=10, warning=FALSE, message=FALSE, fig.cap= 'Mean annual total landings per region for the artisanal (left pannel) and industrial sector (right pannel) between 2013 and 2017. The color represents the most landed species in 2017 and regions are ordered vrom north to south. Error bars represent one standard deviation. Note that scales are different between pannels. Data source: Landing records from SERNAPESCA, 2018.'}
 
@@ -362,49 +362,6 @@ landings_per_region$region <- factor(landings_per_region$region , levels = c("XI
  
 ```
 
-```{r Appendix Chile Results 1 - Most landed species per region each year artisanal, echo = FALSE, message= FALSE, warning=FALSE}
-
-# APPENDIX 1. Main species per region artisanal sector overlast 5 years
-
- main_species_per_region_artisanal <- read_csv(here("clean_databases/landings_SERNAPESCA.csv")) %>% 
-  mutate(tons = as.numeric(tons), subsector = ifelse(subsector =='fabric_vessel', 'industrial', subsector)) %>% 
-  filter(region != "national", subsector == 'artisanal') %>%
-  rename(chl_name = species) %>% 
-  left_join(sp_index) %>%
-  group_by(year, region, en_name) %>% 
-  summarise(tons = sum(tons, na.rm = T))%>% 
-  arrange(year, desc(tons)) %>%
-  group_by(year, region) %>% 
-  top_n(1, tons) %>% 
-  filter(tons !=0 ) %>% 
-  select(-tons) %>%
-  unique() %>% 
-  spread(year, en_name)
-  
- main_species_per_region_artisanal$region <- factor( main_species_per_region_artisanal$region , levels = c("XII", "XI", "X", "XIV", "IX", "VIII", "VII", "VI", "RM","V", "IV", "III", "II", "I", "XV"))
-```
-
-```{r Appendix Chile Results 2 - Most landed species per region each year industrial, echo = FALSE, message= FALSE, warning=FALSE}
-
-# APPENDIX 2. Main species per region industrial sector overlast 5 years
-
- main_species_per_region_industrial <- read_csv(here("clean_databases/landings_SERNAPESCA.csv")) %>% 
-  mutate(tons = as.numeric(tons), subsector = ifelse(subsector =='fabric_vessel', 'industrial', subsector)) %>% 
-  filter(region != "national", subsector == 'industrial', region != 'NA') %>%
-  rename(chl_name = species) %>% 
-  left_join(sp_index) %>%
-  group_by(year, region, en_name) %>% 
-  summarise(tons = sum(tons, na.rm = T))%>% 
-  arrange(year, desc(tons)) %>%
-  group_by(year, region) %>% 
-  top_n(1, tons) %>% 
-  filter(tons !=0) %>% 
-  select(-tons) %>%
-  spread(year, en_name) 
-  
-  main_species_per_region_industrial$region <- factor(     main_species_per_region_industrial$region , levels = c("XII", "XI", "X", "XIV", "IX", "VIII", "VII", "VI", "RM","V", "IV", "III", "II", "I", "XV"))
-```
-
 #### Aquaculture production
 
 ##### Main farmed fisheries in terms of volume
@@ -449,7 +406,7 @@ aquaculture_plot
 
 ##### Regional diferences in farmed fisheries
 
-Aquaculture production is highly concentrated in the South of the country, between regions X and XII (Figure 22). Nevertheless, from the I to the IV region the most farmed resources are algaes and scallops (*Argopecten purpuratus*) (Appendix Chile 3). The red abalone (*Haliotis rufescens*) became the most farmed in 2013 in the V region, replacing the turbot (*Scophtalmus maximus*). Towards the south, salmons and trouts are the most farmed species along with some algaes and mussels (*Mytilus chilensis*). The most farmed species in the austral south are the Atlantic salmon (*Salmo salar*) and the Chilean mussel (*Mytilus chilensis*).
+Aquaculture production is highly concentrated in the South of the country, between regions X and XII (Figure 22). Nevertheless, from the I to the IV region the most farmed resources are algaes and scallops (*Argopecten purpuratus*) (Appendix Results Chile 3). The red abalone (*Haliotis rufescens*) became the most farmed in 2013 in the V region, replacing the turbot (*Scophtalmus maximus*). Towards the south, salmons and trouts are the most farmed species along with some algaes and mussels (*Mytilus chilensis*). The most farmed species in the austral south are the Atlantic salmon (*Salmo salar*) and the Chilean mussel (*Mytilus chilensis*).
 
 ```{r Harvest from aquaculture centers per region, echo = FALSE, warning=FALSE, message=FALSE, fig.height=4,fig.width=6, fig.cap= 'Mean annual harvest per region from aquaculture centers between 2012 and 2017. Error bars represent one standard deviation. Only showing regions with production. Database SERNAPESCA'}
 
@@ -493,24 +450,6 @@ Aquaculture production is highly concentrated in the South of the country, betwe
   #scale_fill_manual(values = c(wes_palette("Darjeeling1"), wes_palette("Darjeeling2")))+
   ggtheme_plot()
   
-```
-
-```{r Appendix Chile Results 3 - Most farmed species per region each year, echo = FALSE, message= FALSE, warning=FALSE}
-
-# APPENDIX 3. Main farmed per region overlast 5 years  
-  aquaculture_species_per_region <-aquaculture %>% 
-  group_by(year, en_name, region) %>% 
-  summarise(tons = sum(tons, na.rm = T))%>% 
-  arrange(year, desc(tons)) %>%
-  group_by(year, region) %>% 
-  top_n(1, tons) %>%
-  filter(tons != 0) %>% 
-  select(-tons) %>%
-  unique() %>% 
-  spread(year, en_name)
-  
-aquaculture_species_per_region$region <- factor(aquaculture_species_per_region$region , levels = c("XII", "XI", "X", "XIV", "IX", "VIII", "VII", "VI", "RM","V", "IV", "III", "II", "I", "XV"))
-
 ```
 
 #### Fish Trade
@@ -677,7 +616,6 @@ Imports_Exports %>%
 ```
 
 ### National Seafood Supply
-
 #### Species contribution to Human and Non-human consumption
 
 As a first approach to analyzed main fisheries that countribute to human conssumption in Chile, we looked into landings and aquaculture harvest that goes to processing facilities as raw material for products for human consumpotion (HC) and for non-human consumption (NHC). Our results show that the main species that enter supply chains for human consumption are the Atlantic Slamon (*Salmo salar*) and the Chilean Mussel (*Mytilus chilensis*), two of the main aquaculture products from Chile (Figure sp_HC_with_Aq). On the other hand species that are used for non-human consumption products are Peruvian Anchoveta (*Engraulis ringens*) Araucarian Herring (*Strangomera bentincki*), the two main wild-caught fisheries of the country (Figure HC_with_Aq). A third importatn specie for NHC is the Giant gray kelp (*Lessonia nigrescens*) and the Chilean Jack Mackerel (*Trachurus murphyi*) which contributs similarly to both HC and NHC products. The relative proportion of contribution of each specie to human consumption and non human consumption is relativly stable through time.
@@ -1034,15 +972,15 @@ We where not able to do a regional analysis for domestic consuption. Even though
 
 ### National Economic Participation
 
-Fisheries, as an economic sector in Chile, considers activities of extraction and farming of marine and freshwater products. This sector contributes to around 0.4% of the national GDP although it is a highly variable sector (@central_cuentas_2017). An estimate of 2014, indicates that 90% of the sales of the sector came from farmed products (@sence_reporte_2015). What reflects the relevance of aquaculture in economic terms relative to wild fisheries. Yet, the extractive sector has a higher number of firms, 58% of the total (@sence_reporte_2015). Fishing manufacturing is closely relates to fisheries. Based on the last input-output matrix for the country's economy, for every 100 US dollars spent in the fisheries sector, another 52.2 dollars are generated in the manufacturing sector. Other sectors affected by fisheries are the financing sector (24.8 dollars generated every 100) and transportation and communication (13.4 dollars generated every 100). 
+Fisheries, as an economic sector in Chile, includes activities of extraction and farming of marine and freshwater products. This sector contributes to around 0.4% of the national GDP although it has highly variable production [@central_cuentas_2017]. An estimate for 2014 indicates that 90% of sales for the sector came from farmed products [@sence_reporte_2015]. Reflecting the importance of aquaculture in economic terms relative to wild fisheries. Yet, the extractive sector has a higher number of firms, 58% of the total [@sence_reporte_2015], and contributes to various sectors throughout the economy. Fishing manufacturing is closely relates to fisheries. Based on the latest input-output matrix for the country's economy (Banco Central de Chile, 2013), for every US\$ 100 spent in the fisheries sector, a further US\$ 52.2 dollars are generated in the manufacturing sector. Other sectors impacted by fisheries are the financing sector (US\$ 24.8 generated for every US\$100) and transportation and communication (US\$13.4 generated for every US\$100). 
 
 #### Wild-caught Fish Economic Participation
 
-The contribution of fisheries to regional GDP suggests that the economic importance of the sector to regional economies varies widely. Ranging from almost 30% in the XI region to 0% in the metropolitan (RM) and IX region (Figure 23).  
+The contribution of fisheries to regional GDP suggests that the economic importance of the sector to regional economies varies widely, ranging from almost 30% in region XI to 0% in the Metropolitan (RM) and IX regions (Figure 23).  
 
 ```{r Fisheries_PIB_Chile_G, echo = FALSE, warning=FALSE, message=FALSE, fig.height=4, fig.width=6, fig.cap= 'Percent of the regional GDP contirbuted by the fisheries sector averaging data between 2013 and 2016. Data source: Banco Central de Chile.'}
 
-PIB_region <- read.csv("Chile/PIB_region.csv") %>% 
+PIB_region <- read.csv(here("information/raw_databases/Banco_Central/PIB_region.csv")) %>% 
   mutate(perc_contr = (PIB_fish * 100)/ PIB_total) %>% 
   group_by(region) %>% 
   summarise(mean_perc_contr = mean(perc_contr), sd= sd(perc_contr))
@@ -1057,7 +995,7 @@ ggplot(.,
            y= mean_perc_contr)) +
   geom_bar(stat = 'identity', 
            fill = C_Col) +
-  # coord_flip()+
+  coord_flip()+
   xlab('Region')+
   ylab('Contribution to GDP (%)')+
   scale_y_continuous(expand = c(0, 0), breaks = c(seq(0,40, by = 5)))+
@@ -1068,9 +1006,9 @@ ggplot(.,
 
 ```
 
-Based on our estimates of species-specific revenue the most important species for the artisanal sector are the Southern king crab (*Lithodes santolla*) and the Chilean sea urchin (*Loxechinus albus*) (Figure 23). Nonetheless, this varies across years. In 2017 the Patagonian toothfish (*Dissostichus eleginoides*) and the Southern rays bream or Corvina (*Brama australis*) were the species that provided more revenue followed by the Pink cusk-eel (*Genypterus blacodes*) in the artisanal sector.
+Based on our estimates of species-specific revenue, the most important species for the artisanal sector are the Southern king crab (*Lithodes santolla*) and the Chilean sea urchin (*Loxechinus albus*) (Figure 23). Nonetheless, this varies across years. In 2017 the Patagonian toothfish (*Dissostichus eleginoides*) and the Southern rays bream or corvina (*Brama australis*) were the species that provided more revenue followed by the pink cusk-eel (*Genypterus blacodes*) in the artisanal sector.
 
-Some of these species are among the most expensive (*Table App.6*). The Patagonian toothfish (*Dissostichus eleginoides*) has the highest mean ex-vessel price in the artisanal sector what explains in part why is one of the top 5 in term of revenues. We should notice that the fishing costs for different types of species could vary widely and we are not accounting for this in our analysis. Yet, we can qualitatively consider the costs of different types of fishing. For example, some of these species are fished by diving near the shore like the Chilean abalone (*Concholepas concholepas*) and the Chilean sea urchin (*Loxechinus albus*) while others like the Patagonian toothfish (*Dissostichus eleginoides*), the Southern king crab (*Lithodes santolla*) or the Swordfish (*Xiphias gladius*) involve offshore fishing, which tends to be much more expensive. The gathering of algae from the shore is arguably one of the less costly extractive activities for the artisanal sector but it is not among the ones that generate more revenue. We could not generate similar estimates for the industrial and aquaculture subsectors due to lack of data. 
+Some of these species are among the most expensive (Appendix Chile Results 4). The Patagonian toothfish (*Dissostichus eleginoides*) has the highest mean ex-vessel price in the artisanal sector what explains in part why is one of the top 5 in term of revenues. We should notice that the fishing costs for different types of species could vary widely and we are not accounting for this in our analysis. Yet, we can qualitatively consider the costs of different types of fishing. For example, some of these species are fished by diving near the shore like the Chilean abalone (*Concholepas concholepas*) and the Chilean sea urchin (*Loxechinus albus*) while others like the Patagonian toothfish (*Dissostichus eleginoides*), the Southern king crab (*Lithodes santolla*) or the Swordfish (*Xiphias gladius*) involve offshore fishing, which tends to be much more expensive. The gathering of algae from the shore is arguably one of the less costly extractive activities for the artisanal sector but it is not among the ones that generate more revenue. We could not generate similar estimates for the industrial and aquaculture subsectors due to lack of data. 
 
 ```{r Revenues_artisanal_Chile_G, echo = FALSE, message= FALSE, warning= FALSE, fig.height=4, fig.width=8, fig.cap= 'Species that generated the most revenue for the artisanal sector over the past five years based on records on landings and ex-vessel prices. Source: records from SERNAPESCA, 2018.'}
 
@@ -1442,87 +1380,111 @@ PRODUCE. (2010). Manual de administración de las infraestructuras pesqueras art
 ## Chile
 ### Methods
 
-
 Any conversion from Chilean pesos to dollars was done by first converting the amount in Chilean pesos to its value in Chilean Units of account (UF, a monetary unit corrected by inflation) of the respective year. Then, transformed to the equivalent in 2018 Chilean pesos using the 2018 UF value and finally, converting the 2018 value in Chilean pesos to its equivalent in 2018 US dollars, based on the conversion for Dec, 2018 (1 US dollars corresponds to 676 Chilean pesos).
 
 ### Results
 
-```{r Table 1 Appendix main species per region and year, eval=F,echo=F}
+```{r Appendix Chile Results 1 - Most landed species per region each year artisanal, echo = FALSE, message= FALSE, warning=FALSE}
 
-# Main species per region artisanal sector overlast 5 years (Appendix)
-# to avoid double obsv
+# APPENDIX 1. Main species per region artisanal sector overlast 5 years
 
- main_species_reg_art <- landings %>% 
-  filter(region != "national") %>% 
+ main_species_per_region_artisanal <- read_csv(here("clean_databases/landings_SERNAPESCA.csv")) %>% 
   mutate(tons = as.numeric(tons), subsector = ifelse(subsector =='fabric_vessel', 'industrial', subsector)) %>% 
-  select(- month, - international_waters, chl_name = species) %>% 
-  left_join(sp_index) %>% 
-  select(subsector, region, year, tons, en_name)
-  group_by(year, region, en_name, subsector) %>% 
-  summarise(tons = sum(tons, na.rm = T))%>% 
-  arrange(year, desc(tons)) %>%
-  group_by(year, region) %>% 
-  top_n(1, tons) %>%
-  select(-tons, -sc_name) %>%
-  unique() %>% 
-  spread(year, en_name)
- 
-main_species_reg_art$region <- factor(main_species_reg_art$region , levels = c("XII", "XI", "X", "XIV", "IX", "VIII", "VII", "VI", "RM","V", "IV", "III", "II", "I", "XV"))
- 
-# Main species per region industrial sector overlast 5 years (Appendix)
-
- main_species_reg_ind <- landings %>% 
-  mutate(tons = as.numeric(tons), subsector = ifelse(subsector =='fabric_vessel', 'industrial', subsector)) %>% 
-  filter(region != "national", international_waters == 0, subsector == 'industrial') %>%
+  filter(region != "national", subsector == 'artisanal') %>%
   rename(chl_name = species) %>% 
   left_join(sp_index) %>%
-  group_by(year, region, sc_name) %>% 
+  group_by(year, region, en_name) %>% 
   summarise(tons = sum(tons, na.rm = T))%>% 
   arrange(year, desc(tons)) %>%
   group_by(year, region) %>% 
   top_n(1, tons) %>% 
   filter(tons !=0 ) %>% 
-  left_join(sc_name_to_en) %>% 
-  select(-tons, -sc_name) %>%
+  select(-tons) %>%
   unique() %>% 
   spread(year, en_name)
   
-main_species_reg_ind$region <- factor(main_species_reg_ind$region , levels = c("XII", "XI", "X", "XIV", "IX", "VIII", "VII", "VI", "RM","V", "IV", "III", "II", "I", "XV"))
+ main_species_per_region_artisanal$region <- factor( main_species_per_region_artisanal$region , levels = c("XII", "XI", "X", "XIV", "IX", "VIII", "VII", "VI", "RM","V", "IV", "III", "II", "I", "XV"))
+ 
+ # Most landed species per region artisanal (for each year between 2013-2017)
+knitr::kable(main_species_reg_art, col.names = c('Region', 'Most landed in 2013', 'Most landed in 2014', 'Most landed in 2015', 'Most landed in 2016', 'Most landed in 2017'), format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Most landed species per and year region in the artisanal sector. Source: Landing records from SERNAPESCA, 2018') %>% 
+kable_styling(latex_options = 'hold_position')
 
-   
- landings_per_region
- 
- 
- 
 ```
 
+```{r Appendix Chile Results 2 - Most landed species per region each year industrial, echo = FALSE, message= FALSE, warning=FALSE}
 
-```{r App1, eval=F}
+# APPENDIX 2. Main species per region industrial sector overlast 5 years
 
-# Most important farmed species per region (Appendix)
+ main_species_per_region_industrial <- read_csv(here("clean_databases/landings_SERNAPESCA.csv")) %>% 
+  mutate(tons = as.numeric(tons), subsector = ifelse(subsector =='fabric_vessel', 'industrial', subsector)) %>% 
+  filter(region != "national", subsector == 'industrial', region != 'NA') %>%
+  rename(chl_name = species) %>% 
+  left_join(sp_index) %>%
+  group_by(year, region, en_name) %>% 
+  summarise(tons = sum(tons, na.rm = T))%>% 
+  arrange(year, desc(tons)) %>%
+  group_by(year, region) %>% 
+  top_n(1, tons) %>% 
+  filter(tons !=0) %>% 
+  select(-tons) %>%
+  spread(year, en_name) 
   
+  main_species_per_region_industrial$region <- factor(     main_species_per_region_industrial$region , levels = c("XII", "XI", "X", "XIV", "IX", "VIII", "VII", "VI", "RM","V", "IV", "III", "II", "I", "XV"))
+  
+# Most landed species per region industrial (for each year between 2013-2017)
+knitr::kable(main_species_reg_ind, col.names = c('Region', 'Most landed in 2013', 'Most landed in 2014', 'Most landed in 2015', 'Most landed in 2016', 'Most landed in 2017'), format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Most landed species per region and year in the industrial sector. Source: Landing records from SERNAPESCA, 2018') %>% 
+kable_styling(latex_options = 'hold_position')
+
+```
+
+```{r Appendix Chile Results 3 - Most farmed species per region each year, echo = FALSE, message= FALSE, warning=FALSE}
+
+# APPENDIX 3. Main farmed per region overlast 5 years  
   aquaculture_species_per_region <-aquaculture %>% 
-  filter(month == "anual") %>% 
-  mutate(tons = as.numeric(tons), chl_name = species) %>%
-  left_join(sp_index) %>% 
-  filter(tons != 'NA') %>% 
-  group_by(year, sc_name, region) %>% 
+  group_by(year, en_name, region) %>% 
   summarise(tons = sum(tons, na.rm = T))%>% 
   arrange(year, desc(tons)) %>%
   group_by(year, region) %>% 
   top_n(1, tons) %>%
-  left_join(sc_name_to_en) %>% 
-  select(-tons, -sc_name) %>%
+  filter(tons != 0) %>% 
+  select(-tons) %>%
   unique() %>% 
   spread(year, en_name)
   
 aquaculture_species_per_region$region <- factor(aquaculture_species_per_region$region , levels = c("XII", "XI", "X", "XIV", "IX", "VIII", "VII", "VI", "RM","V", "IV", "III", "II", "I", "XV"))
+
+# Most harvested species per region (for each year between 2012-2017)
+knitr::kable(aquaculture_species_per_region, col.names = c('Region', '2012', '2013', '2014', '2015', '2016', '2017'), format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Most harvested species per region and year. When no data is available means there were no aquaculure that year in that region. Source: Harvest records from SERNAPESCA, 2018') %>% 
+kable_styling(latex_options = 'hold_position')
+
+
 ```
 
+```{r Appendix Chile Results 4 - Top 10 species human consumption, echo = FALSE, message= FALSE, warning=FALSE}
 
-```{r App6, eval=F}
+# APPENDIX 4. Top 10 species human consumption
+ top_10_hc <- model_results%>%
+   arrange(year, desc(HC)) %>%
+   group_by(year) %>%
+   top_n(10, HC)
+ 
+ top_10_hc_table <- top_10_hc %>% 
+   select(year, trade_name, HC) %>% 
+   filter(!is.na(year)) %>% 
+   group_by(year) %>%
+   mutate(rank = rank(desc(HC))) %>%
+   select(-HC) %>% 
+   spread(key= year, value =trade_name)
+ 
+ knitr::kable(top_10_hc_table, col.names = c('2013', '2014', '2015', '2016', '2017'), format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Main groups of species for human consumption') %>% 
+ kable_styling(latex_options = 'hold_position')
 
-# Most expensive species artisanal (Appendix)
+
+```
+
+```{r Appendix Chile Results 5 - Most expensive species for the artisanal sector, echo = FALSE, message= FALSE, warning=FALSE}
+
+# Most expensive species artisanal 
 most_expensive <- prices_art %>%
   mutate(chl_name = str_to_upper(species)) %>% 
   left_join(sp_index) %>% 
@@ -1535,9 +1497,6 @@ most_expensive <- prices_art %>%
   unique()
 ```
   
-```{r App7, eval =F}
-  
-```  
 
 ```{r transforming average income from chilean pesos 2014 to dollars 2018, eval=F, echo =FALSE}
 
@@ -1561,42 +1520,8 @@ table_incomes_sector <- table_incomes_sector[6:11]
   
 ```{r Appendix, eval=F, echo = FALSE, message= FALSE, warning= FALSE}
 
-# Top 10 landed species artisanal (for each year between 2013-2017)
-knitr::kable(top_10_art, col.names = c('Ranking', '2013', '2014', '2015', '2016', '2017'), format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Top 10 landed species per year in the artisanal sector. Source: Landing records from SERNAPESCA, 2018') %>% 
-kable_styling(latex_options = 'hold_position')
 
-# Top 10 landed species industrial (for each year between 2013-2017)
-knitr::kable(top_10_ind, col.names = c('Ranking', '2013', '2014', '2015', '2016', '2017'), format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Top 10 landed species per year in the industrial sector. Source: Landing records from SERNAPESCA, 2018') %>% 
-kable_styling(latex_options = 'hold_position')
 
-# Most landed species per region artisanal (for each year between 2013-2017)
-knitr::kable(main_species_reg_art, col.names = c('Region', 'Most landed in 2013', 'Most landed in 2014', 'Most landed in 2015', 'Most landed in 2016', 'Most landed in 2017'), format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Most landed species per and year region in the artisanal sector. Source: Landing records from SERNAPESCA, 2018') %>% 
-kable_styling(latex_options = 'hold_position')
-
-# Most landed species per region industrial (for each year between 2013-2017)
-knitr::kable(main_species_reg_ind, col.names = c('Region', 'Most landed in 2013', 'Most landed in 2014', 'Most landed in 2015', 'Most landed in 2016', 'Most landed in 2017'), format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Most landed species per region and year in the industrial sector. Source: Landing records from SERNAPESCA, 2018') %>% 
-kable_styling(latex_options = 'hold_position')
-
-# Most harvested species per region (for each year between 2012-2017)
-knitr::kable(aquaculture_species_per_region, col.names = c('Region', '2012', '2013', '2014', '2015', '2016', '2017'), format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Most harvested species per region and year. When no data is available means there were no aquaculure that year in that region. Source: Harvest records from SERNAPESCA, 2018') %>% 
-kable_styling(latex_options = 'hold_position')
-
-# Appendix table top 10 species human consumption
- top_10_hc <- model_results%>%
-   arrange(year, desc(HC)) %>%
-   group_by(year) %>%
-   top_n(10, HC)
- 
- top_10_hc_table <- top_10_hc %>% 
-   select(year, trade_name, HC) %>% 
-   filter(!is.na(year)) %>% 
-   group_by(year) %>%
-   mutate(rank = rank(desc(HC))) %>%
-   select(-HC) %>% 
-   spread(key= year, value =trade_name)
- 
- knitr::kable(top_10_hc_table, col.names = c('2013', '2014', '2015', '2016', '2017'), format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Main groups of species for human consumption') %>% 
- kable_styling(latex_options = 'hold_position')
 
 
 # Most expensive species in the artisanal sector
