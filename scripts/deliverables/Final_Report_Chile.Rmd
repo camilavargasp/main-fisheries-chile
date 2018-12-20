@@ -1006,14 +1006,14 @@ ggplot(.,
 
 ```
 
-Based on our estimates of species-specific revenue, the most important species for the artisanal sector are the Southern king crab (*Lithodes santolla*) and the Chilean sea urchin (*Loxechinus albus*) (Figure 23). Nonetheless, this varies across years. In 2017 the Patagonian toothfish (*Dissostichus eleginoides*) and the Southern rays bream or corvina (*Brama australis*) were the species that provided more revenue followed by the pink cusk-eel (*Genypterus blacodes*) in the artisanal sector.
+Based on our estimates of species-specific revenue, the most important species for the artisanal sector are the Southern king crab (*Lithodes santolla*) and the Chilean sea urchin (*Loxechinus albus*) (Figure 23). Nonetheless, this varies across years. In 2017 the Patagonian toothfish (*Dissostichus eleginoides*) and the Southern rays bream or corvina (*Brama australis*) were the species that provided more revenue followed by the pink cusk-eel (*Genypterus blacodes*).
 
-Some of these species are among the most expensive (Appendix Chile Results 4). The Patagonian toothfish (*Dissostichus eleginoides*) has the highest mean ex-vessel price in the artisanal sector what explains in part why is one of the top 5 in term of revenues. We should notice that the fishing costs for different types of species could vary widely and we are not accounting for this in our analysis. Yet, we can qualitatively consider the costs of different types of fishing. For example, some of these species are fished by diving near the shore like the Chilean abalone (*Concholepas concholepas*) and the Chilean sea urchin (*Loxechinus albus*) while others like the Patagonian toothfish (*Dissostichus eleginoides*), the Southern king crab (*Lithodes santolla*) or the Swordfish (*Xiphias gladius*) involve offshore fishing, which tends to be much more expensive. The gathering of algae from the shore is arguably one of the less costly extractive activities for the artisanal sector but it is not among the ones that generate more revenue. We could not generate similar estimates for the industrial and aquaculture subsectors due to lack of data. 
+Some of these species are among the most expensive (Appendix Chile Results 5). The Patagonian toothfish (*Dissostichus eleginoides*) has the highest mean ex-vessel price in the artisanal sector what explains in part why is one of the top five in term of revenues. We should note that the fishing costs for different types of species could vary widely and we are not accounting for this in our analysis. Yet, we can qualitatively consider the costs of different types of fishing. For example, some of these species are fished by diving near the shore like the Chilean abalone (*Concholepas concholepas*) and the Chilean sea urchin (*Loxechinus albus*) while others like the Patagonian toothfish (*Dissostichus eleginoides*), the Southern king crab (*Lithodes santolla*) or the Swordfish (*Xiphias gladius*) involve offshore fishing, which tends to be much more expensive. The gathering of algae from the shore is arguably one of the least costly extractive activities for the artisanal sector but it is not among the ones that generate more revenue. We could not generate similar estimates for the industrial and aquaculture subsectors due to lack of data. 
 
 ```{r Revenues_artisanal_Chile_G, echo = FALSE, message= FALSE, warning= FALSE, fig.height=4, fig.width=8, fig.cap= 'Species that generated the most revenue for the artisanal sector over the past five years based on records on landings and ex-vessel prices. Source: records from SERNAPESCA, 2018.'}
 
 # importing cleaned prices dataset and aggregating at the national level
-prices_art <- read_csv("clean_databases/Chile/prices_art_SERNAPESCA.csv") %>% 
+prices_art <- read_csv(here("clean_databases/prices_art_SERNAPESCA.csv")) %>% 
   filter(!(species == 'NA'))
 prices_art[is.na(prices_art)] <- as.numeric(0) 
   
@@ -1022,12 +1022,12 @@ prices_art <- prices_art %>%
   mutate(price_dollar = ifelse(year == 2013, ((price/mean_uf_2013)*mean_uf_2018)/from_ChP_to_dollar_dec_2018, ifelse(year == 2014, ((price/mean_uf_2014)*mean_uf_2018)/from_ChP_to_dollar_dec_2018, ifelse(year == 2015, ((price/mean_uf_2015)*mean_uf_2018)/from_ChP_to_dollar_dec_2018, ifelse(year == 2016, ((price/mean_uf_2016)*mean_uf_2018)/from_ChP_to_dollar_dec_2018, ((price/mean_uf_2017)*mean_uf_2018)/from_ChP_to_dollar_dec_2018)))))
   
 # Most important species artisanal based on national revenue
-Top_5 <- prices_art %>% 
+Top_5_revenue <- prices_art %>% 
   mutate(revenue= (price_dollar * tons), chl_name = str_to_upper(species)) %>%
   left_join(sp_index) %>%
-  group_by(sc_name, year) %>% 
+  group_by(en_name, year) %>% 
   summarise(national_revenue = round(sum(revenue),2)) %>% 
-  group_by(sc_name) %>% 
+  group_by(en_name) %>% 
   summarise(total=sum(national_revenue)) %>% 
   arrange(desc(total)) %>% 
   slice(1:5)
@@ -1035,17 +1035,14 @@ Top_5 <- prices_art %>%
 prices_art %>% 
   mutate(revenue= (price_dollar * tons), chl_name = str_to_upper(species)) %>%
   left_join(sp_index) %>%
-  group_by(sc_name, year) %>% 
-  summarise(national_revenue = round(sum(revenue),2)) %>% 
-  arrange(year, desc(national_revenue)) %>% 
-  filter(sc_name %in% Top_5$sc_name) %>% 
-  left_join(sp_index) %>%
-  select(year, national_revenue, species= en_name) %>% 
-  ggplot(aes(x = as.factor(year), y = national_revenue, fill= species)) + 
-  geom_bar(stat = 'identity')+
-  labs(y="Revenue\n(2018 US dollars)", x="Year")+
+  mutate(species = ifelse(en_name %in% Top_5_revenue$en_name, en_name, "Other")) %>%
+  group_by(species, year) %>% 
+  summarise(national_revenue = round(sum(revenue),2)) %>%
+  ggplot(aes(x = year, y = national_revenue/1000, fill= species)) + 
+  geom_area()+
+  labs(y="Revenue\n(2018 Thousand US dollars)", x="Year")+
   scale_y_continuous(expand = c(0, 0))+
-  scale_fill_manual("Species",values = c(wes_palette("Darjeeling1")))+
+  scale_fill_manual("Species",values = c(wes_palette("Darjeeling1"), wes_palette("Darjeeling2")))+
   ggtheme_plot() +
   guides(fill = guide_legend(nrow = 2, byrow = TRUE))
 
