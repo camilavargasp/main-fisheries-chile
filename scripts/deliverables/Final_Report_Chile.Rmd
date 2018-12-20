@@ -2869,40 +2869,74 @@ To evaluate the volume contribution of specific fisheries over the last five yea
 
 ##### Main wild-caught fisheries in terms of volume 
 
-According to landing records from SERNAPESCA over the last five years, the artisanal sector lands on average 1.6 ± 0.58 million annual tons of marine species while the industrial sector lands around 0.9 ± 0.16 million tons per year. Is worth noting that the artisanal sector includes landings of algae and Bentham species that are not targeted by the industrial sector. Both sectors have among their most landed species the Peruvian anchoveta (*Engraulis ringens*) and the Araucanian herring (*Strangomera bentincki*) two species that are mostly used as inputs for fish meal and oil (Figure 19). Other important species in artisanal landings are the Giant grey kelp (*Lessonia nigrescens*), exported mostly as dried algae, and the Jumbo squid (*Dosidicus gigas*), mostly commercialized fresh or frozen for HC. The Chilean jack mackerel (*Trachurus murphyi*) is also an important fishery in terms of volume for the industrial sector, which is also mostly use in the production of fish meal and oil and to a lesser extent use for direct HC smoked or canned.
+According to landing records from SERNAPESCA over the last five years, the artisanal sector lands on average 1.6 ± 0.58 million annual tonnes of marine species while the industrial sector lands around 0.9 ± 0.16 million tonnes per year. Is worth noting that large part of the artisanal landings are of algae and benthic species that are not targeted by the industrial sector. Both sectors have among their most landed species the Peruvian anchoveta (*Engraulis ringens*) and the Araucanian herring (*Strangomera bentincki*), two species that are mostly used as inputs for fish meal and oil (Figure 19). Other important species in artisanal landings are the Giant grey kelp (*Lessonia nigrescens*), exported mostly as dried algae, and the Jumbo squid (*Dosidicus gigas*), mostly commercialized fresh or frozen for human consumption (HC). The Chilean jack mackerel (*Trachurus murphyi*) is also an important fishery in terms of volume for the industrial sector, which is also mostly used in the production of fish meal and oil and to a lesser extent for direct HC. 
+
+Over the last years the catch composition of the artisanal sector has presented no major changes except from one species of algae (Giant brown kelp, *Lessonia trabeculata*) replacing other (Red algae gracilaria, *Gracilaria spp*) within the top 5 landed species as for 2013. In the case of the industrial sector, composition of the main species is also stable over the last years. Yet, the landings of Peruvian anchoveta (*Engraulis ringens*) started decreasing in 2014 relative to previous years, this incresed the relevance of other species like the Chilean jack mackerel (*Trachurus murphyi*). Other important species for the artisanal sector are   (Table Chile S1).
 
 ```{r Top_landed_Chile_G, echo = FALSE, warning=FALSE, message=FALSE, fig.height=5, fig.width=9, fig.cap= 'Top 5 species landed in Chile by the artisanal (left pannel) and industrial sector (right pannel) between 2013 and 2017. Data source: Landing records from SERNAPESCA, 2018.' }
 
-# Importing landings and species names 
-landings<- read_csv("clean_databases/Chile/landings_SERNAPESCA.csv")
-sp_index <- read_csv("clean_databases/Chile/sp_index.csv") %>% 
+# Sepcies index
+sp_index <- read_csv(here("clean_databases/sp_index.csv"))%>% 
   mutate(chl_name = str_to_upper(chl_name)) 
 
-# Calculating annual landings per sector 
-annual_landings_sector <- landings %>% 
-  filter(region != "national", international_waters == 0) %>% 
+# Importing landings and species names 
+landings<- read_csv(here("clean_databases/landings_SERNAPESCA.csv")) %>% 
+  filter(region != "national") %>% 
   mutate(tons = as.numeric(tons), subsector = ifelse(subsector =='fabric_vessel', 'industrial', subsector)) %>% 
+  select(-region, - month, - international_waters, chl_name = species) %>% 
+  left_join(sp_index) %>% 
+  select(subsector, year, tons, en_name)
+
+landings$tons[is.na(landings$tons)] <- 0 
+
+# Calculating annual landings per sector 
+annual_landings_sector <- landings %>%
   group_by(year, subsector) %>% 
   summarise(tons = sum(tons, na.rm = T)) %>% 
   group_by(subsector) %>% 
   summarise(annual_tons = mean(tons), sd = sd(tons) )
 
 # Top 5 landed per sector
-# to avoid repeated observations
-landings %>% 
-  filter(region != "national", international_waters == 0) %>% 
-  mutate(tons = as.numeric(tons), subsector = ifelse(subsector =='fabric_vessel', 'industrial', subsector)) %>% 
-  rename(chl_name = species) %>% 
-  left_join(sp_index) %>% 
-  group_by(year, sc_name, subsector) %>% 
-  summarise(tons = sum(tons, na.rm = T)/1000000)%>% #Million
-  arrange(year, desc(tons)) %>% 
-  group_by(year, subsector) %>% 
-  top_n(5, tons) %>%
-  left_join(sp_index) %>% 
-  select(year, subsector, tons, species = en_name) %>% 
-  ggplot(aes(x = year,
-             y = tons, 
+
+# Artisanal
+most_landed_art <- landings %>% 
+  filter(subsector == 'artisanal') %>% 
+  group_by(en_name) %>% 
+  summarise(tons = sum(tons, na.rm= T)) %>% 
+  arrange(desc(tons)) %>% 
+  top_n(5, tons) 
+most_landed_art <- most_landed_art$en_name
+  
+# Industrial
+most_landed_ind <- landings %>% 
+  filter(subsector == 'industrial') %>% 
+  group_by(en_name) %>% 
+  summarise(tons = sum(tons, na.rm= T)) %>% 
+  arrange(desc(tons)) %>% 
+  top_n(5, tons) 
+most_landed_ind <- most_landed_ind$en_name
+  
+## Landings per year more landed and others
+
+## Artisanal
+landings_year_art <- landings %>%
+  filter(subsector == 'artisanal') %>% 
+  mutate(species = ifelse(en_name %in% most_landed_art, en_name, "Others")) 
+
+##Industrials
+landings_year<- landings %>%
+  filter(subsector == 'industrial') %>% 
+  mutate(species = ifelse(en_name %in% most_landed_ind, en_name, "Others")) %>% 
+  rbind(landings_year_art) %>% 
+  group_by(year, subsector, species) %>% 
+  summarise(tons = sum(tons, na.rm= TRUE))
+
+
+## Plot
+
+landings_plot <- landings_year %>%
+  ggplot(aes(x = as.numeric(year),
+             y = as.numeric(tons)/1000000, 
              fill = species)) +
   geom_area() +
   facet_wrap(~subsector)+
@@ -2912,47 +2946,27 @@ landings %>%
   ggtheme_plot() +
   guides(fill = guide_legend(nrow = 3, byrow = TRUE))
 
+landings_plot
 ```
 
-Over the last years the catch composition of the artisanal sector has presented no major changes except from one species of algae (Giant brown kelp, *Lessonia trabeculata*) replacing other (Red algae gracilaria, *Gracilaria spp*) within the top 5 landed species as for 2013. In the case of the industrial sector, composition of the main three species seem to be stable over the last five years. Yet, the South pacific hake (*Merlucius gayi*) stooped being one of the species most fished by the industrial sector after 2013. This can be explained by the reduction of the total allowable catch for this species given its risk of collapse in those years (@subpesca_cuota_2013). After 2013, the industrial sector introduced the Jumbo squid (*Dosidicus gigas*) among its top 5 landed species. As for 2016 the Chub mackerel (*Scomber japonicus*) has entered the top 5 for the industrial sector replacing Patagonian grenadier (*Macruronus magellanicus*). Other important species are the *mote sculpin* and different algae for the artisanal sector (Table 21).
+
 
 ```{r top_10_Chile_T, eval=T, echo=F, warning=F,message=F}
 
 # Top 10 landed per sector (Appendix)
 
 Total_Top_10 <- landings %>% 
-  filter(region != "national", international_waters == 0) %>% 
-  mutate(tons = as.numeric(tons), subsector = ifelse(subsector =='fabric_vessel', 'industrial', subsector)) %>% 
-  rename(chl_name = species) %>% 
-  left_join(sp_index) %>% 
-  group_by(year, sc_name, subsector) %>% 
+  group_by(year, en_name, subsector) %>% 
   summarise(tons = sum(tons, na.rm = T)/1000) %>%  #thousand
   arrange(year, desc(tons)) %>% 
-  group_by(subsector,sc_name) %>% 
+  group_by(subsector,en_name) %>% 
   summarise(
     Mean = mean(tons,na.rm = T),
     s.d. = sd(tons,na.rm = T),
     Total = sum(tons,na.rm = T)
   ) %>% 
   group_by(subsector) %>% 
-  top_n(10, Total)
-  
-
-landings %>% 
-  filter(region != "national", international_waters == 0) %>% 
-  mutate(tons = as.numeric(tons), subsector = ifelse(subsector =='fabric_vessel', 'industrial', subsector)) %>% 
-  rename(chl_name = species) %>% 
-  left_join(sp_index) %>% 
-  group_by(year, sc_name, subsector) %>% 
-  summarise(tons = sum(tons, na.rm = T)/1000) %>%  #thousand
-  spread(year,tons) %>% 
-  left_join(Total_Top_10,
-            by = c("sc_name","subsector")) %>% 
-  filter(!is.na(Total)) %>% 
-  arrange(subsector) %>% 
-  ungroup() %>% 
-  select(-subsector) %>% 
-  rename(Species = sc_name) %>% 
+  top_n(10, Total) %>% 
   kable("latex",
         caption = "Top 10 landed (tons) species by sector in Chile from 2013-2017.",
         booktabs = T,
