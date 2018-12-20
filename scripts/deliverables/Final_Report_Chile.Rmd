@@ -406,7 +406,7 @@ aquaculture_plot
 
 ##### Regional diferences in farmed fisheries
 
-Aquaculture production is highly concentrated in the South of the country, between regions X and XII (Figure 22). Nevertheless, from the I to the IV region the most farmed resources are algaes and scallops (*Argopecten purpuratus*) (**Table App.5**). The red abalone (*Haliotis rufescens*) became the most farmed in 2013 in the V region, replacing the turbot (*Scophtalmus maximus*). Towards the south, salmons and trouts are the most farmed species along with some algaes and mussels (*Mytilus chilensis*). The most farmed species in the austral south are the Atlantic salmon (*Salmo salar*) and the Chilean mussel (*Mytilus chilensis*).
+Aquaculture production is highly concentrated in the South of the country, between regions X and XII (Figure 22). Nevertheless, from the I to the IV region the most farmed resources are algaes and scallops (*Argopecten purpuratus*) (Appendix Chile - 3). The red abalone (*Haliotis rufescens*) became the most farmed in 2013 in the V region, replacing the turbot (*Scophtalmus maximus*). Towards the south, salmons and trouts are the most farmed species along with some algaes and mussels (*Mytilus chilensis*). The most farmed species in the austral south are the Atlantic salmon (*Salmo salar*) and the Chilean mussel (*Mytilus chilensis*).
 
 ```{r Harvest from aquaculture centers per region, echo = FALSE, warning=FALSE, message=FALSE, fig.height=4,fig.width=6, fig.cap= 'Mean annual harvest per region from aquaculture centers between 2012 and 2017. Error bars represent one standard deviation. Only showing regions with production. Database SERNAPESCA'}
 
@@ -450,15 +450,29 @@ Aquaculture production is highly concentrated in the South of the country, betwe
   #scale_fill_manual(values = c(wes_palette("Darjeeling1"), wes_palette("Darjeeling2")))+
   ggtheme_plot()
   
+# APPENDIX. 3 - Most important farmed species per region
   
+  aquaculture_species_per_region <-aquaculture %>% 
+  group_by(year, en_name, region) %>% 
+  summarise(tons = sum(tons, na.rm = T))%>% 
+  arrange(year, desc(tons)) %>%
+  group_by(year, region) %>% 
+  top_n(1, tons) %>%
+  filter(tons != 0) %>% 
+  select(-tons) %>%
+  unique() %>% 
+  spread(year, en_name)
+  
+aquaculture_species_per_region$region <- factor(aquaculture_species_per_region$region , levels = c("XII", "XI", "X", "XIV", "IX", "VIII", "VII", "VI", "RM","V", "IV", "III", "II", "I", "XV"))
+
 ```
 
 
 #### Fish Trade
  
-Around 72% of the landings from fisheries and aquaculture are exported outside the country [@ifop_monitoreo_2015]. In Chile, exported volumes of marine products are larger than imported volumes. The main species exported is Atlantic salmon produced in aquaculture, followed by far by jack mackerel (Figure 23-A). Tuna leads the import activities followed, also by far, by jack mackerel (Figure 23-B)
+Around 72% of the landings from fisheries and aquaculture are exported outside the country [@ifop_monitoreo_2015]. In Chile, exported volumes of marine products are larger than imported volumes. The main species exported is Atlantic salmon produced in aquaculture, followed by far by jack mackerel (Figure 23-A). Tuna leads the import activities followed, also by far, by jack mackerel (Figure 23-B). Table X shows the import and export volume and the net trade of the most imported species. We note that the type of species that enters the country the most is Tuna, with a net trade of ~ 25,100 ± 4,100 tonnes per year. Jack mackerel and shrimp also present high net trades.
 
-```{r Trade_Chile, echo = FALSE, warning=FALSE, message=FALSE, fig.height=4, fig.width=8, fig.cap="Main species exported and imported in Chile between 2013 and 2017. Thousand Tons"}
+```{r Trade_Chile, echo = FALSE, warning=FALSE, message=FALSE, fig.height=4, fig.width=8, fig.cap="Main species exported and imported in Chile between 2013 and 2017. Thousand Tonnes"}
 
 # Importing export and import data 
 sp_exports<- read_csv(here("clean_databases/exports_ADUANA.csv"))
@@ -554,7 +568,7 @@ exports_index <- read.csv(here("clean_databases/exports_index.csv"))
 imports_index <- read_csv(here("clean_databases/imports_index.csv"))
 
 # Exported species
-Exports_tbl <- sp_exports%>% 
+Exports_tbl <- sp_exports %>% 
   filter(year != 2018) %>% 
   mutate(export_name= grupo_exportacion)%>% 
   left_join(exports_index) %>% 
@@ -565,8 +579,9 @@ Exports_tbl <- sp_exports%>%
 # Top 10 imported species
 ten_imports <- sp_imports%>% 
   filter(year != 2018) %>% 
-  mutate(imports_name = name_sp) %>% 
+  mutate(imports_name= name_sp) %>% 
   left_join(imports_index) %>% 
+  filter(trade_name != 'NA') %>% 
   select(year, tons, trade_name) %>%
   group_by(year, trade_name) %>% 
   summarise(Imports = sum(tons)) %>% #tons
@@ -579,12 +594,12 @@ ten_imports <- sp_imports%>%
 Imports_Exports <- ten_imports %>% 
   left_join(Exports_tbl, by = c('trade_name', 'year')) %>% 
   replace(., is.na(.), 0)
-  
+
 # Totals table
 Totals <- Imports_Exports %>%
   mutate("Net trade" = Imports-Exports) %>% 
     gather("Operation","Tons",3:5) %>% 
-    group_by(trade_name,Operation) %>% 
+    group_by(trade_name, Operation) %>% 
     summarise(
       Total = sum(Tons),
       Mean = mean(Tons),
@@ -610,9 +625,9 @@ Imports_Exports %>%
     format.args = list(big.mark = ",")
   ) %>% 
   kable_styling(latex_options = c("repeat_header","scale_down")) %>% 
-  group_rows("Exports", 1, 10, latex_gap_space = "0.5em") %>% 
-  group_rows("Imports", 11, 20, latex_gap_space = "1em") %>% 
-  group_rows("Net Trade", 21, 30, latex_gap_space = "1em")
+  group_rows("Exports", 1, 9, latex_gap_space = "0.5em") %>% 
+  group_rows("Imports", 10, 19, latex_gap_space = "1em") %>% 
+  group_rows("Net Trade", 20, 30, latex_gap_space = "1em")
 
 ```
 
