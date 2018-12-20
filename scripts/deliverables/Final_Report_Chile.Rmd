@@ -13,69 +13,25 @@ header-includes:
 subtitle: Report prepared for Oceana
 ---
 
-```{r setup, eval = T, echo=F, warning=F,message=F,results='hide'}
+```{r setup, include=FALSE}
 
-#### READ ME !!! ####
-# Run this chunk before knit so you make sure you have all pkgs installed in R
-# Please include any package used in your analysis
-
-#ipak <- function(pkg){
-#  new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
-#  if (length(new.pkg)) 
-#    install.packages(new.pkg, dependencies = TRUE)
-#  sapply(pkg, require, character.only = TRUE)
-#}
-
-#### Library ####
-#packages <- c(
-#  "readxl", # Read dataframe
-#  "readr",
-#  "dplyr", # Data manipulation
-#  "tidyr", # Data manipulation
-#  "ggplot2", #Nice grpahs and spatial analysis
-#  "cowplot",
-#  "ggpubr",
-#  # "plotly",
-#  "wesanderson",
-#  "png",
-#  "grid",
-#  "stringr",
-#  "purrr", #for loading multiple datasets
-#  # "rgdal",
-#  # "RColorBrewer",
-#  "knitr",
-#  "kableExtra",
-#  "data.table",
-#  "ggrepel",
-#  "gridExtra",
-#  # "ggmap",
-#  # "rgeos",
-#  "sf",
-#  "rgdal", #Spatial analysis
-#  "tools" #Spatial analysis
-#)
-#
-#suppressWarnings(
-#  suppressMessages(
-#    suppressPackageStartupMessages(
-#      ipak(packages)
-#    )
-#  )
-#)
-#
-## Remove scientific numbers
-#options("scipen"=100, "digits"=4) 
-#
-```
-
-```{r Data_Fun, eval = T, echo = F, warning = F, message = F, results = 'hide'}
-
-#### Functions ####
-
-# Note that the main function is on a separate file (corefx.r)
-source('Functions/corefx.R')
-
-#### For all plots look alike ###
+knitr::opts_chunk$set(echo = TRUE)
+library(knitr)
+library(here)
+library(magrittr)
+library(tidyr)
+library(reshape2)
+library(dplyr)
+library(ggplot2)
+library(gridExtra)
+library(readxl)
+library(cowplot)
+library(kableExtra)
+library(readr)
+library(stringr)
+library(purrr)
+library(naniar)
+library(wesanderson)
 
 ggtheme_plot <- function() {
   theme(
@@ -94,77 +50,11 @@ ggtheme_plot <- function() {
     axis.title = element_text(size = 14),
     legend.key = element_rect(colour = NA, fill = NA),
     legend.position  = "top",
-    legend.justification = "center",
-    legend.title = element_text(size = 14),
-    legend.text = element_text(size = 12),
-    strip.text.x = element_text(size = 16, colour = "black")
+    legend.title = element_text(size = 16),
+    legend.text = element_text(size = 14),
+    strip.text.x = element_text(size = 18, colour = "darkgrey")
   )
 }
-
-#ggtheme_map <- function(base_size = 9, Region = "NA") {
-#  
-#  theme(text             = element_text(#family = "Helvetica",
-#    color = "gray30", size = base_size),
-#    plot.title       = element_text(size = rel(1.25), hjust = 0, face = "bold"),
-#    panel.background = element_blank(),
-#    panel.border     = element_blank(),
-#    panel.grid.minor = element_blank(),
-#    panel.grid.major = element_line(color = "transparent"),
-#    strip.background =element_rect(fill = "transparent"),
-#    axis.line        = element_blank(), # element_line(colour = "grey30", size = #.5))
-#    axis.ticks       = element_blank(),
-#    axis.text        = element_blank(),
-#    axis.title       = element_blank(),
-#    # legend.key       = element_rect(colour = NA, fill = NA, size = 4),
-#    legend.position = "bottom",
-#    legend.justification = "center"
-#    # legend.key.width =unit(6,"line")
-#  )
-#}
-
-
-
-####
-
-# Color codes:
-# B_Col <- "#046C9A"
-# C_Col <- "#F21A00"
-# P_Col<- "#0B775E"
-# 
-# #### Datasets ####
-# 
-# # International Datasets #### 
-# 
-# # All datafiles should be in THIS path
-# Int_Data_Path <- "./clean_databases/International/"
-# 
-# #### SAU dataset used for international analysis chunks:
-# # 1, 2 & 3, 4
-# 
-# # # # File name
-# SAU_F_Name <- "SAU_Dataset.csv"
-# # #read dataset
-# SAU_Database <- fread(paste(Int_Data_Path,
-#                             SAU_F_Name,
-#                             sep = ""))
-# 
-# #### FAO datasets used for international analysis chunks:
-# 
-# 
-# Trade_F_Name <- "FAO_Trade_USD.csv"
-# 
-# FAO_USD <- read.csv(paste(Int_Data_Path,
-#                               Trade_F_Name,
-#                               sep = ""))
-# # head(FAO_USD)
-# 
-# Int_F_Name <- "International_Data.csv"
-# 
-# International_D<- read.csv(paste(Int_Data_Path,
-#                               Int_F_Name,
-#                               sep = ""))
-# 
-# head(International_D)
 ```
 
 \clearpage
@@ -187,9 +77,9 @@ ggtheme_plot <- function() {
 
 # https://marine.rutgers.edu/~cfree/mapping-south-american-fish-stock-boundaries/
 
-img <- readPNG("Report_Figures/Chile/Chile_Regions.png")
- grid.raster(img)
- 
+#img <- readPNG("Report_Figures/Chile/Chile_Regions.png")
+# grid.raster(img)
+# 
 ```
 
 ```{r parameters for conversion, eval=T, echo = FALSE}
@@ -330,8 +220,8 @@ Landed tons for 2017 shows that the amount of landings varies widely along the c
 
 # Main species in 2017 per region and sector to add color to the barplot
 # Importing landings and species names 
-landings<- read_csv("clean_databases/Chile/landings_SERNAPESCA.csv")
-sp_index <- read_csv("clean_databases/Chile/sp_index.csv") %>% 
+landings<- read_csv(here("clean_databases/landings_SERNAPESCA.csv"))
+sp_index <- read_csv(here("clean_databases/sp_index.csv")) %>% 
   mutate(chl_name = str_to_upper(chl_name)) 
 
   main_species_per_region <- landings %>% 
@@ -388,8 +278,8 @@ The main species harvested from aquaculture centers in the last 5 years have bee
 
 # Main species in 2017 per region and sector to add color to the barplot
 # Importing landings and species names 
-landings<- read_csv("clean_databases/Chile/landings_SERNAPESCA.csv")
-sp_index <- read_csv("clean_databases/Chile/sp_index.csv") %>% 
+landings<- read_csv(here("clean_databases/landings_SERNAPESCA.csv"))
+sp_index <- read_csv(here("clean_databases/sp_index.csv")) %>% 
   mutate(chl_name = str_to_upper(chl_name)) 
 
 
@@ -1155,7 +1045,7 @@ People employed in the fisheries and aquaculture activities have an average mont
 
 On average, people employed in the fisheries and aquaculture sector are a younger and less educated relative to the national average and are mostly men (*Table App. 8*). However, there is high variation within subsectors, for example, artisanal fishers tend to be older @tam_gone_2018. Based on estimates from the New national survey of employment (NENE, 2015) only 57.7% of the people employed in the sector is formally employed by an employer, the rest work independently (@sense_reporte_2015). 
 
-```{r demographics employees, eval =F, echo = FALSE, warnings = FALSE, message= FALSE}
+```{r demographics employees, eval =F, echo = FALSE, warnings = FALSE, message= FALSE} 
 # Demographics of employees
 
 Average_age <- c('42.1', '43.2')
