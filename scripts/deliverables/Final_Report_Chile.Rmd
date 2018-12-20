@@ -3293,100 +3293,160 @@ Imports_Exports %>%
 
 Chile is considered one of the main countries in fishery production worldwide (@fao_estado_2016), however several reports and studies suggest the Chilean population does not consume as many marine products (@gonzales_solo_2018). On average, people consume 10-13 kg a year, compared to the 20 kg a year recommended by Food and Agriculture organization (2016). Looking into what type of seafood the Chilean population consumes, a study done in 2012 shows that 60% of the seafood consume are pelagic fishes, 12% are mollusk and 2% are crustaceans (@villena_marcelo_diagnostico_2012).
 
-According to the National Health Survey (Encuata Nacional de Salud, ENS), only 9.2% of the Chilean population eats fish at least two times a week as recommended. This see value seemed to be decreasing since the early 2000s where this percentage was 10.7% (@ENS). World data (@ritchie_our_nodate) also shows a decrease in the amount of seafood consumed the Chilean population from ~16kg consumed in 2004 to 12.5kg in 2013.
+According to the National Health Survey (Encuata Nacional de Salud, ENS), only 9.2% of the Chilean population eats fish at least two times a week as recommended. This value has decreased since the early 2000s where this percentage was 10.7% (@ENS). World data (@ritchie_our_nodate) also shows a decrease in the amount of percapita seafood consumed by the Chilean population from ~16kg consumed in 2004 to 12.5kg in 2013.
 
-The frequency of seafood consumption varies along socio-economic groups in Chile, according to a study done in 2016 by Fundación Chile and Adimark (@fundacion_chile_chile_2016), 55% of the high-income group consumes seafood at least once a week compared to the 38% of the lower-income group. It has also been identified (@ENE) that people with less years of schooling tend to eat less fish (only 6.3 percent eats seafood twice a week) that people that have completed high school education, where 11.2% eats as frequently. 
+The frequency of seafood consumption varies along socio-economic groups in Chile, according to a study done in 2016 by Fundación Chile and Adimark (@fundacion_chile_chile_2016), 55% of the high-income group consumes seafood at least once a week compared to the 38% of the lower-income group. It has also been identified (@ENE) that people with less years of schooling tend to eat less fish (only 6.3 percent eats seafood twice a week) than people that have completed high school education, where 11.2% eats as frequently. 
 
-Within the Chilean population there is a strong belief that seafood is expensive. However, there is wide range of fish prices. There are expensive products such as salmon or lobsters and affordable alternatives such as Chilean Jack Mackerel (*Trachurus murphyi*), Jumbo Flying Squid (*Dosidicus gigas*) and Southern Rays Bream (*Brama australis*).
-
-
-```{r Domestic consumption landings por sector, eval=F, echo = FALSE, message=FALSE, warning = FALSE}
-
-##Aproach 1: Landings desagregados por sector
-model_results <- read.csv("clean_databases/Chile/final_model_results.cvs")
-
-top_5_hc <- model_results%>%
-  arrange(year, desc(HC)) %>%
-  group_by(year) %>%
-  top_n(5, HC)
-
-top5_hc_fig <- 
-  ggplot(data = top_5_hc, aes(x = year, y = HC, fill = trade_name)) +
-    geom_bar(stat= "identity")+
-    scale_y_continuous(expand = c(0, 0)) +
-    labs(y="Domestic human consumption \n (Tonnes)", x="Year")+
-    theme(axis.line = element_line(colour = "black"),
-        axis.text=element_text(size=11),
-        axis.title=element_text(size=12,face="bold"))+
-  scale_fill_manual(values = c(wes_palette("Darjeeling1", 5, type = "discrete"),wes_palette("Darjeeling2", 3, type = "discrete")))+
-  ggtheme_plot()
+Within the Chilean population there is a strong belief that seafood is expensive. However, there is wide range of fish prices. There are expensive products such as salmon or lobsters and affordable alternatives such as Chilean Jack Mackerel (*Trachurus murphyi*), Jumbo Flying Squid (*Dosidicus gigas*) and Southern Rays Bream (*Brama australis*) (@ENE).
 
 
-top5_hc_fig
+```{r chl domestic consumption importa and wrangling databases, eval=F, echo = FALSE, message=FALSE, warning = FALSE}
+
+## 1. functiosn to standarize names 
+
+##complete specie name list with corresponding trade name
+sp_index <- read.csv(here('clean_databases/sp_index.csv'))
+
+# Chilean to trade name
+chl_to_trade <- sp_index %>% 
+  select(chl_name, trade_name ) %>% 
+  unique()
+
+# Imports to trade name 
+imp_to_trade <- read.csv(here('clean_databases/imports_index.csv')) %>% 
+  rename(imports_name = X...imports_name)
+
+# Exports to trade name 
+exp_to_trade <- read.csv(here('clean_databases/exports_index.csv'))
+
+# english to trade
+en_to_trade <- sp_index %>% 
+  select(en_name, trade_name ) %>% 
+  unique()
+
+# scientific to trade
+sc_to_trade <- sp_index %>% 
+  select(sc_name, trade_name ) %>% 
+  unique()
+
+##2. Importing, cleaning, formating and grouping by trade name, databases necesary for the model 
+
+# Landings + aquaculture form the annual reports of SERNAPESCA: 
+L_an <- read.csv(here("clean_databases/landings_anuario.csv")) %>% 
+  select(year, chl_name = species, sc_name, landing_aqua = tons) %>% 
+  left_join(chl_to_trade) %>% 
+  group_by(year, trade_name) %>% 
+  summarise(landing_aqua = sum(landing_aqua, na.rm= TRUE))%>% 
+  ungroup()
+
+# Imports
+I <- read.csv(here('clean_databases/imports_ADUANA.csv')) %>% 
+  select(year, imports_name = name_sp, tons) %>% 
+  filter(year != 2018) %>% 
+  left_join(imp_to_trade) %>% 
+  filter(trade_name != 'NA') %>% 
+  group_by(year, trade_name) %>% 
+  summarise(import = sum(tons, na.rm= TRUE))%>% 
+  ungroup()
+
+# Exports
+E <- read.csv(here('clean_databases/exports_ADUANA.csv')) %>% 
+  select(year, export_name = grupo_exportacion, tons) %>% 
+  filter(year != 2018) %>% 
+  left_join(exp_to_trade) %>% 
+  filter(trade_name != 'NA') %>% 
+  group_by(year, trade_name) %>% 
+  summarise(export = sum(tons, na.rm= TRUE))%>% 
+  ungroup()
+
+# Yields
+Y <- sp_index %>% 
+  group_by(trade_name) %>% 
+  summarise(mean_yield= mean(yield))%>% 
+  ungroup()
+
+# Non-himan consumption
+NHC_raw <- read.csv(here("clean_databases/processing.csv")) %>%
+  filter(m_p == "M",
+         use== "NHC") %>% 
+  group_by(year, chl_name) %>% 
+  summarise(NHC = sum(tons, na.rm = T)) %>% 
+  ungroup() %>% 
+  left_join(chl_to_trade) %>% 
+  group_by(year, trade_name) %>% 
+  summarise(NHC = sum(NHC, na.rm= TRUE)) %>% 
+  ungroup()
+
+## 3. COmbaining all datasets in one dataframe
+model_trade_name_Lan <- L_an %>% 
+  ##full_join(A, by= c("year", "trade_name")) %>% 
+  full_join(NHC_raw, by= c("year", "trade_name")) %>% 
+  full_join(E, by= c("year", "trade_name")) %>% 
+  full_join(I, by= c("year", "trade_name")) %>% 
+  full_join(Y, by= "trade_name")
+
+#convert all NAs to 0
+model_trade_name_Lan$landing_aqua[is.na(model_trade_name_Lan$landing_aqua)] <- 0
+model_trade_name_Lan$NHC[is.na(model_trade_name_Lan$NHC)] <- 0
+model_trade_name_Lan$export[is.na(model_trade_name_Lan$export)] <- 0
+model_trade_name_Lan$import[is.na(model_trade_name_Lan$import)] <- 0
+model_trade_name_Lan$mean_yield[is.na(model_trade_name_Lan$mean_yield)] <- 0
 
 
-# Appendix table Approach 1
+## 4. Model
+##Domestic consumption pero species
+dom_cons_Lan <- model_trade_name_Lan %>% 
+  mutate(HC = ((landing_aqua - NHC)*mean_yield) - export + import) %>%
+  mutate(per_cap_kg = format((HC/17762681)*1000000, scientific = FALSE)) %>% 
+  filter(trade_name != "Algae")
 
-top_10_hc <- model_results%>%
-  arrange(year, desc(HC)) %>%
-  group_by(year) %>%
-  top_n(10, HC)
+##Annul per-capita consumption
+per_capita_total_Lan <- dom_cons_Lan %>%
+  filter(HC>0) %>% 
+  group_by(year) %>% 
+  summarise(HC_year = sum(HC)) %>% 
+  mutate(per_capita = (HC_year/17762681)*1000)
 
-top_10_table <- top_10_hc %>% 
-  select(year, trade_name, HC) %>% 
+ model_results <- dom_cons_Lan
+```
+
+
+
+```{r top 5 fisheries for hc, eval=F, echo = FALSE, message=FALSE, warning = FALSE}
+
+##Top 5 fisheries for domestic HC
+top_5_hc_cl <- model_results%>%
   filter(!is.na(year)) %>% 
-  group_by(year) %>%
-  mutate(rank = rank(desc(HC))) %>%
-  select(-HC) %>% 
-  spread(key= year, value =trade_name)
+  group_by(year, trade_name) %>%
+  summarise(HC = sum(HC)) %>% 
+  top_n(n = 5, wt = HC)
+  
+model_results %>% 
+  filter(
+    !is.na(year),
+    !trade_name %in% top_5_hc_cl$trade_name,
+    HC > 0) %>% 
+  group_by(year) %>% 
+  summarise(HC = sum(HC)) %>% 
+  mutate(trade_name = "Others") %>% 
+  bind_rows(top_5_hc_cl) %>%
+  ggplot(.,
+         aes(x = year, 
+             y = HC/1000, 
+             fill = trade_name)) + 
+  geom_area(position = position_stack(reverse = TRUE))+
+  # geom_bar(stat= "identity")+
+  scale_y_continuous(expand = c(0, 0)) +
+  labs(y= "Domestic human consumption \n (Thausands Tonnes)", x="Year") +
+  scale_fill_manual(#trade_name = "Species",
+                    values = c(wes_palette("Darjeeling1", 5, type = "discrete"),wes_palette("Darjeeling2", 3, type = "discrete"), "#000000")) +
+  guides(fill = guide_legend(nrow = 2, byrow = TRUE)) +
+  ggtheme_plot()
 
 
 ```
 
 
-```{r Domestic consumption landings anuarios_A, eval=F, echo = FALSE, message=FALSE, warning = FALSE}
-
-##Aproach 2: Landings de anuario
-model_results_Lan <- read.csv(here("clean_databases/final_model_results_Lan.cvs"))
-
-top_5_hc_Lan <- model_results_Lan%>%
-  arrange(year, desc(HC)) %>%
-  group_by(year) %>%
-  top_n(5, HC)
-
-top5_hc_fig_Lan <- 
-  ggplot(data = top_5_hc_Lan, aes(x = year, y = HC, fill = trade_name)) +
-    geom_bar(stat= "identity")+
-    scale_y_continuous(expand = c(0, 0)) +
-    labs(y="Domestic human consumption \n (Tonnes)", x="Year")+
-    theme(axis.line = element_line(colour = "black"),
-        axis.text=element_text(size=11),
-        axis.title=element_text(size=12,face="bold"))+
-  scale_fill_manual(values = c(wes_palette("Darjeeling1", 5, type = "discrete"),wes_palette("Darjeeling2", 3, type = "discrete")))+
-  ggtheme_plot()
-
-
-top5_hc_fig_Lan
-
-
-# Appendix table Approach 2
-
-top_10_hc_Lan <- model_results_Lan%>%
-  arrange(year, desc(HC)) %>%
-  group_by(year) %>%
-  top_n(10, HC)
-
-top_10_table_Lan <- top_10_hc_Lan %>% 
-  select(year, trade_name, HC) %>% 
-  filter(!is.na(year)) %>% 
-  group_by(year) %>%
-  mutate(rank = rank(desc(HC))) %>%
-  select(-HC) %>% 
-  spread(key= year, value =trade_name)
-
-
-
-```
 
 #### Species contribution to Human and Non-human consumption
 
@@ -4827,6 +4887,24 @@ kable_styling(latex_options = 'hold_position')
 # Most harvested species per region (for each year between 2012-2017)
 knitr::kable(aquaculture_species_per_region, col.names = c('Region', '2012', '2013', '2014', '2015', '2016', '2017'), format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Most harvested species per region and year. When no data is available means there were no aquaculure that year in that region. Source: Harvest records from SERNAPESCA, 2018') %>% 
 kable_styling(latex_options = 'hold_position')
+
+# Appendix table top 10 species human consumption
+top_10_hc <- model_results%>%
+  arrange(year, desc(HC)) %>%
+  group_by(year) %>%
+  top_n(10, HC)
+
+top_10_hc_table <- top_10_hc %>% 
+  select(year, trade_name, HC) %>% 
+  filter(!is.na(year)) %>% 
+  group_by(year) %>%
+  mutate(rank = rank(desc(HC))) %>%
+  select(-HC) %>% 
+  spread(key= year, value =trade_name)
+
+knitr::kable(top_10_hc_table, col.names = c('2013', '2014', '2015', '2016', '2017'), format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Main groups of species for human consumption') %>% 
+kable_styling(latex_options = 'hold_position')
+
 
 # Most expensive species in the artisanal sector
 knitr::kable(most_expensive, col.names = c('Species', 'Mean price (US$/Kg)', 'SD Price'), format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Most expensive species in Chile based on their mean ex-vessel price between 2013 and 2017. Source: Data on ex-vessel prices for artisanal sector, SERNAPESCA, 2018.') %>% 
