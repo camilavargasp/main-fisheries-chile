@@ -3300,154 +3300,6 @@ The frequency of seafood consumption varies along socio-economic groups in Chile
 Within the Chilean population there is a strong belief that seafood is expensive. However, there is wide range of fish prices. There are expensive products such as salmon or lobsters and affordable alternatives such as Chilean Jack Mackerel (*Trachurus murphyi*), Jumbo Flying Squid (*Dosidicus gigas*) and Southern Rays Bream (*Brama australis*) (@ENE).
 
 
-```{r chl domestic consumption importa and wrangling databases, eval=F, echo = FALSE, message=FALSE, warning = FALSE}
-
-## 1. functiosn to standarize names 
-
-##complete specie name list with corresponding trade name
-sp_index <- read.csv(here('clean_databases/sp_index.csv'))
-
-# Chilean to trade name
-chl_to_trade <- sp_index %>% 
-  select(chl_name, trade_name ) %>% 
-  unique()
-
-# Imports to trade name 
-imp_to_trade <- read.csv(here('clean_databases/imports_index.csv')) %>% 
-  rename(imports_name = X...imports_name)
-
-# Exports to trade name 
-exp_to_trade <- read.csv(here('clean_databases/exports_index.csv'))
-
-# english to trade
-en_to_trade <- sp_index %>% 
-  select(en_name, trade_name ) %>% 
-  unique()
-
-# scientific to trade
-sc_to_trade <- sp_index %>% 
-  select(sc_name, trade_name ) %>% 
-  unique()
-
-##2. Importing, cleaning, formating and grouping by trade name, databases necesary for the model 
-
-# Landings + aquaculture form the annual reports of SERNAPESCA: 
-L_an <- read.csv(here("clean_databases/landings_anuario.csv")) %>% 
-  select(year, chl_name = species, sc_name, landing_aqua = tons) %>% 
-  left_join(chl_to_trade) %>% 
-  group_by(year, trade_name) %>% 
-  summarise(landing_aqua = sum(landing_aqua, na.rm= TRUE))%>% 
-  ungroup()
-
-# Imports
-I <- read.csv(here('clean_databases/imports_ADUANA.csv')) %>% 
-  select(year, imports_name = name_sp, tons) %>% 
-  filter(year != 2018) %>% 
-  left_join(imp_to_trade) %>% 
-  filter(trade_name != 'NA') %>% 
-  group_by(year, trade_name) %>% 
-  summarise(import = sum(tons, na.rm= TRUE))%>% 
-  ungroup()
-
-# Exports
-E <- read.csv(here('clean_databases/exports_ADUANA.csv')) %>% 
-  select(year, export_name = grupo_exportacion, tons) %>% 
-  filter(year != 2018) %>% 
-  left_join(exp_to_trade) %>% 
-  filter(trade_name != 'NA') %>% 
-  group_by(year, trade_name) %>% 
-  summarise(export = sum(tons, na.rm= TRUE))%>% 
-  ungroup()
-
-# Yields
-Y <- sp_index %>% 
-  group_by(trade_name) %>% 
-  summarise(mean_yield= mean(yield))%>% 
-  ungroup()
-
-# Non-himan consumption
-NHC_raw <- read.csv(here("clean_databases/processing.csv")) %>%
-  filter(m_p == "M",
-         use== "NHC") %>% 
-  group_by(year, chl_name) %>% 
-  summarise(NHC = sum(tons, na.rm = T)) %>% 
-  ungroup() %>% 
-  left_join(chl_to_trade) %>% 
-  group_by(year, trade_name) %>% 
-  summarise(NHC = sum(NHC, na.rm= TRUE)) %>% 
-  ungroup()
-
-## 3. COmbaining all datasets in one dataframe
-model_trade_name_Lan <- L_an %>% 
-  ##full_join(A, by= c("year", "trade_name")) %>% 
-  full_join(NHC_raw, by= c("year", "trade_name")) %>% 
-  full_join(E, by= c("year", "trade_name")) %>% 
-  full_join(I, by= c("year", "trade_name")) %>% 
-  full_join(Y, by= "trade_name")
-
-#convert all NAs to 0
-model_trade_name_Lan$landing_aqua[is.na(model_trade_name_Lan$landing_aqua)] <- 0
-model_trade_name_Lan$NHC[is.na(model_trade_name_Lan$NHC)] <- 0
-model_trade_name_Lan$export[is.na(model_trade_name_Lan$export)] <- 0
-model_trade_name_Lan$import[is.na(model_trade_name_Lan$import)] <- 0
-model_trade_name_Lan$mean_yield[is.na(model_trade_name_Lan$mean_yield)] <- 0
-
-
-## 4. Model
-##Domestic consumption pero species
-dom_cons_Lan <- model_trade_name_Lan %>% 
-  mutate(HC = ((landing_aqua - NHC)*mean_yield) - export + import) %>%
-  mutate(per_cap_kg = format((HC/17762681)*1000000, scientific = FALSE)) %>% 
-  filter(trade_name != "Algae")
-
-##Annul per-capita consumption
-per_capita_total_Lan <- dom_cons_Lan %>%
-  filter(HC>0) %>% 
-  group_by(year) %>% 
-  summarise(HC_year = sum(HC)) %>% 
-  mutate(per_capita = (HC_year/17762681)*1000)
-
- model_results <- dom_cons_Lan
-```
-
-
-
-```{r top 5 fisheries for hc, eval=F, echo = FALSE, message=FALSE, warning = FALSE}
-
-##Top 5 fisheries for domestic HC
-top_5_hc_cl <- model_results%>%
-  filter(!is.na(year)) %>% 
-  group_by(year, trade_name) %>%
-  summarise(HC = sum(HC)) %>% 
-  top_n(n = 5, wt = HC)
-  
-model_results %>% 
-  filter(
-    !is.na(year),
-    !trade_name %in% top_5_hc_cl$trade_name,
-    HC > 0) %>% 
-  group_by(year) %>% 
-  summarise(HC = sum(HC)) %>% 
-  mutate(trade_name = "Others") %>% 
-  bind_rows(top_5_hc_cl) %>%
-  ggplot(.,
-         aes(x = year, 
-             y = HC/1000, 
-             fill = trade_name)) + 
-  geom_area(position = position_stack(reverse = TRUE))+
-  # geom_bar(stat= "identity")+
-  scale_y_continuous(expand = c(0, 0)) +
-  labs(y= "Domestic human consumption \n (Thausands Tonnes)", x="Year") +
-  scale_fill_manual(#trade_name = "Species",
-                    values = c(wes_palette("Darjeeling1", 5, type = "discrete"),wes_palette("Darjeeling2", 3, type = "discrete"), "#000000")) +
-  guides(fill = guide_legend(nrow = 2, byrow = TRUE)) +
-  ggtheme_plot()
-
-
-```
-
-
-
 #### Species contribution to Human and Non-human consumption
 
 As a first approach to analyzed main fisheries that countribute to human conssumption in Chile, we looked into landings, aquaculture harvest and raw material that goes to processing facilities. Our results show that considering landing plus aquiculture harvest, the main species that enter supply chains of HC are the Atlantic Slamon (*Salmo salar*) and the Chilean Mussel (*Mytilus chilensis*), two of the main aquaculture products from Chile (Figure sp_HC_with_Aq). On the other hand species that are used for non-human consumptions are Peruvian Anchoveta (*Engraulis ringens*) Araucarian Herring (*Strangomera bentincki*), the two main wild-caught fisheries of the country (Figure Figure sp_HC_with_Aq). The contribution of each specie to human consumption and non human consumption is relativly stable through time.
@@ -3585,57 +3437,154 @@ NP_HC_plot
 
 To identify the main fisheries for human food supply in Chile we combined datasets from landings, aquaculture, raw material that goes into facilities for non-human consumption, imports and exports. Assuming that all local landings and harvest that is not processed as non-human consumption products or exported is comsumed locally. Eventhough landings and aquaculture databases are detailed at a species level, we agragated the data in larger groups (See appendix) to be able to combine them with the Chilean Customs datasets. Our results show, that the main fishery for local consumption across the years has been squid. Within this group we considered: Patagonian squid (*Loligo gahi*), Jumbo flying squid (*Dosidicus gigas*), Argentine shortfin squid (*Illex argentinus*) and Japanese flying squid (*Todarodes Pacificus*). These species predominate local consumption from 2013 to 2017, however, we found that in 2017 there was an increase in the exports of this group of species, therefore explaining their relatively less contribution to domestic consumption. Other local fisheries important for domestic human consumption in Chile are Hakes (Southern hake *Merluccius australis*, South Pacific hake *Merluccius gayi gayi*, Patagonian grenadier *Macruronus magellanicus*, Southern blue whiting *Micromesistius australis*) and Southern rays bream (*Brama australis*) (Figure top5_hc_fig_Lan). It is important to mention that the Southern rays bream is classified on its own group, therefore its relative contribution to domestic consumption is higher compered to other aggregated groups. Another caviet to make here is that squids have a the highest yield of all species, therfore there contribution to domestic consumption per landed ton is higher, partly explining its high predominance in our results.  
 
-Our models show the chilean population also consumes high volumens of Tuna, however this is mainly imported in a canned format. This results aliged with the chilean population preferences, based on a study along the country, where 84% of the respondee aswered that their normal format for eating fish within a month was canned fish, follwed by freshed fish (80%) and frozen fish (37%) (@fundacion_chile_chile_2016). The ten most importat fisheries according to our model are shown in table XX.
+Our models show the chilean population also consumes high volumens of Tuna, however this is mainly imported in a canned format. This results aliged with the chilean population preferences, based on a study along the country, where 84% of the respondee aswered that their normal format for eating fish within a month was canned fish, follwed by freshed fish (80%) and frozen fish (37%) (@fundacion_chile_chile_2016). The ten most importat fisheries according to our model are shown in table XX in the appendix.
 
 
-```{r Domestic consumption landings anuarios, eval=F, echo = FALSE, message=FALSE, warning = FALSE}
+```{r chl domestic consumption importa and wrangling databases, eval=F, echo = FALSE, message=FALSE, warning = FALSE}
 
-##Aproach 2: Landings de anuario
-model_results_Lan <- read.csv(here("clean_databases/final_model_results_Lan.cvs"))
+## 1. functiosn to standarize names 
 
-top_5_hc_Lan <- model_results_Lan%>%
-  arrange(year, desc(HC)) %>%
-  group_by(year) %>%
-  top_n(5, HC)
+##complete specie name list with corresponding trade name
+sp_index <- read.csv(here('clean_databases/sp_index.csv'))
 
-summary_hc <- top_5_hc_Lan %>% 
+# Chilean to trade name
+chl_to_trade <- sp_index %>% 
+  select(chl_name, trade_name ) %>% 
+  unique()
+
+# Imports to trade name 
+imp_to_trade <- read.csv(here('clean_databases/imports_index.csv')) %>% 
+  rename(imports_name = X...imports_name)
+
+# Exports to trade name 
+exp_to_trade <- read.csv(here('clean_databases/exports_index.csv'))
+
+# english to trade
+en_to_trade <- sp_index %>% 
+  select(en_name, trade_name ) %>% 
+  unique()
+
+# scientific to trade
+sc_to_trade <- sp_index %>% 
+  select(sc_name, trade_name ) %>% 
+  unique()
+
+##2. Importing, cleaning, formating and grouping by trade name, databases necesary for the model 
+
+# Landings + aquaculture form the annual reports of SERNAPESCA: 
+L_an <- read.csv(here("clean_databases/landings_anuario.csv")) %>% 
+  select(year, chl_name = species, sc_name, landing_aqua = tons) %>% 
+  left_join(chl_to_trade) %>% 
+  group_by(year, trade_name) %>% 
+  summarise(landing_aqua = sum(landing_aqua, na.rm= TRUE))%>% 
+  ungroup()
+
+# Imports
+I <- read.csv(here('clean_databases/imports_ADUANA.csv')) %>% 
+  select(year, imports_name = name_sp, tons) %>% 
+  filter(year != 2018) %>% 
+  left_join(imp_to_trade) %>% 
+  filter(trade_name != 'NA') %>% 
+  group_by(year, trade_name) %>% 
+  summarise(import = sum(tons, na.rm= TRUE))%>% 
+  ungroup()
+
+# Exports
+E <- read.csv(here('clean_databases/exports_ADUANA.csv')) %>% 
+  select(year, export_name = grupo_exportacion, tons) %>% 
+  filter(year != 2018) %>% 
+  left_join(exp_to_trade) %>% 
+  filter(trade_name != 'NA') %>% 
+  group_by(year, trade_name) %>% 
+  summarise(export = sum(tons, na.rm= TRUE))%>% 
+  ungroup()
+
+# Yields
+Y <- sp_index %>% 
+  group_by(trade_name) %>% 
+  summarise(mean_yield= mean(yield))%>% 
+  ungroup()
+
+# Non-himan consumption
+NHC_raw <- read.csv(here("clean_databases/processing.csv")) %>%
+  filter(m_p == "M",
+         use== "NHC") %>% 
+  group_by(year, chl_name) %>% 
+  summarise(NHC = sum(tons, na.rm = T)) %>% 
+  ungroup() %>% 
+  left_join(chl_to_trade) %>% 
+  group_by(year, trade_name) %>% 
+  summarise(NHC = sum(NHC, na.rm= TRUE)) %>% 
+  ungroup()
+
+## 3. COmbaining all datasets in one dataframe
+model_trade_name_Lan <- L_an %>% 
+  ##full_join(A, by= c("year", "trade_name")) %>% 
+  full_join(NHC_raw, by= c("year", "trade_name")) %>% 
+  full_join(E, by= c("year", "trade_name")) %>% 
+  full_join(I, by= c("year", "trade_name")) %>% 
+  full_join(Y, by= "trade_name")
+
+#convert all NAs to 0
+model_trade_name_Lan$landing_aqua[is.na(model_trade_name_Lan$landing_aqua)] <- 0
+model_trade_name_Lan$NHC[is.na(model_trade_name_Lan$NHC)] <- 0
+model_trade_name_Lan$export[is.na(model_trade_name_Lan$export)] <- 0
+model_trade_name_Lan$import[is.na(model_trade_name_Lan$import)] <- 0
+model_trade_name_Lan$mean_yield[is.na(model_trade_name_Lan$mean_yield)] <- 0
+
+
+## 4. Model
+##Domestic consumption pero species
+dom_cons_Lan <- model_trade_name_Lan %>% 
+  mutate(HC = ((landing_aqua - NHC)*mean_yield) - export + import) %>%
+  mutate(per_cap_kg = format((HC/17762681)*1000000, scientific = FALSE)) %>% 
+  filter(trade_name != "Algae")
+
+##Annul per-capita consumption
+per_capita_total_Lan <- dom_cons_Lan %>%
+  filter(HC>0) %>% 
   group_by(year) %>% 
-  summarise(total= sum(HC))
+  summarise(HC_year = sum(HC)) %>% 
+  mutate(per_capita = (HC_year/17762681)*1000)
 
-top5_hc_fig_Lan <- 
-  ggplot(data = top_5_hc_Lan, aes(x = year, y = HC, fill = trade_name)) +
-    geom_bar(stat= "identity")+
-    scale_y_continuous(expand = c(0, 0)) +
-    labs(y="Domestic human consumption \n (Tonnes)", x="Year")+
-    theme(axis.line = element_line(colour = "black"),
-        axis.text=element_text(size=11),
-        axis.title=element_text(size=12,face="bold"))+
-  scale_fill_manual(values = c(wes_palette("Darjeeling1", 5, type = "discrete"),wes_palette("Darjeeling2", 3, type = "discrete")))+
+ model_results <- dom_cons_Lan
+```
+
+
+
+```{r top 5 fisheries for hc, eval=F, echo = FALSE, message=FALSE, warning = FALSE, fig.cap= "Top 5 species for domestic food consumption in Chile besed on landings, aquaculture, imports and expost model"}
+
+##Top 5 fisheries for domestic HC
+top_5_hc_cl <- model_results%>%
+  filter(!is.na(year)) %>% 
+  group_by(year, trade_name) %>%
+  summarise(HC = sum(HC)) %>% 
+  top_n(n = 5, wt = HC)
+  
+model_results %>% 
+  filter(
+    !is.na(year),
+    !trade_name %in% top_5_hc_cl$trade_name,
+    HC > 0) %>% 
+  group_by(year) %>% 
+  summarise(HC = sum(HC)) %>% 
+  mutate(trade_name = "Others") %>% 
+  bind_rows(top_5_hc_cl) %>%
+  ggplot(.,
+         aes(x = year, 
+             y = HC/1000, 
+             fill = trade_name)) + 
+  geom_area(position = position_stack(reverse = TRUE))+
+  # geom_bar(stat= "identity")+
+  scale_y_continuous(expand = c(0, 0)) +
+  labs(y= "Domestic human consumption \n (Thausands Tonnes)", x="Year") +
+  scale_fill_manual(#trade_name = "Species",
+                    values = c(wes_palette("Darjeeling1", 5, type = "discrete"),wes_palette("Darjeeling2", 3, type = "discrete"), "#000000")) +
+  guides(fill = guide_legend(nrow = 2, byrow = TRUE)) +
   ggtheme_plot()
 
-
 ```
 
-
-```{r eval=F, fig.cap= "Top 5 species for domestic food consumption in Chile besed on landings, aquaculture, imports and expost model"}
-top5_hc_fig_Lan
-```
-
-```{r eval=F}
-top_10_hc_Lan <- model_results_Lan%>%
-  arrange(year, desc(HC)) %>%
-  group_by(year) %>%
-  top_n(10, HC)
-
-top_10_table <- top_10_hc_Lan %>% 
-  select(year, trade_name, HC) %>% 
-  filter(!is.na(year)) %>% 
-  group_by(year) %>%
-  mutate(rank = rank(desc(HC))) %>% 
-  spread(key= year, value =trade_name) 
-
-
-```
 
 
 #### Total and per capita food consumption in the country
@@ -3645,7 +3594,10 @@ We summed all the human consumption per year (Table XX) and devided by the chile
 ```{r eval=F}
 ##Percapita consumption table
 
-##FALTA TABLA!!!
+kable(per_capita_total_Lan, col.names = c('Year', 'Total Human Consumption (tons)', 'Per-capita consumption/year (kg)'), format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Total tones of seafood for humanc consumption and per-capita consumption per year (kg) considering a popilation of 17,762,681 individuals') %>% 
+kable_styling(latex_options = 'hold_position') %>% 
+  column_spec(4, width = "6cm")
+
 ```
 
 
