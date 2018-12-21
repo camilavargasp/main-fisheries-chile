@@ -413,7 +413,7 @@ Aquaculture production is highly concentrated in the South of the country, betwe
   geom_errorbar(aes(ymin=annual_tons-sd, ymax=annual_tons+sd), width=.2,
                  position=position_dodge(.9)) +
   labs(y="Aquaculture production \n (Thousand Tons)", x="Region")+
-  # coord_flip()+
+  coord_flip()+
   scale_y_continuous(expand = c(0, 0))+
   #scale_fill_manual(values = c(wes_palette("Darjeeling1"), wes_palette("Darjeeling2")))+
   ggtheme_plot()
@@ -1254,7 +1254,7 @@ table_employment <- rbind(Artisanal_extraction, Industrial_extraction, Aquacultu
 table_employment <- table_employment [4:7]
 
 kable(table_employment, col.names = c('Stage of the supply chain', 'Employees', 'Year of the estimate', 'Source'), format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Most recent estimates of people employed in different stages of the supply chain of sea products in Chile. Note that the estimate of indirect employment only considers the processing stage.') %>% 
-kable_styling(latex_options = 'hold_position') %>% 
+kable_styling(latex_options = 'hold_position', font_size = 9) %>% 
   column_spec(4, width = "6cm") #%>% #wraps text in column2
 
 ```
@@ -1353,7 +1353,7 @@ rpi$Region <- factor(rpi$Region , levels = c("XII", "XI", "X", "XIV", "IX", "VII
 
 ggplot(rpi, aes(x= as.factor(Region), y= count)) +
   geom_bar(stat = 'identity', fill = C_Col) +
-  # coord_flip() +
+  coord_flip() +
   labs(y="Number of vessels\n(Thousand)", x="Region", title = '')+
   scale_y_continuous(expand = c(0, 0))+
   ggtheme_plot()
@@ -1369,8 +1369,8 @@ A rigorous study by IFOP estimated a total of ~50,000 job positions in the manuf
 # Importing IFOP, 2015 estimates of employees per type of facility
 
 manufacturing_employment <- read.csv(here("information/raw_databases/IFOP/employment_per_processing_type_area.csv")) %>% 
-  rename(M = X...man_employee, F = women_employee, Product = product, Zone = region) %>% 
-  #rename(M = ï..man_employee, F = women_employee, Product = product, Zone = region)
+  #rename(M = X...man_employee, F = women_employee, Product = product, Zone = region) %>% 
+  rename(M = ï..man_employee, F = women_employee, Product = product, Zone = region) %>% 
   gather(key = Gender, value = Employees, 1:2)
 
 # Reordering regions
@@ -1381,7 +1381,7 @@ ggplot(manufacturing_employment,
            y= Employees/1000,  #thousand
            fill = Gender)) +
   geom_bar(stat = 'identity') +
-  # coord_flip()+
+  coord_flip()+
   labs(y="Employees (Thousand)",
        x="Zone"
        )+
@@ -1401,8 +1401,8 @@ There are 17,631 people employed among the 3,683 aquaculture centers currently r
 # Importing number of aquac. centers, SERNAPESCA
 
 centers_aquaculture <- read.csv(here("information/raw_databases/SERNAPESCA/employment/centers_per_species_aquaculture.csv")) %>% 
-  rename(Region = X...Region) %>% 
-  #rename(Region = ï..Region) %>%  
+  #rename(Region = X...Region) %>% 
+  rename(Region = ï..Region) %>%  
   gather(key = Species, value = 'Centers', 2:7)
 
 # Reordering regions
@@ -1410,7 +1410,7 @@ centers_aquaculture$Region <- factor(centers_aquaculture$Region , levels = c("XI
 
 ggplot(centers_aquaculture, aes(x= as.factor(Region), y= Centers, fill = Species)) +
   geom_bar(stat = 'identity') +
-  # coord_flip()+
+  coord_flip()+
   labs(y="Number of Centers", x="Regions")+
   scale_y_continuous(expand = c(0, 0))+
   scale_fill_manual(values = c(wes_palette("Darjeeling1"), wes_palette("Darjeeling2")))+
@@ -1525,9 +1525,11 @@ PRODUCE. (2010). Manual de administración de las infraestructuras pesqueras art
 ### Methods
 #### Fisheries Context
 
-- Error in landings 2015 
+*Main wild-caught fisheries in terms of volume* 
 
-- To evaluate the volume contribution of specific fisheries over the last five years, we used records of landings and aquaculture harvests from SERNAPESCA  (2013-2017). We identified the most exported fish products in terms of volume using trade records from Aduanas Chile. To identify the participation of different species in exported products we generated a new database linking types of products listed in the *Arancel Aduanero* with the names of the fished and farmed species listed by SERNAPESCA. We searched for all the products ids that refer to the species scientific name, common name or genus name as listed by SERNAPESCA and aggregated them under the species name.
+- To evaluate the volume contribution of specific fisheries over the last five years, we used records of landings and aquaculture harvests from SERNAPESCA (2013-2017). These records include species-specific landing per region or month (not both simultaneously) for each subsector (i.e. industrial and artisanal). We identified an abrupt increase in landings for year 2015 in the artisanal sector. After consulting other databases like an aggregat
+
+We identified the most exported fish products in terms of volume using trade records from Aduanas Chile. To identify the participation of different species in exported products we generated a new database linking types of products listed in the *Arancel Aduanero* with the names of the fished and farmed species listed by SERNAPESCA. We searched for all the products ids that refer to the species scientific name, common name or genus name as listed by SERNAPESCA and aggregated them under the species name.
 
 #### National Seafood Supply
 **Species contribution to human and non-human consumption**
