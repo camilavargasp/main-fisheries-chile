@@ -601,7 +601,7 @@ Imports_Exports %>%
 
 As a first approach to analyzed main fisheries that countribute to human conssumption in Chile, we looked into landings and aquaculture harvest that goes to processing facilities as raw material for products for human consumpotion (HC) and for non-human consumption (NHC) (See Appendix Method Chile 2). Our results show that the main species that enter supply chains for HC are the Atlantic slamon (*Salmo salar*) and the Chilean mussel (*Mytilus chilensis*), two of the main aquaculture products from Chile (Figure 23). On the other hand species that are used for NHC products are Peruvian anchoveta (*Engraulis ringens*) Araucarian herring (*Strangomera bentincki*), the two main wild-caught fisheries of the country (Figure 23). A third important species for NHC are the Giant grey kelp (*Lessonia nigrescens*). Chilean jack mackerel (*Trachurus murphyi*) which contributs similarly to both HC and NHC products. The proportion of contribution of each specie to HC and NHC is relatively stable through time.
 
-```{r Species in HC products, echo = FALSE, eval=F, warning=FALSE, message=FALSE}
+```{r Species in HC products, echo = FALSE, warning=FALSE, message=FALSE}
 
 
 ##complete specie name list with corresponding trade name
@@ -614,8 +614,8 @@ chl_to_trade <- sp_index %>%
 
 # Imports to trade name 
 imp_to_trade <- read.csv(here('clean_databases/imports_index.csv')) %>% 
-  #rename(imports_name = X...imports_name)
-  rename(imports_name = ï..imports_name)
+  rename(imports_name = X...imports_name)
+  #rename(imports_name = ï..imports_name)
 
 # Exports to trade name 
 exp_to_trade <- read.csv(here('clean_databases/exports_index.csv'))
@@ -713,15 +713,17 @@ HC_with_Aq <- sp_HC_with_Aq  %>%
 ```
 
 
-```{r, fig.cap= "Main species landed and harvest in aquaculture designated for human and non human consumption" }
+```{r, fig.cap = "Main species landed and harvest in aquaculture designated for human and non human consumption"}
+
 HC_with_Aq
+
 ```
 
 
 We then looked into only wild-caught species and identified that the species that have historically contributed more to human consumption products are: Chilean jack mackerel (*Trachurus murphyi*), Jumbo flying squid (*Dosidicus gigas*), and in a minor contribution Chilean sea urchins (*Loxechinus albus*) (HC_no_Aq, 24). These results (*Figure HC_with_Aq NHC and HC_no_Aq VER NUMERO*) also shows that the amount of wild caught fisheries that go to NHC is more than the double than what goes to HC. We removed year 2015 from our analysis becasue data was not accurate (See Appendix Chile Method 1). Also algaes are not included because we assumed that they all go for non-human consumption use.
 
 
-```{r, echo = FALSE, eval=F, warning=FALSE, message=FALSE}  
+```{r, echo = FALSE, warning=FALSE, message=FALSE}  
 
 ## Without Aquaculture (this assumed that all Aq goes to processing facilities). 
 
@@ -771,7 +773,7 @@ HC_no_Aq
 
 Artisanal fishers in Chile sell products directly for human consumption on deck. We assumed that the the artisanals' catches that are not sent to processing facilities are sold directly by fishers (See Methods Chile 2). Results show that species vary across years, but the Southern rays bream (*Brama australis*) is the only specie that is common for every year of data (Figure 25). Indicating that historically has been an importat specie for direct human consumption. This aligns with results obtained in a survey implemented along Chile where 51% answered that Southern rays bream was their first preference (@fundacion_chile_chile_2016). Within 2013, 2014 and 2016, we can see the presence of Anchoveta (*Engraulis ringens*), while in 2017 there is high increase in Jumbo flying squid (*Dosidicus gigas*). 
 
-```{r Non-processed Human consumption,eval=F, echo= FALSE, message=FALSE, warning=FALSE}
+```{r Non-processed Human consumption, echo= FALSE, message=FALSE, warning=FALSE}
 
 ## Raw material in processing plants with scientific name per region and year
 
@@ -856,7 +858,7 @@ These resutls are similar to results obtained with the international databases, 
 Our model shows that the chilean population also consumes high volumens of Tuna, a group of specie that is mainly imported in a canned format. This result aligned with the chilean population preferences, based on a study along the country, where 84% of the respondee aswered that their normal format for eating fish within a month was canned fish, follwed by freshed fish (80%) and frozen fish (37%) [@fundacion_chile_chile_2016]. The ten most importat fisheries according to our model are provided in the Appendix (Appendix Chile Results 4).
 
 
-```{r chl domestic consumption importa and wrangling databases, eval=F, echo = FALSE, message=FALSE, warning = FALSE}
+```{r chl domestic consumption importa and wrangling databases, echo = FALSE, message=FALSE, warning = FALSE}
 
 ## 1. functiosn to standarize names 
 
@@ -869,8 +871,8 @@ chl_to_trade <- sp_index %>%
 
 # Imports to trade name 
 imp_to_trade <- read.csv(here('clean_databases/imports_index.csv')) %>% 
-  #rename(imports_name = X...imports_name)
-  rename(imports_name = ï..imports_name)
+  rename(imports_name = X...imports_name)
+  #rename(imports_name = ï..imports_name)
 
 # Exports to trade name 
 exp_to_trade <- read.csv(here('clean_databases/exports_index.csv'))
@@ -968,7 +970,7 @@ per_capita_total_Lan <- model_results %>%
 
 
 
-```{r top 5 fisheries for hc, eval=F, echo = FALSE, message=FALSE, warning = FALSE, fig.cap= 'Main  groups of species consumed by the chilean population in the last 5 years'}
+```{r top 5 fisheries for hc, echo = FALSE, message=FALSE, warning = FALSE, fig.cap= 'Main  groups of species consumed by the chilean population in the last 5 years'}
 
 ##Top 5 fisheries for domestic HC
 top_5_hc_cl <- model_results%>%
@@ -1367,8 +1369,8 @@ A rigorous study by IFOP estimated a total of ~50,000 job positions in the manuf
 # Importing IFOP, 2015 estimates of employees per type of facility
 
 manufacturing_employment <- read.csv(here("information/raw_databases/IFOP/employment_per_processing_type_area.csv")) %>% 
-  #rename(M = X...man_employee, F = women_employee, Product = product, Zone = region) %>% 
-  rename(M = ï..man_employee, F = women_employee, Product = product, Zone = region)
+  rename(M = X...man_employee, F = women_employee, Product = product, Zone = region) %>% 
+  #rename(M = ï..man_employee, F = women_employee, Product = product, Zone = region)
   gather(key = Gender, value = Employees, 1:2)
 
 # Reordering regions
@@ -1399,8 +1401,8 @@ There are 17,631 people employed among the 3,683 aquaculture centers currently r
 # Importing number of aquac. centers, SERNAPESCA
 
 centers_aquaculture <- read.csv(here("information/raw_databases/SERNAPESCA/employment/centers_per_species_aquaculture.csv")) %>% 
-  #rename(Region = X...Region) %>% 
-  rename(Region = ï..Region) %>%  
+  rename(Region = X...Region) %>% 
+  #rename(Region = ï..Region) %>%  
   gather(key = Species, value = 'Centers', 2:7)
 
 # Reordering regions
@@ -1563,7 +1565,7 @@ sp_yield <- read.csv(here('clean_databases/sp_index.csv')) %>%
   select(sc_name, yield)
 
 
-knitr::kable(sp_convertion, col.names = c('Scientific Name', 'Yield'), format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Species and their correspondding yield based on Christensen et al. (2014)') %>% kable_styling(latex_options = 'hold_position', font_size = 8)
+knitr::kable(sp_yield, col.names = c('Scientific Name', 'Yield'), format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Species and their correspondding yield based on Christensen et al. (2014)') %>% kable_styling(latex_options = 'hold_position', font_size = 8)
 
 
 ```
