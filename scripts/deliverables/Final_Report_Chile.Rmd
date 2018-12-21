@@ -600,9 +600,44 @@ Net_trade_main_imports <- Imports_Exports %>%
 
 As a first approach to analyzed main fisheries that countribute to human conssumption in Chile, we looked into landings and aquaculture harvest that goes to processing facilities as raw material for products for human consumpotion (HC) and for non-human consumption (NHC) (See Appendix Method Chile 2). Our results show that the main species that enter supply chains for HC are the Atlantic slamon (*Salmo salar*) and the Chilean mussel (*Mytilus chilensis*), two of the main aquaculture products from Chile (Figure 23). On the other hand species that are used for NHC products are Peruvian anchoveta (*Engraulis ringens*) Araucarian herring (*Strangomera bentincki*), the two main wild-caught fisheries of the country (Figure 23). A third important species for NHC are the Giant grey kelp (*Lessonia nigrescens*). Chilean jack mackerel (*Trachurus murphyi*) which contributs similarly to both HC and NHC products. The proportion of contribution of each specie to HC and NHC is relatively stable through time.
 
-```{r Species in HC products, echo = FALSE, eval=F, warning=FALSE, message=FALSE, fig.cap= " Main species landed and harvest in aquaculture designated for human and non human consumption"}
+```{r Species in HC products, echo = FALSE, eval=F, warning=FALSE, message=FALSE}
 
-processing <- read.csv(here("clean_databases/processing.csv"))
+
+##complete specie name list with corresponding trade name
+sp_index <- read.csv(here('clean_databases/sp_index.csv'))
+
+##Set up for standarization of names
+chl_to_trade <- sp_index %>% 
+  select(chl_name, trade_name ) %>% 
+  unique()
+
+# Imports to trade name 
+imp_to_trade <- read.csv(here('clean_databases/imports_index.csv')) %>% 
+  rename(imports_name = X...imports_name)
+
+# Exports to trade name 
+exp_to_trade <- read.csv(here('clean_databases/exports_index.csv'))
+
+# english to trade
+en_to_trade <- sp_index %>% 
+  select(en_name, trade_name ) %>% 
+  unique()
+
+# scientific to trade
+sc_to_trade <- sp_index %>% 
+  select(sc_name, trade_name ) %>% 
+  unique()
+
+##Scintific to english
+sc_to_en <- sp_index %>% 
+  select(sc_name, en_name) %>% 
+  unique()
+
+## Chilean name to scinetific
+chl_to_sc <- sp_index %>% 
+  select(chl_name, sc_name) %>% 
+  unique()
+
 
 Aq <- read_csv(here("clean_databases/aquaculture_SERNAPESCA.csv")) %>% 
   filter(region != 'national') %>% 
@@ -639,10 +674,9 @@ l.i <- read_csv(here("clean_databases/landings_SERNAPESCA.csv")) %>%
 
 l.i$tons[is.na(l.i$tons)] <- 0
 
-## Species matching english scientific
-sc_to_en <- sp_index %>% 
-  select(sc_name, en_name) %>% 
-  unique()
+
+##Import database with HC nad NHC data
+processing <- read.csv(here("clean_databases/processing.csv"))
 
 ## Most important species based on  contribution to HC with Aquaculture
 
@@ -652,7 +686,9 @@ sp_HC_with_Aq <- processing %>%
   group_by(year, sc_name, use) %>%
   summarise(tons = sum(tons, na.rm = TRUE)) %>% 
   ungroup() %>% 
-  left_join(sc_to_en)
+  left_join(sc_to_en) %>% 
+  mutate(en_name = as.character(en_name)) %>% 
+  mutate(tons = as.numeric(tons))
   
 top_5_HC_with_Aq <- sp_HC_with_Aq %>% 
   group_by(en_name, year) %>% 
@@ -666,7 +702,7 @@ HC_with_Aq <- sp_HC_with_Aq  %>%
   ggplot(aes(x= as.factor(year), y = tons/1000, fill = Species)) +
   #geom_area(position = position_stack(reverse = TRUE))+
   geom_bar(stat= 'identity') +
-  labs(y="Thousand tonnes", x="Year")+
+  labs(y="Landings and Aquaculture \n (Thousand tonnes)", x="Year")+
   scale_y_continuous(expand = c(0,0))+
   scale_fill_manual(values = c(wes_palette("Darjeeling1"), wes_palette("Darjeeling2"), wes_palette("Royal1")))+
   facet_wrap(~use, scale = 'free')+
@@ -674,10 +710,16 @@ HC_with_Aq <- sp_HC_with_Aq  %>%
 
 ```
 
-We then looked into only wild-caught species and identified that the species that have historically contributed more to human consumption products are: Chilean jack mackerel (*Trachurus murphyi*), Jumbo flying squid (*Dosidicus gigas*), and in a minor contribution Chilean sea urchins (*Loxechinus albus*) (HC_no_Aq, 24). These results (*Figure HC_with_Aq NHC and HC_no_Aq VER NUMERO*) also shows that the amount of wild caught fisheries that go to NHC is more than the double than what goes to HC. We removed year 2015 from our analysis becasue data was not accurate (See Appendix Chile Method 1).
+
+```{r, fig.cap= "Main species landed and harvest in aquaculture designated for human and non human consumption" }
+HC_with_Aq
+```
 
 
-```{r, echo = FALSE, eval=F, warning=FALSE, message=FALSE, fig.cap= " Raw tonnes of main wild-cought species that are used for human consumption"}  
+We then looked into only wild-caught species and identified that the species that have historically contributed more to human consumption products are: Chilean jack mackerel (*Trachurus murphyi*), Jumbo flying squid (*Dosidicus gigas*), and in a minor contribution Chilean sea urchins (*Loxechinus albus*) (HC_no_Aq, 24). These results (*Figure HC_with_Aq NHC and HC_no_Aq VER NUMERO*) also shows that the amount of wild caught fisheries that go to NHC is more than the double than what goes to HC. We removed year 2015 from our analysis becasue data was not accurate (See Appendix Chile Method 1). Also algaes are not included because we assumed that they all go for non-human consumption use.
+
+
+```{r, echo = FALSE, eval=F, warning=FALSE, message=FALSE}  
 
 ## Without Aquaculture (this assumed that all Aq goes to processing facilities). 
 
@@ -696,7 +738,9 @@ sp_HC_no_Aq <- sp_HC_no_Aq %>%
   mutate(tons = tons_raw - tons_Aq) %>%
   left_join(sc_to_en) %>% 
   filter(use == "HC") %>% 
-  filter(!sc_name %in% c("Mytilus chilensis", "Salmo salar", "Oncorhynchus mykiss", "Oncorhynchus kisutch")) 
+  filter(!sc_name %in% c("Mytilus chilensis", "Salmo salar", "Oncorhynchus mykiss", "Oncorhynchus kisutch")) %>% 
+  mutate(en_name = as.character(en_name)) %>% 
+  mutate(tons = as.numeric(tons))
   
 top_5_HC_no_Aq <-  sp_HC_no_Aq %>% 
   group_by(en_name, year) %>% 
@@ -705,12 +749,11 @@ top_5_HC_no_Aq <-  sp_HC_no_Aq %>%
   group_by(year) %>% 
   top_n(5, tons)
 
-
 HC_no_Aq <- sp_HC_no_Aq %>% 
   mutate(Species = ifelse(en_name %in% top_5_HC_no_Aq$en_name, en_name, "Others")) %>%
   ggplot(aes(x= as.factor(year), y = tons/1000, fill = Species)) +
   geom_bar(stat= 'identity') +
-  labs(y="Thousand tonnes", x="Year")+
+  labs(y="Landings for human consumption \n (Thousand tonnes)", x="Year")+
   scale_y_continuous(expand = c(0,0))+
   scale_fill_manual(values = c(wes_palette("Darjeeling1"), wes_palette("Darjeeling2"),
                                wes_palette("Royal1")))+
@@ -718,9 +761,15 @@ HC_no_Aq <- sp_HC_no_Aq %>%
 
 ```
 
-Artisanal fishers in Chile sell products directly for human consumption on deck. We assumed that the the artisanals' catches that are not sent to processing facilities are sold directly by fishers (See Methods Chile 2). Results show that species vary across years, but the Southern rays bream (*Brama australis*) is the only specie that is common for every year of data (Figure line *791*, 25). Indicating that historically has been an importat specie for direct human consumption. This aligns with results obtained in a survey implemented along Chile where 51% answered that Southern rays bream was their first preference (@fundacion_chile_chile_2016). Within 2013, 2014 and 2016, we can see the presence of Anchoveta (*Engraulis ringens*), while in 2017 there is high increase in Jumbo flying squid (*Dosidicus gigas*). 
 
-```{r Non-processed Human consumption,eval=F, echo= FALSE, message=FALSE, warning=FALSE, fig.cap= "Main artisanal landings that are not processed in facilities"}
+```{r, fig.cap= "Tonnes of wild-cought species that are used for human consumption"}
+HC_no_Aq
+```
+
+
+Artisanal fishers in Chile sell products directly for human consumption on deck. We assumed that the the artisanals' catches that are not sent to processing facilities are sold directly by fishers (See Methods Chile 2). Results show that species vary across years, but the Southern rays bream (*Brama australis*) is the only specie that is common for every year of data (Figure 25). Indicating that historically has been an importat specie for direct human consumption. This aligns with results obtained in a survey implemented along Chile where 51% answered that Southern rays bream was their first preference (@fundacion_chile_chile_2016). Within 2013, 2014 and 2016, we can see the presence of Anchoveta (*Engraulis ringens*), while in 2017 there is high increase in Jumbo flying squid (*Dosidicus gigas*). 
+
+```{r Non-processed Human consumption,eval=F, echo= FALSE, message=FALSE, warning=FALSE}
 
 ## Raw material in processing plants with scientific name per region and year
 
@@ -762,11 +811,14 @@ top_5_NP_HC <-NP_HC %>%
   group_by(year) %>% 
   top_n(5, tons_NP_HC) %>% 
   filter(!is.na(tons_NP_HC)) %>% 
-  select(year, tons_NP_HC, Species = en_name)
+  select(year, tons_NP_HC, Species = en_name)%>% 
+  mutate(Species = as.character(Species)) %>% 
+  mutate(tons = as.numeric(tons_NP_HC))
+  
   
   
 ## Plot
-NP_HC %>% 
+NP_HC_plot <- NP_HC %>% 
   filter(!en_name %in% top_5_NP_HC$Species,
          year != 2015) %>% 
   group_by(year) %>% 
@@ -776,11 +828,18 @@ NP_HC %>%
   filter(!Species %in% c("Giant kelp", "Red algae gracilaria")) %>% 
   ggplot(aes(x= as.factor(year), y = tons_NP_HC/1000, fill = Species)) +
   geom_bar(stat= 'identity') +
-  labs(y="Tons of non-processed HC (Thousand tons)", x="Year")+
+  labs(y="Tons of non-processed HC \n (Thousand tons)", x="Year")+
   scale_y_continuous(expand = c(0,0))+
   scale_fill_manual(values = c(wes_palette("Darjeeling1"), wes_palette("Darjeeling2"), wes_palette("Moonrise1")))+
   ggtheme_plot()
  
+
+```
+
+
+```{r, fig.cap= "Main artisanal landings that are not processed in facilities"}
+
+NP_HC_plot
 
 ```
 
@@ -799,8 +858,7 @@ Our model shows that the chilean population also consumes high volumens of Tuna,
 
 ## 1. functiosn to standarize names 
 
-##complete specie name list with corresponding trade name
-sp_index <- read.csv(here('clean_databases/sp_index.csv'))
+##sp_index
 
 # Chilean to trade name
 chl_to_trade <- sp_index %>% 
@@ -943,7 +1001,7 @@ plot_hc
 ```
 
 
-#### Total and per capita food consumption in the country
+#### Total and per capita seafood consumption in the country
 
 Besed on the results of our model and the current estimate of Chilean population (17,574,033), we calculated an average of 11.5 kg of seafood compsumption per person a year. This estimate is similar to what has been projected by the FAO (2016) of 10-13kg. Total HC consumption per year is stable with an average of 204,656 tonnes a year. In 2017 we obsered a drastic decrese in total and percapita HC of seafood. We are uncertain if this is due to assumtions in our model or the data. However, we have identified that the exports for Squid that year increased drastically. 
 
@@ -1463,12 +1521,21 @@ PRODUCE. (2010). Manual de administración de las infraestructuras pesqueras art
 - To evaluate the volume contribution of specific fisheries over the last five years, we used records of landings and aquaculture harvests from SERNAPESCA  (2013-2017). We identified the most exported fish products in terms of volume using trade records from Aduanas Chile. To identify the participation of different species in exported products we generated a new database linking types of products listed in the *Arancel Aduanero* with the names of the fished and farmed species listed by SERNAPESCA. We searched for all the products ids that refer to the species scientific name, common name or genus name as listed by SERNAPESCA and aggregated them under the species name.
 
 #### National Seafood Supply
+**Species contribution to human and non-human consumption**
 
-On order to develop the model describe in the general methods, we had to match all products impoted and exported with the species landed or harvested. We used as references products that containd multiple species within tha Aduana's databases. All species classified under a same __Aduna code__ where groups in a same group. Whenever possible we mantaind single species. This allowed us to aggregate products per groups of species and match volumes and values to landing record by SERNAPESCA. In addition, SERNAPESCA applies several variations of a species common name between databases. This difficults the calculation of aggregated estimates. We solve this by generating a dataset that categorize all the names currently used by SERNAPESCA under a common group among the import and export data (See appendix for group details). 
+Landings come either from industrial, which includes fabric vessels ($l_i$), or artisanal vessels ($l_a$). Here, we assume that all $l_i$ are send to processing facilities while $l_a$ can either go to processing facilities or be sold as non-processed products, which we assume, are used for HC ($NP_{HC}$).
+
+Landings can either be sold as non-processed products ($NP_{HC}$) or go to processing facilities where they will be transformed in products for human consumption ($P_{HC}$) or products for other uses ($P_{NHC}$). In our analisys we are considering the following types of products to be use for human consumption: fresh, frozen, salty dry, salty wet, smoked, canned, dehydrate. While fish meal, oil, dehydrate, dried algae, and other algae derivatives are use for non human consumption. 
+
+Aquaculture ($Aq$) reffers to the harvest of different species being farmed at the sea or freshwater centers. We assume all the volumes coming from aquaculture center enter processing facilities. 
+
+In Chile, almost all $L_i$ and $Aq$ are send to processing facilities while only some of the $L_a$ is processed. We assume that the rest of the artisanals' catch that is not sent to processing facilities is sold as non-processed products for human consumption ($NP_{HC}$). To get an estimate of $NP_{HC}$ we substracted $Aq$ and $L_i$ to all the raw material entering processing facilities and use the residual as the volume of $L_a$ that is processed. We then, substracted this volume from $L_i$ to get $NP_{HC}$, which is the rest of the artisanals' catch that is not being processed. The assumptions behind this method are (i) that all the raw material in processing facilities that is not being supplied by industrial fishing or aquaculture is supplied by artisanals, and (ii) all the catch that artisanals do not sell to processing facilities is used for human consumption.
 
 
+**Main fisheries for food supply**
 
-Our models is highly sensitive to species yield, therefore in many cases results of our calculations return a negative number implaying that exports are higher than the product of the yield times the local production (landings and aquaculture) minus all tons that go for non-human consumption products. Assuming that all negative numbers do not contribut to domestic consumption  because they are mainly exported or used for non human consumption (eg:algae) and none is imported, we calculated a per capita consumption per year. We summed all the human consumption per year (Table XX, chunk below) and devided by the chilean population of 17,574,033 [@instituto_nacional_de_estadisticas_-_chile_sintesis_2018].
+On order to develop the model describe in the general methods, we had to match all products impoted and exported with the species landed or harvested. We used as references products that containd multiple species within tha Aduana's databases. All species classified under a same _Aduna code_ where groups in a same group. Whenever possible we mantaind single species. This allowed us to aggregate products per groups of species and match volumes and values to landing record by SERNAPESCA. In addition, SERNAPESCA applies several variations of a species common name between databases. This difficults the calculation of aggregated estimates. We solve this by generating a dataset that categorize all the names currently used by SERNAPESCA under a common group among the import and export data (See appendix for group details). 
+
 
 
 ```{r, table with species groups detail, echo = FALSE, message= FALSE, warning=FALSE}
@@ -1479,7 +1546,6 @@ sp_convertion <- read.csv(here('clean_databases/sp_index.csv')) %>%
 knitr::kable(sp_convertion, col.names = c('Name SERNAPESCA', 'Scientific Name', 'Group'), format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Index of all species considered in this analysis and their corresponding group') %>% kable_styling(latex_options = 'hold_position')
 
 ```
-
 
 We found inconsistencies between two databases of landings published by SERNAPESCA in their website. They differed in the level at which data was aggregated. One data base was clasified per sector (artisanal, industria, fabric vessels) and the other was the summary for lanfings and aquaculture for each year per region. When we aggregated the most detailed database to the same level as the anual summary database we observed differences in landing volumes for the year 2015. We considered this to be part of the measurement error involved in any process of data collection or data entry. We used the summary annual data for our domestic human consumption model because it alinged more with amounts reported all other years.
 
@@ -1495,7 +1561,11 @@ knitr::kable(sp_convertion, col.names = c('Name SERNAPESCA', 'Scientific Name', 
 
 ```
 
-= 
+
+**Total and percapita seafood consumption in the country**
+
+Our models is highly sensitive to species yield, therefore in many cases results of our calculations return a negative number implaying that exports are higher than the product of the yield times the local production (landings and aquaculture) minus all tons that go for non-human consumption products. Assuming that all negative numbers do not contribut to domestic consumption  because they are mainly exported or used for non human consumption (eg:algae) and none is imported, we calculated a per capita consumption per year. We summed all the human consumption per year (Table XX, chunk below) and devided by the chilean population of 17,574,033 [@instituto_nacional_de_estadisticas_-_chile_sintesis_2018].
+
 
 #### Economic Participation
 
