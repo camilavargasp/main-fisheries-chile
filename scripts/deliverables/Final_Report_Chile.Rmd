@@ -1015,7 +1015,7 @@ Besed on the results of our model and the current estimate of Chilean population
 ##Per capita consumption table
 
 kable(per_capita_total_Lan, col.names = c('Year', 'Total Human Consumption (tonnes)', 'Per-capita consumption/year (kg)'), format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Total tones of seafood for humanc consumption and per-capita consumption per year (kg) considering a popilation of 17,762,681 individuals') %>% kable_styling(latex_options = 'hold_position') #%>% 
-  column_spec(4, width = "6cm")
+  #column_spec(4, width = "6cm")
 
 
 ```
@@ -1369,8 +1369,8 @@ A rigorous study by IFOP estimated a total of ~50,000 job positions in the manuf
 # Importing IFOP, 2015 estimates of employees per type of facility
 
 manufacturing_employment <- read.csv(here("information/raw_databases/IFOP/employment_per_processing_type_area.csv")) %>% 
-  #rename(M = X...man_employee, F = women_employee, Product = product, Zone = region) %>% 
-  rename(M = ï..man_employee, F = women_employee, Product = product, Zone = region) %>% 
+  rename(M = X...man_employee, F = women_employee, Product = product, Zone = region) %>% 
+  #rename(M = ï..man_employee, F = women_employee, Product = product, Zone = region) %>% 
   gather(key = Gender, value = Employees, 1:2)
 
 # Reordering regions
@@ -1401,8 +1401,8 @@ There are 17,631 people employed among the 3,683 aquaculture centers currently r
 # Importing number of aquac. centers, SERNAPESCA
 
 centers_aquaculture <- read.csv(here("information/raw_databases/SERNAPESCA/employment/centers_per_species_aquaculture.csv")) %>% 
-  #rename(Region = X...Region) %>% 
-  rename(Region = ï..Region) %>%  
+  rename(Region = X...Region) %>% 
+  #rename(Region = ï..Region) %>%  
   gather(key = Species, value = 'Centers', 2:7)
 
 # Reordering regions
