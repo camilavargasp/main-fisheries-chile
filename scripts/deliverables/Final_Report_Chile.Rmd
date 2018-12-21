@@ -614,7 +614,8 @@ chl_to_trade <- sp_index %>%
 
 # Imports to trade name 
 imp_to_trade <- read.csv(here('clean_databases/imports_index.csv')) %>% 
-  rename(imports_name = X...imports_name)
+  #rename(imports_name = X...imports_name)
+  rename(imports_name = ï..imports_name)
 
 # Exports to trade name 
 exp_to_trade <- read.csv(here('clean_databases/exports_index.csv'))
@@ -868,7 +869,8 @@ chl_to_trade <- sp_index %>%
 
 # Imports to trade name 
 imp_to_trade <- read.csv(here('clean_databases/imports_index.csv')) %>% 
-  rename(imports_name = X...imports_name)
+  #rename(imports_name = X...imports_name)
+  rename(imports_name = ï..imports_name)
 
 # Exports to trade name 
 exp_to_trade <- read.csv(here('clean_databases/exports_index.csv'))
@@ -1365,7 +1367,8 @@ A rigorous study by IFOP estimated a total of ~50,000 job positions in the manuf
 # Importing IFOP, 2015 estimates of employees per type of facility
 
 manufacturing_employment <- read.csv(here("information/raw_databases/IFOP/employment_per_processing_type_area.csv")) %>% 
-  rename(M = X...man_employee, F = women_employee, Product = product, Zone = region) %>% 
+  #rename(M = X...man_employee, F = women_employee, Product = product, Zone = region) %>% 
+  rename(M = ï..man_employee, F = women_employee, Product = product, Zone = region)
   gather(key = Gender, value = Employees, 1:2)
 
 # Reordering regions
@@ -1396,7 +1399,8 @@ There are 17,631 people employed among the 3,683 aquaculture centers currently r
 # Importing number of aquac. centers, SERNAPESCA
 
 centers_aquaculture <- read.csv(here("information/raw_databases/SERNAPESCA/employment/centers_per_species_aquaculture.csv")) %>% 
-  rename(Region = X...Region) %>% 
+  #rename(Region = X...Region) %>% 
+  rename(Region = ï..Region) %>%  
   gather(key = Species, value = 'Centers', 2:7)
 
 # Reordering regions
