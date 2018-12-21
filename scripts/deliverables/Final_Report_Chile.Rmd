@@ -1014,7 +1014,10 @@ Besed on the results of our model and the current estimate of Chilean population
 ```{r percapita year consumption table, echo=FALSE}
 ##Per capita consumption table
 
-kable(per_capita_total_Lan, col.names = c('Year', 'Total Human Consumption (tonnes)', 'Per-capita consumption/year (kg)'), format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Total tones of seafood for humanc consumption and per-capita consumption per year (kg) considering a popilation of 17,762,681 individuals') %>% kable_styling(latex_options = 'hold_position') #%>% 
+table_format <- per_capita_total_Lan %>% 
+  mutate(year == as.character(year))
+
+kable(table_format, col.names = c('Year', 'Total Human Consumption (tonnes)', 'Per-capita consumption/year (kg)'), format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Total tones of seafood for humanc consumption and per-capita consumption per year (kg) considering a popilation of 17,762,681 individuals') %>% kable_styling(latex_options = 'hold_position') #%>% 
   #column_spec(4, width = "6cm")
 
 
@@ -1536,17 +1539,16 @@ We identified the most exported fish products in terms of volume using trade rec
 
 Landings come either from industrial, which includes fabric vessels ($l_i$), or artisanal vessels ($l_a$). Here, we assume that all $l_i$ are send to processing facilities while $l_a$ can either go to processing facilities or be sold as non-processed products, which we assume, are used for HC ($NP_{HC}$).
 
-Landings can either be sold as non-processed products ($NP_{HC}$) or go to processing facilities where they will be transformed in products for human consumption ($P_{HC}$) or products for other uses ($P_{NHC}$). In our analisys we are considering the following types of products to be use for human consumption: fresh, frozen, salty dry, salty wet, smoked, canned, dehydrate. While fish meal, oil, dehydrate, dried algae, and other algae derivatives are use for non human consumption. 
+Landings can either be sold as non-processed products ($NP_{HC}$) or go to processing facilities where they will be transformed in products for human consumption ($P_{HC}$) or products for other uses ($P_{NHC}$). In our analisys we are considering the following types of products to be use for human consumption: fresh, frozen, salty dry, salty wet, smoked, canned, dehydrate. While fish meal, oil, dehydrate, dried algae, and other algae derivatives are use for non human consumption. We assumed that all agae are for non human consumption therefore removed.
 
 Aquaculture ($Aq$) reffers to the harvest of different species being farmed at the sea or freshwater centers. We assume all the volumes coming from aquaculture center enter processing facilities. 
 
-In Chile, almost all $L_i$ and $Aq$ are send to processing facilities while only some of the $L_a$ is processed. We assume that the rest of the artisanals' catch that is not sent to processing facilities is sold as non-processed products for human consumption ($NP_{HC}$). To get an estimate of $NP_{HC}$ we substracted $Aq$ and $L_i$ to all the raw material entering processing facilities and use the residual as the volume of $L_a$ that is processed. We then, substracted this volume from $L_i$ to get $NP_{HC}$, which is the rest of the artisanals' catch that is not being processed. The assumptions behind this method are (i) that all the raw material in processing facilities that is not being supplied by industrial fishing or aquaculture is supplied by artisanals, and (ii) all the catch that artisanals do not sell to processing facilities is used for human consumption.
+In Chile, almost all $L_i$ and $Aq$ are send to processing facilities while only some of the $L_a$ is processed. We assume that the rest of the artisanals' catch that is not sent to processing facilities is sold as non-processed products for human consumption ($NP_{HC}$). To get an estimate of $NP_{HC}$ we substracted $Aq$ and $L_i$ to all the raw material entering processing facilities and use the residual as the volume of $L_a$ that is processed. We then, substracted this volume from $L_i$ to get $NP_{HC}$, which is the rest of the artisanals' catch that is not being processed. The assumptions behind this method are (i) that all the raw material in processing facilities that is not being supplied by industrial fishing or aquaculture is supplied by artisanals, and (ii) all the catch that artisanals do not sell to processing facilities is sold directly for human consumption.
 
 
 **Main fisheries for food supply**
 
-On order to develop the model describe in the general methods, we had to match all products impoted and exported with the species landed or harvested. We used as references products that containd multiple species within tha Aduana's databases. All species classified under a same _Aduna code_ where groups in a same group. Whenever possible we mantaind single species. This allowed us to aggregate products per groups of species and match volumes and values to landing record by SERNAPESCA. In addition, SERNAPESCA applies several variations of a species common name between databases. This difficults the calculation of aggregated estimates. We solve this by generating a dataset that categorize all the names currently used by SERNAPESCA under a common group among the import and export data (See appendix for group details). 
-
+On order to develop the model described in the general methods, we had to match all products impoted and exported with the species landed or harvested. We used as references products that containd multiple species within the Aduana's databases. All species classified under a same _Aduna code_ (Using the International Harmonized System) where put together in the same group. Whenever possible we mantaind single species. This allowed us to aggregate products per groups of species and match volumes and values to landing record by SERNAPESCA. In addition, SERNAPESCA applies several variations of a species common name between databases. This difficults the calculation of aggregated estimates. We solve this by generating a dataset that categorize all the names currently used by SERNAPESCA under a common group among the import and export data (See appendix for group details). 
 
 
 ```{r, table with species groups detail, echo = FALSE, message= FALSE, warning=FALSE}
@@ -1558,11 +1560,15 @@ knitr::kable(sp_convertion, col.names = c('Name SERNAPESCA', 'Scientific Name', 
 
 ```
 
-We found inconsistencies between two databases of landings published by SERNAPESCA in their website. They differed in the level at which data was aggregated. One data base was clasified per sector (artisanal, industria, fabric vessels) and the other was the summary for lanfings and aquaculture for each year per region. When we aggregated the most detailed database to the same level as the anual summary database we observed differences in landing volumes for the year 2015. We considered this to be part of the measurement error involved in any process of data collection or data entry. We used the summary annual data for our domestic human consumption model because it alinged more with amounts reported all other years.
+We found inconsistencies between two databases of landings published by SERNAPESCA in their website. They differed in the level at which data was aggregated. One database was clasified per sector (artisanal, industria, fabric vessels) and the other was the summary for landings and aquaculture for each year per region. When we aggregated the most detailed database to the same level as the anual summary database we observed differences in landing volumes for the year 2015. We considered this to be part of the measurement error involved in any process of data collection or data entry. We used the summary annual data for our domestic human consumption model because 2015 data alinged better with amounts reported all other years.
 
-We calculated yield by estimating an average between the range of losses from discards and processing provided by Christensen et al. (2014) for Peruvian species. For species that did not have a matching yield we used the yield of the most similar species. Yields within a group os species where averaged for the final calculations of the model. See table XX for details on yeilds per sepcies used in our analysis.
+We calculated yield by estimating an average between the range of losses from discards and processing provided by Christensen et al. (2014) for Peruvian species. For species that did not have a direct matching yield we used the yield of the most similar species. Yields within a group of species where averaged for the final calculations of the model. See table XX for details on yeilds per sepcies used in our analysis.
 
-```{r}
+We use the processing facilities raw material and product data as a way to account for discard. SERNAPESCA provided us with a databased that contains tonnes of raw material per species that goes into facilities. We summed up all the raw material for products not for human consumption and discounted it from landings to the corresponding groups of speceis.
+
+
+```{r, echo=FALSE, message= FALSE, warning=FALSE}
+
 sp_yield <- read.csv(here('clean_databases/sp_index.csv')) %>% 
   select(sc_name, yield)
 
@@ -1575,7 +1581,7 @@ knitr::kable(sp_yield, col.names = c('Scientific Name', 'Yield'), format.args = 
 
 **Total and percapita seafood consumption in the country**
 
-Our models is highly sensitive to species yield, therefore in many cases results of our calculations return a negative number implaying that exports are higher than the product of the yield times the local production (landings and aquaculture) minus all tons that go for non-human consumption products. Assuming that all negative numbers do not contribut to domestic consumption  because they are mainly exported or used for non human consumption (eg:algae) and none is imported, we calculated a per capita consumption per year. We summed all the human consumption per year (Table XX, chunk below) and devided by the chilean population of 17,574,033 [@instituto_nacional_de_estadisticas_-_chile_sintesis_2018].
+Our models is highly sensitive to species yield, therefore in many cases results of our calculations return a negative number implaying that exports are higher than the product of the yield times the local production (landings and aquaculture) minus all tons that go for non-human consumption products. Assuming that all negative numbers do not contribut to domestic consumption  because they are mainly exported or used for non human consumption (eg:algae) and none is imported, we calculated a per capita consumption per year. We summed all the human consumption per year (Table XX, chunk below) and devided by the chilean population of 17,574,033. [@instituto_nacional_de_estadisticas_-_chile_sintesis_2018].
 
 
 #### Economic Participation
