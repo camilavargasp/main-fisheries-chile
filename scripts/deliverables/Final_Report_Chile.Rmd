@@ -713,7 +713,7 @@ HC_with_Aq <- sp_HC_with_Aq  %>%
 ```
 
 
-```{r, fig.cap = "Main species landed and harvest in aquaculture designated for human and non human consumption"}
+```{r,  echo= FALSE, fig.cap = "Main species landed and harvest in aquaculture designated for human and non human consumption. Data source: SERNAPESCA, 2018"}
 
 HC_with_Aq
 
@@ -766,7 +766,7 @@ HC_no_Aq <- sp_HC_no_Aq %>%
 ```
 
 
-```{r, fig.cap= "Tonnes of wild-cought species that are used for human consumption"}
+```{r,  echo= FALSE, fig.cap= "Tonnes of wild-cought species that are used for human consumption. Data source: SERNAPESCA, 2018"}
 HC_no_Aq
 ```
 
@@ -841,7 +841,7 @@ NP_HC_plot <- NP_HC %>%
 ```
 
 
-```{r, fig.cap= "Main artisanal landings that are not processed in facilities"}
+```{r, echo= FALSE, fig.cap= "Main artisanal landings that are not processed in facilities. Data source: SERNAPESCA, 2018"}
 
 NP_HC_plot
 
@@ -965,7 +965,7 @@ per_capita_total_Lan <- model_results %>%
   summarise(HC_year = sum(HC)) %>% 
   mutate(per_capita = (HC_year/17762681)*1000)
 
- ##model_results <- dom_cons_Lan
+ 
 ```
 
 
@@ -1011,7 +1011,7 @@ plot_hc
 Besed on the results of our model and the current estimate of Chilean population (17,574,033), we calculated an average of 11.5 kg of seafood compsumption per person a year. This estimate is similar to what has been projected by the FAO (2016) of 10-13kg. Total HC consumption per year is stable with an average of 204,656 tonnes a year. In 2017 we obsered a drastic decrese in total and percapita HC of seafood. We are uncertain if this is due to assumtions in our model or the data. However, we have identified that the exports for Squid that year increased drastically. 
 
 
-```{r percapita year consumption table, eval=F, echo=FALSE}
+```{r percapita year consumption table, echo=FALSE}
 ##Per capita consumption table
 
 kable(per_capita_total_Lan, col.names = c('Year', 'Total Human Consumption (tonnes)', 'Per-capita consumption/year (kg)'), format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Total tones of seafood for humanc consumption and per-capita consumption per year (kg) considering a popilation of 17,762,681 individuals') %>% kable_styling(latex_options = 'hold_position') #%>% 
@@ -1660,23 +1660,23 @@ kable_styling(latex_options = 'hold_position', font_size = 9)
 
 ```{r Appendix Chile Results 4 - Top 10 species human consumption, echo = FALSE, message= FALSE, warning=FALSE}
 
-# APPENDIX 4. Top 10 species human consumption
-#  top_10_hc <- model_results %>%
-#    arrange(year, desc(HC)) %>%
-#    group_by(year) %>%
-#    top_n(10, HC)
-#  
-#  top_10_hc_table <- top_10_hc %>% 
-#    select(year, trade_name, HC) %>% 
-#    filter(!is.na(year)) %>% 
-#    group_by(year) %>%
-#    mutate(rank = rank(desc(HC))) %>%
-#    select(-HC) %>% 
-#    spread(key= year, value =trade_name) %>% 
-#    select(-rank)
-#  
-# knitr::kable(top_10_hc_table, col.names = c('2013', '2014', '2015', '2016', '2017'), format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Main groups of species for human consumption') %>% 
-#  kable_styling(latex_options = 'hold_position')
+##APPENDIX 4. Top 10 species human consumption
+ top_10_hc <- model_results %>%
+   arrange(year, desc(HC)) %>%
+   group_by(year) %>%
+   top_n(10, HC)
+
+ top_10_hc_table <- top_10_hc %>%
+   select(year, trade_name, HC) %>%
+   filter(!is.na(year)) %>%
+   group_by(year) %>%
+   mutate(rank = rank(desc(HC))) %>%
+   select(-HC) %>%
+   spread(key= year, value =trade_name) %>%
+   select(-rank)
+
+knitr::kable(top_10_hc_table, col.names = c('2013', '2014', '2015', '2016', '2017'), format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Main groups of species for human consumption') %>%
+ kable_styling(latex_options = 'hold_position')
 
 
 ```
