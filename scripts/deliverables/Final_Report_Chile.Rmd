@@ -310,9 +310,10 @@ landings<- read_csv(here("clean_databases/landings_SERNAPESCA.csv"))
   
 # Reordering regions
 
-landings_per_region$region <- factor(landings_per_region$region , levels = c("XII", "XI", "X", "XIV", "IX", "VIII", "VII", "VI", "RM","V", "IV", "III", "II", "I", "XV"))
+landings_per_region$region <- factor(landings_per_region$region , levels = c("XII", "XI", "X", "XIV", "IX", "VIII", "VII", "VI", "RM","V", "IV", "III", "II", "I", "XV", "AI"))
 
- landings_per_region %>% 
+ landings_per_region %>%
+ filter(region != "AI") %>% 
  ggplot(aes(x = region,
             y = annual_tons, 
             fill=species_2017))+
@@ -423,7 +424,7 @@ Aquaculture production is highly concentrated in the South of the country, betwe
  
 Around 72% of the landings from fisheries and aquaculture are exported outside the country [@ifop_monitoreo_2015]. In Chile, exported volumes of marine products are larger than imported volumes. The main group of species being exported is salmon, which is exclussively produced in aquaculture, followed by far by jack mackerel (Figure 23). Tunas lead the import activities followed, by jack mackerels. If we consider net trade, by substracting Chilean exported volumes of similar species, tuna is still the main group of imported species with a net trade of ~ 25,000 ± 4,200 tonnes per year (Table 1). When considering net trade, the second most imported group is no longer jack mackerels but shrimp. These results are in line with those done using international databases, which estimate tunas net trade to be ~ 22,000 tonnes per year and also identify jack mackerel and shrimp as groups with high net trade in Chile.
 
-```{r Trade_Chile, echo = FALSE, warning=FALSE, message=FALSE, fig.height=4, fig.width=8, fig.cap="Main species exported and imported in Chile between 2013 and 2017. Thousand Tonnes"}
+```{r Trade_Chile, echo = FALSE, warning=FALSE, message=FALSE, fig.height=4, fig.width=8, fig.cap="Main species exported and imported in Chile between 2013 and 2017. Note that the scales differ. Thousand Tonnes"}
 
 # Importing export and import data 
 sp_exports<- read_csv(here("clean_databases/exports_ADUANA.csv"))
@@ -485,7 +486,7 @@ Five_Imports <- sp_imports%>%
   mutate(Operation = "Imports")
 
 # Final plot
-x <- Five_Exports %>% 
+Five_Exports %>% 
   bind_rows(Five_Imports) %>% 
   ggplot(.,
          aes(
@@ -573,7 +574,7 @@ Totals <- Imports_Exports %>%
     ) 
   
 # Final table to print Imports-Exports
-Net_trade_main_imports <- Imports_Exports %>%
+Imports_Exports %>%
   mutate("Net trade" = Imports-Exports) %>% 
   gather("Operation","Tons",3:5) %>% 
   spread(year,Tons) %>% 
@@ -584,7 +585,7 @@ Net_trade_main_imports <- Imports_Exports %>%
   ungroup() %>% 
   select(-Operation) %>% 
   kable("latex",
-    caption = "Export and Import value, and net trade (Exports - Import) for the most imported species in Chile", 
+    caption = "Export and Import value, and net trade (Import - Exports) for the most imported species in Chile", 
     booktabs = T,
     format.args = list(big.mark = ",")
   ) %>% 
@@ -1049,7 +1050,7 @@ Seafood products are one of the most important exports of the country. IFOP valu
 
 The most valuable sea products in terms of exports are frozen and fresh followed by fish meal and dried algae [@ifop_boletines_2017]. In 2016, fish fillets were the fourth most exported product by Chile. This commodity generates around US\$2 billion per year and is mainly composed of farmed salmons [@datachile_fish_2016]. 
 
-```{r Exports_Chile_G, echo = FALSE, warning=FALSE, message=FALSE, fig.height=4, fig.width=8, fig.cap='Main exported species in terms of econmic value. Dataset Aduanas Chile'}
+```{r Exports_Chile_G, echo = FALSE, warning=FALSE, message=FALSE, fig.height=4, fig.width=8, fig.cap='Main exported species in terms of econmic value. Source: Dataset Aduanas Chile'}
  
 # Importing exports data and calculating FOB per year and species
 exports_ADUANA <- read_csv(here("clean_databases/exports_ADUANA.csv"))
@@ -1150,7 +1151,7 @@ Totals <- Exports_Imports %>%
     ) 
   
 # Final table to print Exports - Imports
-Net_trade_main_exports <- Exports_Imports %>%
+Exports_Imports %>%
   mutate("Net trade" = Exports-Imports) %>% 
   gather("Operation","Tons",3:5) %>% 
   spread(year,Tons) %>% 
@@ -1414,17 +1415,16 @@ Within the Chilean population there is a strong belief that seafood is expensive
 
 **Key messages**:
 - Aquaculture, specifically that of Atlantic salmon (*Salmo salar*), is the marine activity that contributes the most to the national economy. 
-- Despite being along the entire coast, fishing and its related economic activities concentrate mostly in the South and Austral South of the country. 
-- Valued and benthic species like the Chilean sea urchin (*Loxechinus albus*) and the Loco (*Concholepas concholepas*) have a high potential to bring revenues to the artisanal sector due to their high ex-vessel prices and relatively low costs of fishing.
-- While records of 
+- Valued and benthic species like the Chilean sea urchin (*Loxechinus albus*) and the Loco (*Concholepas concholepas*) have a high potential to bring revenues to the artisanal sector due to their high ex-vessel prices and relatively low costs of fishing. 
+- Despite being spread along the entire coast, fishing activities and the processing of marine products concentrate mostly in the South and Austral South of the country.
+- While there are estimates about how many people directly and indirectly relies on fisheries a source of income an employment there is lack of an official record that allow to answer this question.
+- There is a large share of the people employed in the sector that are not formally hired, what translates into the lack of a pension system for those individuals.
 
-Aquaculuture is the most important activity in the fisheries sector in terms of economic value. Their profits come mainly from the exportation of salmon products, placing salmons and trouts as the species that mostly contributes to the country's economy. 
-
-Wild-caught species that have contirbuted the most to exports these past years are the jack mackerel (*Trachurus murphyi*) and the Jumbo squid (*Dosidicus gigas*). The latter is used for DHC and is targeted by both the artisanal an industrial sector. Yet, current discussions on closing access to the industrials to this fishery could bring consequences for both income and food supply. 
-
-Among wild-caught fisheries the ones that seems to generate more revenues for the artisanal sector are the Southern king crab (*Lithodes santolla*) and the Chilean sea urchin (*Loxechinus albus*). While the first fishery occurs only in the South of the country, the latter is ditributed along the coast of Chile.
+Aquaculuture is the most important activity in the fisheries sector in terms of economic value. Their profits come mainly from the exportation of salmon products, placing salmons and trouts as the species that mostly contributes to the country's economy. Wild-caught species that have contirbuted the most to exports these past years are the jack mackerel (*Trachurus murphyi*) and the Jumbo squid (*Dosidicus gigas*). The latter is used for DHC and is targeted by both the artisanal an industrial sector. Yet, current discussions on closing access to the industrials to this fishery could bring consequences for both income and food supply. Among wild-caught fisheries the ones that seems to generate more revenues for the artisanal sector are the Southern king crab (*Lithodes santolla*) and the Chilean sea urchin (*Loxechinus albus*). While the first fishery occurs only in the South of the country, the latter is ditributed along the coast of Chile. 
 
 Although the direct employment in aquaculture centers is low relative to the number of artisanal fishers, it is very likely that an important share of the job positions in the manufacturing sector are being supported by aquaculture. Especially in the South where most job positions for manufacturing of human consumption products are concetrated. The role of Algaes in terms of employment for the artisanal sector is also worth notice. The revenues of most these species are not particularly high, however the lower costs of extraction relative to other types of fishing make algae collection an attractive form of livelihood for coastal communities. 
+
+Chile requieres a better understanding of the number of people relying on fisheries. An important data gap we identified was the lack of information from the industrial and aquaculture sector on the number of workers and the value that different species bring to their industries. 
 
 \clearpage
 
@@ -1530,7 +1530,7 @@ main_species_per_region_artisanal <- read_csv(here("clean_databases/landings_SER
  
  # Most landed species per region artisanal (for each year between 2013-2017)
 knitr::kable(main_species_per_region_artisanal, col.names = c('Region', 'Most landed in 2013', 'Most landed in 2014', 'Most landed in 2015', 'Most landed in 2016', 'Most landed in 2017'), format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Most landed species per year and region in the artisanal sector. Source: Landing records from SERNAPESCA, 2018') %>% 
-kable_styling(latex_options = 'hold_position')
+kable_styling(latex_options = 'hold_position', font_size = 9)
 
 ```
 
@@ -1556,7 +1556,7 @@ kable_styling(latex_options = 'hold_position')
   
 # Most landed species per region industrial (for each year between 2013-2017)
 knitr::kable(main_species_per_region_industrial, col.names = c('Region', 'Most landed in 2013', 'Most landed in 2014', 'Most landed in 2015', 'Most landed in 2016', 'Most landed in 2017'), format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Most landed species per region and year in the industrial sector. Source: Landing records from SERNAPESCA, 2018') %>% 
-kable_styling(latex_options = 'hold_position')
+kable_styling(latex_options = 'hold_position', font_size = 9)
 
 ```
 
@@ -1578,7 +1578,7 @@ aquaculture_species_per_region$region <- factor(aquaculture_species_per_region$r
 
 # Most harvested species per region (for each year between 2012-2017)
 knitr::kable(aquaculture_species_per_region, col.names = c('Region', '2012', '2013', '2014', '2015', '2016', '2017'), format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Most harvested species per region and year. When no data is available means there were no aquaculure that year in that region. Source: Harvest records from SERNAPESCA, 2018') %>% 
-kable_styling(latex_options = 'hold_position')
+kable_styling(latex_options = 'hold_position', font_size = 9)
 
 
 ```
