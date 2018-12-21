@@ -161,17 +161,13 @@ from_ChP_to_dollar_dec_2018 <- 676 # Based on conversion for Dec, 2018
 
 ## Results Chile
 
-### Fisheries Context
-
-To evaluate the volume contribution of specific fisheries over the last five years, we used records of landings and aquaculture harvests from SERNAPESCA  (2013-2017). We identified the most exported fish products in terms of volume using trade records from Aduanas Chile. To identify the participation of different species in exported products we generated a new database linking types of products listed in the *Arancel Aduanero* with the names of the fished and farmed species listed by SERNAPESCA. We searched for all the products ids that refer to the species scientific name, common name or genus name as listed by SERNAPESCA and aggregated them under the species name.
-
-#### Wild Caught Fish
+#### Wild-caught fish
 
 ##### Main wild-caught fisheries in terms of volume 
 
 According to landing records from SERNAPESCA over the last five years, the artisanal sector lands on average 1.6 ± 0.58 million annual tonnes of marine species while the industrial sector lands around 0.9 ± 0.16 million tonnes per year. Is worth noting that large part of the artisanal landings are of algae and benthic species that are not targeted by the industrial sector. Both sectors have among their most landed species the Peruvian anchoveta (*Engraulis ringens*) and the Araucanian herring (*Strangomera bentincki*), two species that are mostly used as inputs for fish meal and oil (Figure 19). Other important species in artisanal landings are the Giant grey kelp (*Lessonia nigrescens*), exported mostly as dried algae, and the Jumbo squid (*Dosidicus gigas*), mostly commercialized fresh or frozen for human consumption (HC). The Chilean jack mackerel (*Trachurus murphyi*) is also an important fishery in terms of volume for the industrial sector, which is also mostly used in the production of fish meal and oil and to a lesser extent for direct HC. 
 
-Over the last years the catch composition of the artisanal sector has presented no major changes except for one species of algae (Giant brown kelp, *Lessonia trabeculata*) replacing other (Red algae gracilaria, *Gracilaria spp*) within the top 5 landed species as for 2013. In the case of the industrial sector, composition of the main species is also stable over the last years. Yet, the landings of Peruvian anchoveta (*Engraulis ringens*) started decreasing in 2014 relative to previous years, this incresed the relevance of other species like the Chilean jack mackerel (*Trachurus murphyi*). Other important species for the artisanal sector are the Mote sculpin (*Normanichthys crockeri*) and the Chilean sea urchin (*Loxechinus albus*) (Table 1).
+Over the last years the catch composition of the artisanal sector has presented no major changes. We observed an abrupt increase in artisanal landings for 2015, which we identified as a data error in SERNAPESCA's records (See Appendix Chile Methods 1). However, this is the only database that allowed us to compare catch compossition per sector over time. In the case of the industrial sector, composition of the main species is also stable over the last years. Yet, the landings of Peruvian anchoveta (*Engraulis ringens*) started declining in 2014 relative to previous years, increasing the relevance of the Chilean jack mackerel (*Trachurus murphyi*). 
 
 ```{r Top_landed_Chile_G, echo = FALSE, warning=FALSE, message=FALSE, fig.height=5, fig.width=9, fig.cap= 'Top 5 species landed in Chile by the artisanal (left pannel) and industrial sector (right pannel) between 2013 and 2017. Data source: Landing records from SERNAPESCA, 2018.' }
 
@@ -276,13 +272,13 @@ Total_Top_10 <- landings %>%
 
 ```
 
-These resuts are in line with those observed using international databases. SAU and FAO databases also identify Peruvian anchoveta (*Engraulis ringens*), the Araucarian herring (*Strangomera bentincki*) and the Chilean jack mackerel (*Trachurus murphyi*) as the main species. 
+SAU and FAO databases also identify Peruvian anchoveta (*Engraulis ringens*), the Araucarian herring (*Strangomera bentincki*) and the Chilean jack mackerel (*Trachurus murphyi*) as the main landed species in Chile. 
 
 ##### Regional Diferences in volumes of wild-caught fisheries
 
-Landings varies widely along the coast of Chile for both artisanal and industrial sectors. Figure 20 shows the mean total landing per sector and region. The color of the bars represents the most landed species in 2017. We observe that the VIII region is by far the region with most landings from both sectors. However, the industrial sector also concentrates landings in the north of the country, while artisanals are spread throughout the country. The most landed species in 2017 also vary by region but have changed little over the last five years (Appendix Results Chile 1 and 2). 
+Landings varies widely along the coast of Chile for both artisanal and industrial sectors. Figure 20 shows the mean total landing per sector and region. The color of the bars represents the most landed species in 2017. We observe that the VIII region is by far the region with most landings from both sectors. However, the industrial sector, also concentrates landings in the north of the country. Artisanals are spread throughout the country. The most landed species vary geographically but tend to be the same over the years (Appendix Results Chile 1 and 2). 
 
-```{r Landings_per_region, echo = FALSE, fig.height=5, fig.width=10, warning=FALSE, message=FALSE, fig.cap= 'Mean annual total landings per region for the artisanal (left pannel) and industrial sector (right pannel) between 2013 and 2017. The color represents the most landed species in 2017 and regions are ordered vrom north to south. Error bars represent one standard deviation. Note that scales are different between pannels. Data source: Landing records from SERNAPESCA, 2018.'}
+```{r Landings_per_region, echo = FALSE, fig.height=5, fig.width=10, warning=FALSE, message=FALSE, fig.cap= 'Mean annual total landings per region for the artisanal (left pannel) and industrial sector (right pannel) between 2013 and 2017. The color represents the most landed species in 2017 and regions are ordered from north to south. Error bars represent one standard deviation. Note that scales are different between pannels. Data source: Landing records from SERNAPESCA, 2018.'}
 
 # Main species in 2017 per region and sector to add color to the barplot
 # Importing landings and species names 
@@ -336,7 +332,7 @@ landings_per_region$region <- factor(landings_per_region$region , levels = c("XI
 
 ##### Main farmed fisheries in terms of volume
 
-The main species harvested from aquaculture centers in the last 5 years have been the Atlantic salmon (*Salmo salar*), the Chilean mussels (*Mytilus chilensis*), the Coho salmon (*Oncorhynchus kisutch*), and the Red algae gracilaria (*Gracilaria spp.*) in descending order (Figure 21). These species correspond to most of the harvest. Overall, the composition of the most farmed species and its volumes have been stable over the last 5 years. However, the Rainbow trout (*Oncorhynchus mykiss*) seems to be becoming less important over recent years.  
+The main species harvested from aquaculture centers in the last 5 years have been the Atlantic salmon (*Salmo salar*), the Chilean mussels (*Mytilus chilensis*), the Coho salmon (*Oncorhynchus kisutch*), and the Red algae gracilaria (*Gracilaria spp.*) in descending order (Figure 21). These species predominate total aquaculture production. Overall, the composition of the most farmed species and its volumes have been stable over the last 5 years. However, the Rainbow trout (*Oncorhynchus mykiss*) is slightly declining.  
 
 ```{r Top_Aquaculture_Chile_G, echo = FALSE, warning=FALSE, message=FALSE, fig.height=4, fig.width=7, fig.cap= 'Top 5 species farmed in Chile between 2013 and 2017. Data source: Harvest records from SERNAPESCA, 2018.' }
 
@@ -376,7 +372,7 @@ aquaculture_plot
 
 ##### Regional diferences in farmed fisheries
 
-Aquaculture production is highly concentrated in the South of the country, between regions X and XII (Figure 22). Nevertheless, from the I to the IV region the most farmed resources are algaes and scallops (*Argopecten purpuratus*) (Appendix Results Chile 3). The red abalone (*Haliotis rufescens*) became the most farmed in 2013 in the V region, replacing the turbot (*Scophtalmus maximus*). Towards the south, salmons and trouts are the most farmed species along with some algaes and mussels (*Mytilus chilensis*). The most farmed species in the austral south are the Atlantic salmon (*Salmo salar*) and the Chilean mussel (*Mytilus chilensis*).
+Aquaculture production is highly concentrated in the South of the country, between regions X and XII (Figure 22), dominated by the production of salmons and trouts, especially Atlantic salmon (*Salmo salar*). In this area, there is also centers growing algaes and mussels (*Mytilus chilensis*). In the north, from the I to the IV region, the most farmed resources are algaes and scallops (*Argopecten purpuratus*) (Appendix Results Chile 3). The red abalone (*Haliotis rufescens*) became the most farmed in 2013 in the V region, replacing the turbot (*Scophtalmus maximus*).
 
 ```{r Harvest from aquaculture centers per region, echo = FALSE, warning=FALSE, message=FALSE, fig.height=4,fig.width=6, fig.cap= 'Mean annual harvest per region from aquaculture centers between 2012 and 2017. Error bars represent one standard deviation. Only showing regions with production. Database SERNAPESCA'}
 
@@ -424,7 +420,7 @@ Aquaculture production is highly concentrated in the South of the country, betwe
 
 #### Fish Trade
  
-Around 72% of the landings from fisheries and aquaculture are exported outside the country [@ifop_monitoreo_2015]. In Chile, exported volumes of marine products are larger than imported volumes. The main group of species being exported is salmon, which is exclussively produced in aquaculture, followed by far by jack mackerel (Figure X). Tunas lead the import activities followed, by jack mackerels (Figure X). If we consider net trade, by substracting Chilean exported volumes of similar species, tuna is still the main group of imported species with a net trade of ~ 25,000 ± 4,200 tonnes per year Table X). When considering net trade, the second most imported group is no longer jack mackerels but shrimp. These results are in line with those done using international databases, which estimate tunas net trade to be ~ 22,000 tonnes per year and also identify jack mackerel and shrimp as groups with high net trade in Chile.
+Around 72% of the landings from fisheries and aquaculture are exported outside the country [@ifop_monitoreo_2015]. In Chile, exported volumes of marine products are larger than imported volumes. The main group of species being exported is salmon, which is exclussively produced in aquaculture, followed by far by jack mackerel (Figure 23). Tunas lead the import activities followed, by jack mackerels. If we consider net trade, by substracting Chilean exported volumes of similar species, tuna is still the main group of imported species with a net trade of ~ 25,000 ± 4,200 tonnes per year (Table 1). When considering net trade, the second most imported group is no longer jack mackerels but shrimp. These results are in line with those done using international databases, which estimate tunas net trade to be ~ 22,000 tonnes per year and also identify jack mackerel and shrimp as groups with high net trade in Chile.
 
 ```{r Trade_Chile, echo = FALSE, warning=FALSE, message=FALSE, fig.height=4, fig.width=8, fig.cap="Main species exported and imported in Chile between 2013 and 2017. Thousand Tonnes"}
 
@@ -488,7 +484,7 @@ Five_Imports <- sp_imports%>%
   mutate(Operation = "Imports")
 
 # Final plot
-Five_Exports %>% 
+x <- Five_Exports %>% 
   bind_rows(Five_Imports) %>% 
   ggplot(.,
          aes(
@@ -1460,6 +1456,11 @@ PRODUCE. (2010). Manual de administración de las infraestructuras pesqueras art
 ## Chile
 ### Methods
 #### Fisheries Context
+
+- Error in landings 2015 
+
+- To evaluate the volume contribution of specific fisheries over the last five years, we used records of landings and aquaculture harvests from SERNAPESCA  (2013-2017). We identified the most exported fish products in terms of volume using trade records from Aduanas Chile. To identify the participation of different species in exported products we generated a new database linking types of products listed in the *Arancel Aduanero* with the names of the fished and farmed species listed by SERNAPESCA. We searched for all the products ids that refer to the species scientific name, common name or genus name as listed by SERNAPESCA and aggregated them under the species name.
+
 #### National Seafood Supply
 
 On order to develop the model describe in the general methods, we had to match all products impoted and exported with the species landed or harvested. We used as references products that containd multiple species within tha Aduana's databases. All species classified under a same __Aduna code__ where groups in a same group. Whenever possible we mantaind single species. This allowed us to aggregate products per groups of species and match volumes and values to landing record by SERNAPESCA. In addition, SERNAPESCA applies several variations of a species common name between databases. This difficults the calculation of aggregated estimates. We solve this by generating a dataset that categorize all the names currently used by SERNAPESCA under a common group among the import and export data (See appendix for group details). 
@@ -1518,7 +1519,7 @@ main_species_per_region_artisanal <- read_csv(here("clean_databases/landings_SER
  main_species_per_region_artisanal$region <- factor( main_species_per_region_artisanal$region , levels = c("XII", "XI", "X", "XIV", "IX", "VIII", "VII", "VI", "RM","V", "IV", "III", "II", "I", "XV"))
  
  # Most landed species per region artisanal (for each year between 2013-2017)
-knitr::kable(main_species_per_region_artisanal, col.names = c('Region', 'Most landed in 2013', 'Most landed in 2014', 'Most landed in 2015', 'Most landed in 2016', 'Most landed in 2017'), format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Most landed species per and year region in the artisanal sector. Source: Landing records from SERNAPESCA, 2018') %>% 
+knitr::kable(main_species_per_region_artisanal, col.names = c('Region', 'Most landed in 2013', 'Most landed in 2014', 'Most landed in 2015', 'Most landed in 2016', 'Most landed in 2017'), format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Most landed species per year and region in the artisanal sector. Source: Landing records from SERNAPESCA, 2018') %>% 
 kable_styling(latex_options = 'hold_position')
 
 ```
