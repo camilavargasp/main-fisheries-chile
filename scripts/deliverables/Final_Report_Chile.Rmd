@@ -454,13 +454,14 @@ Aquaculture production is highly concentrated in the South of the country, betwe
 
 #### Fish Trade
  
-Around 72% of the landings from fisheries and aquaculture are exported outside the country [@ifop_monitoreo_2015]. In Chile, exported volumes of marine products are larger than imported volumes. The main species exported is Atlantic salmon produced in aquaculture, followed by far by jack mackerel (Figure 23-A). Tuna leads the import activities followed, also by far, by jack mackerel (Figure 23-B). Table X shows the import and export volume and the net trade of the most imported species. We note that the type of species that enters the country the most is Tuna, with a net trade of ~ 25,100 ± 4,100 tonnes per year. This result matches that from international databases, for which the estimates Tuna net trade were ~ 22,000. Jack mackerel and shrimp also present high net trades in Chile based on the analyses of both national and international databases. 
+Around 72% of the landings from fisheries and aquaculture are exported outside the country [@ifop_monitoreo_2015]. In Chile, exported volumes of marine products are larger than imported volumes. The main group of species being exported is salmon, which is exclussively produced in aquaculture, followed by far by jack mackerel (Figure X). Tunas lead the import activities followed, by jack mackerels (Figure X). If we consider net trade, by substracting Chilean exported volumes of similar species, tuna is still the main group of imported species with a net trade of ~ 25,000 ± 4,200 tonnes per year Table X). When considering net trade, the second most imported group is no longer jack mackerels but shrimp. These results are in line with those done using international databases, which estimate tunas net trade to be ~ 22,000 tonnes per year and also identify jack mackerel and shrimp as groups with high net trade in Chile.
 
 ```{r Trade_Chile, echo = FALSE, warning=FALSE, message=FALSE, fig.height=4, fig.width=8, fig.cap="Main species exported and imported in Chile between 2013 and 2017. Thousand Tonnes"}
 
 # Importing export and import data 
 sp_exports<- read_csv(here("clean_databases/exports_ADUANA.csv"))
 sp_imports<- read_csv(here("clean_databases/imports_ADUANA.csv"))
+
 # Matching database
 exports_index <- read.csv(here("clean_databases/exports_index.csv"))
 imports_index <- read_csv(here("clean_databases/imports_index.csv"))
@@ -473,10 +474,9 @@ Top_Exports <- sp_exports%>%
   mutate(export_name= grupo_exportacion)%>% 
   left_join(exports_index) %>% 
   group_by(trade_name) %>% 
-  summarise(Tons = round(sum(tons)/1000,2), value = sum(value)) %>% #tons
+  summarise(Tons = sum(tons)) %>% #tons
   filter(!is.na(trade_name)) %>% 
   mutate(trade_name = as.character(trade_name)) %>% 
-  select(-value) %>% 
   arrange(desc(Tons)) %>% 
   top_n(5, Tons) 
 
@@ -484,13 +484,14 @@ Five_Exports <- sp_exports%>%
   filter(year != 2018) %>% 
   mutate(export_name= grupo_exportacion)%>% 
   left_join(exports_index) %>% 
-  group_by(trade_name, year) %>% 
-  summarise(Tons = round(sum(tons)/1000,2), value = sum(value)) %>% #tons
-  filter(!is.na(trade_name)) %>% 
-  ungroup() %>% 
+  filter(!is.na(trade_name)) %>%
   mutate(trade_name = as.character(trade_name)) %>% 
-  select(-value) %>% 
-  mutate(species = ifelse(trade_name %in% Top_Exports$trade_name, trade_name, "Others"), Operation = "Exports") 
+  mutate(species = ifelse(trade_name %in% Top_Exports$trade_name, trade_name, "Others")) %>% 
+  group_by(species, year) %>% 
+  summarise(Tons = round(sum(tons, na.rm=T),1)) %>% #tons
+  ungroup()  %>% 
+  mutate(Operation = "Exports")
+   
 
   # Determine Top 10 Imported species between 2013 and 2017 (sum imports)
 Top_Imports <- sp_imports%>% 
@@ -498,7 +499,7 @@ Top_Imports <- sp_imports%>%
   mutate(imports_name= name_sp)%>% 
   left_join(imports_index) %>% 
   group_by(trade_name) %>% 
-  summarise(Tons = round(sum(tons)/1000,2)) %>% #tons
+  summarise(Tons = sum(tons)) %>% #tons
   filter(!is.na(trade_name)) %>% 
   mutate(trade_name = as.character(trade_name)) %>% 
   arrange(desc(Tons)) %>% 
@@ -508,13 +509,13 @@ Five_Imports <- sp_imports%>%
   filter(year != 2018) %>% 
   mutate(imports_name= name_sp)%>% 
   left_join(imports_index) %>% 
-  group_by(trade_name, year) %>% 
-  summarise(Tons = round(sum(tons)/1000,2), value = sum(value_us)) %>% #tons
-  filter(!is.na(trade_name)) %>% 
-  ungroup() %>% 
+  filter(!is.na(trade_name)) %>%
   mutate(trade_name = as.character(trade_name)) %>% 
-  select(-value) %>% 
-  mutate(species = ifelse(trade_name %in% Top_Imports$trade_name, trade_name, "Others"), Operation = "Imports") 
+  mutate(species = ifelse(trade_name %in% Top_Imports$trade_name, trade_name, "Others")) %>% 
+  group_by(species, year) %>% 
+  summarise(Tons = round(sum(tons, na.rm=T),1)) %>% #tons
+  ungroup() %>% 
+  mutate(Operation = "Imports")
 
 # Final plot
 Five_Exports %>% 
@@ -522,12 +523,12 @@ Five_Exports %>%
   ggplot(.,
          aes(
            x = as.numeric(year),
-           y = Tons,
+           y = Tons/1000000,
            fill = species
          )
          ) +
-  geom_bar(stat = 'identity')+
-  facet_wrap(~Operation,
+  geom_area()+
+  facet_wrap(~ Operation,
              scales = 'free',
              nrow = 1#,
              # strip.position =  "right"
@@ -536,12 +537,12 @@ Five_Exports %>%
   scale_fill_manual("Operation", values = c(wes_palette("Darjeeling1"), wes_palette("Darjeeling2"),  'black')) +
   ggtheme_plot() +
   xlab("Year") +
-  ylab("Tonnes (Thousand)")
+  ylab("Tonnes (Million)")
 
-Five_Exports
+
 ```
 
-```{r Trade_Chile_Table, echo = FALSE, warning=FALSE, message=FALSE, fig.height=6, fig.width=4}
+```{r Trade_Chile_Table_Main_Imports, echo = FALSE, warning=FALSE, message=FALSE, fig.height=6, fig.width=4}
 
 # Importing export and import data 
 sp_exports<- read_csv(here("clean_databases/exports_ADUANA.csv"))
@@ -551,67 +552,79 @@ sp_imports<- read_csv(here("clean_databases/imports_ADUANA.csv"))
 exports_index <- read.csv(here("clean_databases/exports_index.csv"))
 imports_index <- read_csv(here("clean_databases/imports_index.csv"))
 
-# Exported species
-Exports_tbl <- sp_exports %>% 
-  filter(year != 2018) %>% 
-  mutate(export_name= grupo_exportacion)%>% 
-  left_join(exports_index) %>% 
-  group_by(year, trade_name) %>% 
-  summarise(Exports = round(sum(tons)/1000,2), value = sum(value)) %>% #tons
-  select(-value)
+# Top 10 imported species accumulated 
 
-# Top 10 imported species
 ten_imports <- sp_imports%>% 
   filter(year != 2018) %>% 
   mutate(imports_name= name_sp) %>% 
   left_join(imports_index) %>% 
   filter(trade_name != 'NA') %>% 
   select(year, tons, trade_name) %>%
-  group_by(year, trade_name) %>% 
-  summarise(Imports = sum(tons)) %>% #tons
-  group_by(year) %>%
+  group_by(trade_name) %>% 
+  summarise(Imports = sum(tons)) %>% 
   mutate(rank = rank(desc(Imports))) %>% 
   filter(rank < 10) %>% 
   select(-rank)
 
-# What are the exports volumes for the 10 most exported products
-Imports_Exports <- ten_imports %>% 
-  left_join(Exports_tbl, by = c('trade_name', 'year')) %>% 
+# Calcualting value per year of most important imported species (defined by accumulated value)and Others. 
+
+Imports_tbl <- sp_imports%>% 
+  filter(year != 2018) %>% 
+  mutate(imports_name= name_sp)%>% 
+  left_join(imports_index) %>% 
+  filter(trade_name != 'NA') %>% 
+  mutate(trade_name = as.character(trade_name)) %>% 
+  mutate(species = ifelse(trade_name %in% ten_imports$trade_name, trade_name, "Others")) %>% 
+  group_by(year, species) %>% 
+  summarise(Imports = sum(tons, na.rm= TRUE))
+
+# Exported species
+Exports_tbl <- sp_exports %>% 
+  filter(year != 2018) %>% 
+  mutate(export_name= grupo_exportacion)%>% 
+  left_join(exports_index) %>% 
+  filter(trade_name != 'NA') %>% 
+  mutate(trade_name = as.character(trade_name)) %>% 
+  mutate(species = ifelse(trade_name %in% ten_imports$trade_name, trade_name, "Others")) %>% 
+  group_by(year, species) %>% 
+  summarise(Exports = sum(tons))
+
+# What are the exports, imports and net value each year for the 10 most imported products in terms of volume?
+Imports_Exports <- Imports_tbl %>% 
+  left_join(Exports_tbl, by = c('species', 'year')) %>% 
   replace(., is.na(.), 0)
 
 # Totals table
 Totals <- Imports_Exports %>%
   mutate("Net trade" = Imports-Exports) %>% 
     gather("Operation","Tons",3:5) %>% 
-    group_by(trade_name, Operation) %>% 
+    group_by(species, Operation) %>% 
     summarise(
       Total = sum(Tons),
       Mean = mean(Tons),
       s.d. = sd(Tons)
     ) 
   
-# Final table to print
-Imports_Exports %>%
+# Final table to print Imports-Exports
+Net_trade_main_imports <- Imports_Exports %>%
   mutate("Net trade" = Imports-Exports) %>% 
   gather("Operation","Tons",3:5) %>% 
   spread(year,Tons) %>% 
   left_join(Totals,
-            by =c("trade_name","Operation")
+            by =c("species","Operation")
   ) %>% 
   arrange(Operation,desc(Total)) %>% 
   ungroup() %>% 
-  select(-Operation) %>%
-  filter(!is.na(trade_name)) %>% 
-  rename(Species = trade_name) %>% 
+  select(-Operation) %>% 
   kable("latex",
-    caption = "Main Imports, exports and net trade (Imports-Exports) for Chile", 
+    caption = "Export and Import value, and net trade (Exports - Import) for the most imported species in Chile", 
     booktabs = T,
     format.args = list(big.mark = ",")
   ) %>% 
   kable_styling(latex_options = c("repeat_header","scale_down")) %>% 
-  group_rows("Exports", 1, 9, latex_gap_space = "0.5em") %>% 
-  group_rows("Imports", 10, 19, latex_gap_space = "1em") %>% 
-  group_rows("Net Trade", 20, 30, latex_gap_space = "1em")
+  group_rows("Exports", 1, 10, latex_gap_space = "0.5em") %>% 
+  group_rows("Imports", 11, 20, latex_gap_space = "1em") %>% 
+  group_rows("Net Trade", 21, 30, latex_gap_space = "1em")
 
 ```
 
@@ -1060,41 +1073,136 @@ prices_art %>%
 
 #### Trade Economic Participation
 
-Seafood products are one of the most important exports of the country. IFOP valued the exportation of fisheries-related products in US\$6.28 billion dollars in 2017 (@ifop_boletines_2017). This corresponded to ~ 9 % of the total value of national exports. The most important exported species are the Atlantic salmon (*Salmo salar*), the Rainbow trout (*Oncorhynchus mykiss*) and the Chinook salmon (*Oncorhynchus tshawytscha*) (Figure 6), all three produced via aquaculture. Mussels, specifically the Chilean Ribbed Mussel (*Aulacomya ater*) and the Chorus mussels (*Choromytilus chorus*) are also among the most valuable exports. These are landed by artisanal fishers and to a lesser extent produced in aquaculture centers. 
+Seafood products are one of the most important exports of the country. IFOP valued the exportation of fisheries-related products in US\$6.28 billion dollars in 2017 (@ifop_boletines_2017). This corresponded to ~ 9 % of the total value of national exports. By far, the most important group of species in terms of exports value are salmons, particularly the Atlantic salmon (*Salmo salar*) (Figure X). The net value of salmons is, on average, US/$ ~3.4 billion (Table X). They are almost exclussivelly produced by aquaculture. Mussels, specifically the Chilean Ribbed Mussel (*Aulacomya ater*) and the Chorus mussels (*Choromytilus chorus*) are also among the most valuable exports. These are landed by artisanal fishers and to a lesser extent produced in aquaculture centers, contributing with ~ US\$167 million. In general, the value composition of exports is stable. Yet, salmon seems to be driving and increase in exports value since 2015.
 
-The most valuable sea products in terms of exports are frozen and fresh followed by fish meal and dried algae [@ifop_boletines_2017]. In 2016, fish fillets were the fourth most exported product by Chile. This commodity generates around US\$ 2 billion per year and is mainly composed of farmed salmons [@datachile_fish_2016]. 
+The most valuable sea products in terms of exports are frozen and fresh followed by fish meal and dried algae [@ifop_boletines_2017]. In 2016, fish fillets were the fourth most exported product by Chile. This commodity generates around US\$2 billion per year and is mainly composed of farmed salmons [@datachile_fish_2016]. 
 
 ```{r Exports_Chile_G, echo = FALSE, warning=FALSE, message=FALSE, fig.height=4, fig.width=8, fig.cap='Main exported species in terms of econmic value. Dataset Aduanas Chile'}
  
 # Importing exports data and calculating FOB per year and species
-exports_ADUANA <- read_csv("clean_databases/Chile/exports_ADUANA.csv")
+exports_ADUANA <- read_csv(here("clean_databases/exports_ADUANA.csv"))
 
+# Matching database
+exports_index <- read.csv(here("clean_databases/exports_index.csv"))
+imports_index <- read_csv(here("clean_databases/imports_index.csv"))
+
+# Five most exported
+top_exports_value <- exports_ADUANA%>% 
+  filter(year != 2018) %>% 
+  mutate(export_name= grupo_exportacion) %>% 
+  left_join(exports_index) %>% 
+  group_by(trade_name) %>% 
+  summarise(total_FOB = sum(value)/1000000) %>% 
+  arrange(desc(total_FOB)) %>% 
+  top_n(5, total_FOB) 
 
 exports_ADUANA%>% 
   filter(year != 2018) %>% 
-  mutate(chl_name= str_to_upper(especie_SERNAPESCA))%>% 
-  left_join(sp_index) %>% 
-  group_by(year, sc_name) %>% 
-  summarise(FOB = sum(value)/1000000) %>% 
-  arrange(year, desc(FOB)) %>% 
-  group_by(year) %>% 
-  top_n(5, FOB) %>% 
-  left_join(sp_index) %>% 
-  select(year, species= en_name, FOB) %>% 
+  mutate(export_name= grupo_exportacion) %>% 
+  left_join(exports_index) %>% 
+  mutate(trade_name = as.character(trade_name)) %>% 
+  mutate(species = ifelse (trade_name %in% top_exports_value$trade_name, trade_name, "Other")) %>% 
+  group_by(year, species) %>% 
+  summarise(FOB = sum(value)/1000000000)%>% 
   ggplot(aes(x = year, y = FOB, fill = species))+
-  geom_bar(stat = 'identity') +
-  labs(y="FOB\n(Million US dollar)", x="Year")+ #JEPA_Chile, qué es FOB?
+  geom_area() +
+  labs(y="Free on board price\n(Billion US dollar)", x="Year")+ 
   scale_y_continuous(expand = c(0, 0))+
-  scale_fill_manual("Species",values = c(wes_palette("Darjeeling1"))) +
+  scale_fill_manual("Species",values = c(wes_palette("Darjeeling1"), wes_palette("Darjeeling2"))) +
   ggtheme_plot() +
   guides(fill = guide_legend(nrow = 2, byrow = TRUE))
 
 ```
 
+```{r Trade_Chile_Table_Main_Exports, echo = FALSE, warning=FALSE, message=FALSE, fig.height=6, fig.width=4}
+
+# Importing export and import data 
+sp_exports<- read_csv(here("clean_databases/exports_ADUANA.csv"))
+sp_imports<- read_csv(here("clean_databases/imports_ADUANA.csv"))
+
+# Matching database
+exports_index <- read.csv(here("clean_databases/exports_index.csv"))
+imports_index <- read_csv(here("clean_databases/imports_index.csv"))
+
+# Top 10 exported species accumulated 
+
+ten_exports <- sp_exports%>% 
+  filter(year != 2018) %>% 
+  mutate(export_name= grupo_exportacion) %>% 
+  left_join(exports_index) %>% 
+  filter(trade_name != 'NA') %>% 
+  select(year, value, trade_name) %>%
+  group_by(trade_name) %>% 
+  summarise(Exports = sum(value)) %>% #tons
+  mutate(rank = rank(desc(Exports))) %>% 
+  filter(rank < 10) %>% 
+  select(-rank)
+
+# Calcualting value per year of most important exported species (defined by accumulated value)and Others. 
+
+Exports_tbl <- sp_exports %>% 
+  filter(year != 2018) %>% 
+  mutate(export_name= grupo_exportacion)%>% 
+  left_join(exports_index) %>% 
+  filter(trade_name != 'NA') %>% 
+  mutate(trade_name = as.character(trade_name)) %>% 
+  mutate(species = ifelse(trade_name %in% ten_exports$trade_name, trade_name, "Others")) %>% 
+  group_by(year, species) %>% 
+  summarise(Exports = sum(value, na.rm=T))
+
+# Imported species
+Imports_tbl <- sp_imports %>% 
+  filter(year != 2018) %>% 
+  mutate(imports_name= name_sp)%>% 
+  left_join(imports_index) %>% 
+  filter(trade_name != 'NA') %>% 
+  mutate(trade_name = as.character(trade_name)) %>% 
+  mutate(species = ifelse(trade_name %in% ten_exports$trade_name, trade_name, "Others")) %>% 
+  group_by(year, species) %>% 
+  summarise(Imports = sum(value_us, na.rm = T))
+
+# What are the exports, imports and net value each year for the 10 most exported products
+Exports_Imports <- Exports_tbl %>% 
+  left_join(Imports_tbl, by = c('species', 'year')) %>% 
+  replace(., is.na(.), 0)
+
+# Totals table
+Totals <- Exports_Imports %>%
+  mutate("Net trade" = Exports - Imports) %>% 
+    gather("Operation","Tons",3:5) %>% 
+    group_by(species, Operation) %>% 
+    summarise(
+      Total = sum(Tons),
+      Mean = mean(Tons),
+      s.d. = sd(Tons)
+    ) 
+  
+# Final table to print Exports - Imports
+Net_trade_main_exports <- Exports_Imports %>%
+  mutate("Net trade" = Exports-Imports) %>% 
+  gather("Operation","Tons",3:5) %>% 
+  spread(year,Tons) %>% 
+  left_join(Totals,
+            by =c("species","Operation")
+  ) %>% 
+  arrange(Operation,desc(Total)) %>% 
+  ungroup() %>% 
+  select(-Operation) %>% 
+  kable("latex",
+    caption = "Export and Import value, and net trade (Exports - Import) for the most exported species in Chile", 
+    booktabs = T,
+    format.args = list(big.mark = ",")
+  ) %>% 
+  kable_styling(latex_options = c("repeat_header","scale_down")) %>% 
+  group_rows("Exports", 1, 10, latex_gap_space = "0.5em") %>% 
+  group_rows("Imports", 11, 20, latex_gap_space = "1em") %>% 
+  group_rows("Net Trade", 21, 30, latex_gap_space = "1em")
+
+```
 
 #### Fish and Aquaculture Employment
 
-Fisheries and aquaculture are considered to be the activities that provide less direct employment in the country after agriculture (@sense_reporte_2015). Yet, the number of people employed in the sector has been on the rise since 2010 (@sence_reporte_2015). We estimated a total of ~ 278,000 job positions generated by fisheries and aquaculture. This estimate considers artisanal and industrial fishers, workers in processing facilities and aquaculture centers and indirect jobs generated by the manufacturing sector (*Table 2*). It does not include other indirect jobs generated by the extractive activities and its commercialization. Thus, the number of total people directly and indirectly employed by fisheries and aquaculture in Chile could be higher. 
+Fisheries and aquaculture are considered to the second activity that provide less direct employment in the country, after agriculture [@sense_reporte_2015]. Yet, the number of people employed in the sector has been on the rise since 2010 [@sence_reporte_2015]. We estimated a total of ~278,000 job positions generated by fisheries and aquaculture. This estimate considers artisanal and industrial fishers, workers in processing facilities and aquaculture centers and indirect jobs generated by the manufacturing sector (Table X). It does not include other indirect jobs generated by the extractive activities and its commercialization  (for example, in the sectors impacts by fisheries noted above). Thus, the number of total people directly and indirectly employed by fisheries and aquaculture in Chile could be higher. 
 
 ```{r Employment_Chile_T, echo = FALSE, message= FALSE, warning= FALSE}
 
@@ -1117,33 +1225,18 @@ kable_styling(latex_options = 'hold_position') %>%
 
 ```
 
-People employed in the fisheries and aquaculture activities have an average monthly income of 579 US dollars, the lowest mean income in the country after the one generated by the agricultural sector (@sence_reporte_2015). This value ranges from 258 US dollars for people working independently and part-time to 1,160 US dollars for full-time employers (*Table App. 7*).
+People employed in the fisheries and aquaculture activities have an average monthly income of US\$579, the lowest mean income in the country after the one generated by the agricultural sector [@sence_reporte_2015]. This value ranges from US\$258 per month for people working independently and part-time to US\$1,160 per month for full-time employee (Appendix Chile Results 6).
 
-On average, people employed in the fisheries and aquaculture sector are a younger and less educated relative to the national average and are mostly men (*Table App. 8*). However, there is high variation within subsectors, for example, artisanal fishers tend to be older @tam_gone_2018. Based on estimates from the New national survey of employment (NENE, 2015) only 57.7% of the people employed in the sector is formally employed by an employer, the rest work independently (@sense_reporte_2015). 
+On average, people employed in the fisheries and aquaculture sector are younger and less educated relative to the national average and are mostly men (Appendix Chile Results 7). However, there is high variation within subsectors, for example, artisanal fishers tend to be older [@tam_gone_2018]. Based on estimates from the national survey of employment (NENE, 2015) only 57.7% of the people employed in the sector are formally employed by an employer, the rest work independently, which usually means they do not have pension [@sense_reporte_2015]. 
 
-```{r demographics employees, eval =F, echo = FALSE, warnings = FALSE, message= FALSE}
-# Demographics of employees
-
-Average_age <- c('42.1', '43.2')
-Education_level <- c('9.5', '11.9')
-Women_perc <- c('8.2','40')
-
-table_demo_employment <- rbind(Average_age, Education_level, Women_perc) %>% 
-  data.frame() %>% 
-  mutate(Characteristic = c('Average age', 'Years of formal education', 'Percentage of women'), Fisheries_and_Aquaculture= X1, National= X2)
-table_demo_employment <- table_demo_employment [3:5]
-
-
-```
- 
 #### Employment in the Artisanal Sector
 
-The artisanal sector corresponds to fishing activities performed by vessels equal to or smaller than 18 meters in length and by collectors in the inter-tidal zone (@subpesca_panorama_2018). Based on the current RPA, there are around 89,000 artisanal fishers along with 12,700 vessels in Chile. *Figure X-A*, shows the number of artisanal fishers per region and gender. They are concentrated in the X and VIII regions and are mostly men. The main activity in the artisanal sector is harvester or collector, this mostly corresponds to algae collection on the shore. All regions present similar composition of fishing activities (*Figure X-B*). However, the X region seems to rely more on benthic resources for employment than the others since they have a greater share of divers and algae collectors.
+The artisanal sector corresponds to fishing activities performed by vessels equal to or smaller than 18 meters in length and by collectors in the inter-tidal zone [@subpesca_panorama_2018]. Based on the current RPA, there are around 89,000 artisanal fishers along with 12,700 vessels in Chile. Figure X, shows the number of artisanal fishers per region and gender. They are concentrated in the X and VIII regions and are mostly men. The main activity in the artisanal sector is harvester or collector (mostly meaning shoreline algae collection). All regions present similar composition of fishing activities (Figure X). However, the X region seems to rely more on benthic resources for employment than the others since they have a greater share of divers and algae collectors.
 
 ```{r Artisanal_distirbution_G, echo = FALSE, warning= FALSE, message= FALSE, fig.height=4, fig.width=9, fig.cap= 'Total number of fishers (A) and permits (B) in each region. One person can be registered in multiple activities. Dataset SERNAPESCA'}
 
 # Importing national records of artisanal fisheres
-rpa <- read_excel("Chile/RPA_RPI_mano_obra.xlsx", sheet = "RPA PESCADORES", skip = 2, n_max = 138294) %>% #JEPA_Chile, are we not giving them this database?
+rpa <- read_excel(here("information/raw_databases/SERNAPESCA/employment/RPA_RPI_mano_obra.xlsx"), sheet = "RPA PESCADORES", skip = 2, n_max = 138294) %>% 
   rename(region = "Regi\u00f3n", year = "A\u00f1o Inscripci\u00f3n", gender = Genero)
 
 art_reg_gender<- rpa %>% 
@@ -1210,12 +1303,12 @@ as_ggplot(gt) + # transform to a ggplot
 
 #### Employment in the Industrial Sector
 
-The industrial sector comprises activities performed by vessels larger than 18 meters. Currently, there are 475 industrial vessels and 164 vessel owners according to national industrial records (RPI), from which only 25 are individual owners and the rest are firms (@maturana_mujeres_2017). Besides, 3,500 jobs are generated through vessels operations (@subpesca_pesca_2018). We could only find information on the distribution of vessels (*Figure 8*). We observe that most industrial  extractive activities occur in the VIII region, as suggested by landings estimates discussed above. Still, vessels are registered along the entire coast. Some of the firms that own industrial vessels also own processing facilities whose employees are considered as part of the manufacturing stage. 
+The industrial sector comprises activities performed by vessels larger than 18 meters. Currently, there are 475 industrial vessels and 164 vessel owners according to national industrial records (RPI), from which only 25 are individual owners and the rest are firms [@maturana_mujeres_2017]; a further 3,500 jobs are generated through vessels operations [@subpesca_pesca_2018]. Based on information on the distribution of vessels (Figure X), most industrial extractive activities occur in region VIII, as also reflected by landings estimates discussed above. Still, vessels are registered along the entire coast. Some of the firms that own industrial vessels also own processing facilities whose employees are included in estimates as part of the processing stage.
 
 ```{r Distribution of industrial vessels, echo= FALSE, warning= FALSE, message=FALSE, fig.height=4, fig.width=6, fig.cap= 'Number of industrial vessels per region. Dataset SERNAPESCA.'}
 
 # Importing national records of industrial fisheres
-rpi <- read_excel("Chile/RPA_RPI_mano_obra.xlsx", sheet = "RPI", skip = 2, n_max = 473) %>% 
+rpi <- read_excel(here("information/raw_databases/SERNAPESCA/employment/RPA_RPI_mano_obra.xlsx"), sheet = "RPI", skip = 2, n_max = 473) %>% 
   rename(region = "Regi\u00f3n") %>% #JEPA_Chile, are we not giving them this dataset?
   group_by(region) %>% 
   summarise(count = n()) %>% 
@@ -1235,14 +1328,14 @@ ggplot(rpi, aes(x= as.factor(Region), y= count)) +
 
 #### Employment in the Industry
 
-A rigorous study by IFOP estimated a total of ~50,000 job positions in the manufacturing of marine products in processing facilities in 2014 (@ifop_monitoring_2015). However, a more recent report form SERNAPESCA reports a total of 65,451 jobs (@maturana_mujeres_2017). *Figure 9* displays the geographic distribution of people employed in the manufacturing sector per gender and type of product for 2015. Employment in the processing facilities is dominated by human consumption (HC) products, with ~ 40,000 job positions. Products for animal consumption (AC) generated around 5,000 positions while algae products employed less than 3,000 people. Most people employed by the manufacturing sector are located in the southern part of the country and the majority are men. 
+A rigorous study by IFOP estimated a total of ~50,000 job positions in the manufacturing of marine products in processing facilities in 2014 [@ifop_monitoring_2015]. However, a more recent report from SERNAPESCA reports a total of 65,451 jobs [@maturana_mujeres_2017]. Figure X displays the geographic distribution of people employed in the manufacturing sector by gender and type of product for 2015. Employment in the processing facilities is mainly in products for human consumption (HC), with ~ 40,000 job positions. Products for animal consumption (AC) generated around 5,000 positions, while algae products, mainly destined for industrial uses, employed less than 3,000 people. Most people employed by the manufacturing sector are located in the southern part of the country and the majority are men. 
 
 ```{r Employment in facilities, echo= FALSE, warning=FALSE, message=FALSE, fig.height=4, fig.width=9, fig.cap= 'Number of employees in the fisheries manufacturing sector in each region by gender in 2015. AC refers to products for animal consumption and HC products for human consumption. Source: Report by IFOP based on facilities survey (IFOP, 2015)'}
 
 # Importing IFOP, 2015 estimates of employees per type of facility
 
-manufacturing_employment <- read.csv("Chile/employment_per_processing_type_area.csv") %>% 
-  rename(M = man_employee, F = women_employee, Product = product, Zone = region) %>% 
+manufacturing_employment <- read.csv(here("information/raw_databases/IFOP/employment_per_processing_type_area.csv")) %>% 
+  rename(M = ï..man_employee, F = women_employee, Product = product, Zone = region) %>% 
   gather(key = Gender, value = Employees, 1:2)
 
 # Reordering regions
@@ -1266,14 +1359,14 @@ ggplot(manufacturing_employment,
 
 #### Employment in the Aquaculture Sector
 
-There are 17,631 people employed among the 3,683 aquaculture centers currently registered in Chile (@maturana_mujeres_2017). From these, ~4,500 are women. *Figure 10* shows the distribution of aquaculture centers per region and type of farmed species. The main type of product being farmed is fish, mostly salmon, followed by mollusks and algae. The X region hosts more than half of the aquaculture centers in the country. 
+There are 17,631 people employed among the 3,683 aquaculture centers currently registered in Chile [@maturana_mujeres_2017], including ~4,500 women. Figure X shows the distribution of aquaculture centers per region and type of farmed species. The main type of product being farmed is fish, mostly salmon, followed by mollusks and algae. Region X hosts more than half of the aquaculture centers in the country. 
 
 ```{r Aquaculture centers per region and type of species, echo= FALSE, message= FALSE, fig.height=4,fig.width=8, warning= FALSE, fig.cap= 'Number of aquaculture centers in each region by type of species in 2017. Source: Report Subsector Acuicultura 2017 by SERNAPESCA (SERNAPESCA website, 2017)'}
 
 # Importing number of aquac. centers, SERNAPESCA
 
-centers_aquaculture <- read.csv("Chile/centers_per_species_aquaculture.csv") %>% 
-  # rename(Region = ï..Region) %>% 
+centers_aquaculture <- read.csv(here("information/raw_databases/SERNAPESCA/employment/centers_per_species_aquaculture.csv")) %>% 
+  rename(Region = ï..Region) %>% 
   gather(key = Species, value = 'Centers', 2:7)
 
 # Reordering regions
@@ -1291,8 +1384,6 @@ ggplot(centers_aquaculture, aes(x= as.factor(Region), y= Centers, fill = Species
 
 ```
 
-
-** Species-specific estimates of economic contribution **
 
 \clearpage
 
@@ -1516,15 +1607,11 @@ most_expensive <- prices_art %>%
 knitr::kable(most_expensive, col.names = c('Species', 'Mean price (US$/Kg)', 'SD Price'), format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Most expensive species in Chile based on their mean ex-vessel price between 2013 and 2017. Source: Data on ex-vessel prices for artisanal sector, SERNAPESCA, 2018.') %>% 
   kable_styling(latex_options = 'hold_position')
 ```
-  
-```{r transforming average income from chilean pesos 2014 to dollars 2018, eval=F, echo =FALSE}
+
+```{r Appendix Chile Results 6 - Average income in the fisheries sector, echo = FALSE, message= FALSE, warning=FALSE}
 
 mean_income_sector_chp <- 345541 # Based on report from SENSE 2015
 mean_income_sector_dollar_2018 <- ((mean_income_sector_chp/mean_uf_2014)*mean_uf_2018)/from_ChP_to_dollar_dec_2018
-
-```
-
-```{r data on incomes, eval=F, echo = FALSE, message=FALSE, warning= FALSE}
 
 full_time <- c(692786, 210046, 528532, 227808, 402353)
 part_time <-c(422099, 154040, 277600, 172445, 180434)
@@ -1535,13 +1622,24 @@ table_incomes_sector <- rbind(full_time, part_time) %>%
 
 table_incomes_sector <- table_incomes_sector[6:11]
 
-```
-  
-```{r Appendix, eval=F, echo = FALSE, message= FALSE, warning= FALSE}
-
 # Mean income for different times of employees in the fisheries and aquaculture sectors
 knitr::kable(table_incomes_sector , col.names = c('Type', 'Employer', 'Independent', 'Dependent with contract', 'Dependent without contract', 'Mean income'), format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Monthly incomes of fisheries sector in 2018 US dollars. Source: Elaborated based on data from New national employment survey (NENE) in 2015 and published in SENSE, 2015') %>% 
   kable_styling(latex_options = 'hold_position')
+
+```
+  
+```{r Appendix Chile Results 7 - Demographics of the fisheries sector, echo = FALSE, message= FALSE, warning=FALSE}
+
+# Demographics of employees
+
+Average_age <- c('42.1', '43.2')
+Education_level <- c('9.5', '11.9')
+Women_perc <- c('8.2','40')
+
+table_demo_employment <- rbind(Average_age, Education_level, Women_perc) %>% 
+  data.frame() %>% 
+  mutate(Characteristic = c('Average age', 'Years of formal education', 'Percentage of women'), Fisheries_and_Aquaculture= X1, National= X2)
+table_demo_employment <- table_demo_employment [3:5]
 
 # Demographics of people employed in the fisheries and aquculuture sector
 knitr::kable(table_demo_employment, format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Average demographic characteristics of people employed in the fisheries and aquaculture sector in Chile. Source: Elaborated based on data from New supplementary income survey (NESI) in 2015 and published in SENSE, 2015') %>% 
