@@ -1006,12 +1006,11 @@ plot_hc
 Besed on the results of our model and the current estimate of Chilean population (17,574,033), we calculated an average of 11.5 kg of seafood compsumption per person a year. This estimate is similar to what has been projected by the FAO (2016) of 10-13kg. Total HC consumption per year is stable with an average of 204,656 tonnes a year. In 2017 we obsered a drastic decrese in total and percapita HC of seafood. We are uncertain if this is due to assumtions in our model or the data. However, we have identified that the exports for Squid that year increased drastically. 
 
 
-```{r percapita year consumption table, eval=F}
+```{r percapita year consumption table, eval=F, echo=FALSE}
 ##Per capita consumption table
 
-kable(per_capita_total_Lan, col.names = c('Year', 'Total Human Consumption (tonnes)', 'Per-capita consumption/year (kg)'), format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Total tones of seafood for humanc consumption and per-capita consumption per year (kg) considering a popilation of 17,762,681 individuals') %>% 
-kable_styling(latex_options = 'hold_position') #%>% 
-  #column_spec(4, width = "6cm")
+kable(per_capita_total_Lan, col.names = c('Year', 'Total Human Consumption (tonnes)', 'Per-capita consumption/year (kg)'), format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Total tones of seafood for humanc consumption and per-capita consumption per year (kg) considering a popilation of 17,762,681 individuals') %>% kable_styling(latex_options = 'hold_position') #%>% 
+  column_spec(4, width = "6cm")
 
 
 ```
@@ -1547,7 +1546,7 @@ sp_convertion <- read.csv(here('clean_databases/sp_index.csv')) %>%
   select(chl_name, sc_name, trade_name)
 
 
-knitr::kable(sp_convertion, col.names = c('Name SERNAPESCA', 'Scientific Name', 'Group'), format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Index of all species considered in this analysis and their corresponding group') %>% kable_styling(latex_options = 'hold_position')
+knitr::kable(sp_convertion, col.names = c('Name SERNAPESCA', 'Scientific Name', 'Group'), format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Index of all species considered in this analysis and their corresponding group') %>% kable_styling(latex_options = 'hold_position', font_size = 8)
 
 ```
 
@@ -1557,10 +1556,10 @@ We calculated yield by estimating an average between the range of losses from di
 
 ```{r}
 sp_yield <- read.csv(here('clean_databases/sp_index.csv')) %>% 
-  select(chl_name, sc_name, yield)
+  select(sc_name, yield)
 
 
-knitr::kable(sp_convertion, col.names = c('Name SERNAPESCA', 'Scientific Name', 'Yield'), format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Species and their correspondding yield based on Christensen et al. (2014)') %>% kable_styling(latex_options = 'hold_position')
+knitr::kable(sp_convertion, col.names = c('Scientific Name', 'Yield'), format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Species and their correspondding yield based on Christensen et al. (2014)') %>% kable_styling(latex_options = 'hold_position', font_size = 8)
 
 
 ```
