@@ -11,6 +11,7 @@ header-includes:
   - \usepackage{float}
   - \floatplacement{figure}{H}
 subtitle: Report prepared for Oceana
+
 ---
 
 <!-- # Comments -->
@@ -52,6 +53,11 @@ library(wesanderson)
 
 # Remove scientific numbers
 options("scipen"=100, "digits"=4) 
+
+# Color codes:
+B_Col <- "#046C9A"
+C_Col <- "#F21A00"
+P_Col<- "#0B775E"
 
 ```
 
@@ -713,14 +719,14 @@ HC_with_Aq <- sp_HC_with_Aq  %>%
 ```
 
 
-```{r,  echo= FALSE, fig.cap = "Main species landed and harvest in aquaculture designated for human and non human consumption. Data source: SERNAPESCA, 2018"}
+```{r,  echo= FALSE, warning=FALSE, fig.cap = "Main species landed and harvest in aquaculture designated for human and non human consumption. Data source: SERNAPESCA, 2018"}
 
 HC_with_Aq
 
 ```
 
 
-We then looked into only wild-caught species and identified that the species that have historically contributed more to human consumption products are: Chilean jack mackerel (*Trachurus murphyi*), Jumbo flying squid (*Dosidicus gigas*), and in a minor contribution Chilean sea urchins (*Loxechinus albus*) (HC_no_Aq, 24). These results (*Figure HC_with_Aq NHC and HC_no_Aq VER NUMERO*) also shows that the amount of wild caught fisheries that go to NHC is more than the double than what goes to HC. We removed year 2015 from our analysis becasue data was not accurate (See Appendix Chile Method 1). Also algaes are not included because we assumed that they all go for non-human consumption use.
+We then looked into only wild-caught species and identified that the species that have historically contributed more to human consumption products are: Chilean jack mackerel (*Trachurus murphyi*), Jumbo flying squid (*Dosidicus gigas*), and in a minor contribution Chilean sea urchins (*Loxechinus albus*) (HC_no_Aq, 24). These results (*Figure HC_with_Aq NHC and HC_no_Aq VER NUMERO*) also shows that the amount of wild caught fisheries that go to NHC is more than the double than what goes to HC. Algaes are not included because we assumed that they all go for non-human consumption use.
 
 
 ```{r, echo = FALSE, warning=FALSE, message=FALSE}  
@@ -743,14 +749,13 @@ sp_HC_no_Aq <- sp_HC_no_Aq %>%
   left_join(sc_to_en) %>% 
   filter(use == "HC") %>% 
   filter(!sc_name %in% c("Mytilus chilensis", "Salmo salar", "Oncorhynchus mykiss", "Oncorhynchus kisutch")) %>% 
+  #filter(year!=2015) %>% 
   mutate(en_name = as.character(en_name)) %>% 
   mutate(tons = as.numeric(tons))
   
 top_5_HC_no_Aq <-  sp_HC_no_Aq %>% 
-  group_by(en_name, year) %>% 
+  group_by(en_name) %>% 
   summarise(tons = sum(tons)) %>% 
-  arrange(year, desc(tons)) %>%
-  group_by(year) %>% 
   top_n(5, tons)
 
 HC_no_Aq <- sp_HC_no_Aq %>% 
@@ -766,12 +771,12 @@ HC_no_Aq <- sp_HC_no_Aq %>%
 ```
 
 
-```{r,  echo= FALSE, fig.cap= "Tonnes of wild-cought species that are used for human consumption. Data source: SERNAPESCA, 2018"}
+```{r,  echo= FALSE, warning=FALSE, fig.cap= "Tonnes of wild-cought species that are used for human consumption. Data source: SERNAPESCA, 2018"}
 HC_no_Aq
 ```
 
 
-Artisanal fishers in Chile sell products directly for human consumption on deck. We assumed that the the artisanals' catches that are not sent to processing facilities are sold directly by fishers (See Methods Chile 2). Results show that species vary across years, but the Southern rays bream (*Brama australis*) is the only specie that is common for every year of data (Figure 25). Indicating that historically has been an importat specie for direct human consumption. This aligns with results obtained in a survey implemented along Chile where 51% answered that Southern rays bream was their first preference (@fundacion_chile_chile_2016). Within 2013, 2014 and 2016, we can see the presence of Anchoveta (*Engraulis ringens*), while in 2017 there is high increase in Jumbo flying squid (*Dosidicus gigas*). 
+Artisanal fishers in Chile sell products directly for human consumption on deck. We assumed that the the artisanals' catches that are not sent to processing facilities are sold directly by fishers (See Methods Chile 2). Results show that Southern rays bream (*Brama australis*) is the main species for every year of data (Figure 25). Indicating that historically has been an importat specie for direct human consumption. This aligns with results obtained in a survey implemented along Chile where 51% answered that Southern rays bream was their first preference (@fundacion_chile_chile_2016). Anchoveta (*Engraulis ringens*) for direct human consumption has decline through the years, while Chilean clam (*Venus antiqua*) has increase. In 2017 there is a high increase in the amount of tonnes for human consumption, partly driven by the high increase in Jumbo flying squid (*Dosidicus gigas*). We removed year 2015 from this analysis becasue data on landings per sector was not accurate (See Appendix Chile Method 1).
 
 ```{r Non-processed Human consumption, echo= FALSE, message=FALSE, warning=FALSE}
 
@@ -804,44 +809,36 @@ NP_HC <- l.a %>%
   mutate(tons_processed = ifelse(tons_processed < 0, 0, tons_processed)) %>% 
   mutate(tons_NP_HC = tons_landed - tons_processed) %>% 
   mutate(tons_NP_HC = ifelse(tons_NP_HC < 0, 0, tons_NP_HC)) %>%
-  left_join(sc_to_en)
+  left_join(sc_to_en) %>% 
+  mutate(en_name = as.character(en_name))
 
 top_5_NP_HC <-NP_HC %>% 
   filter(year != 2015) %>%# data not accurate
-  group_by(year, en_name) %>% 
+  filter(!en_name %in% c("Giant kelp", "Red algae gracilaria")) %>%
+  group_by(en_name) %>% 
   summarise(tons_NP_HC = sum(tons_NP_HC, na.rm = T)) %>% 
-  ungroup() %>% 
-  arrange(year, desc(tons_NP_HC)) %>%
-  group_by(year) %>% 
   top_n(5, tons_NP_HC) %>% 
   filter(!is.na(tons_NP_HC)) %>% 
-  select(year, tons_NP_HC, Species = en_name)%>% 
-  mutate(Species = as.character(Species)) %>% 
   mutate(tons = as.numeric(tons_NP_HC))
-  
-  
+
   
 ## Plot
 NP_HC_plot <- NP_HC %>% 
-  filter(!en_name %in% top_5_NP_HC$Species,
-         year != 2015) %>% 
-  group_by(year) %>% 
-  summarise(tons_NP_HC = sum(tons_NP_HC, na.rm = T)) %>% 
-  mutate(Species = "Others") %>% 
-  bind_rows(top_5_NP_HC) %>%
-  filter(!Species %in% c("Giant kelp", "Red algae gracilaria")) %>% 
+  filter(year != 2015) %>% 
+  mutate(Species = ifelse(en_name %in% top_5_NP_HC$en_name, en_name, "Others")) %>%
   ggplot(aes(x= as.factor(year), y = tons_NP_HC/1000, fill = Species)) +
   geom_bar(stat= 'identity') +
   labs(y="Tons of non-processed HC \n (Thousand tons)", x="Year")+
   scale_y_continuous(expand = c(0,0))+
   scale_fill_manual(values = c(wes_palette("Darjeeling1"), wes_palette("Darjeeling2"), wes_palette("Moonrise1")))+
   ggtheme_plot()
- 
+
+
 
 ```
 
 
-```{r, echo= FALSE, fig.cap= "Main artisanal landings that are not processed in facilities. Data source: SERNAPESCA, 2018"}
+```{r, echo= FALSE, warning=FALSE, fig.cap= "Main artisanal landings that are not processed in facilities. Data source: SERNAPESCA, 2018"}
 
 NP_HC_plot
 
@@ -1011,13 +1008,11 @@ plot_hc
 Besed on the results of our model and the current estimate of Chilean population (17,574,033), we calculated an average of 11.5 kg of seafood compsumption per person a year. This estimate is similar to what has been projected by the FAO (2016) of 10-13kg. Total HC consumption per year is stable with an average of 204,656 tonnes a year. In 2017 we obsered a drastic decrese in total and percapita HC of seafood. We are uncertain if this is due to assumtions in our model or the data. However, we have identified that the exports for Squid that year increased drastically. 
 
 
-```{r percapita year consumption table, echo=FALSE}
+```{r percapita year consumption table, echo=FALSE, warning=F}
 ##Per capita consumption table
 
-table_format <- per_capita_total_Lan %>% 
-  mutate(year == as.character(year))
 
-kable(table_format, col.names = c('Year', 'Total Human Consumption (tonnes)', 'Per-capita consumption/year (kg)'), format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Total tones of seafood for humanc consumption and per-capita consumption per year (kg) considering a popilation of 17,762,681 individuals') %>% kable_styling(latex_options = 'hold_position') #%>% 
+kable(per_capita_total_Lan, col.names = c('Year', 'Total Human Consumption (tonnes)', 'Per-capita consumption/year (kg)'), format.args = list(decimal.mark = '.', big.mark = ","),"latex", booktabs = T, caption= 'Total tones of seafood for humanc consumption and per-capita consumption per year (kg) considering a popilation of 17,762,681 individuals') %>% kable_styling(latex_options = 'hold_position') #%>% 
   #column_spec(4, width = "6cm")
 
 
@@ -1088,13 +1083,16 @@ Top_5_revenue <- prices_art %>%
   group_by(en_name, year) %>% 
   summarise(national_revenue = round(sum(revenue),2)) %>% 
   group_by(en_name) %>% 
-  summarise(total=sum(national_revenue)) %>% 
+  summarise(total=sum(national_revenue)) %>%
+  mutate(en_name = as.character(en_name)) %>% 
   arrange(desc(total)) %>% 
-  slice(1:5)
+  slice(1:5) 
   
-prices_art %>% 
+  
+plot_revenue <- prices_art %>% 
   mutate(revenue= (price_dollar * tons), chl_name = str_to_upper(species)) %>%
   left_join(sp_index) %>%
+  mutate(en_name = as.character(en_name)) %>%
   mutate(species = ifelse(en_name %in% Top_5_revenue$en_name, en_name, "Other")) %>%
   group_by(species, year) %>% 
   summarise(national_revenue = round(sum(revenue),2)) %>%
@@ -1508,7 +1506,7 @@ Finally, it would be interesting to study the preferences an attitudes of Chilea
 
 # Conclusions
 
-The main takeaway of our analysis regarding the contribution of domestic fisheries for human consumption is that most of the wild-caught fish currently does not go to human consumption, but to produce no human consumption products like fish meal and oil or algae products. On the other hand, most of the aquiculture produced in the country is for human consumption but it is exported elsewhere. Only *XX%* of the local production stays in the country for human consumption. Additionally, one of the most relevant species for human consumption in Chile is tuna, which is mainly imported and canned. 
+The main takeaway of our analysis regarding the contribution of domestic fisheries for human consumption is that most of the wild-caught fish currently does not go to human consumption, but to produce no human consumption products like fish meal and oil or algae products. On the other hand, most of the aquiculture produced in the country is for human consumption but it is exported elsewhere. Less than 30% of the local production stays in the country for human consumption. Additionally, one of the most relevant species for human consumption in Chile is tuna, which is mainly imported and canned. 
 
 In economic terms, aquaculture is more important than wild-caught fisheries producing ~ 90% of the sales of the economic sector. Nontheless, wild fisheries is more important in terms of employment if we consider both the artisanal and industrial sector. 
 
@@ -1528,11 +1526,15 @@ PRODUCE. (2010). Manual de administración de las infraestructuras pesqueras art
 ### Methods
 #### Fisheries Context
 
-*Main wild-caught fisheries in terms of volume* 
+*Estimates of landings and harvest* 
 
-- To evaluate the volume contribution of specific fisheries over the last five years, we used records of landings and aquaculture harvests from SERNAPESCA (2013-2017). These records include species-specific landing per region or month (not both simultaneously) for each subsector (i.e. industrial and artisanal). We identified an abrupt increase in landings for year 2015 in the artisanal sector. After consulting other databases like an aggregat
+- To evaluate the volume contribution of specific fisheries over the last five years, we used records of landings and aquaculture harvests from SERNAPESCA (2013-2017). These records include species-specific landing per region or month (not both simultaneously) for each subsector (i.e. industrial and artisanal). We downloaded them for each year since 2007, cleaned them and compiled them in a signle tidy database of landings and harvests to make visualizations and get estimates. 
 
-We identified the most exported fish products in terms of volume using trade records from Aduanas Chile. To identify the participation of different species in exported products we generated a new database linking types of products listed in the *Arancel Aduanero* with the names of the fished and farmed species listed by SERNAPESCA. We searched for all the products ids that refer to the species scientific name, common name or genus name as listed by SERNAPESCA and aggregated them under the species name.
+- We identified an abrupt increase in landings for year 2015 in the artisanal sector. After consulting with other databases and reports and reviewing our coding, we concluded that observations for 2015 were not reliable. SERNAPESCA has another dataset called _Anuario_ avaiable at their website, that lists species-specific landings but no detail regarding region nor sector. We used this dataset to compare landing values and test whether they matched. We found no differences for years other than 2015, but the landing estimates did differ between our detailed dataset and _Anuario_ in 2015. We assumed that _Anuario_ is more accurate since its estimates were more similar to other years. Nontheless, we keep on using the detailed dataset whenever we wanted to identify trends within sectors or regions but, ignoring 2015.
+
+*Estimates of trades*
+
+We use data from _ADUANAS Chile_ to quantify the volumes and value of each group of species being imported or exported into the country. These records detail the weight and value of traded products, which are recorded under an id code for prodcuts categories. These categories are not species-specific, although a lot of them aggregate products of species that belong to the same genus o family. To come up with categories that we could match between import and export dataset as well as between trade and landing datasets, we generated a linking datset (See Index of Species below). To generate this index we first review all the datsets and then, came up with categories that were broad and detail enough that allowed us to identify groups of species between datasets of SERNAPECA and ADUANAS Chile. Using these databases we categorize exported and imported products into species groups that could be matched to calculate net trade.
 
 #### National Seafood Supply
 **Species contribution to human and non-human consumption**
@@ -1586,7 +1588,10 @@ Our models is highly sensitive to species yield, therefore in many cases results
 
 #### Economic Participation
 
-Any conversion from Chilean pesos to dollars was done by first converting the amount in Chilean pesos to its value in Chilean Units of account (UF, a monetary unit corrected by inflation) of the respective year. Then, transformed to the equivalent in 2018 Chilean pesos using the 2018 UF value and finally, converting the 2018 value in Chilean pesos to its equivalent in 2018 US dollars, based on the conversion for Dec, 2018 (1 US dollars corresponds to 676 Chilean pesos).
+Any conversion from Chilean pesos to dollars was done by first converting the amount in Chilean pesos to its value in Chilean Units of account (UF, a monetary unit corrected by inflation) of the respective year. Then, transformed to the equivalent in 2018 Chilean pesos using the 2018 UF value and finally, converting the 2018 value in Chilean pesos to its equivalent in 2018 US dollars, based on the conversion for Dec, 2018 (US\$ 1 corresponds to 676 Chilean pesos).
+
+We combined different sources of data to answer questions of economic participation. We collect data from the Central Bank of Chile to understand the contribution of fisheries to regional economies. To estimate net trade, we use the ADUANAs Chile trade database and products of imports and exports in matching categories. To generate estimates of species-specific revenue, we use data from SERNAPESCA on artisanal ex-vessel prices by species, year and region and multiply them by the landed volume per species, year and region. Most estimates of employment were extracted from reports but some of them were done using data from SERNAPESCA on processing facilities.
+
 
 ### Results
 

@@ -1,0 +1,152 @@
+
+@misc{gonzales_solo_2018,
+	title = {Solo uno de cada 10 chilenos consume pescado con la frecuencia recomendada},
+	url = {https://www.latercera.com/tendencias/noticia/solo-uno-10-chilenos-consume-pescado-la-frecuencia-recomendada/116069/},
+	abstract = {Encuesta Nacional de Salud señala que en 2017 sólo el 9,2\% de los chilenos consume este alimento dos veces por semana, cifra que en 2010 era de 10,7\%.},
+	language = {es-CL},
+	urldate = {2018-11-09},
+	author = {Gonzales, Carlos},
+	month = mar,
+	year = {2018}
+}
+
+@article{castilla_small-scale_1998,
+	title = {Small-{Scale} {Benthic} {Fisheries} in {Chile}: {On} {Co}-{Management} and {Sustainable} {Use} of {Benthic} {Invertebrates}},
+	volume = {8},
+	copyright = {© 1998 by the Ecological Society of America},
+	issn = {1939-5582},
+	shorttitle = {Small-{Scale} {Benthic} {Fisheries} in {Chile}},
+	url = {https://esajournals.onlinelibrary.wiley.com/doi/abs/10.1890/1051-0761%281998%298%5BS124%3ASBFICO%5D2.0.CO%3B2},
+	doi = {10.1890/1051-0761(1998)8[S124:SBFICO]2.0.CO;2},
+	abstract = {We discuss the issues of sustainable use and management in the Chilean inshore benthic small-scale (artisanal) fisheries. The fishery benefits from two features that make it possible to overcome some of the problems of conventional management. These are: (1) major advances have been made in understanding relevant ecological processes, and (2) this knowledge has been institutionalized in the 1991 Chilean Fishing and Aquaculture Law (FAL). FAL legalizes the use of community-owned shellfish grounds, so-called “Management and Exploitation Areas” (MEA); this practice is considered to confer quasi-property rights to fishers' unions. Management plans for these areas have to be approved by the government. This co-management approach solves one of the major problem in many fisheries: overexploitation. In addition, the study of the MEAs could provide useful information, if they are considered as “replicates,” in evaluating the effect of human perturbation and different management regimes. We think that by using the different tools provided by the FAL on the spatial arrangement of the small-scale fishery and answering certain key ecological questions, the sustainable use of inshore benthic resources in Chile (e.g., gastropods, sea urchins, and algae) via an ecosystem approach can be achieved in the near future.},
+	language = {en},
+	number = {sp1},
+	urldate = {2018-11-20},
+	journal = {Ecological Applications},
+	author = {Castilla, Juan C. and Fernandez, Miriam},
+	month = feb,
+	year = {1998},
+	keywords = {Chile, co-management, community ownership, ecosystem approach, invertebrates, small-scale fishery, sustainable use},
+	pages = {S124--S132}
+}
+
+@techreport{instituto_nacional_de_estadisticas_-_chile_sintesis_2018,
+	title = {S{ÍNTESIS} {DE} {RESULTADOS} {CENSO} 2017},
+	url = {http://www.censo2017.cl/descargas/home/sintesis-de-resultados-censo2017.pdf},
+	author = {Instituto Nacional de Estadisticas - Chile},
+	year = {2018}
+}
+
+@misc{asociacion_de_la_industria_de_salmon_de_chile_salmonchile_2018,
+	title = {{SalmonChile}},
+	url = {http://www.salmonchile.cl/es/produccion.php},
+	author = {Asociacion de la Industria de Salmon de Chile},
+	year = {2018}
+}
+
+@techreport{sense_reporte_2015,
+	title = {{REPORTE} {LABORAL} {SECTORIAL}: {Pesca}},
+	author = {SENSE},
+	year = {2015}
+}
+
+@techreport{observatorio_laboral_nacional_reporte_nodate,
+	title = {{REPORTE} {LABORAL} {SECTORIAL}: {Pesca}},
+	author = {Observatorio Laboral Nacional}
+}
+
+@misc{subpesca_panorama_2018,
+	title = {Panorama de la pesca artesanal},
+	url = {http://www.subpesca.cl/portal/616/w3-article-645.html},
+	urldate = {2018-09-26},
+	author = {SUBPESCA},
+	year = {2018}
+}
+
+@misc{ritchie_our_nodate,
+	title = {Our {World} in {Data}},
+	url = {https://ourworldindata.org/meat-and-seafood-production-consumption#per-capita-trends-in-seafood-consumption},
+	language = {English},
+	author = {Ritchie, Hannah and Roser, Max}
+}
+
+@techreport{maturana_mujeres_2017,
+	title = {Mujeres y {Hombres} en el {Sector} {Pesquero} y {Acuicultor} de {Chile} 2017},
+	language = {es},
+	number = {11},
+	author = {Maturana, Pablo Berazaluce and González, José Miguel Burgos and Coddou, Antonia Bordas},
+	year = {2017},
+	pages = {49}
+}
+
+@misc{ritchie_meat_2017,
+	title = {Meat and {Seafood} {Production} \& {Consumption}},
+	url = {https://ourworldindata.org/meat-and-seafood-production-consumption},
+	abstract = {Global meat production has increased rapidly over the past 50 years - as seen below, total production has grown 4-5 fold since 1961. The chart below shows global meat production by region, measured in tonnes.},
+	urldate = {2018-11-09},
+	author = {Ritchie, Hannah and Roser, Max},
+	year = {2017}
+}
+
+@misc{subpesca_pesca_2018,
+	title = {La pesca industrial en {Chile}},
+	url = {http://www.subpesca.cl/portal/616/w3-article-805.html},
+	urldate = {2018-09-15},
+	author = {SUBPESCA},
+	year = {2018}
+}
+
+@techreport{noauthor_incorporacion_2014,
+	address = {Puerto Montt, Chile},
+	title = {"{Incorporación} de la {Industria} {Alimentaria} de {Consumo} {Humano} {Directo} como {Fuente} de {Agregación} de {Valor} para {Las} {Macroalgas} {Nacionales}"},
+	url = {http://www.subpesca.cl/fipa/613/articles-89395_informe_final.pdf},
+	author = {, Universidad Arturo Prat Instituto de Ciencia y Tecnología (ICYT)},
+	year = {2014}
+}
+
+@techreport{valencia_estudio_2015,
+	title = {Estudio para la caracterización y dimensionamiento de la comercialización y distribución de {Pescados} y {Mariscos} frescos, vía feria libre, en la {Región} {Metropolitana}.},
+	language = {es},
+	author = {Valencia, Eduardo Toro},
+	year = {2015},
+	pages = {40}
+}
+
+@techreport{ministerio_de_salud_gobierno_de_chile_encuesta_2018,
+	title = {{ENCUESTA} {NACIONAL} {DE} {SALUD} 2016-2017},
+	url = {https://inta.cl/wp-content/uploads/2018/01/ENS-2016-17_PRIMEROS-RESULTADOS-1.pdf},
+	author = {Ministerio de Salud, Gobierno de Chile},
+	year = {2018}
+}
+
+@techreport{fao_estado_2016,
+	title = {{EL} {ESTADO} {MUNDIAL} {DE} {LA} {PESCA} {YLA} {ACUICULTURA}. {CONTRIBUCIÓN} {A} {LA} {SEGURIDAD} {ALIMENTARIA} {Y} {LA} {NUTRICIÓN} {PARA} {TODOS}},
+	author = {FAO},
+	year = {2016}
+}
+
+@misc{villena_marcelo_diagnostico_2012,
+	title = {Diagnóstico del {Consumo} {Interno} de {Productos} {Pesqueros} en {Chile}},
+	url = {http://www.subpesca.cl/portal/618/articles-94615_documento.pdf},
+	author = {Villena, Marcelo},
+	year = {2012}
+}
+
+@misc{noauthor_contribution_nodate,
+	title = {Contribution of marine fisheries to worldwide employment - {Teh} - 2013 - {Fish} and {Fisheries} - {Wiley} {Online} {Library}},
+	url = {https://onlinelibrary.wiley.com/doi/epdf/10.1111/j.1467-2979.2011.00450.x},
+	urldate = {2018-11-14}
+}
+
+@misc{noauthor_contribution_nodate-1,
+	title = {Contribution of {Fisheries} and {Aquaculture} to {Food} {Security} and {Poverty} {Reduction}: {Assessing} the {Current} {Evidence} - {ScienceDirect}},
+	url = {https://www.sciencedirect.com/science/article/pii/S0305750X15002892},
+	urldate = {2018-11-14}
+}
+
+@techreport{fundacion_chile_chile_2016,
+	title = {Chile {Saludable}},
+	language = {Spanish},
+	author = {Fundación Chile},
+	year = {2016}
+}
